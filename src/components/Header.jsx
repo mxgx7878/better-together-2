@@ -5,13 +5,12 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
-    // { name: 'Support for Participants', path: '/support' },
-    { name: 'Subscriptions', path: '/subscription' },
-    // { name: 'Provider Support', path: '/provider-support' },
+    { name: 'Find Support', path: '/find-support' },
+    { name: 'Provide Support', path: '/provide-support' },
+    { name: 'Features', path: '/features' },
+    { name: 'Pricing', path: '/subscription' },
     { name: 'Contact', path: '/contact' },
-    { name: 'Login', path: '/login' },
   ];
 
   return (
@@ -28,22 +27,39 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="text-gray-700 hover:text-ndis-purple transition-colors duration-200 font-medium"
+                className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
               >
                 {link.name}
               </Link>
             ))}
+            
+            {/* Divider */}
+            <div className="h-6 w-px bg-gray-300"></div>
+            
+            {/* Auth Links */}
+            <Link
+              to="/login"
+              className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
+            >
+              Login
+            </Link>
+            <Link
+              to="/subscription"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+            >
+              Get Started
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-700 hover:text-ndis-purple focus:outline-none"
+            className="lg:hidden text-gray-700 hover:text-purple-600 focus:outline-none"
           >
             <svg
               className="h-6 w-6"
@@ -66,18 +82,35 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
+        <div className="lg:hidden bg-white border-t border-gray-200">
           <nav className="px-4 pt-2 pb-4 space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="block px-3 py-2 text-gray-700 hover:text-ndis-purple hover:bg-gray-50 rounded-md transition-colors duration-200"
+                className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
+            
+            <div className="border-t border-gray-200 my-2"></div>
+            
+            <Link
+              to="/login"
+              className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Login
+            </Link>
+            <Link
+              to="/subscription"
+              className="block px-3 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center rounded-xl font-semibold"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Get Started
+            </Link>
           </nav>
         </div>
       )}
