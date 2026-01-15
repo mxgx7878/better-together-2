@@ -45,77 +45,154 @@ const LandingPage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const services = [
+  const missionTaglines = [
+    "Where lived experience leads, and a stronger NDIS grows from the ground up.",
+    "Many voices, one community — reshaping the NDIS with heart, dignity, and unity.",
+    "Rooted in lived experience, rising together to shape a better NDIS.",
+    "When people and providers stand together, the whole sector rises.",
+    "A community of voices becoming the change the NDIS was meant to hold.",
+    "Where connection becomes strength, and strength becomes collective change.",
+    "Lived experience at the centre, community at the heart, change from the ground up.",
+    "Together, we grow the NDIS into the community it was always meant to be.",
+    "Uniting voices, lifting standards, and shaping the future — together."
+  ];
+
+  const [currentTagline, setCurrentTagline] = useState(0);
+
+  useEffect(() => {
+    const taglineTimer = setInterval(() => {
+      setCurrentTagline((prev) => (prev + 1) % missionTaglines.length);
+    }, 4000);
+    return () => clearInterval(taglineTimer);
+  }, []);
+
+  const whyDifferent = [
     {
-      title: 'Daily Living Support',
-      description: 'Help with everyday tasks like cooking, cleaning, and household management.',
-      icon: '🏠',
-      color: 'from-blue-500 to-indigo-600',
+      number: '01',
+      title: 'Led by Disabled People — Not Corporations',
+      description: 'Most platforms are built about disabled people. Ours is built by disabled people. Lived experience shapes every decision, every feature, every connection.',
+      icon: '👥',
+      color: 'from-purple-500 to-indigo-600',
     },
     {
-      title: 'Therapy Services',
-      description: 'Connect with occupational therapists, speech pathologists, and more.',
-      icon: '💪',
-      color: 'from-orange-500 to-red-500',
+      number: '02',
+      title: 'Community First, Not Profit First',
+      description: 'We prioritise connection, safety, and transparency over sales funnels and corporate metrics. Our model is built to strengthen the community — not extract from it.',
+      icon: '❤️',
+      color: 'from-pink-500 to-rose-600',
     },
     {
-      title: 'Social & Community',
-      description: 'Participate in social activities and community events with support.',
+      number: '03',
+      title: 'Ground-Up Approach, Not Top-Down System',
+      description: 'We don\'t impose solutions from above. We listen to the community, respond to real needs, and build tools that reflect the lived realities of participants, families, and small providers.',
+      icon: '🌱',
+      color: 'from-green-500 to-teal-600',
+    },
+    {
+      number: '04',
+      title: 'Participants and Providers Meet as Equals',
+      description: 'Most platforms separate the two. We bring them together — safely, ethically, and with clear boundaries — because real change happens when everyone is in the same room.',
+      icon: '🤝',
+      color: 'from-blue-500 to-cyan-600',
+    },
+    {
+      number: '05',
+      title: 'Support Beyond Services',
+      description: 'We don\'t just help people find supports. We help them understand the NDIS, navigate reviews, access advocacy, and feel confident in their rights. We also help providers grow ethically, connect locally, and build sustainable businesses.',
+      icon: '🎯',
+      color: 'from-orange-500 to-amber-600',
+    },
+    {
+      number: '06',
+      title: 'Transparency and Accountability at the Core',
+      description: 'We are building a culture where honesty is standard, not optional. Where whistleblowing is respected. Where poor practice is challenged. Where community safety comes before convenience.',
+      icon: '🔍',
+      color: 'from-indigo-500 to-purple-600',
+    },
+    {
+      number: '07',
+      title: 'A "No One Left Behind" Model',
+      description: 'Our platform ensures that disabled people lead the conversation, lived experience is treated as expertise, community replaces isolation, support is accessible at every level, and no one navigates the system alone.',
       icon: '🌟',
-      color: 'from-purple-500 to-pink-600',
-    },
-    {
-      title: 'Support Coordination',
-      description: 'Get help navigating and managing your NDIS plan effectively.',
-      icon: '📋',
-      color: 'from-teal-500 to-green-600',
+      color: 'from-yellow-500 to-orange-500',
     },
   ];
 
-  const howItWorks = [
+  const providerBenefits = [
     {
-      step: '01',
-      title: 'Tell Us What You Need',
-      description: 'Share your requirements and the type of NDIS services you\'re looking for.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      ),
-      color: 'from-orange-500 to-amber-500',
+      icon: '🤝',
+      title: 'Connections with Trusted NDIS Providers',
+      description: 'Build genuine partnerships with providers who understand the sector\'s realities.',
+      color: 'from-purple-500 to-indigo-600',
     },
     {
-      step: '02',
-      title: 'We Match You With Providers',
-      description: 'We\'ll show you possible providers and services that match your specific needs.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      ),
-      color: 'from-orange-500 to-amber-500',
+      icon: '👥',
+      title: 'Access to Participants Seeking Services',
+      description: 'Connect with individuals and families actively looking for reliable, local supports.',
+      color: 'from-blue-500 to-cyan-600',
     },
     {
-      step: '03',
-      title: 'We Share Your Details',
-      description: 'With your permission, we provide your details to relevant providers.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      ),
-      color: 'from-orange-500 to-amber-500',
+      icon: '🌱',
+      title: 'Ethical, Sustainable Client Referrals',
+      description: 'Receive direct referrals from participants searching for services you offer.',
+      color: 'from-green-500 to-teal-600',
     },
     {
-      step: '04',
-      title: 'Providers Contact You',
-      description: 'Qualified providers will reach out to you with their service offerings.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      ),
-      color: 'from-orange-500 to-amber-500',
+      icon: '📅',
+      title: 'Local Networking and Community Events',
+      description: 'Join in-person gatherings that foster collaboration, not competition.',
+      color: 'from-orange-500 to-amber-600',
+    },
+    {
+      icon: '💪',
+      title: 'Peer Support & Sector Guidance',
+      description: 'Access a community of peers committed to raising sector standards.',
+      color: 'from-pink-500 to-rose-600',
+    },
+    {
+      icon: '🎯',
+      title: 'Access to Experts & Specialist Advice',
+      description: 'Connect with professionals for business strategy, compliance, and growth planning.',
+      color: 'from-indigo-500 to-purple-600',
+    },
+  ];
+
+  const participantBenefits = [
+    {
+      icon: '📋',
+      title: 'Support Understanding Your NDIS Plan',
+      description: 'Get help making sense of your plan and using your funding effectively.',
+      color: 'from-blue-500 to-indigo-600',
+    },
+    {
+      icon: '💡',
+      title: 'Clear Information & Practical Support',
+      description: 'Access easy-to-understand information about how the NDIS works and your rights.',
+      color: 'from-teal-500 to-cyan-600',
+    },
+    {
+      icon: '🛡️',
+      title: 'Advocacy & Help Navigating Challenges',
+      description: 'Receive guidance from people who understand NDIS rules and processes.',
+      color: 'from-purple-500 to-pink-600',
+    },
+    {
+      icon: '🤗',
+      title: 'Peer Support & Lived-Experience Coaching',
+      description: 'Connect with individuals and families who have walked a similar path.',
+      color: 'from-green-500 to-emerald-600',
+    },
+    {
+      icon: '🔍',
+      title: 'Connections with Trusted Local Providers',
+      description: 'Find reliable, experienced providers who align with your needs and values.',
+      color: 'from-orange-500 to-amber-600',
+    },
+    {
+      icon: '👨‍⚕️',
+      title: 'Access to Specialists & Sector Expertise',
+      description: 'Receive support from people who understand disability and the NDIS.',
+      color: 'from-rose-500 to-pink-600',
     },
   ];
 
@@ -166,87 +243,24 @@ const LandingPage = () => {
     {
       name: 'Sarah M.',
       role: 'NDIS Participant',
-      content: 'NDIS Connect made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
+      content: 'This platform finally puts lived experience at the centre. I feel heard, supported, and connected to providers who truly understand my journey.',
       rating: 5,
       image: '👩'
     },
     {
       name: 'James K.',
       role: 'Service Provider',
-      content: 'As a provider, this platform has connected me with participants who truly benefit from my services. It\'s a game-changer for growing my business.',
+      content: 'As a small provider, I love being part of a community-first platform. No commission fees, genuine connections, and real support for ethical practice.',
       rating: 5,
       image: '👨‍⚕️'
     },
     {
       name: 'Michelle R.',
       role: 'Support Coordinator',
-      content: 'I recommend NDIS Connect to all my clients. It gives them the tools to explore options and make informed choices about their support.',
+      content: 'Finally, a platform built by people who get it. The emphasis on transparency, accountability, and lived experience makes all the difference.',
       rating: 5,
       image: '👩‍💼'
     }
-  ];
-
-  const upcomingEvents = [
-    { 
-      id: 1, 
-      title: 'NDIS Information Session', 
-      date: 'Jan 20, 2026',
-      time: '10:00 AM - 12:00 PM',
-      location: 'Online Webinar',
-      category: 'Workshop',
-      color: 'from-purple-500 to-pink-500'
-    },
-    { 
-      id: 2, 
-      title: 'Provider Networking Event', 
-      date: 'Jan 25, 2026',
-      time: '2:00 PM - 5:00 PM',
-      location: 'Melbourne Convention Centre',
-      category: 'Networking',
-      color: 'from-green-500 to-teal-500'
-    },
-    { 
-      id: 3, 
-      title: 'Community Support Workshop', 
-      date: 'Feb 01, 2026',
-      time: '9:00 AM - 11:30 AM',
-      location: 'Sydney Community Hub',
-      category: 'Community',
-      color: 'from-orange-500 to-red-500'
-    },
-  ];
-
-  const pricingPlans = [
-    {
-      name: 'Basic',
-      price: 'Free',
-      description: 'Get started with essential features',
-      features: ['Browse provider profiles', 'Basic search', 'Community access', 'Event calendar'],
-      buttonText: 'Get Started',
-      buttonStyle: 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800',
-      highlight: false,
-    },
-    {
-      name: 'Premium',
-      price: '$29',
-      period: '/month',
-      description: 'Unlock all features with priority support',
-      features: ['Everything in Basic', 'Direct messaging', 'Featured listing', 'Advanced filters', 'Priority support'],
-      buttonText: 'Start Free Trial',
-      buttonStyle: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
-      highlight: true,
-      badge: 'MOST POPULAR',
-    },
-    {
-      name: 'Enterprise',
-      price: '$99',
-      period: '/month',
-      description: 'For organizations and teams',
-      features: ['Everything in Premium', 'Unlimited team members', 'Custom branding', 'API access', 'Dedicated manager'],
-      buttonText: 'Contact Sales',
-      buttonStyle: 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600',
-      highlight: false,
-    },
   ];
 
   return (
@@ -266,21 +280,31 @@ const LandingPage = () => {
             <div className="text-center lg:text-left z-10">
               <div className="inline-block mb-4">
                 <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-                  🎉 Connecting Communities
+                  🌟 Connecting Communities
                 </span>
               </div>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
-                Your Gateway to
+                Reimagining Disability
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
-                  Quality NDIS Care
+                  With the Power of Local Community
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-                Empowering participants with choice. Connecting providers with purpose. 
-                Building stronger communities together.
+              <p className="text-2xl md:text-3xl mb-4 text-white font-bold leading-relaxed">
+                Building Stronger NDIS Communities — Together
               </p>
+              
+              <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
+                We are an independent NDIS community platform designed to bring people together — providers, participants, families, and local specialists — to create stronger, more connected, and more supportive disability networks across Australia.
+              </p>
+              
+              {/* Rotating tagline */}
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/20 min-h-[100px] flex items-center">
+                <p className="text-lg text-gray-100 italic transition-all duration-500">
+                  "{missionTaglines[currentTagline]}"
+                </p>
+              </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link 
@@ -334,13 +358,13 @@ const LandingPage = () => {
                       🤝
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold mb-2">Seamless Connection</h3>
-                      <p className="text-gray-200">Find and connect with quality providers in minutes, not weeks.</p>
+                      <h3 className="text-xl font-bold mb-2">Led by Lived Experience</h3>
+                      <p className="text-gray-200">Built by disabled people, for disabled people. Not corporations.</p>
                     </div>
                   </div>
                   
                   <div className="mt-6 space-y-3">
-                    {['Verified Providers', 'Secure Messaging', 'Community Events', 'AI Assistant'].map((item, index) => (
+                    {['Community First', 'No Commission Fees', 'Transparent & Ethical', 'Ground-Up Approach'].map((item, index) => (
                       <div key={index} className="flex items-center bg-white/10 rounded-lg px-3 py-2">
                         <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -358,8 +382,8 @@ const LandingPage = () => {
                       ✨
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-white/80">Trusted by</div>
-                      <div className="text-2xl font-bold">10,000+ Users</div>
+                      <div className="text-sm font-semibold text-white/80">Nothing About Us</div>
+                      <div className="text-2xl font-bold">Without Us</div>
                     </div>
                   </div>
                 </div>
@@ -376,8 +400,33 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Who We Help Section */}
+      {/* Mission Statement Section */}
       <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Our Mission</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-8">
+            Strengthen and Drive the Disability Sector
+          </h2>
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
+            <p className="text-xl text-gray-700 leading-relaxed mb-6">
+              Our mission is to <strong>strengthen and drive the disability sector</strong> by fostering genuine connection, 
+              collaboration, and community — one local relationship at a time.
+            </p>
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided by people 
+              with disabilities</strong>. Provider practices, community spaces, and sector standards should be built through 
+              authentic co-design, grounded in disability theory and the core principle that <strong>"nothing about us without us"</strong>.
+            </p>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              People with disabilities are not passive recipients of services — they are leaders, designers, and experts in 
+              their own lives. Their lived experience informs how providers operate, how communities connect, and how the scheme evolves.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Who We Help Section */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Who We Help</span>
@@ -399,29 +448,21 @@ const LandingPage = () => {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-4">Looking for Support?</h3>
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  Find verified NDIS service providers in your area. Browse profiles, compare services, 
-                  and connect with providers who match your needs and goals.
+                  Find verified NDIS service providers in your area. We bring together real choice, real control, and genuine community support.
                 </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-5 h-5 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Search 1,500+ verified providers
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-5 h-5 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Post your needs and let providers come to you
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-5 h-5 mr-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Free to join and browse
-                  </li>
-                </ul>
+                
+                <div className="space-y-3 mb-8">
+                  {participantBenefits.slice(0, 4).map((benefit, index) => (
+                    <div key={index} className="flex items-start">
+                      <div className="text-2xl mr-3">{benefit.icon}</div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">{benefit.title}</h4>
+                        <p className="text-sm text-gray-600">{benefit.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
                 <Link
                   to="/find-support"
                   className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-xl font-bold hover:from-teal-600 hover:to-cyan-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -443,29 +484,21 @@ const LandingPage = () => {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-4">Want to Provide Support?</h3>
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  Join our network and connect with thousands of NDIS participants. Build your profile, 
-                  respond to requests, and grow your business.
+                  Join our network and connect with thousands of NDIS participants. Build your profile, collaborate with peers, and grow ethically.
                 </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Reach 10,000+ active participants
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Keep 100% of your earnings – no commission
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Access training and networking events
-                  </li>
-                </ul>
+                
+                <div className="space-y-3 mb-8">
+                  {providerBenefits.slice(0, 4).map((benefit, index) => (
+                    <div key={index} className="flex items-start">
+                      <div className="text-2xl mr-3">{benefit.icon}</div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">{benefit.title}</h4>
+                        <p className="text-sm text-gray-600">{benefit.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
                 <Link
                   to="/provide-support"
                   className="inline-flex items-center bg-gradient-to-r from-purple-500 to-pink-600 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-600 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -481,103 +514,115 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      {/* Why We're Different Section */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">Our Services</span>
+            <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">What Makes Us Different</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              NDIS Services You Can Find
+              Why We're Different from Anything Else in the Marketplace
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Connect with providers across all NDIS service categories
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+              We are not another directory, not another provider group, and not another NDIS service platform. 
+              We are building something fundamentally different — a community-driven, lived-experience-led ecosystem 
+              designed to shift the culture of disability support in Australia.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <div
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {whyDifferent.map((item, index) => (
+              <div 
                 key={index}
-                className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100 hover:border-transparent overflow-hidden"
               >
-                <div className={`bg-gradient-to-br ${service.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                  {service.icon}
+                {/* Number badge */}
+                <div className="absolute top-4 right-4 w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
+                  <span className="text-gray-600 font-bold text-lg">{item.number}</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{service.description}</p>
+
+                <div className={`bg-gradient-to-br ${item.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg`}>
+                  {item.icon}
+                </div>
+                
+                <h3 className="text-xl font-bold text-gray-900 mb-4 pr-12">{item.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <Link
-              to="/find-support"
-              className="inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors duration-200 group text-lg"
-            >
-              View All Services
-              <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
+          {/* Not a Marketplace */}
+          <div className="text-center">
+            <div className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl px-12 py-6 text-white">
+              <p className="text-3xl md:text-4xl font-bold mb-2">This is not a marketplace.</p>
+              <p className="text-3xl md:text-4xl font-bold">It's a movement.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">How It Works</span>
+      {/* No One Left Behind Section */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Our Model</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Simple Steps to Get Connected
+              Building a Future Where No One Is Left Behind
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you're ready to go or just starting your journey, we're here to help
+              Powered by Lived Experience
             </p>
           </div>
 
-          {/* Steps Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {howItWorks.map((step, index) => (
-              <div key={index} className="relative">
-                {/* Connector Line */}
-                {index < howItWorks.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-full w-full h-1 bg-gradient-to-r from-orange-300 to-orange-200 -translate-y-1/2 z-0" style={{ width: 'calc(100% - 2rem)' }}></div>
-                )}
-                
-                <div className="relative z-10 bg-white rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100 hover:border-orange-200">
-                  {/* Step Number */}
-                  <div className="absolute -top-4 -right-4 w-10 h-10 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    {index + 1}
-                  </div>
-                  
-                  <div className={`bg-gradient-to-br ${step.color} w-20 h-20 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-lg`}>
-                    {step.icon}
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
-                </div>
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border-2 border-purple-200 mb-12">
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              Our <em>No One Left Behind</em> model is driven by women with disabilities whose lived experience shapes 
+              every decision, every connection, and every part of this community. This platform is built on the belief 
+              that real change happens when those who have walked the path lead the way — when women who have navigated 
+              the system, challenged its gaps, and carried its weight stand at the centre of reform.
+            </p>
+
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              We honour the leadership, insight, and resilience of disabled women who have long been the quiet backbone 
+              of advocacy, care, and community building. Their lived experience is not symbolic — it is the engine of 
+              this platform. It guides how we connect people, how we support families, how we hold providers accountable, 
+              and how we build a sector where no one is left behind.
+            </p>
+          </div>
+
+          {/* Model Ensures */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              'Disabled people lead the conversation, break new ground, and reimagine disability in Australia',
+              'Lived experience is recognised as expertise, not an afterthought',
+              'Community connection replaces isolation',
+              'Support is accessible at every level, regardless of circumstance',
+              'No participant, family, or provider is left to navigate the system alone'
+            ].map((item, index) => (
+              <div key={index} className="flex items-start bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+                <svg className="w-6 h-6 text-purple-600 mr-4 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-gray-700 leading-relaxed">{item}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <Link
-              to="/about"
-              className="inline-flex items-center text-orange-600 font-semibold hover:text-orange-700 transition-colors duration-200 group text-lg"
-            >
-              Learn More About Us
-              <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
+          {/* Leadership Statement */}
+          <div className="mt-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-10 text-white text-center">
+            <p className="text-2xl md:text-3xl font-bold leading-relaxed mb-6">
+              By centring disabled women's leadership, we create a community that is stronger, more honest, 
+              and more deeply connected — a community where everyone has a place, a voice, and a pathway forward.
+            </p>
+            <p className="text-xl font-semibold">
+              Ensuring the voice of the NDIS community is loud and heard, and that from the ground up it is embedded, 
+              respected, and practised in every viewpoint.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Platform Features</span>
@@ -619,10 +664,10 @@ const LandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Success Stories</span>
+            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Community Voices</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               What Our Community Says
             </h2>
@@ -662,141 +707,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Upcoming Events Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-pink-600 uppercase tracking-wider">Stay Connected</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Upcoming Events & Workshops
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Join our community events, information sessions, and networking opportunities
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {upcomingEvents.map((event) => (
-              <div 
-                key={event.id} 
-                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200"
-              >
-                {/* Event header with gradient */}
-                <div className={`bg-gradient-to-r ${event.color} p-6 text-white relative overflow-hidden`}>
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-                  <div className="relative z-10">
-                    <span className="inline-block bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold mb-3">
-                      {event.category}
-                    </span>
-                    <h3 className="text-2xl font-bold mb-2">{event.title}</h3>
-                  </div>
-                </div>
-
-                {/* Event details */}
-                <div className="p-6">
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center text-gray-600">
-                      <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span className="font-medium">{event.date}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      </svg>
-                      <span>{event.location}</span>
-                    </div>
-                  </div>
-
-                  <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover:scale-105">
-                    Register Now
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Preview Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Flexible Pricing</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Plans for Everyone
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Start free and upgrade as you grow. Find the perfect plan for your needs.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative bg-white rounded-2xl overflow-hidden transition-all duration-300 ${
-                  plan.highlight 
-                    ? 'shadow-2xl ring-4 ring-purple-500 transform scale-105 z-10' 
-                    : 'shadow-lg hover:shadow-xl'
-                }`}
-              >
-                {plan.badge && (
-                  <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 px-4 py-1 rounded-bl-xl font-bold text-xs">
-                    {plan.badge}
-                  </div>
-                )}
-
-                <div className={`p-8 ${plan.highlight ? 'bg-gradient-to-br from-purple-50 to-pink-50' : 'bg-gray-50'}`}>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                  <div className="flex items-baseline mb-2">
-                    <span className="text-4xl font-extrabold text-gray-900">{plan.price}</span>
-                    {plan.period && <span className="text-gray-600 ml-1">{plan.period}</span>}
-                  </div>
-                  <p className="text-gray-600 text-sm">{plan.description}</p>
-                </div>
-
-                <div className="p-8">
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-gray-700 text-sm">
-                        <svg className="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button className={`w-full ${plan.buttonStyle} text-white py-3 px-6 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl`}>
-                    {plan.buttonText}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link
-              to="/subscription"
-              className="inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors duration-200 group text-lg"
-            >
-              View Full Pricing Details
-              <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="relative py-20 bg-gradient-to-r from-purple-900 via-pink-800 to-red-800 text-white overflow-hidden">
         {/* Background pattern */}
@@ -810,20 +720,21 @@ const LandingPage = () => {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block mb-6">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🚀 Join Today
+              🚀 Join the Movement
             </span>
           </div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Ready to Transform Your
+            Join the Movement
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
-              NDIS Experience?
+              Reshaping Disability Support
             </span>
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of participants and providers who have already discovered 
-            the power of meaningful connections through NDIS Connect.
+            Bold, honest, and rebuilt through the power of lived experience. Because this is not just a platform — 
+            it is a collective force reimagining a stronger, fairer, and more human disability system — 
+            one built by the community, for the community.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -864,14 +775,14 @@ const LandingPage = () => {
               <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              Cancel anytime
+              Led by lived experience
             </div>
           </div>
         </div>
       </section>
 
       {/* Inline Styles for Animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes blob {
           0%, 100% {
             transform: translate(0, 0) scale(1);

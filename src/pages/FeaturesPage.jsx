@@ -2,52 +2,41 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const FeaturesPage = () => {
-  const [activeTab, setActiveTab] = useState('all'); // 'all', 'provider', 'participant'
+  const [activeTab, setActiveTab] = useState('all');
 
   const providerFeatures = [
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
-      title: 'Business Profile & Branding',
-      description: 'Create a professional business profile with your logo, services, and contact details. Stand out to potential clients.',
-      details: ['Custom business logo display', 'Service area mapping', 'NDIS registration showcase', 'Website & contact integration'],
+      title: 'Connections with Trusted NDIS Providers',
+      description: 'Build genuine partnerships with providers who understand the sector\'s realities. Share referrals, collaborate on services, and strengthen your network with people who truly "get" the NDIS.',
+      details: ['Professional networking', 'Referral partnerships', 'Sector collaboration', 'Community building'],
       color: 'from-purple-500 to-indigo-600',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
       ),
-      title: 'Job Request Board',
-      description: 'Receive service requests directly from participants. Respond to opportunities and grow your client base.',
-      details: ['Real-time job notifications', 'Filter by service type', 'Direct response system', 'Secure messaging'],
+      title: 'Access to Participants Seeking Services',
+      description: 'Connect with individuals and families actively looking for reliable, local supports. Increase your visibility and reach the right people at the right time.',
+      details: ['Service requests', 'Client matching', 'Direct connections', 'Targeted visibility'],
+      color: 'from-blue-500 to-cyan-600',
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      title: 'Ethical, Sustainable Client Referrals',
+      description: 'Receive direct referrals from participants who are searching for the services you offer. Grow your client base in a way that is transparent, participant-led, and aligned with best practice.',
+      details: ['Transparent referrals', 'Participant-led matching', 'Best practice alignment', 'Sustainable growth'],
       color: 'from-green-500 to-teal-600',
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      ),
-      title: 'Document Library',
-      description: 'Access organized resources for onboarding, HR, training, marketing, and sales. Everything you need in one place.',
-      details: ['Categorized PDF storage', 'Onboarding templates', 'Training materials', 'Marketing resources'],
-      color: 'from-orange-500 to-red-500',
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-        </svg>
-      ),
-      title: 'Training Videos',
-      description: 'Watch educational content, webinars, and tutorials to enhance your skills and stay compliant.',
-      details: ['Professional development', 'NDIS compliance training', 'Best practice guides', 'Industry updates'],
-      color: 'from-pink-500 to-rose-600',
     },
     {
       icon: (
@@ -55,42 +44,65 @@ const FeaturesPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       ),
-      title: 'Events & Networking',
-      description: 'Access exclusive networking events, workshops, and industry meetups. Build valuable connections.',
-      details: ['Eventbrite integration', 'Local networking events', 'Pop-up reminders', 'RSVP management'],
+      title: 'Local Networking and Community Events',
+      description: 'Join in-person gatherings designed to help you exchange knowledge, share experiences, and build a strong professional community. These events foster collaboration, not competition.',
+      details: ['In-person meetups', 'Knowledge exchange', 'Professional development', 'Collaborative spaces'],
+      color: 'from-orange-500 to-red-500',
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      ),
+      title: 'Peer Support, Sector Guidance, and Leadership',
+      description: 'Access a community of peers who can offer insights, encouragement, and practical advice. Learn from others who have navigated similar challenges and are committed to raising sector standards.',
+      details: ['Peer mentoring', 'Practical insights', 'Shared learning', 'Sector standards'],
+      color: 'from-pink-500 to-rose-600',
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
+      title: 'Access to Experts and Specialist Advice',
+      description: 'Connect with industry professionals who can support you with business strategy, compliance and quality systems, operational efficiency, workforce development, and growth planning.',
+      details: ['Business strategy', 'Compliance support', 'Operational efficiency', 'Growth planning'],
+      color: 'from-indigo-500 to-purple-600',
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      ),
+      title: 'Workplace Tools and Practical Resources',
+      description: 'Use tools designed to help you work smarter, stay compliant, and deliver services aligned with the NDIS Act, its objects, and its principles. Reduce administrative burden and streamline your operations.',
+      details: ['Compliance tools', 'Document templates', 'Training resources', 'Operational systems'],
       color: 'from-cyan-500 to-blue-600',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
       ),
-      title: 'Featured Listing',
-      description: 'Get premium visibility with featured placement. Your business appears in the scrolling showcase.',
-      details: ['Homepage visibility', 'Priority in search results', 'Featured badge', 'Enhanced profile views'],
-      color: 'from-yellow-500 to-amber-600',
+      title: 'Thought Leadership and Sector Education',
+      description: 'Stay informed with guidance that deepens your understanding of disability rights, lived experience, and the evolving NDIS landscape. Build confidence in your practice and stay ahead of sector changes.',
+      details: ['Sector insights', 'Best practices', 'Policy updates', 'Educational content'],
+      color: 'from-yellow-500 to-orange-500',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: 'Community Message Board',
-      description: 'Connect with other providers, share insights, ask questions, and collaborate on best practices.',
-      details: ['Topic discussions', 'Admin announcements', 'Peer support', 'Industry insights'],
-      color: 'from-violet-500 to-purple-600',
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      ),
-      title: 'AI Assistant',
-      description: 'Get instant answers to NDIS-related questions. Our AI bot helps you navigate policies and procedures.',
-      details: ['NDIA policy guidance', '24/7 availability', 'Quick answers', 'Resource recommendations'],
+      title: 'Cost-Effective Business Support Solutions',
+      description: 'Access practical, affordable tools and human support that help reduce operational costs and maximise profitability. We connect you with real people who can help you manage your business more efficiently — not automated systems that leave you guessing.',
+      details: ['Affordable solutions', 'Human support', 'Cost reduction', 'Efficiency tools'],
       color: 'from-emerald-500 to-green-600',
     },
   ];
@@ -99,79 +111,79 @@ const FeaturesPage = () => {
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       ),
-      title: 'Find Quality Providers',
-      description: 'Search and discover verified NDIS service providers in your area. Filter by service type, location, and more.',
-      details: ['Advanced search filters', 'Location-based results', 'Service category browse', 'Provider comparisons'],
+      title: 'Support with Understanding and Coordinating Your NDIS Plan',
+      description: 'Get help making sense of your plan, using your funding effectively, and connecting with the right supports at the right time.',
+      details: ['Plan guidance', 'Funding coordination', 'Service matching', 'Goal planning'],
       color: 'from-blue-500 to-indigo-600',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: 'Post Service Requests',
-      description: 'Tell providers what you need. Post your requirements and let qualified providers come to you.',
-      details: ['Easy request creation', 'Multiple responses', 'Compare offers', 'Choose your provider'],
-      color: 'from-teal-500 to-cyan-600',
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-      ),
-      title: 'Personal Profile',
-      description: 'Create your profile with your preferences and needs. Help providers understand how to best support you.',
-      details: ['Secure information storage', 'Privacy controls', 'Preference settings', 'Easy updates'],
+      title: 'Clear Information, Guidance, and Practical Support',
+      description: 'Access easy-to-understand information about how the NDIS works, what your rights are, and how to make informed decisions about your supports.',
+      details: ['Plain language guides', 'Rights information', 'Decision-making tools', 'Resource library'],
       color: 'from-purple-500 to-pink-600',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       ),
-      title: 'Secure Messaging',
-      description: 'Communicate safely with providers through our secure message board. No need to share personal contact details.',
-      details: ['Protected conversations', 'Message history', 'File sharing', 'Read receipts'],
+      title: 'Advocacy and Help Navigating Challenges',
+      description: 'Receive guidance from people who understand NDIS rules, processes, and pathways — and who can help you speak up, resolve issues, and protect your rights.',
+      details: ['Advocacy support', 'Issue resolution', 'Appeals guidance', 'Rights protection'],
+      color: 'from-teal-500 to-cyan-600',
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      title: 'Peer Support and Lived-Experience Coaching',
+      description: 'Connect with individuals and families who have walked a similar path. Gain encouragement, insight, and practical strategies grounded in real-life experience.',
+      details: ['Peer mentoring', 'Shared experiences', 'Community groups', 'Practical wisdom'],
       color: 'from-green-500 to-emerald-600',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       ),
-      title: 'Resource Library',
-      description: 'Access helpful documents, guides, and information to help you understand and navigate the NDIS.',
-      details: ['NDIS guides', 'How-to documents', 'Rights information', 'Support resources'],
-      color: 'from-orange-500 to-amber-600',
+      title: 'Connections with Trusted, Local NDIS Providers',
+      description: 'Find reliable, experienced providers who align with your needs, values, and goals — without the overwhelm of searching alone.',
+      details: ['Verified providers', 'Local matching', 'Quality focus', 'Values alignment'],
+      color: 'from-orange-500 to-red-500',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
       ),
-      title: 'Community Events',
-      description: 'Join networking events, information sessions, and community gatherings. Connect with others on similar journeys.',
-      details: ['Local meetups', 'Online webinars', 'Support groups', 'Information sessions'],
-      color: 'from-rose-500 to-pink-600',
+      title: 'Access to Specialists and Disability Sector Expertise',
+      description: 'Receive support from people who understand disability, the NDIS, and the realities of everyday life. Get reassurance, clarity, and practical advice when you need it most.',
+      details: ['Expert consultations', 'Specialist referrals', 'Professional guidance', 'Evidence-based support'],
+      color: 'from-indigo-500 to-purple-600',
     },
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       ),
-      title: 'AI Support Assistant',
-      description: 'Get instant answers to your NDIS questions. Our friendly AI assistant is available 24/7 to help.',
-      details: ['Plain language answers', 'Always available', 'No waiting', 'Helpful guidance'],
-      color: 'from-indigo-500 to-violet-600',
+      title: 'A Safe, Supportive Community',
+      description: 'Join a space where participants and families can share experiences, ask questions, and feel supported by others who understand the journey.',
+      details: ['Welcoming space', 'Shared learning', 'Judgment-free support', 'Community strength'],
+      color: 'from-pink-500 to-rose-600',
     },
     {
       icon: (
@@ -181,7 +193,7 @@ const FeaturesPage = () => {
       ),
       title: 'Direct Admin Support',
       description: 'Need help? Contact our support team directly through the platform. We\'re here to assist you.',
-      details: ['Quick response times', 'Friendly support', 'Issue resolution', 'Feedback welcome'],
+      details: ['Quick responses', 'Friendly support', 'Issue resolution', 'Feedback welcome'],
       color: 'from-cyan-500 to-blue-600',
     },
   ];
@@ -207,7 +219,6 @@ const FeaturesPage = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white overflow-hidden">
-        {/* Animated background */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
@@ -233,16 +244,15 @@ const FeaturesPage = () => {
             we've built powerful tools to help you succeed.
           </p>
 
-          {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
               <div className="text-4xl mb-2">🏢</div>
-              <div className="text-2xl font-bold text-yellow-400">8+</div>
+              <div className="text-2xl font-bold text-yellow-400">9</div>
               <div className="text-sm text-gray-300">Provider Features</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
               <div className="text-4xl mb-2">👥</div>
-              <div className="text-2xl font-bold text-yellow-400">8+</div>
+              <div className="text-2xl font-bold text-yellow-400">8</div>
               <div className="text-sm text-gray-300">Participant Features</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
@@ -258,7 +268,6 @@ const FeaturesPage = () => {
           </div>
         </div>
 
-        {/* Wave divider */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
@@ -325,13 +334,12 @@ const FeaturesPage = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {providerFeatures.map((feature, index) => (
                 <div
                   key={index}
                   className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
                 >
-                  {/* Gradient overlay on hover */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
                   
                   <div className="relative z-10">
@@ -357,7 +365,6 @@ const FeaturesPage = () => {
               ))}
             </div>
 
-            {/* Provider CTA */}
             <div className="mt-16 text-center">
               <div className="inline-block bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Grow Your Business?</h3>
@@ -404,7 +411,6 @@ const FeaturesPage = () => {
                   key={index}
                   className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
                 >
-                  {/* Gradient overlay on hover */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
                   
                   <div className="relative z-10">
@@ -430,7 +436,6 @@ const FeaturesPage = () => {
               ))}
             </div>
 
-            {/* Participant CTA */}
             <div className="mt-16 text-center">
               <div className="inline-block bg-gradient-to-r from-green-50 to-teal-50 rounded-3xl p-10 border border-green-200">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Find Your Support?</h3>
@@ -521,7 +526,6 @@ const FeaturesPage = () => {
               </div>
             </div>
 
-            {/* Dual Subscription Note */}
             <div className="mt-8 text-center">
               <div className="inline-flex items-center bg-yellow-50 border border-yellow-200 rounded-2xl px-6 py-4">
                 <span className="text-2xl mr-3">💡</span>
@@ -573,7 +577,6 @@ const FeaturesPage = () => {
               },
             ].map((item, index) => (
               <div key={index} className="relative">
-                {/* Connector line */}
                 {index < 2 && (
                   <div className="hidden md:block absolute top-16 left-full w-full h-1 bg-gradient-to-r from-purple-300 to-pink-300 -translate-y-1/2 z-0"></div>
                 )}
@@ -594,7 +597,6 @@ const FeaturesPage = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-purple-900 via-pink-800 to-red-800 text-white relative overflow-hidden">
-        {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -665,7 +667,6 @@ const FeaturesPage = () => {
         </div>
       </section>
 
-      {/* Inline Styles for Animations */}
       <style jsx>{`
         @keyframes blob {
           0%, 100% {

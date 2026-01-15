@@ -6,39 +6,115 @@ const ProvideSupportPage = () => {
 
   const benefits = [
     {
-      title: 'Grow Your Client Base',
-      description: 'Connect with thousands of NDIS participants actively seeking services in your area.',
-      icon: '📈',
+      title: 'Connections with Trusted NDIS Providers',
+      description: 'Build genuine partnerships with providers who understand the sector\'s realities. Share referrals, collaborate on services, and strengthen your network with people who truly "get" the NDIS.',
+      icon: '🤝',
+      color: 'from-purple-500 to-indigo-600',
+    },
+    {
+      title: 'Access to Participants Seeking Services',
+      description: 'Connect with individuals and families actively looking for reliable, local supports. Increase your visibility and reach the right people at the right time.',
+      icon: '👥',
+      color: 'from-blue-500 to-cyan-600',
+    },
+    {
+      title: 'Ethical, Sustainable Client Referrals',
+      description: 'Receive direct referrals from participants who are searching for the services you offer. Grow your client base in a way that is transparent, participant-led, and aligned with best practice.',
+      icon: '🌱',
       color: 'from-green-500 to-teal-600',
     },
     {
-      title: 'Set Your Own Terms',
-      description: 'You decide which clients to work with, your availability, and your service offerings.',
+      title: 'Local Networking and Community Events',
+      description: 'Join in-person gatherings designed to help you exchange knowledge, share experiences, and build a strong professional community. These events foster collaboration, not competition.',
+      icon: '📅',
+      color: 'from-orange-500 to-amber-600',
+    },
+    {
+      title: 'Peer Support, Sector Guidance, and Leadership',
+      description: 'Access a community of peers who can offer insights, encouragement, and practical advice. Learn from others who have navigated similar challenges and are committed to raising sector standards.',
+      icon: '💪',
+      color: 'from-pink-500 to-rose-600',
+    },
+    {
+      title: 'Access to Experts and Specialist Advice',
+      description: 'Connect with industry professionals who can support you with business strategy, compliance and quality systems, operational efficiency, workforce development, and growth planning.',
       icon: '🎯',
-      color: 'from-purple-500 to-pink-600',
+      color: 'from-indigo-500 to-purple-600',
     },
     {
-      title: 'Professional Profile',
-      description: 'Showcase your business, qualifications, services, and build your reputation with reviews.',
-      icon: '⭐',
-      color: 'from-blue-500 to-indigo-600',
-    },
-    {
-      title: 'Networking Events',
-      description: 'Join exclusive provider networking events, workshops, and community meetups.',
-      icon: '🤝',
-      color: 'from-orange-500 to-red-500',
-    },
-    {
-      title: 'Resource Library',
-      description: 'Access training materials, templates, and resources to grow your business.',
-      icon: '📚',
+      title: 'Workplace Tools and Practical Resources',
+      description: 'Use tools designed to help you work smarter, stay compliant, and deliver services aligned with the NDIS Act, its objects, and its principles. Reduce administrative burden and streamline your operations.',
+      icon: '🛠️',
       color: 'from-cyan-500 to-blue-600',
     },
     {
-      title: 'Featured Listings',
-      description: 'Get premium visibility with featured placement in search results and homepage showcases.',
-      icon: '🌟',
+      title: 'Thought Leadership and Sector Education',
+      description: 'Stay informed with guidance that deepens your understanding of disability rights, lived experience, and the evolving NDIS landscape. Build confidence in your practice and stay ahead of sector changes.',
+      icon: '📚',
+      color: 'from-yellow-500 to-orange-500',
+    },
+    {
+      title: 'Cost-Effective Business Support Solutions',
+      description: 'Access practical, affordable tools and human support that help reduce operational costs and maximise profitability. We connect you with real people who can help you manage your business more efficiently — not automated systems that leave you guessing.',
+      icon: '💰',
+      color: 'from-emerald-500 to-green-600',
+    },
+  ];
+
+  const howItWorks = [
+    {
+      step: '01',
+      title: 'Join the Community',
+      description: 'Sign up and choose the subscription level that suits your business — from free community access to full visibility and referral support.',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+        </svg>
+      ),
+      color: 'from-purple-500 to-pink-600',
+    },
+    {
+      step: '02',
+      title: 'Create Your Provider Profile',
+      description: 'Share who you are, what you offer, and the values that guide your work. Participants and other providers use this to understand your strengths and approach.',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      ),
+      color: 'from-blue-500 to-indigo-600',
+    },
+    {
+      step: '03',
+      title: 'Connect With Local Providers',
+      description: 'Use our message board and networking events to build relationships, collaborate, and strengthen your local referral pathways.',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      color: 'from-green-500 to-teal-600',
+    },
+    {
+      step: '04',
+      title: 'Access Referrals & Opportunities',
+      description: 'Depending on your subscription, you can receive client referrals, advertising placements, and direct connections with participants seeking your services.',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+        </svg>
+      ),
+      color: 'from-orange-500 to-red-500',
+    },
+    {
+      step: '05',
+      title: 'Grow With Community Support',
+      description: 'Engage with experts, advocates, and other providers who can help you improve quality, streamline operations, and build a sustainable, values-driven business.',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      ),
       color: 'from-yellow-500 to-amber-600',
     },
   ];
@@ -85,53 +161,6 @@ const ProvideSupportPage = () => {
       icon: '🏥',
       color: 'from-rose-500 to-pink-600',
       services: ['Clinical care', 'Wound management', 'Medication management', 'Health monitoring', 'Respite support'],
-    },
-  ];
-
-  const howItWorks = [
-    {
-      step: '01',
-      title: 'Create Your Provider Profile',
-      description: 'Sign up and build your professional profile. Showcase your business, services, qualifications, and experience.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      ),
-      color: 'from-purple-500 to-pink-600',
-    },
-    {
-      step: '02',
-      title: 'Get Discovered',
-      description: 'Participants search for providers like you. Your profile appears in search results based on location and services.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      ),
-      color: 'from-blue-500 to-indigo-600',
-    },
-    {
-      step: '03',
-      title: 'Respond to Requests',
-      description: 'View service requests posted by participants on the job board. Respond to opportunities that match your expertise.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      ),
-      color: 'from-green-500 to-teal-600',
-    },
-    {
-      step: '04',
-      title: 'Connect & Grow',
-      description: 'Build relationships with participants. Arrange services directly and grow your client base organically.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      ),
-      color: 'from-orange-500 to-red-500',
     },
   ];
 
@@ -207,7 +236,7 @@ const ProvideSupportPage = () => {
     },
     {
       question: 'How do payments work?',
-      answer: 'NDIS Connect is a connection platform – we help you find and connect with participants. Payment arrangements are made directly between you and your clients. We don\'t handle payments or take a cut of your earnings.',
+      answer: 'NDIS Connect is a connection platform — we help you find and connect with participants. Payment arrangements are made directly between you and your clients. We don\'t handle payments or take a cut of your earnings.',
     },
     {
       question: 'What services can I offer?',
@@ -271,15 +300,18 @@ const ProvideSupportPage = () => {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-                Grow Your
+                Connect. Collaborate.
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
-                  NDIS Business
+                  Grow. Thrive.
                 </span>
               </h1>
               
               <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-                Join NDIS Connect and reach thousands of participants looking for quality support services. 
-                Build your profile, get discovered, and grow your client base.
+                Running a NDIS business can feel isolating — especially when you're juggling compliance, service delivery, staffing, and participant needs. But you don't have to do it alone.
+              </p>
+              
+              <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
+                Our platform creates a supportive, collaborative environment where providers can build meaningful relationships, access practical tools, and grow their businesses with confidence.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -390,20 +422,9 @@ const ProvideSupportPage = () => {
       {/* Intro Section */}
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Make a Difference While Growing Your Business
-          </h2>
-          <p className="text-xl text-gray-600 leading-relaxed mb-8">
-            NDIS participants need quality support workers and service providers like you. 
-            By joining NDIS Connect, you gain access to a platform designed to help you 
-            reach the people who need your services most.
+          <p className="text-xl text-gray-600 leading-relaxed">
+            We bring together real people, real expertise, and real opportunities so you can focus on what matters most: <strong>delivering high-quality, person-centred support.</strong>
           </p>
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-8 border border-purple-100">
-            <p className="text-lg text-gray-700 italic">
-              "Support work is about empathy, dedication, and responsibility. Your work makes 
-              a significant difference to the quality of someone's life."
-            </p>
-          </div>
         </div>
       </section>
 
@@ -411,12 +432,12 @@ const ProvideSupportPage = () => {
       <section id="benefits" className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Why Join Us</span>
+            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">We Offer</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Benefits for Providers
+              Everything You Need to Succeed
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything you need to build and grow your NDIS service business.
+              Comprehensive support designed to help NDIS providers build sustainable, values-driven businesses
             </p>
           </div>
 
@@ -563,11 +584,11 @@ const ProvideSupportPage = () => {
               How It Works for Providers
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Four simple steps to start connecting with NDIS participants.
+              Simple. Clear. Community-led.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
             {howItWorks.map((item, index) => (
               <div key={index} className="relative">
                 {/* Connector Line */}
@@ -590,6 +611,12 @@ const ProvideSupportPage = () => {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-lg text-gray-600 italic">
+              This process keeps things simple while giving you the tools, connections, and visibility you need to thrive.
+            </p>
           </div>
         </div>
       </section>

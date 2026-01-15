@@ -2,76 +2,166 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const SubscriptionPage = () => {
-  const [billingCycle, setBillingCycle] = useState('monthly'); // monthly or yearly
+  const [activeTab, setActiveTab] = useState('provider'); // 'provider' or 'participant'
   const [activePlan, setActivePlan] = useState(null);
 
-  const plans = [
+  const providerPlans = [
     {
-      name: 'Basic Plan',
-      tagline: 'Perfect for Exploring',
-      price: { monthly: 0, yearly: 0 },
-      description: 'Get started with essential features to explore NDIS Connect',
+      name: 'Community Access',
+      tagline: 'Free to Join',
+      price: 0,
+      description: 'Stay connected and informed with access to our community calendar and local networking events',
       features: [
-        { text: 'Browse provider profiles', included: true },
-        { text: 'Basic search functionality', included: true },
-        { text: 'Access to event calendar', included: true },
-        { text: 'Community forum access', included: true },
-        { text: 'Email support', included: true },
-        { text: 'Advanced search filters', included: false },
-        { text: 'Direct messaging', included: false },
-        { text: 'Priority support', included: false },
+        { text: 'Access to events calendar', included: true },
+        { text: 'Invitations to local networking meet-ups', included: true },
+        { text: 'Updates on community initiatives and sector news', included: true },
+        { text: 'Opportunities to connect with other trusted providers', included: true },
+        { text: 'Provider message board access', included: true },
+        { text: 'Client referral opportunities', included: false },
+        { text: 'Advertising placements', included: false },
+        { text: 'Priority advertising', included: false },
       ],
-      buttonText: 'Get Started Free',
+      buttonText: 'Join Free',
       buttonStyle: 'bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600',
       highlight: false,
       icon: '🌱',
       color: 'green',
     },
     {
-      name: 'Premium Plan',
-      tagline: 'Most Popular Choice',
-      price: { monthly: 29, yearly: 290 },
-      description: 'Unlock all features with priority support and exclusive benefits',
+      name: 'Growth & Referral',
+      tagline: 'Expand Your Reach',
+      price: 49,
+      description: 'Designed for providers ready to expand their reach and strengthen their business through meaningful connections',
       features: [
-        { text: 'Everything in Basic', included: true, bold: true },
-        { text: 'Advanced search filters', included: true },
-        { text: 'Direct messaging with providers', included: true },
-        { text: 'Featured profile listing', included: true },
-        { text: 'Priority support (24/7)', included: true },
-        { text: 'Detailed analytics dashboard', included: true },
-        { text: 'Custom AI recommendations', included: true },
-        { text: 'Early event access & discounts', included: true },
+        { text: 'Everything in Community Access', included: true, bold: true },
+        { text: 'Access to participant and client referral opportunities', included: true },
+        { text: 'Advertising placements within our community channels', included: true },
+        { text: 'Networking with complementary businesses', included: true },
+        { text: 'Connections to local referral pathways', included: true },
+        { text: 'Increased visibility within provider network', included: true },
+        { text: 'Priority advertising', included: false },
+        { text: 'Featured provider listing', included: false },
       ],
-      buttonText: 'Start Free Trial',
+      buttonText: 'Start Growing',
       buttonStyle: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
       highlight: true,
-      icon: '⭐',
+      icon: '📈',
       color: 'purple',
       badge: 'MOST POPULAR',
-      savings: 'Save $58/year',
     },
     {
-      name: 'Enterprise Plan',
-      tagline: 'For Organizations',
-      price: { monthly: 99, yearly: 990 },
-      description: 'Comprehensive solution for service providers and organizations',
+      name: 'Premium Visibility',
+      tagline: 'Maximum Exposure',
+      price: 99,
+      description: 'For providers seeking maximum reach, brand presence, and direct access to client groups',
       features: [
-        { text: 'Everything in Premium', included: true, bold: true },
-        { text: 'Unlimited team members', included: true },
-        { text: 'Advanced analytics & reporting', included: true },
-        { text: 'Custom branding options', included: true },
-        { text: 'Dedicated account manager', included: true },
-        { text: 'API access & integrations', included: true },
-        { text: 'White-label solutions', included: true },
-        { text: 'Custom training sessions', included: true },
+        { text: 'Everything in Growth & Referral', included: true, bold: true },
+        { text: 'Priority advertising across platform and community spaces', included: true },
+        { text: 'Featured provider listings for enhanced visibility', included: true },
+        { text: 'Direct exposure to participant groups and families', included: true },
+        { text: 'Showcase expertise through events, content, or education', included: true },
+        { text: 'Greater brand recognition within local networks', included: true },
+        { text: 'Priority support', included: true },
+        { text: 'Quarterly performance reports', included: true },
       ],
-      buttonText: 'Contact Sales',
+      buttonText: 'Get Premium',
       buttonStyle: 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600',
       highlight: false,
-      icon: '🚀',
+      icon: '🌟',
       color: 'orange',
-      savings: 'Save $198/year',
     },
+  ];
+
+  const participantPlans = [
+    {
+      name: 'Community Connection',
+      tagline: 'Free Tier',
+      price: 0,
+      description: 'Stay connected with your local disability community and access trusted providers when you need them',
+      features: [
+        { text: 'Access to message board to connect with local providers', included: true },
+        { text: 'Ability to post support needs or service requests', included: true },
+        { text: 'Updates on community events, workshops, and opportunities', included: true },
+        { text: 'A safe space to ask questions and learn from others', included: true },
+        { text: 'Browse provider profiles', included: true },
+        { text: 'Direct connection with NDIS-experienced advocates', included: false },
+        { text: 'Access to legal teams', included: false },
+        { text: 'Priority provider matching', included: false },
+      ],
+      buttonText: 'Join Free',
+      buttonStyle: 'bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600',
+      highlight: false,
+      icon: '🤝',
+      color: 'green',
+    },
+    {
+      name: 'Guidance & Support',
+      tagline: 'Personalized Help',
+      price: 29,
+      description: 'For people who want more personalised help navigating the NDIS and understanding their rights, options, and pathways',
+      features: [
+        { text: 'Everything in Community Connection', included: true, bold: true },
+        { text: 'Direct connection with NDIS-experienced advocates', included: true },
+        { text: 'Support to understand your plan, funding categories, and reviews', included: true },
+        { text: 'Access to experts who can explain NDIS rules clearly', included: true },
+        { text: 'Practical advice for plan meetings and reviews', included: true },
+        { text: 'Priority access to providers matching your needs', included: true },
+        { text: 'Access to legal teams', included: false },
+        { text: 'AAT training and workshops', included: false },
+      ],
+      buttonText: 'Get Guidance',
+      buttonStyle: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700',
+      highlight: true,
+      icon: '🧭',
+      color: 'blue',
+      badge: 'RECOMMENDED',
+    },
+    {
+      name: 'Empowerment & Advocacy Plus',
+      tagline: 'Complete Support',
+      price: 49,
+      description: 'For participants and families who want deeper support, especially when things become complex or overwhelming',
+      features: [
+        { text: 'Everything in Guidance & Support', included: true, bold: true },
+        { text: 'Connection with legal teams who understand NDIS matters', included: true },
+        { text: 'Access to AAT training, workshops, and resources', included: true },
+        { text: 'Guidance from advocates on your rights and options', included: true },
+        { text: 'Support to make complex processes less intimidating', included: true },
+        { text: 'Priority matching with trusted, reputable providers', included: true },
+        { text: 'Quarterly check-ins with support coordinators', included: true },
+        { text: 'Emergency support line access', included: true },
+      ],
+      buttonText: 'Get Full Support',
+      buttonStyle: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
+      highlight: false,
+      icon: '🛡️',
+      color: 'purple',
+    },
+  ];
+
+  const providerComparison = [
+    { feature: 'Access to events calendar', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Invitations to local networking events', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Provider message board access', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Client referral opportunities', tier1: '—', tier2: '✔️', tier3: '✔️ (priority)' },
+    { feature: 'Advertising placements', tier1: '—', tier2: '✔️', tier3: '✔️ (premium)' },
+    { feature: 'Networking with complementary businesses', tier1: '—', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Access to local referral pathways', tier1: '—', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Featured provider listing', tier1: '—', tier2: '—', tier3: '✔️' },
+    { feature: 'Exposure to participant groups', tier1: '—', tier2: '—', tier3: '✔️ (enhanced)' },
+    { feature: 'Opportunities to showcase expertise', tier1: '—', tier2: '—', tier3: '✔️' },
+  ];
+
+  const participantComparison = [
+    { feature: 'Access to message & job board', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Connect with local providers', tier1: '✔️', tier2: '✔️', tier3: '✔️ (priority)' },
+    { feature: 'Community updates & events', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Help understanding your NDIS plan', tier1: '—', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Guidance through reviews & processes', tier1: '—', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Access to advocates & NDIS support', tier1: '—', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Access to legal teams (AAT support)', tier1: '—', tier2: '—', tier3: '✔️' },
+    { feature: 'Training & resources for complex processes', tier1: '—', tier2: '—', tier3: '✔️' },
+    { feature: 'Enhanced support & guidance', tier1: '—', tier2: '✔️', tier3: '✔️ (highest)' },
   ];
 
   const faqs = [
@@ -80,8 +170,8 @@ const SubscriptionPage = () => {
       answer: 'Absolutely! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and you\'ll only pay the difference if upgrading mid-cycle.',
     },
     {
-      question: 'Is there a free trial for Premium?',
-      answer: 'Yes! We offer a 14-day free trial for our Premium plan. No credit card required to start. Experience all premium features risk-free.',
+      question: 'Is the basic tier really free?',
+      answer: 'Yes! Both Community Access (for providers) and Community Connection (for participants) are completely free forever. No credit card required, no hidden fees.',
     },
     {
       question: 'What payment methods do you accept?',
@@ -89,58 +179,22 @@ const SubscriptionPage = () => {
     },
     {
       question: 'Do you offer refunds?',
-      answer: 'Yes, we offer a 30-day money-back guarantee. If you\'re not satisfied with your Premium or Enterprise plan, we\'ll provide a full refund within the first 30 days.',
+      answer: 'Yes, we offer a 30-day money-back guarantee on all paid plans. If you\'re not satisfied, we\'ll provide a full refund within the first 30 days.',
     },
     {
-      question: 'Can I cancel my subscription?',
-      answer: 'Yes, you can cancel anytime. Your access will continue until the end of your billing period. No questions asked, no cancellation fees.',
+      question: 'Can I have both provider and participant subscriptions?',
+      answer: 'Yes! If you\'re both a participant seeking support and a provider offering services, you can subscribe to plans in both categories and manage separate profiles.',
     },
     {
-      question: 'What happens after my trial ends?',
-      answer: 'After your 14-day trial, you\'ll be automatically charged based on your selected billing cycle unless you cancel. We\'ll send you a reminder 3 days before the trial ends.',
+      question: 'How does the referral system work for providers?',
+      answer: 'With Growth & Referral or Premium tiers, you\'ll receive notifications when participants post service requests that match your offerings. You can then reach out directly through our secure messaging system.',
     },
-  ];
-
-  const testimonials = [
-    {
-      name: 'David Smith',
-      role: 'NDIS Participant',
-      plan: 'Premium',
-      content: 'The Premium plan transformed how I connect with providers. The advanced search saved me hours!',
-      rating: 5,
-      image: '👨‍💼',
-    },
-    {
-      name: 'Lisa Chen',
-      role: 'Service Provider',
-      plan: 'Enterprise',
-      content: 'As a provider with a team, the Enterprise plan\'s analytics and multi-user access are invaluable.',
-      rating: 5,
-      image: '👩‍💻',
-    },
-    {
-      name: 'Robert Taylor',
-      role: 'Support Coordinator',
-      plan: 'Premium',
-      content: 'Best investment for my work. Direct messaging makes coordination seamless.',
-      rating: 5,
-      image: '👨‍⚕️',
-    },
-  ];
-
-  const comparisonFeatures = [
-    { feature: 'Provider Profiles', basic: 'Browse Only', premium: 'Full Access', enterprise: 'Priority Listing' },
-    { feature: 'Search Functionality', basic: 'Basic', premium: 'Advanced Filters', enterprise: 'AI-Powered' },
-    { feature: 'Messaging', basic: '✗', premium: '✓ Unlimited', enterprise: '✓ + Team Chat' },
-    { feature: 'Support', basic: 'Email', premium: '24/7 Priority', enterprise: 'Dedicated Manager' },
-    { feature: 'Analytics', basic: '✗', premium: 'Basic', enterprise: 'Advanced + Custom' },
   ];
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section - Enhanced */}
+      {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white overflow-hidden">
-        {/* Animated background */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
@@ -150,48 +204,46 @@ const SubscriptionPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              💎 Flexible Pricing
+              💎 Subscription Plans
             </span>
           </div>
           
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
-            Choose Your
+            Join Our
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
-              Perfect Plan
+              Growing Community
             </span>
           </h1>
           
           <p className="text-xl md:text-2xl mb-12 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Flexible pricing designed to grow with you. Start free, upgrade anytime.
+            Choose the plan that's right for you. Whether you're a provider looking to grow or a participant seeking support, we have options designed with you in mind.
           </p>
 
-          {/* Billing Toggle */}
+          {/* Tab Selector */}
           <div className="flex items-center justify-center gap-4 mb-8">
-            <span className={`text-lg font-semibold ${billingCycle === 'monthly' ? 'text-white' : 'text-gray-400'}`}>
-              Monthly
-            </span>
             <button
-              onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-              className="relative inline-flex h-8 w-16 items-center rounded-full bg-white/20 backdrop-blur-lg transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+              onClick={() => setActiveTab('provider')}
+              className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
+                activeTab === 'provider'
+                  ? 'bg-white text-purple-900 shadow-xl scale-105'
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
             >
-              <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform ${
-                  billingCycle === 'yearly' ? 'translate-x-9' : 'translate-x-1'
-                }`}
-              />
+              🏢 For Providers
             </button>
-            <span className={`text-lg font-semibold ${billingCycle === 'yearly' ? 'text-white' : 'text-gray-400'}`}>
-              Yearly
-            </span>
-            {billingCycle === 'yearly' && (
-              <span className="ml-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce">
-                Save up to 17%
-              </span>
-            )}
+            <button
+              onClick={() => setActiveTab('participant')}
+              className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
+                activeTab === 'participant'
+                  ? 'bg-white text-purple-900 shadow-xl scale-105'
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              👥 For Participants
+            </button>
           </div>
         </div>
 
-        {/* Wave divider */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
@@ -199,11 +251,11 @@ const SubscriptionPage = () => {
         </div>
       </section>
 
-      {/* Pricing Cards Section */}
+      {/* Pricing Cards */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-8">
-            {plans.map((plan, index) => (
+            {(activeTab === 'provider' ? providerPlans : participantPlans).map((plan, index) => (
               <div
                 key={index}
                 onMouseEnter={() => setActivePlan(index)}
@@ -214,56 +266,39 @@ const SubscriptionPage = () => {
                     : 'shadow-lg hover:shadow-2xl'
                 } ${activePlan === index ? 'transform -translate-y-2' : ''}`}
               >
-                {/* Badge */}
                 {plan.badge && (
-                  <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 px-6 py-2 rounded-bl-2xl font-bold text-sm shadow-lg">
+                  <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 px-6 py-2 rounded-bl-2xl font-bold text-sm shadow-lg z-20">
                     {plan.badge}
                   </div>
                 )}
 
-                {/* Header */}
                 <div className={`p-8 ${
                   plan.color === 'green' ? 'bg-gradient-to-br from-green-50 to-teal-50' :
                   plan.color === 'purple' ? 'bg-gradient-to-br from-purple-50 to-pink-50' :
+                  plan.color === 'blue' ? 'bg-gradient-to-br from-blue-50 to-indigo-50' :
                   'bg-gradient-to-br from-orange-50 to-red-50'
                 }`}>
                   <div className="text-5xl mb-4">{plan.icon}</div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                   <p className="text-sm font-semibold text-gray-600 mb-4">{plan.tagline}</p>
                   
-                  <div className="flex items-baseline mb-2">
+                  <div className="flex items-baseline mb-4">
                     <span className="text-5xl font-extrabold text-gray-900">
-                      ${billingCycle === 'monthly' ? plan.price.monthly : plan.price.yearly}
+                      ${plan.price}
                     </span>
-                    {plan.price.monthly > 0 && (
-                      <span className="text-xl text-gray-600 ml-2">
-                        /{billingCycle === 'monthly' ? 'month' : 'year'}
-                      </span>
-                    )}
+                    <span className="text-xl text-gray-600 ml-2">/month</span>
                   </div>
                   
-                  {billingCycle === 'yearly' && plan.savings && (
-                    <div className="inline-block bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                      {plan.savings}
-                    </div>
-                  )}
-                  
-                  <p className="text-gray-600 mt-4">{plan.description}</p>
+                  <p className="text-gray-600">{plan.description}</p>
                 </div>
 
-                {/* Features */}
                 <div className="p-8">
                   <button className={`w-full ${plan.buttonStyle} text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 mb-8`}>
                     {plan.buttonText}
                   </button>
 
                   <div className="space-y-4">
-                    <h4 className="font-bold text-gray-900 text-lg mb-4 flex items-center">
-                      <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      What's included:
-                    </h4>
+                    <h4 className="font-bold text-gray-900 text-lg mb-4">What's included:</h4>
                     {plan.features.map((feature, idx) => (
                       <div key={idx} className="flex items-start">
                         {feature.included ? (
@@ -292,8 +327,10 @@ const SubscriptionPage = () => {
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Compare Plans</h2>
-            <p className="text-xl text-gray-600">See what's included in each plan</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              {activeTab === 'provider' ? 'Provider' : 'Participant'} Plan Comparison
+            </h2>
+            <p className="text-xl text-gray-600">See exactly what's included in each tier</p>
           </div>
 
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -301,19 +338,26 @@ const SubscriptionPage = () => {
               <table className="w-full">
                 <thead>
                   <tr className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-                    <th className="px-6 py-4 text-left font-bold">Feature</th>
-                    <th className="px-6 py-4 text-center font-bold">Basic</th>
-                    <th className="px-6 py-4 text-center font-bold">Premium</th>
-                    <th className="px-6 py-4 text-center font-bold">Enterprise</th>
+                    <th className="px-6 py-4 text-left font-bold">Features</th>
+                    <th className="px-6 py-4 text-center font-bold">
+                      {activeTab === 'provider' ? 'Community Access' : 'Community Connection'}
+                      <div className="text-xs font-normal mt-1">(Free)</div>
+                    </th>
+                    <th className="px-6 py-4 text-center font-bold">
+                      {activeTab === 'provider' ? 'Growth & Referral' : 'Guidance & Support'}
+                    </th>
+                    <th className="px-6 py-4 text-center font-bold">
+                      {activeTab === 'provider' ? 'Premium Visibility' : 'Empowerment & Advocacy'}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {comparisonFeatures.map((item, index) => (
+                  {(activeTab === 'provider' ? providerComparison : participantComparison).map((item, index) => (
                     <tr key={index} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 font-medium text-gray-900">{item.feature}</td>
-                      <td className="px-6 py-4 text-center text-gray-600">{item.basic}</td>
-                      <td className="px-6 py-4 text-center text-purple-600 font-semibold">{item.premium}</td>
-                      <td className="px-6 py-4 text-center text-orange-600 font-semibold">{item.enterprise}</td>
+                      <td className="px-6 py-4 text-center text-gray-600">{item.tier1}</td>
+                      <td className="px-6 py-4 text-center text-purple-600 font-semibold">{item.tier2}</td>
+                      <td className="px-6 py-4 text-center text-orange-600 font-semibold">{item.tier3}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -323,52 +367,85 @@ const SubscriptionPage = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* How It Works */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Success Stories</span>
-            <h2 className="text-4xl font-bold text-gray-900 mt-2 mb-4">Loved by Our Members</h2>
-            <p className="text-xl text-gray-600">See what others are saying about their plan</p>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              How It Works — {activeTab === 'provider' ? 'For Providers' : 'For Participants'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {activeTab === 'provider' ? 'Simple. Clear. Community-led.' : 'Supportive. Safe. Easy to Navigate.'}
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200">
-                <div className="flex items-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-3xl mr-4">
-                    {testimonial.image}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
-                    <span className="inline-block mt-1 bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-semibold">
-                      {testimonial.plan}
-                    </span>
-                  </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+            {activeTab === 'provider' ? (
+              <>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">1</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Join the Community</h3>
+                  <p className="text-sm text-gray-600">Sign up and choose the subscription level that suits your business</p>
                 </div>
-
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">2</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Create Your Profile</h3>
+                  <p className="text-sm text-gray-600">Share who you are, what you offer, and the values that guide your work</p>
                 </div>
-
-                <p className="text-gray-600 leading-relaxed italic">"{testimonial.content}"</p>
-              </div>
-            ))}
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">3</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Connect Locally</h3>
+                  <p className="text-sm text-gray-600">Use our message board and events to build relationships and referral pathways</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">4</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Access Referrals</h3>
+                  <p className="text-sm text-gray-600">Receive client referrals and direct connections with participants seeking services</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">5</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Grow Together</h3>
+                  <p className="text-sm text-gray-600">Engage with experts, advocates, and other providers to build sustainably</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">1</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Join the Community</h3>
+                  <p className="text-sm text-gray-600">Sign up for free or choose a subscription with additional support</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">2</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Tell Us What You Need</h3>
+                  <p className="text-sm text-gray-600">Use the message board to share what you're looking for</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">3</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Connect With Providers</h3>
+                  <p className="text-sm text-gray-600">You'll be matched with reputable providers in your area</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">4</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Access Guidance</h3>
+                  <p className="text-sm text-gray-600">Connect with advocates, experts, and legal teams as needed</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">5</div>
+                  <h3 className="font-bold text-gray-900 mb-2">Feel Supported</h3>
+                  <p className="text-sm text-gray-600">You're never left to navigate the NDIS alone</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
 
-      {/* FAQ Section - Enhanced */}
+      {/* FAQ Section */}
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Got Questions?</span>
-            <h2 className="text-4xl font-bold text-gray-900 mt-2 mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
             <p className="text-xl text-gray-600">Everything you need to know about our plans</p>
           </div>
 
@@ -401,9 +478,8 @@ const SubscriptionPage = () => {
         </div>
       </section>
 
-      {/* Provider CTA Section - Enhanced */}
+      {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-purple-900 via-pink-800 to-red-800 text-white relative overflow-hidden">
-        {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -412,82 +488,44 @@ const SubscriptionPage = () => {
         </div>
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-block mb-6">
-            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🏢 For Providers
-            </span>
-          </div>
-          
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Are You a Service Provider?
-          </h2>
-          
-          <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join our network of quality providers and connect with participants who need your services. 
-            Special enterprise pricing available.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-gray-900 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-yellow-500/50">
-              <span className="relative z-10 flex items-center">
-                View Provider Plans
-                <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            </button>
-            
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-2xl hover:bg-white/20 transition-all duration-300 shadow-lg"
-            >
-              Contact Sales Team
-            </Link>
-          </div>
-
-          <div className="mt-10 flex items-center justify-center space-x-8 text-sm">
-            <div className="flex items-center">
-              <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Custom Solutions
-            </div>
-            <div className="flex items-center">
-              <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Volume Discounts
-            </div>
-            <div className="flex items-center">
-              <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Dedicated Support
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Ready to Get Started?
           </h2>
-          <p className="text-xl text-gray-600 mb-10">
+          <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto">
             Join thousands of participants and providers using NDIS Connect today
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-10 py-5 rounded-xl text-lg font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-              Start Your Free Trial
+            <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-10 py-5 rounded-xl text-lg font-bold hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+              Start Your Free Account
             </button>
             <Link
               to="/about"
-              className="inline-flex items-center justify-center bg-gray-100 text-gray-900 px-10 py-5 rounded-xl text-lg font-bold hover:bg-gray-200 transition-all duration-300 shadow-lg"
+              className="inline-flex items-center justify-center bg-white/10 backdrop-blur-lg border-2 border-white/30 text-white px-10 py-5 rounded-xl text-lg font-bold hover:bg-white/20 transition-all duration-300 shadow-lg"
             >
               Learn More About Us
             </Link>
+          </div>
+
+          <div className="mt-10 flex items-center justify-center flex-wrap gap-6 text-sm">
+            <div className="flex items-center">
+              <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Free to get started
+            </div>
+            <div className="flex items-center">
+              <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              No credit card required
+            </div>
+            <div className="flex items-center">
+              <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Cancel anytime
+            </div>
           </div>
         </div>
       </section>

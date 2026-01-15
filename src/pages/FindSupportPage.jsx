@@ -2,7 +2,96 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const FindSupportPage = () => {
+  const [activeQuestion, setActiveQuestion] = useState(null);
   const [activeService, setActiveService] = useState(null);
+
+  // The 7 key supports from WebsiteDoc.docx
+  const participantSupports = [
+    {
+      icon: '📋',
+      title: 'Support with Understanding and Coordinating Your NDIS Plan',
+      description: 'Get help making sense of your plan, using your funding effectively, and connecting with the right supports at the right time.',
+      color: 'from-blue-500 to-indigo-600',
+      details: [
+        'Understanding your funding categories',
+        'Plan implementation strategies',
+        'Budget management guidance',
+        'Service coordination support',
+      ]
+    },
+    {
+      icon: '💡',
+      title: 'Clear Information, Guidance, and Practical Support',
+      description: 'Access easy-to-understand information about how the NDIS works, what your rights are, and how to make informed decisions about your supports.',
+      color: 'from-purple-500 to-pink-600',
+      details: [
+        'NDIS rules explained simply',
+        'Your rights and responsibilities',
+        'Decision-making frameworks',
+        'Plain language resources',
+      ]
+    },
+    {
+      icon: '🛡️',
+      title: 'Advocacy and Help Navigating Challenges',
+      description: 'Receive guidance from people who understand NDIS rules, processes, and pathways — and who can help you speak up, resolve issues, and protect your rights.',
+      color: 'from-teal-500 to-cyan-600',
+      details: [
+        'Issue resolution support',
+        'Appeals and reviews assistance',
+        'Rights protection',
+        'Complaint handling guidance',
+      ]
+    },
+    {
+      icon: '🤝',
+      title: 'Peer Support and Lived-Experience Coaching',
+      description: 'Connect with individuals and families who have walked a similar path. Gain encouragement, insight, and practical strategies grounded in real-life experience.',
+      color: 'from-green-500 to-emerald-600',
+      details: [
+        'Peer mentoring programs',
+        'Shared experience groups',
+        'Community connections',
+        'Practical wisdom from others',
+      ]
+    },
+    {
+      icon: '🔍',
+      title: 'Connections with Trusted, Local NDIS Providers',
+      description: 'Find reliable, experienced providers who align with your needs, values, and goals — without the overwhelm of searching alone.',
+      color: 'from-orange-500 to-red-500',
+      details: [
+        'Verified provider network',
+        'Local service matching',
+        'Quality-focused connections',
+        'Values-aligned partnerships',
+      ]
+    },
+    {
+      icon: '👨‍⚕️',
+      title: 'Access to Specialists and Disability Sector Expertise',
+      description: 'Receive support from people who understand disability, the NDIS, and the realities of everyday life. Get reassurance, clarity, and practical advice when you need it most.',
+      color: 'from-indigo-500 to-purple-600',
+      details: [
+        'Expert consultations',
+        'Specialist referrals',
+        'Professional guidance',
+        'Evidence-based support',
+      ]
+    },
+    {
+      icon: '❤️',
+      title: 'A Safe, Supportive Community',
+      description: 'Join a space where participants and families can share experiences, ask questions, and feel supported by others who understand the journey.',
+      color: 'from-pink-500 to-rose-600',
+      details: [
+        'Welcoming community space',
+        'Shared learning opportunities',
+        'Judgment-free support',
+        'Collective strength',
+      ]
+    },
+  ];
 
   const services = [
     {
@@ -51,50 +140,62 @@ const FindSupportPage = () => {
     },
   ];
 
+  // How It Works - From WebsiteDoc.docx
   const howItWorks = [
     {
       step: '01',
-      title: 'Create Your Profile',
-      description: 'Sign up for free and tell us about yourself, your needs, and the type of support you\'re looking for.',
+      title: 'Join the Community',
+      description: 'Sign up for free or choose a subscription that gives you access to advocates, experts, and additional support.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
         </svg>
       ),
       color: 'from-blue-500 to-indigo-600',
     },
     {
       step: '02',
-      title: 'Browse Providers',
-      description: 'Search through verified providers in your area. Filter by service type, location, and specialisation.',
+      title: 'Tell Us What You Need',
+      description: 'Use the message board or job board to share what you\'re looking for — whether it\'s a support worker, therapist, plan guidance, or help understanding NDIS processes.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
         </svg>
       ),
       color: 'from-purple-500 to-pink-600',
     },
     {
       step: '03',
-      title: 'Post Your Request',
-      description: 'Share what you\'re looking for on our message board. Let qualified providers come to you with their offerings.',
+      title: 'Connect With Trusted Local Providers',
+      description: 'You\'ll be matched with reputable providers in your area who align with your needs, values, and goals.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
       color: 'from-green-500 to-teal-600',
     },
     {
       step: '04',
-      title: 'Connect & Choose',
-      description: 'Receive responses from providers, review their profiles, and connect with those who best match your needs.',
+      title: 'Access Guidance & Advocacy',
+      description: 'Depending on your subscription, you can connect with: NDIS-experienced advocates, people who can explain your plan, experts who can guide you through reviews, and legal teams if things escalate to the AAT.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       ),
       color: 'from-orange-500 to-red-500',
+    },
+    {
+      step: '05',
+      title: 'Feel Supported Every Step of the Way',
+      description: 'You\'re never left to navigate the NDIS alone. Our community, advocates, and providers are here to help you make informed decisions and feel confident in your rights.',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+        </svg>
+      ),
+      color: 'from-pink-500 to-rose-600',
     },
   ];
 
@@ -134,7 +235,7 @@ const FindSupportPage = () => {
   const faqs = [
     {
       question: 'Is NDIS Connect free to use?',
-      answer: 'Yes! You can create a profile and browse providers for free. We offer premium subscriptions with additional features like direct messaging and advanced search filters.',
+      answer: 'Yes! You can create a profile and browse providers for free. We offer premium subscriptions with additional features like direct messaging, advocacy support, and advanced guidance.',
     },
     {
       question: 'How do I find the right provider?',
@@ -203,16 +304,18 @@ const FindSupportPage = () => {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-                Find Quality
+                Support. Clarity.
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-400">
-                  NDIS Providers
+                  Connection.
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-                Connect with verified service providers in your area. 
-                Whether you need daily support, therapy services, or community participation – 
-                we'll help you find the right match.
+              <p className="text-xl md:text-2xl mb-6 text-gray-200 leading-relaxed">
+                Navigating the NDIS can feel overwhelming — but you don't have to do it alone.
+              </p>
+
+              <p className="text-lg mb-8 text-gray-200 leading-relaxed">
+                Our platform is designed to give participants and families access to clear information, trusted providers, and practical guidance from people who genuinely care about your wellbeing.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -304,6 +407,7 @@ const FindSupportPage = () => {
       <section className="py-8 bg-white border-b border-gray-200 sticky top-20 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
+            <a href="#what-we-offer" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">What We Offer</a>
             <a href="#services" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">Services</a>
             <a href="#how-it-works" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">How It Works</a>
             <a href="#benefits" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">Benefits</a>
@@ -313,11 +417,69 @@ const FindSupportPage = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-white">
+      {/* What We Offer Section - The 7 Key Supports */}
+      <section id="what-we-offer" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">What You Can Find</span>
+            <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">For Participants & Families</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
+              What We Offer
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our goal is to empower you with the knowledge, confidence, and connections you need to live your life with choice, control, and dignity.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {participantSupports.map((support, index) => (
+              <div
+                key={index}
+                onMouseEnter={() => setActiveService(index)}
+                onMouseLeave={() => setActiveService(null)}
+                className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden cursor-pointer"
+              >
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${support.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
+                
+                <div className="relative z-10">
+                  <div className="text-5xl mb-6">
+                    {support.icon}
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{support.title}</h3>
+                  <p className="text-gray-600 mb-4 leading-relaxed">{support.description}</p>
+                  
+                  <ul className="space-y-2">
+                    {support.details.slice(0, activeService === index ? 4 : 2).map((detail, idx) => (
+                      <li key={idx} className="flex items-center text-sm text-gray-500">
+                        <svg className="w-4 h-4 mr-2 text-teal-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Closing Statement */}
+          <div className="mt-16 text-center">
+            <div className="inline-block bg-gradient-to-r from-teal-50 to-blue-50 rounded-3xl p-8 border border-teal-200 max-w-4xl">
+              <p className="text-lg text-gray-700 leading-relaxed">
+                <strong>Every person with disability deserves trusted local support</strong> — and every family deserves clarity, community, and a place to turn when things get complex.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">What You Can Find</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               Find the Right Services for You
             </h2>
@@ -330,9 +492,7 @@ const FindSupportPage = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                onMouseEnter={() => setActiveService(index)}
-                onMouseLeave={() => setActiveService(null)}
-                className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden cursor-pointer"
+                className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
@@ -354,7 +514,7 @@ const FindSupportPage = () => {
                   <p className="text-gray-600 mb-4 leading-relaxed">{service.description}</p>
                   
                   <ul className="space-y-2">
-                    {service.examples.slice(0, activeService === index ? 5 : 3).map((example, idx) => (
+                    {service.examples.slice(0, 3).map((example, idx) => (
                       <li key={idx} className="flex items-center text-sm text-gray-500">
                         <svg className="w-4 h-4 mr-2 text-teal-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -371,19 +531,19 @@ const FindSupportPage = () => {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section id="how-it-works" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">Simple Process</span>
+            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Simple Process</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              How NDIS Connect Works
+              How It Works for Participants & Families
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Finding the right support has never been easier. Four simple steps to connect with quality providers.
+              Supportive. Safe. Easy to Navigate.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
             {howItWorks.map((item, index) => (
               <div key={index} className="relative">
                 {/* Connector Line */}
@@ -408,24 +568,22 @@ const FindSupportPage = () => {
             ))}
           </div>
 
-          {/* Important Note */}
+          {/* Closing Statement */}
           <div className="mt-16 text-center">
-            <div className="inline-flex items-center bg-blue-50 border border-blue-200 rounded-2xl px-6 py-4 max-w-2xl">
-              <span className="text-3xl mr-4">💡</span>
-              <div className="text-left">
-                <p className="font-bold text-gray-900">Connection Platform</p>
-                <p className="text-sm text-gray-600">NDIS Connect helps you discover and connect with providers. Payment arrangements are made directly between you and your chosen provider using your NDIS funding.</p>
-              </div>
+            <div className="inline-block bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-200 max-w-3xl">
+              <p className="text-lg text-gray-700 leading-relaxed">
+                <strong>This process is designed to be simple, safe, and empowering</strong> — giving you real choice, real control, and real support.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" className="py-20 bg-white">
+      <section id="benefits" className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Why Choose Us</span>
+            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Why Choose Us</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               The NDIS Connect Difference
             </h2>
@@ -449,10 +607,10 @@ const FindSupportPage = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section id="testimonials" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Success Stories</span>
+            <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">Success Stories</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               What Our Community Says
             </h2>
@@ -490,10 +648,10 @@ const FindSupportPage = () => {
       </section>
 
       {/* FAQs */}
-      <section id="faqs" className="py-20 bg-white">
+      <section id="faqs" className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">Got Questions?</span>
+            <span className="text-sm font-semibold text-pink-600 uppercase tracking-wider">Got Questions?</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               Frequently Asked Questions
             </h2>
@@ -504,14 +662,29 @@ const FindSupportPage = () => {
 
           <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100">
-                <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-start">
-                  <span className="w-8 h-8 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 text-sm font-bold">
-                    Q
-                  </span>
-                  {faq.question}
-                </h3>
-                <p className="text-gray-600 leading-relaxed ml-11">{faq.answer}</p>
+              <div 
+                key={index} 
+                className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden"
+              >
+                <button
+                  onClick={() => setActiveQuestion(activeQuestion === index ? null : index)}
+                  className="w-full px-6 py-5 text-left flex items-center justify-between"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
+                  <svg 
+                    className={`w-6 h-6 text-teal-500 flex-shrink-0 transform transition-transform ${activeQuestion === index ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {activeQuestion === index && (
+                  <div className="px-6 pb-5">
+                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
