@@ -5,6 +5,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
+    { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Find Support', path: '/find-support' },
     { name: 'Provide Support', path: '/provide-support' },
