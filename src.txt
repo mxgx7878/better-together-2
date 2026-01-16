@@ -1,4 +1,4 @@
-// SRC BUNDLE 2026-01-15T10:38:05.916Z
+// SRC BUNDLE 2026-01-16T07:08:31.892Z
 
 /* FILE: src/App.jsx */
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -175,6 +175,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
+    { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Find Support', path: '/find-support' },
     { name: 'Provide Support', path: '/provide-support' },
@@ -3042,6 +3043,8 @@ const LandingPage = () => {
     satisfaction: 0
   });
 
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
   // Animated counter effect
   useEffect(() => {
     const duration = 2000;
@@ -3075,6 +3078,14 @@ const LandingPage = () => {
     }, interval);
 
     return () => clearInterval(timer);
+  }, []);
+
+  // Auto-rotate testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % 3);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const services = [
@@ -3129,8 +3140,8 @@ const LandingPage = () => {
     },
     {
       step: '03',
-      title: 'We Share Your Details',
-      description: 'With your permission, we provide your details to relevant providers.',
+      title: 'Connect Safely',
+      description: 'With your permission, we facilitate secure connections between you and providers.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -3140,8 +3151,8 @@ const LandingPage = () => {
     },
     {
       step: '04',
-      title: 'Providers Contact You',
-      description: 'Qualified providers will reach out to you with their service offerings.',
+      title: 'Build Relationships',
+      description: 'Qualified providers will reach out to you and you can choose who to work with.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -3151,7 +3162,83 @@ const LandingPage = () => {
     },
   ];
 
-  const features = [
+  const testimonials = [
+    {
+      name: 'Sarah M.',
+      role: 'NDIS Participant',
+      content: 'NDIS Connect made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
+      avatar: '👩',
+      rating: 5,
+    },
+    {
+      name: 'James K.',
+      role: 'Service Provider',
+      content: 'As a provider, this platform has connected me with participants who truly benefit from my services. It\'s a game-changer for growing my business.',
+      avatar: '👨‍⚕️',
+      rating: 5,
+    },
+    {
+      name: 'Michelle R.',
+      role: 'Support Coordinator',
+      content: 'I recommend NDIS Connect to all my clients. It gives them the tools to explore options and make informed choices about their support.',
+      avatar: '👩‍💼',
+      rating: 5,
+    },
+  ];
+
+  const differentiators = [
+    {
+      number: '01',
+      title: 'Led by Disabled People',
+      description: 'Not built about disabled people, but by disabled people. Lived experience drives every decision.',
+      icon: '👥',
+      color: 'from-purple-500 to-indigo-600',
+    },
+    {
+      number: '02',
+      title: 'Community First',
+      description: 'We prioritize connection, safety, and transparency over profits and metrics.',
+      icon: '❤️',
+      color: 'from-pink-500 to-rose-600',
+    },
+    {
+      number: '03',
+      title: 'No Commission Model',
+      description: 'Keep 100% of your earnings. We believe ethical connections shouldn\'t cost you.',
+      icon: '💰',
+      color: 'from-yellow-500 to-amber-500',
+    },
+    {
+      number: '04',
+      title: 'Ground-Up Approach',
+      description: 'We listen to the community, respond to real needs, and build tools that reflect lived realities.',
+      icon: '🌱',
+      color: 'from-green-500 to-teal-600',
+    },
+    {
+      number: '05',
+      title: 'Participants & Providers Unite',
+      description: 'We bring both sides together safely, because real change happens when everyone has a voice.',
+      icon: '🤝',
+      color: 'from-indigo-500 to-purple-600',
+    },
+    {
+      number: '06',
+      title: 'Support Beyond Services',
+      description: 'We help you understand the NDIS, navigate reviews, access advocacy, and feel confident in your rights.',
+      icon: '🎯',
+      color: 'from-orange-500 to-red-500',
+    },
+    {
+      number: '07',
+      title: 'Transparency & Accountability',
+      description: 'We build a culture where honesty is standard, whistleblowing is respected, and community safety comes first.',
+      icon: '🔒',
+      color: 'from-cyan-500 to-blue-600',
+    },
+  ];
+
+  const platformFeatures = [
     {
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3188,97 +3275,33 @@ const LandingPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       ),
-      title: '24/7 AI Support',
-      description: 'Get instant answers with our intelligent assistant',
+      title: '24/7 Support',
+      description: 'Get instant answers with our support team',
       color: 'bg-gradient-to-br from-pink-500 to-red-500'
     }
   ];
 
-  const testimonials = [
+  const trustIndicators = [
     {
-      name: 'Sarah M.',
-      role: 'NDIS Participant',
-      content: 'NDIS Connect made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
-      rating: 5,
-      image: '👩'
+      icon: '🛡️',
+      title: 'NDIS Quality & Safety',
+      description: 'We adhere to NDIS Quality and Safeguards Commission standards'
     },
     {
-      name: 'James K.',
-      role: 'Service Provider',
-      content: 'As a provider, this platform has connected me with participants who truly benefit from my services. It\'s a game-changer for growing my business.',
-      rating: 5,
-      image: '👨‍⚕️'
+      icon: '🔐',
+      title: 'Secure Platform',
+      description: 'Your data is encrypted and protected with industry-leading security'
     },
     {
-      name: 'Michelle R.',
-      role: 'Support Coordinator',
-      content: 'I recommend NDIS Connect to all my clients. It gives them the tools to explore options and make informed choices about their support.',
-      rating: 5,
-      image: '👩‍💼'
+      icon: '✅',
+      title: 'Verified Providers',
+      description: 'All providers undergo thorough verification before joining'
+    },
+    {
+      icon: '💯',
+      title: '98% Satisfaction',
+      description: 'Our community consistently rates us 5 stars for service quality'
     }
-  ];
-
-  const upcomingEvents = [
-    { 
-      id: 1, 
-      title: 'NDIS Information Session', 
-      date: 'Jan 20, 2026',
-      time: '10:00 AM - 12:00 PM',
-      location: 'Online Webinar',
-      category: 'Workshop',
-      color: 'from-purple-500 to-pink-500'
-    },
-    { 
-      id: 2, 
-      title: 'Provider Networking Event', 
-      date: 'Jan 25, 2026',
-      time: '2:00 PM - 5:00 PM',
-      location: 'Melbourne Convention Centre',
-      category: 'Networking',
-      color: 'from-green-500 to-teal-500'
-    },
-    { 
-      id: 3, 
-      title: 'Community Support Workshop', 
-      date: 'Feb 01, 2026',
-      time: '9:00 AM - 11:30 AM',
-      location: 'Sydney Community Hub',
-      category: 'Community',
-      color: 'from-orange-500 to-red-500'
-    },
-  ];
-
-  const pricingPlans = [
-    {
-      name: 'Basic',
-      price: 'Free',
-      description: 'Get started with essential features',
-      features: ['Browse provider profiles', 'Basic search', 'Community access', 'Event calendar'],
-      buttonText: 'Get Started',
-      buttonStyle: 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800',
-      highlight: false,
-    },
-    {
-      name: 'Premium',
-      price: '$29',
-      period: '/month',
-      description: 'Unlock all features with priority support',
-      features: ['Everything in Basic', 'Direct messaging', 'Featured listing', 'Advanced filters', 'Priority support'],
-      buttonText: 'Start Free Trial',
-      buttonStyle: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
-      highlight: true,
-      badge: 'MOST POPULAR',
-    },
-    {
-      name: 'Enterprise',
-      price: '$99',
-      period: '/month',
-      description: 'For organizations and teams',
-      features: ['Everything in Premium', 'Unlimited team members', 'Custom branding', 'API access', 'Dedicated manager'],
-      buttonText: 'Contact Sales',
-      buttonStyle: 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600',
-      highlight: false,
-    },
   ];
 
   return (
@@ -3372,7 +3395,7 @@ const LandingPage = () => {
                   </div>
                   
                   <div className="mt-6 space-y-3">
-                    {['Verified Providers', 'Secure Messaging', 'Community Events', 'AI Assistant'].map((item, index) => (
+                    {['Verified Providers', 'Secure Messaging', 'Community Events', 'Expert Support'].map((item, index) => (
                       <div key={index} className="flex items-center bg-white/10 rounded-lg px-3 py-2">
                         <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -3408,8 +3431,238 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Who We Help Section */}
+      {/* Mission Statement Section */}
       <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Our Purpose</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
+              Building Stronger NDIS Communities — Together
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-8"></div>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            {/* Main Mission Statement */}
+            <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-yellow-50 rounded-3xl p-10 mb-12 border-2 border-purple-200 shadow-xl">
+              <div className="text-center mb-8">
+                <div className="text-6xl mb-4">🌱</div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-6">
+                  Where Lived Experience Leads
+                </h3>
+              </div>
+              
+              <p className="text-xl text-gray-700 leading-relaxed mb-6 text-center">
+                We are an independent NDIS community platform designed to bring people together — providers, 
+                participants, families, and local specialists — to create stronger, more connected, and more 
+                supportive disability networks across Australia.
+              </p>
+
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided 
+                by people with disabilities</strong>. Provider practices, community spaces, and sector standards should 
+                be built through authentic co‑design, grounded in disability theory and the core principle that 
+                <strong> "nothing about us without us"</strong>.
+              </p>
+
+              <p className="text-lg text-gray-700 leading-relaxed text-center">
+                <strong>Our mission:</strong> To build a connected NDIS community where people, providers, and local 
+                networks grow stronger together — and where the sector is shaped by the very people it exists to serve.
+              </p>
+            </div>
+
+            {/* Mission Taglines - Grid of 3 */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { tagline: "Where lived experience leads, and a stronger NDIS grows from the ground up.", icon: '🌿' },
+                { tagline: "Many voices, one community — reshaping the NDIS with heart, dignity, and unity.", icon: '🌟' },
+                { tagline: "When people and providers stand together, the whole sector rises.", icon: '🤝' }
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100"
+                >
+                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <p className="text-gray-700 leading-relaxed italic">"{item.tagline}"</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section - Enhanced with light gradient */}
+      <section className="py-20 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-block mb-6">
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wide shadow-lg">
+                ✨ What Makes Us Different
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+              This Is Not a Marketplace
+            </h2>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600">
+              It's a Movement
+            </p>
+            <div className="w-32 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mt-8"></div>
+            <p className="text-xl text-gray-600 mt-6 max-w-3xl mx-auto">
+              We're not another directory or provider platform. We're building a community-driven ecosystem 
+              that puts lived experience at the heart of everything we do.
+            </p>
+          </div>
+
+          {/* Differentiators Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+            {differentiators.map((item, index) => (
+              <div
+                key={index}
+                className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100"
+              >
+                {/* Number badge */}
+                <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-xl">
+                  {item.number}
+                </div>
+
+                {/* Icon with gradient background */}
+                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl text-3xl mb-6 shadow-md`}>
+                  {item.icon}
+                </div>
+                
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* No One Left Behind Callout */}
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-3xl p-1 shadow-2xl">
+              <div className="bg-white rounded-3xl p-10">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full text-5xl mb-6">
+                    🛡️
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    No One Left Behind
+                  </h3>
+                  <p className="text-xl text-gray-700 leading-relaxed mb-8 max-w-3xl mx-auto">
+                    Our platform ensures that <strong>disabled people lead the conversation</strong>, lived experience 
+                    is treated as expertise, community replaces isolation, and no one navigates the system alone.
+                  </p>
+                  
+                  {/* Key commitments */}
+                  <div className="grid md:grid-cols-2 gap-6 mb-8">
+                    {[
+                      { icon: '👥', text: 'Disabled people lead every decision' },
+                      { icon: '💡', text: 'Lived experience drives innovation' },
+                      { icon: '🤝', text: 'Community replaces isolation' },
+                      { icon: '🎯', text: 'Support accessible at every level' }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-purple-200">
+                        <span className="text-3xl mr-3">{item.icon}</span>
+                        <span className="text-gray-700 font-medium text-left">{item.text}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    to="/about"
+                    className="inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
+                    Learn More About Our Mission
+                    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Values Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Our Values</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
+              Built on Strong Foundations
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Every decision we make is guided by our core commitment to community, transparency, and lived experience.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: '🌱',
+                title: 'Community First',
+                description: 'We prioritize genuine connections and collaborative growth over profit-driven metrics.',
+                color: 'from-green-400 to-teal-500'
+              },
+              {
+                icon: '💎',
+                title: 'Transparency',
+                description: 'Honesty is our standard. We build trust through open communication and accountability.',
+                color: 'from-blue-400 to-indigo-500'
+              },
+              {
+                icon: '🤝',
+                title: 'Equality',
+                description: 'Participants and providers meet as equals, fostering mutual respect and understanding.',
+                color: 'from-purple-400 to-pink-500'
+              },
+              {
+                icon: '🎯',
+                title: 'Empowerment',
+                description: 'We provide tools, knowledge, and support to help everyone make informed decisions.',
+                color: 'from-orange-400 to-red-500'
+              }
+            ].map((value, index) => (
+              <div
+                key={index}
+                className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100"
+              >
+                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${value.color} rounded-2xl text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform`}>
+                  {value.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{value.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Quote Section */}
+          <div className="mt-16 max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-purple-100 via-pink-100 to-orange-100 rounded-3xl p-8 md:p-12 border-2 border-purple-200">
+              <div className="text-center">
+                <svg className="w-12 h-12 text-purple-400 mx-auto mb-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 leading-relaxed mb-6 italic">
+                  "It only takes one person to spark change — but when a community stands together, 
+                  transformation becomes unstoppable."
+                </p>
+                <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-4"></div>
+                <p className="text-lg text-gray-600 font-semibold">Sue Dymond, Founder</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Who We Help Section */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Who We Help</span>
@@ -3489,7 +3742,7 @@ const LandingPage = () => {
                     <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Keep 100% of your earnings – no commission
+                    Keep 100% of your earnings — no commission
                   </li>
                   <li className="flex items-center text-gray-700">
                     <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3513,11 +3766,11 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      {/* Services Preview Section */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">Our Services</span>
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">What We Offer</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               NDIS Services You Can Find
             </h2>
@@ -3556,15 +3809,15 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">How It Works</span>
+            <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">Simple Process</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Simple Steps to Get Connected
+              How It Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you're ready to go or just starting your journey, we're here to help
+              Connect with quality NDIS support in four simple steps
             </p>
           </div>
 
@@ -3608,8 +3861,8 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      {/* Platform Features Section */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Platform Features</span>
@@ -3622,7 +3875,7 @@ const LandingPage = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {platformFeatures.map((feature, index) => (
               <div
                 key={index}
                 className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
@@ -3650,169 +3903,178 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-white">
+      {/* Trust & Safety Section */}
+      <section className="py-20 bg-gradient-to-br from-green-50 via-teal-50 to-cyan-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Success Stories</span>
+            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Trust & Safety</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              What Our Community Says
+              Your Safety Is Our Priority
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Real experiences from real people in the NDIS Connect community
+              We're committed to providing a secure, trusted platform for everyone
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div 
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {trustIndicators.map((indicator, index) => (
+              <div
                 key={index}
-                className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200"
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-green-200 text-center transform hover:-translate-y-2"
               >
-                <div className="flex items-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-3xl mr-4">
-                    {testimonial.image}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 text-lg">{testimonial.name}</h4>
-                    <p className="text-gray-600 text-sm">{testimonial.role}</p>
-                  </div>
-                </div>
+                <div className="text-5xl mb-4">{indicator.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{indicator.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{indicator.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+      {/* Testimonials Carousel */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">Success Stories</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
+              What Our Community Says
+            </h2>
+            <p className="text-xl text-gray-600">Real experiences from real people in the NDIS Connect community</p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-12 shadow-2xl border-2 border-purple-200">
+              {/* Testimonial Content */}
+              <div className="text-center mb-8">
+                <div className="text-6xl mb-6">{testimonials[activeTestimonial].avatar}</div>
+                
+                <div className="flex justify-center mb-6">
+                  {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
+                    <svg key={i} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
 
-                <p className="text-gray-600 leading-relaxed italic">"{testimonial.content}"</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                <p className="text-xl text-gray-700 italic leading-relaxed mb-8">
+                  "{testimonials[activeTestimonial].content}"
+                </p>
 
-      {/* Upcoming Events Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-pink-600 uppercase tracking-wider">Stay Connected</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Upcoming Events & Workshops
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Join our community events, information sessions, and networking opportunities
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {upcomingEvents.map((event) => (
-              <div 
-                key={event.id} 
-                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200"
-              >
-                {/* Event header with gradient */}
-                <div className={`bg-gradient-to-r ${event.color} p-6 text-white relative overflow-hidden`}>
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-                  <div className="relative z-10">
-                    <span className="inline-block bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold mb-3">
-                      {event.category}
-                    </span>
-                    <h3 className="text-2xl font-bold mb-2">{event.title}</h3>
-                  </div>
-                </div>
-
-                {/* Event details */}
-                <div className="p-6">
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center text-gray-600">
-                      <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span className="font-medium">{event.date}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600">
-                      <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      </svg>
-                      <span>{event.location}</span>
-                    </div>
-                  </div>
-
-                  <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover:scale-105">
-                    Register Now
-                  </button>
+                <div>
+                  <h4 className="text-2xl font-bold text-gray-900">{testimonials[activeTestimonial].name}</h4>
+                  <p className="text-purple-600 font-semibold">{testimonials[activeTestimonial].role}</p>
                 </div>
               </div>
-            ))}
+
+              {/* Dots */}
+              <div className="flex justify-center gap-3">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveTestimonial(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === activeTestimonial
+                        ? 'bg-purple-600 w-8'
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Pricing Preview Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Flexible Pricing</span>
+            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Flexible Plans</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Plans for Everyone
+              Start Free, Upgrade Anytime
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Start free and upgrade as you grow. Find the perfect plan for your needs.
+              Choose the plan that fits your needs. No credit card required to get started.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative bg-white rounded-2xl overflow-hidden transition-all duration-300 ${
-                  plan.highlight 
-                    ? 'shadow-2xl ring-4 ring-purple-500 transform scale-105 z-10' 
-                    : 'shadow-lg hover:shadow-xl'
-                }`}
+            {/* Free Tier */}
+            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8 shadow-lg border-2 border-green-200">
+              <div className="text-4xl mb-4">🌱</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Free</h3>
+              <p className="text-4xl font-extrabold text-gray-900 mb-2">$0<span className="text-lg font-normal text-gray-600">/month</span></p>
+              <p className="text-gray-600 mb-6">Perfect to get started</p>
+              <ul className="space-y-3 mb-8">
+                {['Browse providers', 'Post requests', 'Community access', 'Basic messaging'].map((feature, i) => (
+                  <li key={i} className="flex items-center text-gray-700">
+                    <svg className="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                to="/subscription"
+                className="block w-full bg-gradient-to-r from-green-500 to-teal-500 text-white py-3 px-6 rounded-xl font-bold text-center hover:from-green-600 hover:to-teal-600 transition-all duration-300 shadow-lg"
               >
-                {plan.badge && (
-                  <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 px-4 py-1 rounded-bl-xl font-bold text-xs">
-                    {plan.badge}
-                  </div>
-                )}
+                Get Started Free
+              </Link>
+            </div>
 
-                <div className={`p-8 ${plan.highlight ? 'bg-gradient-to-br from-purple-50 to-pink-50' : 'bg-gray-50'}`}>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                  <div className="flex items-baseline mb-2">
-                    <span className="text-4xl font-extrabold text-gray-900">{plan.price}</span>
-                    {plan.period && <span className="text-gray-600 ml-1">{plan.period}</span>}
-                  </div>
-                  <p className="text-gray-600 text-sm">{plan.description}</p>
-                </div>
-
-                <div className="p-8">
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-gray-700 text-sm">
-                        <svg className="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button className={`w-full ${plan.buttonStyle} text-white py-3 px-6 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl`}>
-                    {plan.buttonText}
-                  </button>
-                </div>
+            {/* Growth Tier */}
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 shadow-2xl border-2 border-purple-500 relative transform scale-105">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-4 py-1 rounded-full text-sm font-bold">
+                  MOST POPULAR
+                </span>
               </div>
-            ))}
+              <div className="text-4xl mb-4">📈</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Growth</h3>
+              <p className="text-4xl font-extrabold text-gray-900 mb-2">$49<span className="text-lg font-normal text-gray-600">/month</span></p>
+              <p className="text-gray-600 mb-6">For growing businesses</p>
+              <ul className="space-y-3 mb-8">
+                {['Everything in Free', 'Priority support', 'Advanced analytics', 'Featured listing', 'Direct referrals'].map((feature, i) => (
+                  <li key={i} className="flex items-center text-gray-700">
+                    <svg className="w-5 h-5 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                to="/subscription"
+                className="block w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-bold text-center hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg"
+              >
+                Start Growing
+              </Link>
+            </div>
+
+            {/* Premium Tier */}
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8 shadow-lg border-2 border-orange-200">
+              <div className="text-4xl mb-4">⭐</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Premium</h3>
+              <p className="text-4xl font-extrabold text-gray-900 mb-2">$99<span className="text-lg font-normal text-gray-600">/month</span></p>
+              <p className="text-gray-600 mb-6">Maximum visibility</p>
+              <ul className="space-y-3 mb-8">
+                {['Everything in Growth', 'Priority placement', 'Dedicated support', 'Custom branding', 'Performance reports'].map((feature, i) => (
+                  <li key={i} className="flex items-center text-gray-700">
+                    <svg className="w-5 h-5 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                to="/subscription"
+                className="block w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-6 rounded-xl font-bold text-center hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg"
+              >
+                Go Premium
+              </Link>
+            </div>
           </div>
 
           <div className="mt-12 text-center">
@@ -3830,7 +4092,7 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 bg-gradient-to-r from-purple-900 via-pink-800 to-red-800 text-white overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-purple-900 via-pink-800 to-red-800 text-white relative overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{

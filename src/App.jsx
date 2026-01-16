@@ -9,10 +9,12 @@ import ProvideSupportPage from './pages/ProvideSupportPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
