@@ -28,10 +28,10 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* About Section */}
           <div>
-             <h3 className="text-lg font-bold mb-4">Better Together Network</h3>
-              <p className="text-sm text-gray-300 mb-4">
-                Partnering for Success
-              </p>
+            <h3 className="text-lg font-bold mb-4">Better Together Network</h3>
+            <p className="text-sm text-gray-300 mb-4">
+              Connecting participants and providers through community-driven solutions
+            </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
                 <a
@@ -81,7 +81,7 @@ const Footer = () => {
                 <svg className="w-5 h-5 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                info@ndisconnect.com
+                info@bettertogether.com
               </li>
               <li className="flex items-start">
                 <svg className="w-5 h-5 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@ const Footer = () => {
         {/* Supporting Organizations */}
         <div className="border-t border-purple-400 pt-8">
           <h4 className="text-center text-sm font-semibold mb-4">SUPPORTED BY</h4>
-          <div className="flex justify-center items-center space-x-8 flex-wrap">
+          <div className="flex justify-center items-center space-x-8 flex-wrap gap-4">
             <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center text-gray-400 text-xs">
               Logo 1
             </div>
