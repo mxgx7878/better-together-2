@@ -81,7 +81,7 @@ const AboutPage = () => {
     {
       number: '05',
       title: 'Support Beyond Services',
-      description: 'We don\'t just help people find supports. We help them understand the NDIS, navigate reviews, access advocacy, and feel confident in their rights. We also help providers grow ethically, connect locally, and build sustainable businesses.',
+      description: 'We don\'t just help people Participantss. We help them understand the NDIS, navigate reviews, access advocacy, and feel confident in their rights. We also help providers grow ethically, connect locally, and build sustainable businesses.',
       icon: '🎯',
       color: 'from-orange-500 to-amber-600',
     },
@@ -122,7 +122,7 @@ const AboutPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🌟 About NDIS Connect
+              🌟 About Better Together Network
             </span>
           </div>
           

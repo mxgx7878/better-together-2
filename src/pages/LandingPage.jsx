@@ -2,50 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
-  // State for animated counter
-  const [counters, setCounters] = useState({
-    providers: 0,
-    participants: 0,
-    connections: 0,
-    satisfaction: 0
-  });
-
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-
-  // Animated counter effect
-  useEffect(() => {
-    const duration = 2000;
-    const steps = 60;
-    const interval = duration / steps;
-    
-    const targets = {
-      providers: 1500,
-      participants: 10000,
-      connections: 50000,
-      satisfaction: 98
-    };
-
-    let currentStep = 0;
-
-    const timer = setInterval(() => {
-      currentStep++;
-      const progress = currentStep / steps;
-      
-      setCounters({
-        providers: Math.floor(targets.providers * progress),
-        participants: Math.floor(targets.participants * progress),
-        connections: Math.floor(targets.connections * progress),
-        satisfaction: Math.floor(targets.satisfaction * progress)
-      });
-
-      if (currentStep >= steps) {
-        clearInterval(timer);
-        setCounters(targets);
-      }
-    }, interval);
-
-    return () => clearInterval(timer);
-  }, []);
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -133,7 +90,7 @@ const LandingPage = () => {
     {
       name: 'Sarah M.',
       role: 'NDIS Participant',
-      content: 'NDIS Connect made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
+      content: 'Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
       avatar: '👩',
       rating: 5,
     },
@@ -147,12 +104,13 @@ const LandingPage = () => {
     {
       name: 'Michelle R.',
       role: 'Support Coordinator',
-      content: 'I recommend NDIS Connect to all my clients. It gives them the tools to explore options and make informed choices about their support.',
+      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
       avatar: '👩‍💼',
       rating: 5,
     },
   ];
 
+  // FIXED: Reduced to 6 items for even grid (2 rows of 3)
   const differentiators = [
     {
       number: '01',
@@ -191,17 +149,50 @@ const LandingPage = () => {
     },
     {
       number: '06',
-      title: 'Support Beyond Services',
-      description: 'We help you understand the NDIS, navigate reviews, access advocacy, and feel confident in your rights.',
-      icon: '🎯',
-      color: 'from-orange-500 to-red-500',
-    },
-    {
-      number: '07',
       title: 'Transparency & Accountability',
       description: 'We build a culture where honesty is standard, whistleblowing is respected, and community safety comes first.',
       icon: '🔒',
       color: 'from-cyan-500 to-blue-600',
+    },
+  ];
+
+  // FIXED: Added 6th vision point for even grid (2 rows of 3)
+  const visionPoints = [
+    {
+      icon: '🤝',
+      title: 'Providers Support Each Other',
+      description: 'Collaboration becomes the norm, not the exception.',
+      color: 'from-blue-500 to-indigo-600',
+    },
+    {
+      icon: '🔍',
+      title: 'Easy Access to Trusted Services',
+      description: 'Real choice and control are strengthened through genuine, transparent connections.',
+      color: 'from-green-500 to-teal-600',
+    },
+    {
+      icon: '🏘️',
+      title: 'Local Relationships Valued',
+      description: 'Communities thrive when people know, trust, and support one another.',
+      color: 'from-purple-500 to-pink-600',
+    },
+    {
+      icon: '✨',
+      title: 'Trust & Transparency First',
+      description: 'We prioritise integrity, lived experience, and the voices of people with disability.',
+      color: 'from-orange-500 to-red-500',
+    },
+    {
+      icon: '💪',
+      title: 'Connected & Empowered',
+      description: 'Everyone deserves access to clear information, respectful support, and a community that listens.',
+      color: 'from-cyan-500 to-blue-600',
+    },
+    {
+      icon: '🎯',
+      title: 'Support Beyond Services',
+      description: 'We help you understand the NDIS, navigate reviews, access advocacy, and feel confident in your rights.',
+      color: 'from-yellow-500 to-amber-500',
     },
   ];
 
@@ -282,111 +273,74 @@ const LandingPage = () => {
           <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left content */}
-            <div className="text-center lg:text-left z-10">
-              <div className="inline-block mb-4">
-                <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-                  🎉 Connecting Communities
-                </span>
-              </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40">
+          <div className="text-center max-w-5xl mx-auto">
+            
+            {/* Main Heading */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-tight">
+              Reimagining Disability with the Power of 
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
+                Local Communities
+              </span>
+            </h1>
+
+            {/* Description */}
+            <p className="text-lg md:text-xl mb-16 text-gray-200 leading-relaxed max-w-4xl mx-auto">
+              We are an independent NDIS community platform dedicated to placing local connection at the heart of everything we do. By uniting participants, providers, families, and local specialists, we aim to foster stronger, more connected, and truly supportive disability communities throughout Australia.
+            </p>
+
+            {/* Explore Our Platform */}
+            <div className="mb-12">
+              <h2 className="text-3xl font-bold mb-10">Explore Our Platform</h2>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
-                Your Gateway to
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
-                  Quality NDIS Care
-                </span>
-              </h1>
-              
-              <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-                Empowering participants with choice. Connecting providers with purpose. 
-                Building stronger communities together.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link 
-                  to="/find-support"
-                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-gray-900 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-yellow-500/50"
-                >
-                  <span className="relative z-10 flex items-center">
-                    Find Support
-                    <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </span>
-                </Link>
+              <div className="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
                 
-                <Link
-                  to="/provide-support"
-                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 shadow-lg"
-                >
-                  Become a Provider
-                </Link>
-              </div>
+                {/* Participants */}
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-3 h-3 bg-yellow-400 rounded-full mt-2 mr-4"></div>
+                    <div>
+                      <h3 className="text-2xl font-bold mb-3">Participants</h3>
+                      <p className="text-gray-200 leading-relaxed">
+                        Discover information tailored to your experience as a participant. Learn how you can connect with your local community and access the support you need.
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-              {/* Quick Stats */}
-              <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-                  <div className="text-2xl md:text-3xl font-bold text-yellow-400">{counters.providers.toLocaleString()}+</div>
-                  <div className="text-xs text-gray-300 mt-1">Providers</div>
+                {/* Providers */}
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-3 h-3 bg-yellow-400 rounded-full mt-2 mr-4"></div>
+                    <div>
+                      <h3 className="text-2xl font-bold mb-3">Providers</h3>
+                      <p className="text-gray-200 leading-relaxed">
+                        Access resources and details designed for providers and connect with people who are looking for support. Find out how you can contribute to and benefit from our supportive local network.
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-                  <div className="text-2xl md:text-3xl font-bold text-yellow-400">{counters.participants.toLocaleString()}+</div>
-                  <div className="text-xs text-gray-300 mt-1">Participants</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-                  <div className="text-2xl md:text-3xl font-bold text-yellow-400">{counters.connections.toLocaleString()}+</div>
-                  <div className="text-xs text-gray-300 mt-1">Connections</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-                  <div className="text-2xl md:text-3xl font-bold text-yellow-400">{counters.satisfaction}%</div>
-                  <div className="text-xs text-gray-300 mt-1">Satisfaction</div>
-                </div>
+
               </div>
             </div>
 
-            {/* Right content - Feature highlight cards */}
-            <div className="hidden lg:block relative z-10">
-              <div className="relative">
-                {/* Main card */}
-                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-300">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center text-3xl">
-                      🤝
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-2">Seamless Connection</h3>
-                      <p className="text-gray-200">Find and connect with quality providers in minutes, not weeks.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6 space-y-3">
-                    {['Verified Providers', 'Secure Messaging', 'Community Events', 'Expert Support'].map((item, index) => (
-                      <div key={index} className="flex items-center bg-white/10 rounded-lg px-3 py-2">
-                        <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span className="text-sm">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Secondary card */}
-                <div className="absolute -bottom-6 -right-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 shadow-2xl max-w-xs transform -rotate-2 hover:rotate-0 transition-transform duration-300">
-                  <div className="flex items-center space-x-3">
-                    <div className="flex-shrink-0 w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center text-2xl">
-                      ✨
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-white/80">Trusted by</div>
-                      <div className="text-2xl font-bold">10,000+ Users</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+              <Link
+                to="/find-support"
+                className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-10 py-5 rounded-xl text-lg font-bold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-2"
+              >
+                Participants
+                <span>→</span>
+              </Link>
+              <Link
+                to="/provide-support"
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-10 py-5 rounded-xl text-lg font-bold transition-all duration-200 transform hover:scale-105"
+              >
+                Providers
+              </Link>
             </div>
+
           </div>
         </div>
 
@@ -486,7 +440,7 @@ const LandingPage = () => {
             </p>
           </div>
 
-          {/* Differentiators Grid */}
+          {/* Differentiators Grid - FIXED: Now 6 items in 2 rows of 3 */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
             {differentiators.map((item, index) => (
               <div
@@ -637,7 +591,7 @@ const LandingPage = () => {
               Connecting Participants & Providers
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you're seeking support or providing services, NDIS Connect brings the community together.
+              Whether you're seeking support or providing services, Better Together Network brings the community together.
             </p>
           </div>
 
@@ -678,7 +632,7 @@ const LandingPage = () => {
                   to="/find-support"
                   className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-xl font-bold hover:from-teal-600 hover:to-cyan-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
-                  Find Support
+                  Participants
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -686,14 +640,14 @@ const LandingPage = () => {
               </div>
             </div>
 
-            {/* For Providers */}
+            {/* For Providers - FIXED HEADING */}
             <div className="group relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 shadow-lg hover:shadow-2xl transition-all duration-300 border border-purple-200 overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500 rounded-full opacity-10 -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-500"></div>
               <div className="relative z-10">
                 <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-lg">
                   🏢
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Want to Provide Support?</h3>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Are you providing support?</h3>
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
                   Join our network and connect with thousands of NDIS participants. Build your profile, 
                   respond to requests, and grow your business.
@@ -722,7 +676,7 @@ const LandingPage = () => {
                   to="/provide-support"
                   className="inline-flex items-center bg-gradient-to-r from-purple-500 to-pink-600 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-600 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
-                  Become a Provider
+                  Providers
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -870,6 +824,38 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Our Vision Section - FIXED: Added 6th point */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Our Vision</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
+              A Connected, Local, Inclusive NDIS Community
+            </h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+              We are creating a community where no one stands alone — not providers, not participants, not families. 
+              A community where connection replaces isolation, and collaboration replaces competition.
+            </p>
+          </div>
+
+          {/* Vision Points - FIXED: Now 6 items in 2 rows of 3 */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {visionPoints.map((point, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+              >
+                <div className={`bg-gradient-to-br ${point.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg`}>
+                  {point.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{point.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{point.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Trust & Safety Section */}
       <section className="py-20 bg-gradient-to-br from-green-50 via-teal-50 to-cyan-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -906,7 +892,7 @@ const LandingPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
               What Our Community Says
             </h2>
-            <p className="text-xl text-gray-600">Real experiences from real people in the NDIS Connect community</p>
+            <p className="text-xl text-gray-600">Real experiences from real people in the Better Together Network community</p>
           </div>
 
           <div className="max-w-4xl mx-auto">
@@ -1084,7 +1070,7 @@ const LandingPage = () => {
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
             Join thousands of participants and providers who have already discovered 
-            the power of meaningful connections through NDIS Connect.
+            the power of meaningful connections through Better Together Network.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -1093,7 +1079,7 @@ const LandingPage = () => {
               className="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-gray-900 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-yellow-500/50"
             >
               <span className="relative z-10 flex items-center">
-                Find Support
+                Participants
                 <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -1104,7 +1090,7 @@ const LandingPage = () => {
               to="/provide-support"
               className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-2xl hover:bg-white/20 transition-all duration-300 shadow-lg"
             >
-              Become a Provider
+              Providers
             </Link>
           </div>
 

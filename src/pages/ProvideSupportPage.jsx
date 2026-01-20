@@ -232,11 +232,11 @@ const ProvideSupportPage = () => {
     },
     {
       question: 'Do I need to be NDIS registered?',
-      answer: 'Both registered and non-registered providers can join NDIS Connect. We encourage you to display your registration status on your profile so participants can make informed decisions.',
+      answer: 'Both registered and non-registered providers can join Better Together Network. We encourage you to display your registration status on your profile so participants can make informed decisions.',
     },
     {
       question: 'How do payments work?',
-      answer: 'NDIS Connect is a connection platform — we help you find and connect with participants. Payment arrangements are made directly between you and your clients. We don\'t handle payments or take a cut of your earnings.',
+      answer: 'Better Together Network is a connection platform — we help you find and connect with participants. Payment arrangements are made directly between you and your clients. We don\'t handle payments or take a cut of your earnings.',
     },
     {
       question: 'What services can I offer?',
@@ -257,7 +257,7 @@ const ProvideSupportPage = () => {
       name: 'Rebecca T.',
       role: 'Support Coordinator',
       business: 'Care Connect Services',
-      content: 'NDIS Connect has been fantastic for growing my support coordination business. The job board helps me find clients who need my specific expertise.',
+      content: 'Better Together Network has been fantastic for growing my support coordination business. The job board helps me find clients who need my specific expertise.',
       rating: 5,
       avatar: '👩‍💼',
     },
@@ -461,7 +461,7 @@ const ProvideSupportPage = () => {
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Before You Join</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Is NDIS Connect Right for You?
+              Is Better Together Network Right for You?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our platform helps providers connect with participants. Here's what you should know.
@@ -516,7 +516,7 @@ const ProvideSupportPage = () => {
               <span className="text-3xl mr-4">🔗</span>
               <div className="text-left">
                 <p className="font-bold text-gray-900">Connection Platform</p>
-                <p className="text-sm text-gray-600">NDIS Connect is a connection platform. We help you find participants, but don't handle payments. You keep 100% of what you earn from clients.</p>
+                <p className="text-sm text-gray-600">Better Together Network is a connection platform. We help you find participants, but don't handle payments. You keep 100% of what you earn from clients.</p>
               </div>
             </div>
           </div>
@@ -655,7 +655,7 @@ const ProvideSupportPage = () => {
               What Providers Say
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from providers who've grown their business with NDIS Connect.
+              Hear from providers who've grown their business with Better Together Network.
             </p>
           </div>
 
@@ -757,7 +757,7 @@ const ProvideSupportPage = () => {
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join 1,500+ providers already growing their NDIS business through NDIS Connect. 
+            Join 1,500+ providers already growing their NDIS business through Better Together Network. 
             Build your profile and start receiving enquiries.
           </p>
           

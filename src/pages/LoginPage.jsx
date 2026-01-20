@@ -341,7 +341,7 @@ const LoginPage = () => {
               </div>
             </div>
             <p className="text-gray-200 italic">
-              "NDIS Connect made finding the right provider so much easier. I found my perfect match within days!"
+              "Better Together Network made finding the right provider so much easier. I found my perfect match within days!"
             </p>
           </div>
         </div>

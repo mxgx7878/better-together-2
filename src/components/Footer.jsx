@@ -28,10 +28,10 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* About Section */}
           <div>
-            <h3 className="text-xl font-bold mb-4">NDIS Connect</h3>
-            <p className="text-gray-200 mb-4">
-              Empowering participants and providers through innovative digital solutions.
-            </p>
+             <h3 className="text-lg font-bold mb-4">Better Together Network</h3>
+              <p className="text-sm text-gray-300 mb-4">
+                Partnering for Success
+              </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
                 <a
@@ -118,7 +118,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="border-t border-purple-400 mt-8 pt-8 text-center text-gray-200">
-          <p>&copy; {new Date().getFullYear()} NDIS Connect. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Better Together Network. All rights reserved.</p>
         </div>
       </div>
     </footer>

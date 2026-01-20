@@ -400,7 +400,7 @@ const FeaturesPage = () => {
                 Features for NDIS Participants
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Simple, accessible tools designed to help you find support, 
+                Simple, accessible tools designed to help you Participants, 
                 connect with providers, and take control of your NDIS journey.
               </p>
             </div>

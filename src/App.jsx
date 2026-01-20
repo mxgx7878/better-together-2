@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './pages/LandingPage';
+import LandingPage2 from './pages/LandingPage2';
 import AboutPage from './pages/AboutPage';
 import FeaturesPage from './pages/FeaturesPage';
 import FindSupportPage from './pages/FindSupportPage';
@@ -27,6 +28,7 @@ function App() {
             <Route path="/subscription" element={<SubscriptionPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/landing2" element={<LandingPage2 />} />
           </Routes>
         </main>
         <Footer />

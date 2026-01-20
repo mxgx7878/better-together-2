@@ -234,7 +234,7 @@ const FindSupportPage = () => {
 
   const faqs = [
     {
-      question: 'Is NDIS Connect free to use?',
+      question: 'Is Better Together Network free to use?',
       answer: 'Yes! You can create a profile and browse providers for free. We offer premium subscriptions with additional features like direct messaging, advocacy support, and advanced guidance.',
     },
     {
@@ -247,7 +247,7 @@ const FindSupportPage = () => {
     },
     {
       question: 'How do payments work?',
-      answer: 'NDIS Connect is a connection platform only. We help you find and connect with providers, but payment arrangements are made directly between you and your chosen provider.',
+      answer: 'Better Together Network is a connection platform only. We help you find and connect with providers, but payment arrangements are made directly between you and your chosen provider.',
     },
     {
       question: 'Can I use my NDIS funding?',
@@ -263,21 +263,21 @@ const FindSupportPage = () => {
     {
       name: 'Sarah M.',
       role: 'NDIS Participant',
-      content: 'NDIS Connect made it so easy to find support workers in my area. I love being able to see provider profiles and choose who I want to work with.',
+      content: 'Better Together Network made it so easy to Participants workers in my area. I love being able to see provider profiles and choose who I want to work with.',
       rating: 5,
       avatar: '👩',
     },
     {
       name: 'David L.',
       role: 'Parent & Carer',
-      content: 'Finding the right therapy services for my son was overwhelming until we found NDIS Connect. The search filters helped us find exactly what we needed.',
+      content: 'Finding the right therapy services for my son was overwhelming until we found Better Together Network. The search filters helped us find exactly what we needed.',
       rating: 5,
       avatar: '👨',
     },
     {
       name: 'Michelle K.',
       role: 'Support Coordinator',
-      content: 'I recommend NDIS Connect to all my clients. It gives them the tools to explore their options and make informed choices about their support.',
+      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore their options and make informed choices about their support.',
       rating: 5,
       avatar: '👩‍💼',
     },
@@ -299,7 +299,7 @@ const FindSupportPage = () => {
             <div className="text-center lg:text-left">
               <div className="inline-block mb-4">
                 <span className="bg-teal-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-                  🔍 Find Support
+                  🔍 Participants
                 </span>
               </div>
               
@@ -585,7 +585,7 @@ const FindSupportPage = () => {
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Why Choose Us</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              The NDIS Connect Difference
+              The Better Together Network Difference
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We're dedicated to giving you choice and control over your support journey.
@@ -615,7 +615,7 @@ const FindSupportPage = () => {
               What Our Community Says
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from participants who've found their support through NDIS Connect.
+              Hear from participants who've found their support through Better Together Network.
             </p>
           </div>
 
@@ -716,7 +716,7 @@ const FindSupportPage = () => {
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of NDIS participants who've found quality support through NDIS Connect. It's free to get started.
+            Join thousands of NDIS participants who've found quality support through Better Together Network. It's free to get started.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
