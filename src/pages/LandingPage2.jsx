@@ -29,7 +29,7 @@ const LandingPage2 = () => {
       description: "We are an independent NDIS community platform dedicated to placing local connection at the heart of everything we do.",
       image: "/uploads/hero-community.jpg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
-      secondaryBtn: { text: "Provide Support", link: "/provide-support" }
+      secondaryBtn: { text: "Become a Provider", link: "/provide-support" }
     },
     {
       title: "Where Lived Experience",
@@ -59,17 +59,17 @@ const LandingPage2 = () => {
     {
       title: 'Therapy Services',
       description: 'Connect with occupational therapists, speech pathologists, and more.',
-      image: '/uploads/service-therapy.jpg',
+      image: '/uploads/service-therapy.png',
     },
     {
       title: 'Social & Community',
       description: 'Participate in social activities and community events with support.',
-      image: '/uploads/service-social.jpg',
+      image: '/uploads/service-social.png',
     },
     {
       title: 'Support Coordination',
       description: 'Get help navigating and managing your NDIS plan effectively.',
-      image: '/uploads/service-coordination.jpg',
+      image: '/uploads/service-coordination.png',
     },
   ];
 
@@ -569,7 +569,7 @@ const LandingPage2 = () => {
 
               {/* Content Overlay */}
               <div className="absolute inset-0 flex flex-col justify-end p-8">
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Providing Support?</h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Become a Provider</h3>
                 <p className="text-lg text-white/90 mb-6 leading-relaxed">
                   Join our network and connect with thousands of NDIS participants. Build your profile, 
                   respond to requests, and grow your business.
