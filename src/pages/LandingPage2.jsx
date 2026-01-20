@@ -1,28 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage2 = () => {
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  // Auto-rotate hero slides every 6 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveHeroSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Auto-rotate testimonials every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Hero Slider Data
-  const heroSlides = [
+  // Hero Slider Data - memoized to prevent recreation on each render
+  const heroSlides = useMemo(() => [
     {
       title: "Reimagining Disability",
       subtitle: "With the Power of Local Communities",
@@ -47,34 +31,85 @@ const LandingPage2 = () => {
       primaryBtn: { text: "Get Started", link: "/subscription" },
       secondaryBtn: { text: "Contact Us", link: "/contact" }
     }
-  ];
+  ], []);
+
+  // Testimonials - memoized
+  const testimonials = useMemo(() => [
+    {
+      name: 'Sarah M.',
+      role: 'NDIS Participant',
+      content: 'Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
+      image: '/uploads/testimonial-sarah.jpg',
+      rating: 5,
+    },
+    {
+      name: 'James K.',
+      role: 'Service Provider',
+      content: 'As a provider, this platform has connected me with participants who truly benefit from my services. It\'s a game-changer for growing my business.',
+      image: '/uploads/testimonial-james.jpg',
+      rating: 5,
+    },
+    {
+      name: 'Michelle R.',
+      role: 'Support Coordinator',
+      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
+      image: '/uploads/testimonial-michelle.jpg',
+      rating: 5,
+    },
+  ], []);
+
+  // Auto-rotate hero slides every 6 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveHeroSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [heroSlides.length]);
+
+  // Auto-rotate testimonials every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
+
+  // Fallback image handler - memoized to prevent recreation
+  const handleImageError = useCallback((e, fallbackColor, fallbackText) => {
+    e.target.onerror = null; // Prevent infinite loop
+    e.target.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect width="800" height="600" fill="%23${fallbackColor}"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dominant-baseline="middle"%3E${encodeURIComponent(fallbackText)}%3C/text%3E%3C/svg%3E`;
+  }, []);
 
   // Services with Images
-  const services = [
+  const services = useMemo(() => [
     {
       title: 'Daily Living Support',
       description: 'Help with everyday tasks like cooking, cleaning, and household management.',
       image: '/uploads/service-daily-living.jpg',
+      color: '3b82f6',
     },
     {
       title: 'Therapy Services',
       description: 'Connect with occupational therapists, speech pathologists, and more.',
       image: '/uploads/service-therapy.png',
+      color: 'f97316',
     },
     {
       title: 'Social & Community',
       description: 'Participate in social activities and community events with support.',
       image: '/uploads/service-social.png',
+      color: 'a855f7',
     },
     {
       title: 'Support Coordination',
       description: 'Get help navigating and managing your NDIS plan effectively.',
       image: '/uploads/service-coordination.png',
+      color: '14b8a6',
     },
-  ];
+  ], []);
 
   // How It Works with Images
-  const howItWorks = [
+  const howItWorks = useMemo(() => [
     {
       step: '01',
       title: 'Tell Us What You Need',
@@ -99,93 +134,111 @@ const LandingPage2 = () => {
       description: 'Qualified providers will reach out to you and you can choose who to work with.',
       image: '/uploads/step-relationship.jpg',
     },
-  ];
-
-  // Testimonials with Images
-  const testimonials = [
-    {
-      name: 'Sarah M.',
-      role: 'NDIS Participant',
-      content: 'Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
-      image: '/uploads/testimonial-sarah.jpg',
-      rating: 5,
-    },
-    {
-      name: 'James K.',
-      role: 'Service Provider',
-      content: 'As a provider, this platform has connected me with participants who truly benefit from my services. It\'s a game-changer for growing my business.',
-      image: '/uploads/testimonial-james.jpg',
-      rating: 5,
-    },
-    {
-      name: 'Michelle R.',
-      role: 'Support Coordinator',
-      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
-      image: '/uploads/testimonial-michelle.jpg',
-      rating: 5,
-    },
-  ];
+  ], []);
 
   // Differentiators with Images
-  const differentiators = [
+  const differentiators = useMemo(() => [
     {
       title: 'Led by Disabled People',
       description: 'Not built about disabled people, but by disabled people. Lived experience drives every decision.',
       image: '/uploads/value-leadership.jpg',
+      color: 'a855f7',
     },
     {
       title: 'Community First',
       description: 'We prioritize connection, safety, and transparency over profits and metrics.',
       image: '/uploads/value-community.jpg',
+      color: 'ec4899',
     },
     {
       title: 'No Commission Model',
       description: 'Keep 100% of your earnings. We believe ethical connections shouldn\'t cost you.',
       image: '/uploads/value-commission.jpg',
+      color: 'fbbf24',
     },
     {
       title: 'Ground-Up Approach',
       description: 'We listen to the community, respond to real needs, and build tools that reflect lived realities.',
       image: '/uploads/value-approach.jpg',
+      color: '10b981',
     },
     {
       title: 'Participants & Providers Unite',
       description: 'We bring both sides together safely, because real change happens when everyone has a voice.',
       image: '/uploads/value-unite.jpg',
+      color: '6366f1',
     },
     {
       title: 'Transparency & Accountability',
       description: 'We build a culture where honesty is standard, whistleblowing is respected, and community safety comes first.',
       image: '/uploads/value-transparency.jpg',
+      color: '06b6d4',
     },
-  ];
+  ], []);
 
   // Platform Features with Images
-  const platformFeatures = [
+  const platformFeatures = useMemo(() => [
     {
       title: 'Smart Provider Search',
       description: 'Advanced filters to find the perfect provider for your needs',
       image: '/uploads/feature-search.jpg',
+      color: 'a855f7',
     },
     {
       title: 'Community Network',
       description: 'Connect with thousands of participants and providers',
       image: '/uploads/feature-network.jpg',
+      color: '10b981',
     },
     {
       title: 'Verified Quality',
       description: 'All providers verified for quality and compliance',
       image: '/uploads/feature-verified.jpg',
+      color: 'fbbf24',
     },
     {
       title: '24/7 Support',
       description: 'Get instant answers with our support team',
       image: '/uploads/feature-support.jpg',
+      color: 'ec4899',
     }
-  ];
+  ], []);
 
   return (
     <div className="min-h-screen bg-white">
+      {/* CSS Animations - using regular style tag instead of styled-jsx */}
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animation-delay-200 {
+          animation-delay: 0.2s;
+          opacity: 0;
+        }
+        
+        .animation-delay-400 {
+          animation-delay: 0.4s;
+          opacity: 0;
+        }
+        
+        .animation-delay-600 {
+          animation-delay: 0.6s;
+          opacity: 0;
+        }
+      `}</style>
+
       {/* Hero Slider Section */}
       <section className="relative h-screen overflow-hidden">
         {/* Slides */}
@@ -202,9 +255,8 @@ const LandingPage2 = () => {
                 src={slide.image}
                 alt={slide.title}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"%3E%3Crect width="1920" height="1080" fill="%236366f1"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="48" fill="white" text-anchor="middle" dominant-baseline="middle"%3EHero Image%3C/text%3E%3C/svg%3E';
-                }}
+                loading="lazy"
+                onError={(e) => handleImageError(e, '6366f1', 'Hero Image')}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/90 via-purple-900/80 to-pink-800/70"></div>
             </div>
@@ -295,9 +347,8 @@ const LandingPage2 = () => {
                 src="/uploads/mission-community.jpg"
                 alt="Community gathering"
                 className="rounded-3xl shadow-2xl w-full h-[600px] object-cover"
-                onError={(e) => {
-                  e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect width="800" height="600" fill="%23a855f7"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="32" fill="white" text-anchor="middle" dominant-baseline="middle"%3EMission Image%3C/text%3E%3C/svg%3E';
-                }}
+                loading="lazy"
+                onError={(e) => handleImageError(e, 'a855f7', 'Mission Image')}
               />
             </div>
 
@@ -360,9 +411,8 @@ const LandingPage2 = () => {
                     src={service.image}
                     alt={service.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => {
-                      e.target.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect width="400" height="300" fill="%23${['3b82f6', 'f97316', 'a855f7', '14b8a6'][index]}"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dominant-baseline="middle"%3E${service.title}%3C/text%3E%3C/svg%3E`;
-                    }}
+                    loading="lazy"
+                    onError={(e) => handleImageError(e, service.color, service.title)}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
@@ -424,9 +474,8 @@ const LandingPage2 = () => {
                       src={step.image}
                       alt={step.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => {
-                        e.target.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect width="400" height="300" fill="%23f97316"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="48" fill="white" text-anchor="middle" dominant-baseline="middle"%3E${step.step}%3C/text%3E%3C/svg%3E`;
-                      }}
+                      loading="lazy"
+                      onError={(e) => handleImageError(e, 'f97316', step.step)}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   </div>
@@ -469,9 +518,8 @@ const LandingPage2 = () => {
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => {
-                      e.target.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect width="400" height="300" fill="%23${['a855f7', 'ec4899', 'fbbf24', '10b981', '6366f1', '06b6d4'][index]}"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="20" fill="white" text-anchor="middle" dominant-baseline="middle"%3E${item.title}%3C/text%3E%3C/svg%3E`;
-                    }}
+                    loading="lazy"
+                    onError={(e) => handleImageError(e, item.color, item.title)}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                   
@@ -526,9 +574,8 @@ const LandingPage2 = () => {
                   src="/uploads/participants-hero.jpg"
                   alt="NDIS Participants"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  onError={(e) => {
-                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect width="800" height="600" fill="%2314b8a6"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="32" fill="white" text-anchor="middle" dominant-baseline="middle"%3EParticipants%3C/text%3E%3C/svg%3E';
-                  }}
+                  loading="lazy"
+                  onError={(e) => handleImageError(e, '14b8a6', 'Participants')}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-teal-900/95 via-teal-900/60 to-transparent"></div>
               </div>
@@ -560,9 +607,8 @@ const LandingPage2 = () => {
                   src="/uploads/providers-hero.jpg"
                   alt="NDIS Providers"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  onError={(e) => {
-                    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect width="800" height="600" fill="%23a855f7"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="32" fill="white" text-anchor="middle" dominant-baseline="middle"%3EProviders%3C/text%3E%3C/svg%3E';
-                  }}
+                  loading="lazy"
+                  onError={(e) => handleImageError(e, 'a855f7', 'Providers')}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/95 via-purple-900/60 to-transparent"></div>
               </div>
@@ -613,9 +659,8 @@ const LandingPage2 = () => {
                     src={feature.image}
                     alt={feature.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => {
-                      e.target.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect width="400" height="300" fill="%23${['a855f7', '10b981', 'fbbf24', 'ec4899'][index]}"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="20" fill="white" text-anchor="middle" dominant-baseline="middle"%3E${feature.title}%3C/text%3E%3C/svg%3E`;
-                    }}
+                    loading="lazy"
+                    onError={(e) => handleImageError(e, feature.color, feature.title)}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
@@ -657,9 +702,8 @@ const LandingPage2 = () => {
                           src={testimonial.image}
                           alt={testimonial.name}
                           className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-xl"
-                          onError={(e) => {
-                            e.target.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect width="400" height="400" fill="%23a855f7"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dominant-baseline="middle"%3E${testimonial.name}%3C/text%3E%3C/svg%3E`;
-                          }}
+                          loading="lazy"
+                          onError={(e) => handleImageError(e, 'a855f7', testimonial.name)}
                         />
                       </div>
 
@@ -715,9 +759,8 @@ const LandingPage2 = () => {
             src="/uploads/cta-background.jpg"
             alt="Join our community"
             className="w-full h-full object-cover"
-            onError={(e) => {
-              e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1920" height="600"%3E%3Crect width="1920" height="600" fill="%236366f1"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="48" fill="white" text-anchor="middle" dominant-baseline="middle"%3EJoin Us%3C/text%3E%3C/svg%3E';
-            }}
+            loading="lazy"
+            onError={(e) => handleImageError(e, '6366f1', 'Join Us')}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-purple-900/95 via-pink-800/90 to-red-800/85"></div>
         </div>
@@ -781,39 +824,6 @@ const LandingPage2 = () => {
           </div>
         </div>
       </section>
-
-      {/* Inline Styles for Animations */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-          opacity: 0;
-        }
-        
-        .animation-delay-400 {
-          animation-delay: 0.4s;
-          opacity: 0;
-        }
-        
-        .animation-delay-600 {
-          animation-delay: 0.6s;
-          opacity: 0;
-        }
-      `}</style>
     </div>
   );
 };
