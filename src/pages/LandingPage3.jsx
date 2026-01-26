@@ -23,7 +23,7 @@ const LandingPage3 = () => {
       title: "Reimagining Disability",
       subtitle: "With the Power of Local Communities",
       description: "We are an independent NDIS community platform dedicated to placing local connection at the heart of everything we do.",
-      image: "/uploads/hero-community.jpg",
+      image: "/uploads/bg-1.jpg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
       secondaryBtn: { text: "Become a Provider", link: "/provide-support" }
     },
@@ -39,7 +39,7 @@ const LandingPage3 = () => {
       title: "Building Stronger",
       subtitle: "NDIS Communities Together",
       description: "Uniting participants, providers, families, and specialists to create supportive disability networks across Australia.",
-      image: "/uploads/hero-together.jpg",
+      image: "/uploads/strong.jpg",
       primaryBtn: { text: "Get Started", link: "/subscription" },
       secondaryBtn: { text: "Contact Us", link: "/contact" }
     }
@@ -97,22 +97,22 @@ const LandingPage3 = () => {
     {
       title: 'Daily Living Support',
       description: 'Help with everyday tasks like cooking, cleaning, and household management.',
-      image: '/uploads/service-daily-living.jpg',
+      image: '/uploads/daily.jpg',
     },
     {
       title: 'Therapy Services',
       description: 'Connect with occupational therapists, speech pathologists, and more.',
-      image: '/uploads/service-therapy.png',
+      image: '/uploads/therapy.jpg',
     },
     {
       title: 'Social & Community',
       description: 'Participate in social activities and community events with support.',
-      image: '/uploads/service-social.png',
+      image: '/uploads/social.jpg',
     },
     {
       title: 'Support Coordination',
       description: 'Get help navigating and managing your NDIS plan effectively.',
-      image: '/uploads/service-coordination.png',
+      image: '/uploads/support2.jpg',
     },
   ], []);
 
@@ -122,25 +122,25 @@ const LandingPage3 = () => {
       step: '01',
       title: 'Tell Us What You Need',
       description: 'Share your requirements and the type of NDIS services you\'re looking for.',
-      image: '/uploads/step-search.jpg',
+      image: '/uploads/tell.jpg',
     },
     {
       step: '02',
       title: 'We Match You With Providers',
       description: 'We\'ll show you possible providers and services that match your specific needs.',
-      image: '/uploads/step-match.jpg',
+      image: '/uploads/plan.jpg',
     },
     {
       step: '03',
       title: 'Connect Safely',
       description: 'With your permission, we facilitate secure connections between you and providers.',
-      image: '/uploads/step-connect.jpg',
+      image: '/uploads/connect.jpg',
     },
     {
       step: '04',
       title: 'Build Relationships',
       description: 'Qualified providers will reach out to you and you can choose who to work with.',
-      image: '/uploads/step-relationship.jpg',
+      image: '/uploads/handshake.jpg',
     },
   ], []);
 
@@ -183,22 +183,22 @@ const LandingPage3 = () => {
     {
       title: 'Smart Provider Search',
       description: 'Advanced filters to find the perfect provider for your needs',
-      image: '/uploads/feature-search.jpg',
+      image: '/uploads/smart.jpg',
     },
     {
       title: 'Community Network',
       description: 'Connect with thousands of participants and providers',
-      image: '/uploads/feature-network.jpg',
+      image: '/uploads/network.jpg',
     },
     {
       title: 'Verified Quality',
       description: 'All providers verified for quality and compliance',
-      image: '/uploads/feature-verified.jpg',
+      image: '/uploads/verify.jpg',
     },
     {
       title: '24/7 Support',
       description: 'Get instant answers with our support team',
-      image: '/uploads/feature-support.jpg',
+      image: '/uploads/available.jpg',
     }
   ], []);
 
@@ -353,7 +353,7 @@ const LandingPage3 = () => {
             {/* Image */}
             <div className="order-2 lg:order-1">
               <img
-                src="/uploads/mission-community.jpg"
+                src="/uploads/hearing-aid.jpg"
                 alt="Community gathering"
                 className="rounded-3xl shadow-2xl w-full h-[600px] object-cover"
                 loading="lazy"
@@ -397,7 +397,7 @@ const LandingPage3 = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-indigo-50">
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">What We Offer</span>
@@ -423,7 +423,7 @@ const LandingPage3 = () => {
                     loading="lazy"
                     onError={(e) => handleImageError(e, service.title)}
                   />
-                  <div className="absolute inset-0 bg-indigo-900/40"></div>
+                  <div className="absolute inset-0"></div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
@@ -448,198 +448,364 @@ const LandingPage3 = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Simple Process</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              How It Works
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Connect with quality NDIS support in four simple steps
-            </p>
-          </div>
+   <section className="relative overflow-hidden bg-[#071c4d] py-16 md:py-20">
+  {/* Top-right diagonal accent */}
+  <div className="pointer-events-none absolute right-0 top-0 h-[220px] w-[360px] opacity-90">
+    <div className="absolute inset-0 bg-gradient-to-bl from-[#2b1b6b] via-[#0b2a7a] to-transparent" />
+    <div className="absolute right-10 top-0 h-full w-10 -skew-x-[25deg] bg-white/10" />
+    <div className="absolute right-24 top-0 h-full w-10 -skew-x-[25deg] bg-white/10" />
+  </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {howItWorks.map((step, index) => (
-              <div
-                key={index}
-                className="relative group"
-              >
-                {/* Connector Line - Desktop Only */}
-                {index < howItWorks.length - 1 && (
-                  <div className="hidden lg:block absolute top-24 left-full w-full h-0.5 bg-indigo-200 -translate-y-1/2 z-0" style={{ width: 'calc(100% - 2rem)' }}></div>
-                )}
-
-                <div className="relative z-10 bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-indigo-100">
-                  {/* Step Number Badge */}
-                  <div className="absolute top-4 right-4 z-10 w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    {step.step}
-                  </div>
-
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={step.image}
-                      alt={step.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                      onError={(e) => handleImageError(e, step.step)}
-                    />
-                    <div className="absolute inset-0 bg-indigo-900/40"></div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{step.description}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Header */}
+    <div className="grid items-start gap-8 md:grid-cols-12 md:gap-10">
+      <div className="md:col-span-7">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="h-4 w-4 rounded-sm border border-red-400/70" />
+          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-red-400">
+            Explore Services With Us
+          </span>
         </div>
-      </section>
+
+        <h2 className="max-w-xl text-4xl font-extrabold leading-tight text-white md:text-5xl">
+          Fast &amp; Reliable Service
+          <br className="hidden sm:block" />
+          That We Provide
+        </h2>
+      </div>
+
+      <div className="relative md:col-span-5">
+        <div className="absolute -left-4 top-1 hidden h-20 w-[2px] bg-red-500 md:block" />
+        <p className="max-w-md text-sm leading-7 text-white/80 md:pl-2">
+          Connect with quality NDIS support in four simple steps.
+        </p>
+      </div>
+    </div>
+
+    {/* Steps */}
+    <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {howItWorks.map((step, index) => (
+        <div
+          key={index}
+          className="group relative rounded-2xl bg-[#0a255f]/60 border border-white/10 p-8
+                     shadow-xl backdrop-blur-sm transition-all duration-300
+                     hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
+        >
+          {/* Step Number Badge */}
+          <div
+            className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full
+                       bg-[#061a45] ring-1 ring-white/15 text-2xl font-extrabold text-white
+                       transition-all duration-300
+                       group-hover:bg-indigo-600 group-hover:scale-110 group-hover:ring-indigo-400/60"
+          >
+            {step.step}
+          </div>
+
+          {/* Glow on hover */}
+          <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300
+                          group-hover:opacity-100
+                          shadow-[inset_0_0_0_1px_rgba(99,102,241,0.35)]" />
+
+          {/* Content */}
+          <h3 className="text-center text-xl font-bold text-white transition-colors duration-300 group-hover:text-indigo-200">
+            {step.title}
+          </h3>
+
+          <p className="mt-3 text-center text-sm leading-6 text-white/65 transition-colors duration-300 group-hover:text-white/80">
+            {step.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* Why Choose Us Section */}
-      <section className="py-20 bg-indigo-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">What Makes Us Different</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              This Is Not a Marketplace
-            </h2>
-            <p className="text-3xl md:text-4xl font-extrabold text-indigo-600">
-              It's a Movement
-            </p>
-            <div className="w-32 h-1 bg-indigo-600 mx-auto mt-8"></div>
+    
+
+<section className="py-16 md:py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid lg:grid-cols-12 gap-10 items-center">
+      {/* Left: Media Card */}
+      <div className="lg:col-span-5">
+        <div className="relative">
+          {/* Media */}
+          <div className="relative rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.12)]">
+            {/* Replace src with your image if needed */}
+            <img
+              src="/uploads/care.jpg"
+              alt=""
+              className="w-full h-[420px] md:h-[720px] object-cover"
+            />
+
+            {/* Play button */}
+         
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {differentiators.map((item, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-indigo-100"
-              >
-                {/* Image */}
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                    onError={(e) => handleImageError(e, item.title)}
-                  />
-                  <div className="absolute inset-0 bg-indigo-900/50"></div>
-                  
-                  {/* Number Badge */}
-                  <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-lg border-2 border-white/40">
-                    {(index + 1).toString().padStart(2, '0')}
+          {/* Vertical pill (decor) */}
+          <div className="hidden lg:block absolute -right-7 top-1/2 -translate-y-1/2">
+            <div className="w-4 h-32 rounded-full bg-slate-800/90 shadow-lg" />
+          </div>
+        </div>
+      </div>
+
+      {/* Right: Content */}
+      <div className="lg:col-span-7">
+        <div className="mb-6">
+          <div className="text-sm font-semibold uppercase tracking-wider text-rose-500">
+            What Makes Us Different
+          </div>
+
+          <h2 className="mt-3 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+            This Is Not a Marketplace
+          </h2>
+
+          <div className="mt-2 text-2xl md:text-3xl font-extrabold text-indigo-600">
+            It&apos;s a Movement
+          </div>
+        </div>
+
+        {/* 6 Pills/Cards */}
+        <div className="grid sm:grid-cols-2 gap-5">
+          {[
+            {
+              num: "01",
+              title: "Led by Disabled People",
+              desc: "Not built about disabled people, but by disabled people. Lived experience drives every decision.",
+            },
+            {
+              num: "02",
+              title: "Community First",
+              desc: "We prioritize connection, safety, and transparency over profits and metrics.",
+            },
+            {
+              num: "03",
+              title: "No Commission Model",
+              desc: "Keep 100% of your earnings. We believe ethical connections shouldn't cost you.",
+            },
+            {
+              num: "04",
+              title: "Ground-Up Approach",
+              desc: "We listen to the community, respond to real needs, and build tools that reflect lived realities.",
+            },
+            {
+              num: "05",
+              title: "Participants & Providers Unite",
+              desc: "We bring both sides together safely, because real change happens when everyone has a voice.",
+            },
+            {
+              num: "06",
+              title: "Transparency & Accountability",
+              desc: "We build a culture where honesty is standard, whistleblowing is respected, and community safety comes first.",
+            },
+          ].map((item, idx) => (
+            <div
+              key={idx}
+              className="group relative bg-white rounded-2xl border border-slate-200
+                         shadow-[0_10px_30px_rgba(15,23,42,0.06)]
+                         px-5 py-5 transition-all duration-300
+                         hover:-translate-y-1 hover:border-indigo-200
+                         hover:shadow-[0_18px_50px_rgba(79,70,229,0.18)]"
+            >
+              {/* Glow ring */}
+              <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300
+                              group-hover:opacity-100
+                              shadow-[inset_0_0_0_1px_rgba(99,102,241,0.35)]" />
+
+              <div className="flex items-start gap-4">
+                {/* Check + number badge */}
+                <div
+                  className="shrink-0 w-12 h-12 rounded-full bg-slate-50 border border-slate-200
+                             flex items-center justify-center transition-all duration-300
+                             group-hover:bg-indigo-50 group-hover:border-indigo-200"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-6 h-6 text-rose-500 transition-transform duration-300 group-hover:scale-110"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </div>
+
+                <div className="min-w-0">
+                  <div className="flex items-center gap-3">
+                    <div className="text-slate-900 font-bold leading-tight">
+                      {item.title}
+                    </div>
+                    <div className="text-slate-300 font-extrabold">
+                      {item.num}
+                    </div>
+                  </div>
+
+                  <div className="mt-2 text-sm leading-6 text-slate-600 group-hover:text-slate-700 transition-colors">
+                    {item.desc}
                   </div>
                 </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{item.description}</p>
-                </div>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link
-              to="/about"
-              className="inline-flex items-center bg-indigo-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              Learn More About Our Mission
-              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
-          </div>
+            </div>
+          ))}
         </div>
-      </section>
+
+        {/* CTA */}
+        <div className="mt-8">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-xl
+                       bg-indigo-600 text-white font-semibold
+                       shadow-lg transition-all duration-300
+                       hover:bg-indigo-700 hover:shadow-[0_18px_40px_rgba(79,70,229,0.25)]
+                       hover:-translate-y-0.5"
+          >
+            Learn More About Our Mission
+            <svg
+              className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
       {/* Who We Help Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Who We Help</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Connecting Participants & Providers
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you're seeking support or providing services, Better Together Network brings the community together.
-            </p>
+      
+<section className="relative overflow-hidden py-16 md:py-20">
+  {/* Background image */}
+  <div className="absolute inset-0">
+    <img
+      src="/uploads/who-we-help2.jpg"
+      alt=""
+      className="h-full w-full object-cover"
+    />
+    <div className="absolute inset-0 bg-black/20" />
+  </div>
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Headings */}
+    <div className="max-w-2xl">
+      <div className="text-sm font-semibold uppercase tracking-wider text-white/90">
+        Who We Help
+      </div>
+      <h2 className="mt-3 text-4xl md:text-5xl font-extrabold text-white leading-tight">
+        Connecting Participants &amp; Providers
+      </h2>
+      <p className="mt-4 text-lg text-white/90">
+        Whether you're seeking support or providing services, Better Together Network brings the
+        community together.
+      </p>
+    </div>
+
+    {/* Cards */}
+    <div className="mt-10 grid gap-6 max-w-2xl">
+      {/* Card 1 - White */}
+      <div
+        className="group rounded-3xl bg-white p-8 md:p-10
+                   shadow-[0_25px_60px_rgba(0,0,0,0.18)]
+                   transition-all duration-300
+                   hover:-translate-y-1 hover:shadow-[0_35px_80px_rgba(0,0,0,0.22)]"
+      >
+        <div className="flex items-start gap-5">
+          {/* Icon circle */}
+          <div
+            className="shrink-0 w-14 h-14 rounded-full bg-slate-900/90 text-white
+                       flex items-center justify-center
+                       transition-transform duration-300 group-hover:scale-105"
+          >
+            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 12a5 5 0 100-10 5 5 0 000 10z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M20 21a8 8 0 10-16 0" />
+            </svg>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* For Participants */}
-            <div className="group relative rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-indigo-100">
-              <div className="relative h-96 lg:h-[500px]">
-                <img
-                  src="/uploads/participants-hero.jpg"
-                  alt="NDIS Participants"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
-                  onError={(e) => handleImageError(e, 'Participants')}
-                />
-                <div className="absolute inset-0 bg-indigo-900/80"></div>
-              </div>
+          <div>
+            <div className="text-sm font-semibold text-slate-600">NDIS Participants</div>
+            <h3 className="mt-1 text-2xl font-extrabold text-slate-900">
+              Looking for Support?
+            </h3>
+            <p className="mt-3 text-slate-600 leading-7">
+              Find verified NDIS service providers in your area. Browse profiles, compare services,
+              and connect with providers who match your needs and goals.
+            </p>
 
-              <div className="absolute inset-0 flex flex-col justify-end p-8">
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Looking for Support?</h3>
-                <p className="text-lg text-white/90 mb-6 leading-relaxed">
-                  Find verified NDIS service providers in your area. Browse profiles, compare services, 
-                  and connect with providers who match your needs and goals.
-                </p>
-                <Link
-                  to="/find-support"
-                  className="inline-flex items-center justify-center bg-white text-indigo-900 px-8 py-4 rounded-lg font-bold hover:bg-indigo-50 transition-all duration-300 shadow-xl w-fit"
-                >
-                  Find Support
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-
-            {/* For Providers */}
-            <div className="group relative rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-indigo-100">
-              <div className="relative h-96 lg:h-[500px]">
-                <img
-                  src="/uploads/providers-hero.jpg"
-                  alt="NDIS Providers"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
-                  onError={(e) => handleImageError(e, 'Providers')}
-                />
-                <div className="absolute inset-0 bg-indigo-900/80"></div>
-              </div>
-
-              <div className="absolute inset-0 flex flex-col justify-end p-8">
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Become a Provider</h3>
-                <p className="text-lg text-white/90 mb-6 leading-relaxed">
-                  Join our network and connect with thousands of NDIS participants. Build your profile, 
-                  respond to requests, and grow your business.
-                </p>
-                <Link
-                  to="/provide-support"
-                  className="inline-flex items-center justify-center bg-white text-indigo-900 px-8 py-4 rounded-lg font-bold hover:bg-indigo-50 transition-all duration-300 shadow-xl w-fit"
-                >
-                  Join as Provider
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </Link>
-              </div>
+            <div className="mt-6">
+              <Link
+                to="/find-support"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full
+                           bg-slate-900 text-white font-semibold
+                           transition-all duration-300
+                           hover:bg-slate-800 hover:-translate-y-0.5"
+              >
+                Find Support
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
+      {/* Card 2 - Pink */}
+      <div
+        className="group rounded-3xl bg-rose-600 p-8 md:p-10
+                   shadow-[0_25px_60px_rgba(0,0,0,0.18)]
+                   transition-all duration-300
+                   hover:-translate-y-1 hover:shadow-[0_35px_80px_rgba(0,0,0,0.22)]"
+      >
+        <div className="flex items-start gap-5">
+          {/* Icon circle */}
+          <div
+            className="shrink-0 w-14 h-14 rounded-full bg-white text-rose-600
+                       flex items-center justify-center
+                       transition-transform duration-300 group-hover:scale-105"
+          >
+            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7a4 4 0 108 0 4 4 0 00-8 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M20 8v6" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M23 11h-6" />
+            </svg>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold text-white/85">NDIS Providers</div>
+            <h3 className="mt-1 text-2xl font-extrabold text-white">
+              Become a Provider
+            </h3>
+            <p className="mt-3 text-white/90 leading-7">
+              Join our network and connect with thousands of NDIS participants. Build your profile,
+              respond to requests, and grow your business.
+            </p>
+
+            <div className="mt-6">
+              <Link
+                to="/provide-support"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full
+                           bg-white text-rose-600 font-semibold
+                           transition-all duration-300
+                           hover:-translate-y-0.5 hover:bg-white/90"
+              >
+                Join as Provider
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+      
       {/* Platform Features */}
       <section className="py-20 bg-indigo-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -667,7 +833,7 @@ const LandingPage3 = () => {
                     loading="lazy"
                     onError={(e) => handleImageError(e, feature.title)}
                   />
-                  <div className="absolute inset-0 bg-indigo-900/40"></div>
+                  <div className="absolute inset-0 "></div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
@@ -680,88 +846,102 @@ const LandingPage3 = () => {
       </section>
 
       {/* Testimonials Carousel */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Success Stories</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
-              What Our Community Says
-            </h2>
-            <p className="text-xl text-gray-600">Real experiences from real people in the Better Together Network community</p>
-          </div>
+   <section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Header */}
+    <div className="text-center mb-16">
+      <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">
+        Success Stories
+      </span>
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
+        What Our Community Says
+      </h2>
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        Real experiences from real people in the Better Together Network community
+      </p>
+    </div>
 
-          <div className="max-w-5xl mx-auto">
-            <div className="relative">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className={`transition-opacity duration-500 ${
-                    index === activeTestimonial ? 'opacity-100' : 'opacity-0 absolute inset-0'
-                  }`}
+    {/* Carousel */}
+    <div className="max-w-4xl mx-auto relative">
+      {testimonials.map((testimonial, index) => (
+        <div
+          key={index}
+          className={`transition-all duration-500 ease-in-out ${
+            index === activeTestimonial
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 absolute inset-0 translate-y-6 pointer-events-none'
+          }`}
+        >
+          <div className="relative bg-indigo-50 border border-indigo-200 rounded-3xl px-10 py-12 shadow-2xl">
+            {/* Quote icon */}
+            <div className="absolute -top-6 left-8 w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center shadow-lg">
+              <svg
+                className="w-6 h-6 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M7.17 6A5.17 5.17 0 002 11.17v4.66A2.17 2.17 0 004.17 18h3.66A2.17 2.17 0 0010 15.83V12a2 2 0 00-2-2H6.17a3.17 3.17 0 013-3.17V6zM19.17 6A5.17 5.17 0 0014 11.17v4.66A2.17 2.17 0 0016.17 18h3.66A2.17 2.17 0 0022 15.83V12a2 2 0 00-2-2h-1.83a3.17 3.17 0 013-3.17V6z" />
+              </svg>
+            </div>
+
+            {/* Rating */}
+            <div className="flex justify-center mb-6 mt-4">
+              {[...Array(testimonial.rating)].map((_, i) => (
+                <svg
+                  key={i}
+                  className="w-6 h-6 text-indigo-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
                 >
-                  <div className="bg-indigo-50 rounded-3xl p-8 md:p-12 shadow-2xl border-2 border-indigo-200">
-                    <div className="grid md:grid-cols-3 gap-8 items-center">
-                      {/* Image */}
-                      <div className="md:col-span-1">
-                        <img
-                          src={testimonial.image}
-                          alt={testimonial.name}
-                          className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-xl"
-                          loading="lazy"
-                          onError={(e) => handleImageError(e, testimonial.name)}
-                        />
-                      </div>
-
-                      {/* Content */}
-                      <div className="md:col-span-2">
-                        <div className="flex mb-4">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <svg key={i} className="w-6 h-6 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                          ))}
-                        </div>
-
-                        <p className="text-xl md:text-2xl text-gray-700 italic leading-relaxed mb-6">
-                          "{testimonial.content}"
-                        </p>
-
-                        <div>
-                          <h4 className="text-2xl font-bold text-gray-900">{testimonial.name}</h4>
-                          <p className="text-indigo-600 font-semibold">{testimonial.role}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
               ))}
+            </div>
 
-              {/* Dots */}
-              <div className="flex justify-center gap-3 mt-8">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveTestimonial(index)}
-                    className={`transition-all duration-300 rounded-full ${
-                      index === activeTestimonial
-                        ? 'w-12 h-3 bg-indigo-600'
-                        : 'w-3 h-3 bg-indigo-200 hover:bg-indigo-300'
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
+            {/* Content */}
+            <p className="text-xl md:text-2xl text-gray-700 italic leading-relaxed text-center mb-8">
+              “{testimonial.content}”
+            </p>
+
+            {/* Author */}
+            <div className="text-center">
+              <h4 className="text-2xl font-bold text-gray-900">
+                {testimonial.name}
+              </h4>
+              <p className="text-indigo-600 font-semibold">
+                {testimonial.role}
+              </p>
             </div>
           </div>
         </div>
-      </section>
+      ))}
+
+      {/* Dots */}
+      <div className="flex justify-center gap-3 mt-10">
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveTestimonial(index)}
+            className={`transition-all duration-300 rounded-full ${
+              index === activeTestimonial
+                ? 'w-12 h-3 bg-indigo-600'
+                : 'w-3 h-3 bg-indigo-200 hover:bg-indigo-300'
+            }`}
+            aria-label={`Go to testimonial ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* CTA Section - Solid Color Background */}
       <section className="relative py-32 overflow-hidden bg-indigo-900">
         {/* Background Image with Solid Overlay */}
         <div className="absolute inset-0">
           <img
-            src="/uploads/cta-background.jpg"
+            src="/uploads/cta.jpg"
             alt="Join our community"
             className="w-full h-full object-cover opacity-20"
             loading="lazy"
