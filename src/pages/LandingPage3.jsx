@@ -807,46 +807,116 @@ const LandingPage3 = () => {
 </section>
       
       {/* Platform Features */}
-      <section className="py-20 bg-indigo-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Platform Features</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Everything You Need in One Place
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Powerful features designed to make your NDIS journey smoother
-            </p>
+   <section className="relative py-20 bg-white overflow-hidden">
+  {/* subtle background shapes */}
+  <div className="pointer-events-none absolute inset-0">
+    <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full border border-slate-200/60" />
+    <div className="absolute -right-56 -top-20 h-[520px] w-[520px] rounded-full border border-slate-200/60" />
+    <div className="absolute right-0 top-0 h-[420px] w-[520px] opacity-30">
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 to-transparent [clip-path:polygon(35%_0,100%_0,60%_100%,0_100%)]" />
+    </div>
+  </div>
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Header */}
+    <div className="text-center mb-16">
+      <span className="text-sm font-semibold text-rose-500 uppercase tracking-wider">
+        Platform Features
+      </span>
+      <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mt-3 mb-4">
+        Everything You Need in One Place
+      </h2>
+      <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+        Powerful features designed to make your NDIS journey smoother
+      </p>
+    </div>
+
+    {/* Items */}
+    <div className="grid md:grid-cols-2 lg:grid-cols-4">
+      {platformFeatures.map((feature, index) => (
+        <div
+          key={index}
+          className={`group relative px-8 py-10 text-center transition-all duration-300 ${
+            index !== platformFeatures.length - 1
+              ? "lg:border-r lg:border-slate-200/70"
+              : ""
+          }`}
+        >
+          {/* Hover panel */}
+          <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute inset-3 rounded-2xl bg-white shadow-[0_18px_45px_rgba(15,23,42,0.10)] border border-slate-200/70" />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {platformFeatures.map((feature, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-indigo-100"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                    onError={(e) => handleImageError(e, feature.title)}
-                  />
-                  <div className="absolute inset-0 "></div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-                </div>
+          {/* Content wrapper */}
+          <div className="relative">
+            {/* Circle Image */}
+            <div className="relative mx-auto w-40 h-40">
+              <img
+                src={feature.image}
+                alt={feature.title}
+                className="w-full h-full object-cover rounded-full shadow-md transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+                onError={(e) => handleImageError(e, feature.title)}
+              />
+
+              {/* Floating icon badge */}
+              <div className="absolute -top-1 -right-2 w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center transition-all duration-300 group-hover:bg-rose-500">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-7 h-7 text-rose-500 transition-colors duration-300 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {/* simple “feature” icon */}
+                  <path d="M12 2v4" />
+                  <path d="M12 18v4" />
+                  <path d="M4.93 4.93l2.83 2.83" />
+                  <path d="M16.24 16.24l2.83 2.83" />
+                  <path d="M2 12h4" />
+                  <path d="M18 12h4" />
+                  <path d="M4.93 19.07l2.83-2.83" />
+                  <path d="M16.24 7.76l2.83-2.83" />
+                  <circle cx="12" cy="12" r="3.2" />
+                </svg>
               </div>
-            ))}
+            </div>
+
+            {/* Title */}
+            <h3 className="mt-8 text-xl font-extrabold text-slate-900 transition-colors duration-300 group-hover:text-rose-500">
+              {feature.title}
+            </h3>
+
+            {/* Description */}
+            <p className="mt-3 text-slate-600 leading-7">
+              {feature.description}
+            </p>
+
+            {/* Arrow */}
+            <div className="mt-6 flex justify-center">
+              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-transparent transition-all duration-300 group-hover:bg-rose-500">
+                <svg
+                  className="w-5 h-5 text-slate-900 transition-colors duration-300 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Testimonials Carousel */}
-   <section className="py-20 bg-white">
+<section className="py-20 bg-white">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {/* Header */}
     <div className="text-center mb-16">
@@ -861,60 +931,68 @@ const LandingPage3 = () => {
       </p>
     </div>
 
-    {/* Carousel */}
-    <div className="max-w-4xl mx-auto relative">
-      {testimonials.map((testimonial, index) => (
-        <div
-          key={index}
-          className={`transition-all duration-500 ease-in-out ${
-            index === activeTestimonial
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 absolute inset-0 translate-y-6 pointer-events-none'
-          }`}
-        >
-          <div className="relative bg-indigo-50 border border-indigo-200 rounded-3xl px-10 py-12 shadow-2xl">
-            {/* Quote icon */}
-            <div className="absolute -top-6 left-8 w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center shadow-lg">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M7.17 6A5.17 5.17 0 002 11.17v4.66A2.17 2.17 0 004.17 18h3.66A2.17 2.17 0 0010 15.83V12a2 2 0 00-2-2H6.17a3.17 3.17 0 013-3.17V6zM19.17 6A5.17 5.17 0 0014 11.17v4.66A2.17 2.17 0 0016.17 18h3.66A2.17 2.17 0 0022 15.83V12a2 2 0 00-2-2h-1.83a3.17 3.17 0 013-3.17V6z" />
-              </svg>
-            </div>
+    {/* Cards */}
+    <div className="max-w-6xl mx-auto">
+      <div className="grid lg:grid-cols-2 gap-8">
+        {[0, 1].map((slot) => {
+          const idx = (activeTestimonial + slot) % testimonials.length;
+          const t = testimonials[idx];
+          const accent = slot === 1;
 
-            {/* Rating */}
-            <div className="flex justify-center mb-6 mt-4">
-              {[...Array(testimonial.rating)].map((_, i) => (
-                <svg
-                  key={i}
-                  className="w-6 h-6 text-indigo-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
+          return (
+            <button
+              key={slot}
+              onClick={() => setActiveTestimonial(idx)}
+              className="group text-left"
+              aria-label={`Select testimonial ${idx + 1}`}
+            >
+              <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-[0_22px_60px_rgba(15,23,42,0.10)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_30px_90px_rgba(15,23,42,0.14)]">
 
-            {/* Content */}
-            <p className="text-xl md:text-2xl text-gray-700 italic leading-relaxed text-center mb-8">
-              “{testimonial.content}”
-            </p>
+                {/* Curved background shapes */}
+                <div className="pointer-events-none absolute inset-0">
+                  <div
+                    className={`absolute -left-24 -top-24 h-72 w-72 rounded-full opacity-90 ${
+                      accent ? 'bg-rose-500' : 'bg-rose-200'
+                    }`}
+                  />
+                  <div className="absolute -left-12 -top-12 h-52 w-52 rounded-full bg-white/80" />
+                </div>
 
-            {/* Author */}
-            <div className="text-center">
-              <h4 className="text-2xl font-bold text-gray-900">
-                {testimonial.name}
-              </h4>
-              <p className="text-indigo-600 font-semibold">
-                {testimonial.role}
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
+                <div className="relative p-8 md:p-10">
+                  {/* Stars */}
+                  <div className="flex justify-center gap-1 mb-6">
+                    {[...Array(t.rating)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-5 h-5 text-rose-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Testimonial text */}
+                  <p className="text-slate-600 leading-7 text-center mb-8">
+                    {t.content}
+                  </p>
+
+                  {/* Author */}
+                  <div className="text-center">
+                    <div className="text-xl font-extrabold text-slate-900">
+                      {t.name}
+                    </div>
+                    <div className="text-rose-500 font-semibold">
+                      {t.role}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
 
       {/* Dots */}
       <div className="flex justify-center gap-3 mt-10">
