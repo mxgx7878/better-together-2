@@ -23,7 +23,7 @@ const LandingPage3 = () => {
       title: "Reimagining Disability",
       subtitle: "With the Power of Local Communities",
       description: "We are an independent NDIS community platform dedicated to placing local connection at the heart of everything we do.",
-      image: "/uploads/bg-1.jpg",
+      image: "/uploads/bg-one.jpeg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
       secondaryBtn: { text: "Become a Provider", link: "/provide-support" }
     },
@@ -31,7 +31,7 @@ const LandingPage3 = () => {
       title: "Where Lived Experience",
       subtitle: "Leads the Way",
       description: "Built by disabled people, for disabled people. Every decision is driven by authentic lived experience and community wisdom.",
-      image: "/uploads/hero-leadership.jpg",
+      image: "/uploads/bg-two.jpeg",
       primaryBtn: { text: "Learn More", link: "/about" },
       secondaryBtn: { text: "Join Us", link: "/subscription" }
     },
@@ -39,7 +39,7 @@ const LandingPage3 = () => {
       title: "Building Stronger",
       subtitle: "NDIS Communities Together",
       description: "Uniting participants, providers, families, and specialists to create supportive disability networks across Australia.",
-      image: "/uploads/strong.jpg",
+      image: "/uploads/bg-three.jpeg",
       primaryBtn: { text: "Get Started", link: "/subscription" },
       secondaryBtn: { text: "Contact Us", link: "/contact" }
     }
