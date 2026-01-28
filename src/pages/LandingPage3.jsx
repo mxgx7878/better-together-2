@@ -23,7 +23,7 @@ const LandingPage3 = () => {
       title: "Reimagining Disability",
       subtitle: "With the Power of Local Communities",
       description: "We are an independent NDIS community platform dedicated to placing local connection at the heart of everything we do.",
-      image: "/uploads/bg-one.jpeg",
+      image: "/uploads/bgnew.jpg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
       secondaryBtn: { text: "Become a Provider", link: "/provide-support" }
     },
@@ -468,10 +468,7 @@ const LandingPage3 = () => {
         </div>
 
         <h2 className="max-w-xl text-4xl font-extrabold leading-tight text-white md:text-5xl">
-          Fast &amp; Reliable Service
-          <br className="hidden sm:block" />
-          That We Provide
-        </h2>
+Fast & Reliable Connections To Trusted Services        </h2>
       </div>
 
       <div className="relative md:col-span-5">
