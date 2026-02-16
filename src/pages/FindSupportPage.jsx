@@ -91,54 +91,117 @@ const FindSupportPage = () => {
         'Collective strength',
       ]
     },
+    {
+      icon: '🌱',
+      title: 'Support for Ethical, Sustainable NDIS Providers',
+      description: 'Access guidance, tools, and community so you can deliver high-quality, person-centred supports while running a healthy, values-driven business. Business and practice mentoring, ethical service design and improvement, local collaboration and referral pathways.',
+      color: 'from-pink-500 to-rose-600',
+      details: [
+        
+      ]
+    },
+    {
+      icon: '📣',
+      title: 'Collective Voice and Systems Change',
+      description: 'Be part of a movement that speaks up for a fair, accessible, and community-driven NDIS — led by people with lived experience. Community consultations and feedback forums Policy input and submissions Campaigns to protect choice, control, and local providers',
+      color: 'from-pink-500 to-rose-600',
+      details: [
+        
+      ]
+    },
   ];
 
   const services = [
-    {
-      title: 'Daily Living Support',
-      description: 'Get help with everyday tasks around your home including cooking, cleaning, laundry, and household organisation.',
-      icon: '🏠',
-      color: 'from-blue-500 to-indigo-600',
-      examples: ['Meal preparation', 'Housework & cleaning', 'Laundry & ironing', 'Shopping assistance', 'Home organisation'],
-    },
-    {
-      title: 'Social & Community',
-      description: 'Connect with support workers who can help you participate in social activities and community events.',
-      icon: '🌟',
-      color: 'from-purple-500 to-pink-600',
-      examples: ['Community outings', 'Recreational activities', 'Social events', 'Hobby support', 'Companionship'],
-    },
-    {
-      title: 'Personal Care',
-      description: 'Find qualified support workers to assist with personal care needs in a respectful and dignified manner.',
-      icon: '💜',
-      color: 'from-teal-500 to-green-600',
-      examples: ['Showering assistance', 'Dressing support', 'Mobility assistance', 'Exercise support', 'Medication reminders'],
-      qualified: true,
-    },
-    {
-      title: 'Therapy Services',
-      description: 'Connect with registered allied health professionals for specialised therapy and support services.',
-      icon: '💪',
-      color: 'from-orange-500 to-red-500',
-      examples: ['Occupational therapy', 'Speech pathology', 'Physiotherapy', 'Psychology services', 'Behaviour support'],
-      qualified: true,
-    },
-    {
-      title: 'Transport',
-      description: 'Find providers who can help you get to appointments, activities, and anywhere you need to go.',
-      icon: '🚗',
-      color: 'from-cyan-500 to-blue-600',
-      examples: ['Medical appointments', 'Shopping trips', 'Social activities', 'Community events', 'Work or education'],
-    },
-    {
-      title: 'Support Coordination',
-      description: 'Connect with experienced coordinators who can help you navigate and manage your NDIS plan effectively.',
-      icon: '📋',
-      color: 'from-yellow-500 to-amber-600',
-      examples: ['Plan management', 'Service coordination', 'Provider connections', 'Goal planning', 'Capacity building'],
-    },
-  ];
+  {
+    title: 'NDIS Service Providers (Registered & Unregistered)',
+    icon: '🏢',
+    color: 'from-blue-500 to-indigo-600',
+    examples: [
+      'Registered NDIS providers',
+      'Unregistered providers',
+      'Sole traders & micro-providers',
+      'Multidisciplinary teams'
+    ],
+  },
+  {
+    title: 'Professional & Legal Services',
+    icon: '⚖️',
+    color: 'from-purple-500 to-pink-600',
+    examples: [
+      'NDIS compliance',
+      'Contract disputes',
+      'Trademark/IP law',
+      'Notary services'
+    ],
+  },
+  {
+    title: 'Financial, Accounting & Insurance Services',
+    icon: '💰',
+    color: 'from-teal-500 to-green-600',
+    examples: [
+      'NDIS-ready reporting',
+      'Financial planning',
+      'Insurance brokers',
+      'Audit & compliance reviews'
+    ],
+  },
+  {
+    title: 'HR, Recruitment & Workforce Development',
+    icon: '👥',
+    color: 'from-orange-500 to-red-500',
+    examples: [
+      'HR policies & workplace culture',
+      'Recruitment agencies',
+      'NDIS practice training',
+      'Workplace health & safety'
+    ],
+  },
+  {
+    title: 'Technology, Systems & Admin Support',
+    icon: '💻',
+    color: 'from-cyan-500 to-blue-600',
+    examples: [
+      'CRM software providers',
+      'IT support & cybersecurity',
+      'Virtual assistants',
+      'Website development & hosting'
+    ],
+  },
+  {
+    title: 'Marketing, Branding & Communications',
+    icon: '📣',
+    color: 'from-yellow-500 to-amber-600',
+    examples: [
+      'NDIS-savvy marketing',
+      'Graphic designers & brand strategists',
+      'Copywriting & content creation',
+      'Social media management & ads'
+    ],
+  },
+  {
+    title: 'Clinical, Equipment & Workplace Services',
+    icon: '🛠️',
+    color: 'from-indigo-500 to-blue-600',
+    examples: [
+      'Medical & allied health equipment',
+      'Assistive technology & home modifications',
+      'Accessible vehicle fit-outs',
+      'Ergonomic & workplace accessibility'
+    ],
+  },
+  {
+    title: 'Specialist Disability & Behaviour Support Services',
+    icon: '🧠',
+    color: 'from-pink-500 to-purple-600',
+    examples: [
+      'Behaviour support consulting',
+      'Complex needs specialists',
+      'Positive behaviour support training',
+      'Clinical oversight & care quality advisory'
+    ],
+  }
+];
+
 
   // How It Works - From WebsiteDoc.docx
   const howItWorks = [
@@ -481,10 +544,10 @@ const FindSupportPage = () => {
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">What You Can Find</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Find the Right Services for You
+              Here are the businesses we are encouraging
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Browse providers across all NDIS service categories. Choose the support that matches your goals and needs.
+              Every great disability service needs a strong support crew. NDIS providers and the businesses that stand behind them — join a network designed to amplify your impact and strengthen the whole sector. It really does take a community, and we need you. 
             </p>
           </div>
 

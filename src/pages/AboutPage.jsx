@@ -47,6 +47,12 @@ const AboutPage = () => {
       description: 'Everyone deserves access to clear information, respectful support, and a community that listens.',
       color: 'from-cyan-500 to-blue-600',
     },
+    {
+      icon: '🤝',
+      title: 'Community-Driven Support',
+      description: 'The NDIS remains community-driven and sustainable We work together to advocate for fair, ethical, and accessible systems that support both participants and local providers to thrive.',
+      color: 'from-orange-500 to-blue-600',
+    },
   ];
 
   const whyDifferent = [
@@ -97,6 +103,20 @@ const AboutPage = () => {
       title: 'A "No One Left Behind" Model',
       description: 'Our platform ensures that disabled people lead the conversation, lived experience is treated as expertise, community replaces isolation, support is accessible at every level, and no one navigates the system alone.',
       icon: '🌟',
+      color: 'from-yellow-500 to-orange-500',
+    },
+       {
+      number: '08',
+      title: 'Local, Relationship-Driven, Not Just Digital',
+      description: 'We focus on building local networks, peer support, and in-person connections — not just clicks and profiles — so people can find real community, not just services.',
+      icon: '👥',
+      color: 'from-yellow-500 to-orange-500',
+    },
+       {
+      number: '09',
+      title: 'Advocacy as a Core Function, Not an Add-On',
+      description: 'We don’t sit on the sidelines. We organise, amplify community voices, and engage with government and systems so that policies, pricing, and practices reflect what disabled people and small providers actually need..',
+      icon: '💎',
       color: 'from-yellow-500 to-orange-500',
     },
   ];
@@ -367,8 +387,7 @@ const AboutPage = () => {
                 Our Mission in Action
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                By empowering participants, supporting local providers, and amplifying lived experience, we aim to build a NDIS 
-                ecosystem that is ethical, inclusive, and genuinely community-driven — a place where real choice and control are 
+                By empowering participants, supporting local providers and amplifying lived experience, we aim to build a support ecosystem that is ethical, inclusive and genuinely community-driven — a place where real choice and control are 
                 protected, local businesses are valued, and smaller providers have the strength of a unified voice to advocate 
                 for fair, sustainable conditions.
               </p>
@@ -377,7 +396,7 @@ const AboutPage = () => {
             {/* Mission Statement */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-10 text-white text-center">
               <p className="text-2xl md:text-3xl font-bold leading-relaxed">
-                To build a connected NDIS community where people, providers, and local networks grow stronger together — 
+                To build a connected, Supportive Community where people, providers and local networks grow stronger together — 
                 and where the sector is shaped by the very people it exists to serve.
               </p>
             </div>
@@ -556,7 +575,9 @@ const AboutPage = () => {
               'Lived experience is recognised as expertise, not an afterthought',
               'Community connection replaces isolation',
               'Support is accessible at every level, regardless of circumstance',
-              'No participant, family, or provider is left to navigate the system alone'
+              'No participant, family, or provider is left to navigate the system alone',
+              'Trust, transparency, and safety are non-negotiable foundations for every interaction and decision'
+
             ].map((item, index) => (
               <div key={index} className="flex items-start bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <svg className="w-6 h-6 text-purple-600 mr-4 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

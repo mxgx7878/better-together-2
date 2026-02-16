@@ -22,23 +22,23 @@ const LandingPage3 = () => {
     {
       title: "Reimagining Disability",
       subtitle: "With the Power of Local Communities",
-      description: "We are an independent NDIS community platform dedicated to placing local connection at the heart of everything we do.",
-      image: "/uploads/bgnew.jpg",
+      description: "We are an independent platform dedicated to fostering connections within local communities and linking people with local providers. This mission is at the core of everything we do",
+      image: "/uploads/bgnew1.jpg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
-      secondaryBtn: { text: "Become a Provider", link: "/provide-support" }
+      secondaryBtn: { text: "For Provider", link: "/provide-support" }
     },
     {
       title: "Where Lived Experience",
       subtitle: "Leads the Way",
-      description: "Built by disabled people, for disabled people. Every decision is driven by authentic lived experience and community wisdom.",
+      description: "We are people with disabilities offering and designing for people with disabilities. Every decision is driven by authentic lived experience and community wisdom.",
       image: "/uploads/bg-two.jpeg",
       primaryBtn: { text: "Learn More", link: "/about" },
       secondaryBtn: { text: "Join Us", link: "/subscription" }
     },
     {
       title: "Building Stronger",
-      subtitle: "NDIS Communities Together",
-      description: "Uniting participants, providers, families, and specialists to create supportive disability networks across Australia.",
+      subtitle: "Accessible Communities Together",
+      description: "Uniting people with disabilities, families, businesses, providers and specialists to create a disability support network across Australia.",
       image: "/uploads/bg-three.jpeg",
       primaryBtn: { text: "Get Started", link: "/subscription" },
       secondaryBtn: { text: "Contact Us", link: "/contact" }
@@ -120,27 +120,21 @@ const LandingPage3 = () => {
   const howItWorks = useMemo(() => [
     {
       step: '01',
-      title: 'Tell Us What You Need',
-      description: 'Share your requirements and the type of NDIS services you\'re looking for.',
+      title: 'Post on the Job Board',
+      description: 'Post on our job board the services you are looking for.',
       image: '/uploads/tell.jpg',
     },
     {
       step: '02',
-      title: 'We Match You With Providers',
-      description: 'We\'ll show you possible providers and services that match your specific needs.',
+      title: 'Connect Safety',
+      description: 'Local businesses will respond, and you choose who is right for you.',
       image: '/uploads/plan.jpg',
     },
     {
       step: '03',
-      title: 'Connect Safely',
-      description: 'With your permission, we facilitate secure connections between you and providers.',
+      title: 'Strong Partnerships',
+      description: 'We work with you and your chosen provider to help build the relationship and establish a strong working relationship. ',
       image: '/uploads/connect.jpg',
-    },
-    {
-      step: '04',
-      title: 'Build Relationships',
-      description: 'Qualified providers will reach out to you and you can choose who to work with.',
-      image: '/uploads/handshake.jpg',
     },
   ], []);
 
@@ -353,7 +347,7 @@ const LandingPage3 = () => {
             {/* Image */}
             <div className="order-2 lg:order-1">
               <img
-                src="/uploads/hearing-aid.jpg"
+                src="/uploads/chess.jpg"
                 alt="Community gathering"
                 className="rounded-3xl shadow-2xl w-full h-[600px] object-cover"
                 loading="lazy"
@@ -365,14 +359,13 @@ const LandingPage3 = () => {
             <div className="order-1 lg:order-2">
               <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Our Purpose</span>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
-                Building Stronger NDIS Communities — Together
+                Building Stronger Communities — Together
               </h2>
               <div className="w-24 h-1 bg-indigo-600 mb-8"></div>
               
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                We are an independent NDIS community platform designed to bring people together — providers, 
-                participants, families, and local specialists — to create stronger, more connected, and more 
-                supportive disability networks across Australia.
+We are an independent community platform designed to bring people together. 
+We believe that NDIS and people who offer support in the disability sector must operate effectively, and this needs to be driven, shaped and led by people with disabilities. 
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
@@ -402,7 +395,7 @@ const LandingPage3 = () => {
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">What We Offer</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              NDIS Services You Can Find
+              Services You Can Find
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Connect with providers across all NDIS service categories
@@ -480,7 +473,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
     </div>
 
     {/* Steps */}
-    <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {howItWorks.map((step, index) => (
         <div
           key={index}
@@ -778,7 +771,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
           <div>
             <div className="text-sm font-semibold text-white/85">NDIS Providers</div>
             <h3 className="mt-1 text-2xl font-extrabold text-white">
-              Become a Provider
+              For Provider
             </h3>
             <p className="mt-3 text-white/90 leading-7">
               Join our network and connect with thousands of NDIS participants. Build your profile,
@@ -1016,7 +1009,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
         {/* Background Image with Solid Overlay */}
         <div className="absolute inset-0">
           <img
-            src="/uploads/cta.jpg"
+            src="/uploads/banner.jpg"
             alt="Join our community"
             className="w-full h-full object-cover opacity-20"
             loading="lazy"
@@ -1034,15 +1027,14 @@ Fast & Reliable Connections To Trusted Services        </h2>
           </span>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Ready to Transform Your
+            Ready to Transform
             <span className="block text-indigo-200 mt-2">
-              NDIS Experience?
-            </span>
+how you connect with businesses who can help.             </span>
           </h2>
           
           <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of participants and providers who have already discovered 
-            the power of meaningful connections through Better Together Network.
+We can’t say “join thousands of participants and providers who have already discovered” – 
+Join a network of participants and providers who are ready to create meaningful connections and experience the power of the Better Together Network. 
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
