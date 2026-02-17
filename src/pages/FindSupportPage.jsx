@@ -110,17 +110,16 @@ const FindSupportPage = () => {
       ]
     },
   ];
-
-  const services = [
+const services = [
   {
     title: 'NDIS Service Providers (Registered & Unregistered)',
     icon: '🏢',
     color: 'from-blue-500 to-indigo-600',
     examples: [
-      'Registered NDIS providers',
-      'Unregistered providers',
-      'Sole traders & micro-providers',
-      'Multidisciplinary teams'
+      'Registered NDIS providers delivering support across all registration groups',
+      'Unregistered providers offering flexible, person-centred services',
+      'Sole traders and micro-providers with niche or localised supports',
+      'Multidisciplinary teams partnering with other businesses to deliver wraparound care'
     ],
   },
   {
@@ -128,10 +127,10 @@ const FindSupportPage = () => {
     icon: '⚖️',
     color: 'from-purple-500 to-pink-600',
     examples: [
-      'NDIS compliance',
-      'Contract disputes',
-      'Trademark/IP law',
-      'Notary services'
+      'Business lawyers (NDIS compliance, contracts, disputes)',
+      'Commercial / employment lawyers',
+      'Trademark / IP lawyers',
+      'Notary and document certification services'
     ],
   },
   {
@@ -139,10 +138,10 @@ const FindSupportPage = () => {
     icon: '💰',
     color: 'from-teal-500 to-green-600',
     examples: [
-      'NDIS-ready reporting',
-      'Financial planning',
-      'Insurance brokers',
-      'Audit & compliance reviews'
+      'Accountants and bookkeepers (NDIS-ready reporting, payroll, BAS)',
+      'Financial planners and business advisors',
+      'Insurance brokers (public liability, professional indemnity, workers comp)',
+      'Audit and compliance review services'
     ],
   },
   {
@@ -150,10 +149,10 @@ const FindSupportPage = () => {
     icon: '👥',
     color: 'from-orange-500 to-red-500',
     examples: [
-      'HR policies & workplace culture',
-      'Recruitment agencies',
-      'NDIS practice training',
-      'Workplace health & safety'
+      'HR specialists (policies, performance management, workplace culture)',
+      'Recruitment agencies and temp staffing services',
+      'Training and RTOs (NDIS practice standards, safeguarding, clinical skills)',
+      'Workplace health & safety consultants'
     ],
   },
   {
@@ -161,10 +160,10 @@ const FindSupportPage = () => {
     icon: '💻',
     color: 'from-cyan-500 to-blue-600',
     examples: [
-      'CRM software providers',
-      'IT support & cybersecurity',
-      'Virtual assistants',
-      'Website development & hosting'
+      'Practice management and CRM software providers',
+      'IT support, cybersecurity, and data privacy specialists',
+      'Virtual assistants and admin support services',
+      'Website development, hosting, and tech integration'
     ],
   },
   {
@@ -172,10 +171,10 @@ const FindSupportPage = () => {
     icon: '📣',
     color: 'from-yellow-500 to-amber-600',
     examples: [
-      'NDIS-savvy marketing',
-      'Graphic designers & brand strategists',
-      'Copywriting & content creation',
-      'Social media management & ads'
+      'Marketing agencies and consultants (NDIS-savvy)',
+      'Graphic designers and brand strategists',
+      'Copywriters and content creators (plain language, accessibility-focused)',
+      'Social media management and digital advertising services'
     ],
   },
   {
@@ -183,10 +182,10 @@ const FindSupportPage = () => {
     icon: '🛠️',
     color: 'from-indigo-500 to-blue-600',
     examples: [
-      'Medical & allied health equipment',
-      'Assistive technology & home modifications',
-      'Accessible vehicle fit-outs',
-      'Ergonomic & workplace accessibility'
+      'Medical and allied health equipment suppliers',
+      'Assistive technology and home modification providers',
+      'Fleet and vehicle fit-out services (accessible vehicles)',
+      'Workplace fit-out, ergonomic and accessibility consultants'
     ],
   },
   {
@@ -194,10 +193,10 @@ const FindSupportPage = () => {
     icon: '🧠',
     color: 'from-pink-500 to-purple-600',
     examples: [
-      'Behaviour support consulting',
-      'Complex needs specialists',
-      'Positive behaviour support training',
-      'Clinical oversight & care quality advisory'
+      'Behaviour support practitioners and consulting teams',
+      'Complex needs and dual-diagnosis specialists',
+      'Positive behaviour support training for provider staff',
+      'Clinical oversight and quality-of-care advisory services'
     ],
   }
 ];

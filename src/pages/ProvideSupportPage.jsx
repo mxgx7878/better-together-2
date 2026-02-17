@@ -119,50 +119,104 @@ const ProvideSupportPage = () => {
     },
   ];
 
-  const servicesYouCanOffer = [
-    {
-      category: 'Daily Living Support',
-      qualified: false,
-      icon: '🏠',
-      color: 'from-blue-500 to-indigo-600',
-      services: ['Domestic assistance', 'Meal preparation', 'Shopping support', 'Transport', 'Gardening'],
-    },
-    {
-      category: 'Social & Community',
-      qualified: false,
-      icon: '🌟',
-      color: 'from-purple-500 to-pink-600',
-      services: ['Community participation', 'Social activities', 'Recreational support', 'Companionship', 'Skill building'],
-    },
-    {
-      category: 'Personal Care',
-      qualified: true,
-      icon: '💜',
-      color: 'from-teal-500 to-green-600',
-      services: ['Showering assistance', 'Dressing support', 'Mobility assistance', 'Medication reminders', 'Exercise support'],
-    },
-    {
-      category: 'Allied Health',
-      qualified: true,
-      icon: '💪',
-      color: 'from-orange-500 to-red-500',
-      services: ['Occupational therapy', 'Speech pathology', 'Physiotherapy', 'Psychology', 'Behaviour support'],
-    },
-    {
-      category: 'Support Coordination',
-      qualified: true,
-      icon: '📋',
-      color: 'from-cyan-500 to-blue-600',
-      services: ['Plan management', 'Service coordination', 'Capacity building', 'Connection services'],
-    },
-    {
-      category: 'Nursing Services',
-      qualified: true,
-      icon: '🏥',
-      color: 'from-rose-500 to-pink-600',
-      services: ['Clinical care', 'Wound management', 'Medication management', 'Health monitoring', 'Respite support'],
-    },
-  ];
+const servicesYouCanOffer = [
+  {
+    category: 'NDIS Service Providers (Registered & Unregistered)',
+    qualified: false,
+    icon: '🏢',
+    color: 'from-blue-500 to-indigo-600',
+    services: [
+      'Registered NDIS providers delivering support across all registration groups',
+      'Unregistered providers offering flexible, person-centred services',
+      'Sole traders and micro-providers with niche or localised supports',
+      'Multidisciplinary teams partnering with other businesses to deliver wraparound care'
+    ],
+  },
+  {
+    category: 'Professional & Legal Services',
+    qualified: false,
+    icon: '⚖️',
+    color: 'from-purple-500 to-pink-600',
+    services: [
+      'Business lawyers (NDIS compliance, contracts, disputes)',
+      'Commercial / employment lawyers',
+      'Trademark / IP lawyers',
+      'Notary and document certification services'
+    ],
+  },
+  {
+    category: 'Financial, Accounting & Insurance Services',
+    qualified: true,
+    icon: '💰',
+    color: 'from-teal-500 to-green-600',
+    services: [
+      'Accountants and bookkeepers (NDIS-ready reporting, payroll, BAS)',
+      'Financial planners and business advisors',
+      'Insurance brokers (public liability, professional indemnity, workers comp)',
+      'Audit and compliance review services'
+    ],
+  },
+  {
+    category: 'HR, Recruitment & Workforce Development',
+    qualified: true,
+    icon: '👥',
+    color: 'from-orange-500 to-red-500',
+    services: [
+      'HR specialists (policies, performance management, workplace culture)',
+      'Recruitment agencies and temp staffing services',
+      'Training and RTOs (NDIS practice standards, safeguarding, clinical skills)',
+      'Workplace health & safety consultants'
+    ],
+  },
+  {
+    category: 'Technology, Systems & Admin Support',
+    qualified: true,
+    icon: '💻',
+    color: 'from-cyan-500 to-blue-600',
+    services: [
+      'Practice management and CRM software providers',
+      'IT support, cybersecurity, and data privacy specialists',
+      'Virtual assistants and admin support services',
+      'Website development, hosting, and tech integration'
+    ],
+  },
+  {
+    category: 'Marketing, Branding & Communications',
+    qualified: true,
+    icon: '📣',
+    color: 'from-yellow-500 to-amber-600',
+    services: [
+      'Marketing agencies and consultants (NDIS-savvy)',
+      'Graphic designers and brand strategists',
+      'Copywriters and content creators (plain language, accessibility-focused)',
+      'Social media management and digital advertising services'
+    ],
+  },
+  {
+    category: 'Clinical, Equipment & Workplace Services',
+    qualified: true,
+    icon: '🛠️',
+    color: 'from-indigo-500 to-blue-600',
+    services: [
+      'Medical and allied health equipment suppliers',
+      'Assistive technology and home modification providers',
+      'Fleet and vehicle fit-out services (accessible vehicles)',
+      'Workplace fit-out, ergonomic and accessibility consultants'
+    ],
+  },
+  {
+    category: 'Specialist Disability & Behaviour Support Services',
+    qualified: true,
+    icon: '🧠',
+    color: 'from-pink-500 to-purple-600',
+    services: [
+      'Behaviour support practitioners and consulting teams',
+      'Complex needs and dual-diagnosis specialists',
+      'Positive behaviour support training for provider staff',
+      'Clinical oversight and quality-of-care advisory services'
+    ],
+  }
+];
 
   const platformFeatures = [
     {

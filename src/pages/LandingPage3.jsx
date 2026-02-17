@@ -22,7 +22,7 @@ const LandingPage3 = () => {
     {
       title: "Reimagining Disability",
       subtitle: "With the Power of Local Communities",
-      description: "We are an independent platform dedicated to fostering connections within local communities and linking people with local providers. This mission is at the core of everything we do",
+      description: "We are an independent platform dedicated to fostering connections within local communities and linking people with local providers. This mission is at the core of everything we do.",
       image: "/uploads/bgnew1.jpg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
       secondaryBtn: { text: "For Provider", link: "/provide-support" }
@@ -389,6 +389,244 @@ We believe that NDIS and people who offer support in the disability sector must 
         </div>
       </section>
 
+
+     {/* Who We Help Section */}
+      
+<section className="relative overflow-hidden py-16 md:py-20">
+  {/* Background image */}
+  <div className="absolute inset-0">
+    <img
+      src="/uploads/who-we-help2.jpg"
+      alt=""
+      className="h-full w-full object-cover"
+    />
+    <div className="absolute inset-0 bg-black/20" />
+  </div>
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Headings */}
+    <div className="max-w-2xl">
+      <div className="text-sm font-semibold uppercase tracking-wider text-white/90">
+        Who We Help
+      </div>
+      <h2 className="mt-3 text-4xl md:text-5xl font-extrabold text-white leading-tight">
+        Connecting Participants &amp; Providers
+      </h2>
+      <p className="mt-4 text-lg text-white/90">
+        Whether you're seeking support or providing services, Better Together Network brings the
+        community together.
+      </p>
+    </div>
+
+    {/* Cards */}
+    <div className="mt-10 grid gap-6 max-w-2xl">
+      {/* Card 1 - White */}
+      <div
+        className="group rounded-3xl bg-white p-8 md:p-10
+                   shadow-[0_25px_60px_rgba(0,0,0,0.18)]
+                   transition-all duration-300
+                   hover:-translate-y-1 hover:shadow-[0_35px_80px_rgba(0,0,0,0.22)]"
+      >
+        <div className="flex items-start gap-5">
+          {/* Icon circle */}
+          <div
+            className="shrink-0 w-14 h-14 rounded-full bg-slate-900/90 text-white
+                       flex items-center justify-center
+                       transition-transform duration-300 group-hover:scale-105"
+          >
+            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 12a5 5 0 100-10 5 5 0 000 10z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M20 21a8 8 0 10-16 0" />
+            </svg>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold text-slate-600">NDIS Participants</div>
+            <h3 className="mt-1 text-2xl font-extrabold text-slate-900">
+              Looking for Support?
+            </h3>
+            <p className="mt-3 text-slate-600 leading-7">
+              Find verified NDIS service providers in your area. Browse profiles, compare services,
+              and connect with providers who match your needs and goals.
+            </p>
+
+            <div className="mt-6">
+              <Link
+                to="/find-support"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full
+                           bg-slate-900 text-white font-semibold
+                           transition-all duration-300
+                           hover:bg-slate-800 hover:-translate-y-0.5"
+              >
+                Find Support
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Card 2 - Pink */}
+      <div
+        className="group rounded-3xl bg-rose-600 p-8 md:p-10
+                   shadow-[0_25px_60px_rgba(0,0,0,0.18)]
+                   transition-all duration-300
+                   hover:-translate-y-1 hover:shadow-[0_35px_80px_rgba(0,0,0,0.22)]"
+      >
+        <div className="flex items-start gap-5">
+          {/* Icon circle */}
+          <div
+            className="shrink-0 w-14 h-14 rounded-full bg-white text-rose-600
+                       flex items-center justify-center
+                       transition-transform duration-300 group-hover:scale-105"
+          >
+            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7a4 4 0 108 0 4 4 0 00-8 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M20 8v6" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M23 11h-6" />
+            </svg>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold text-white/85">NDIS Providers</div>
+            <h3 className="mt-1 text-2xl font-extrabold text-white">
+              For Provider
+            </h3>
+            <p className="mt-3 text-white/90 leading-7">
+              Join our network and connect with thousands of NDIS participants. Build your profile,
+              respond to requests, and grow your business.
+            </p>
+
+            <div className="mt-6">
+              <Link
+                to="/provide-support"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full
+                           bg-white text-rose-600 font-semibold
+                           transition-all duration-300
+                           hover:-translate-y-0.5 hover:bg-white/90"
+              >
+                Join as Provider
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+      
+      {/* Platform Features */}
+   <section className="relative py-20 bg-white overflow-hidden">
+  {/* subtle background shapes */}
+  <div className="pointer-events-none absolute inset-0">
+    <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full border border-slate-200/60" />
+    <div className="absolute -right-56 -top-20 h-[520px] w-[520px] rounded-full border border-slate-200/60" />
+    <div className="absolute right-0 top-0 h-[420px] w-[520px] opacity-30">
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 to-transparent [clip-path:polygon(35%_0,100%_0,60%_100%,0_100%)]" />
+    </div>
+  </div>
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Header */}
+    <div className="text-center mb-16">
+      <span className="text-sm font-semibold text-rose-500 uppercase tracking-wider">
+        Platform Features
+      </span>
+      <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mt-3 mb-4">
+        Everything You Need in One Place
+      </h2>
+      <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+        Powerful features designed to make your NDIS journey smoother
+      </p>
+    </div>
+
+    {/* Items */}
+    <div className="grid md:grid-cols-2 lg:grid-cols-4">
+      {platformFeatures.map((feature, index) => (
+        <div
+          key={index}
+          className={`group relative px-8 py-10 text-center transition-all duration-300 ${
+            index !== platformFeatures.length - 1
+              ? "lg:border-r lg:border-slate-200/70"
+              : ""
+          }`}
+        >
+          {/* Hover panel */}
+          <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute inset-3 rounded-2xl bg-white shadow-[0_18px_45px_rgba(15,23,42,0.10)] border border-slate-200/70" />
+          </div>
+
+          {/* Content wrapper */}
+          <div className="relative">
+            {/* Circle Image */}
+            <div className="relative mx-auto w-40 h-40">
+              <img
+                src={feature.image}
+                alt={feature.title}
+                className="w-full h-full object-cover rounded-full shadow-md transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+                onError={(e) => handleImageError(e, feature.title)}
+              />
+
+              {/* Floating icon badge */}
+              <div className="absolute -top-1 -right-2 w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center transition-all duration-300 group-hover:bg-rose-500">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-7 h-7 text-rose-500 transition-colors duration-300 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {/* simple “feature” icon */}
+                  <path d="M12 2v4" />
+                  <path d="M12 18v4" />
+                  <path d="M4.93 4.93l2.83 2.83" />
+                  <path d="M16.24 16.24l2.83 2.83" />
+                  <path d="M2 12h4" />
+                  <path d="M18 12h4" />
+                  <path d="M4.93 19.07l2.83-2.83" />
+                  <path d="M16.24 7.76l2.83-2.83" />
+                  <circle cx="12" cy="12" r="3.2" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h3 className="mt-8 text-xl font-extrabold text-slate-900 transition-colors duration-300 group-hover:text-rose-500">
+              {feature.title}
+            </h3>
+
+            {/* Description */}
+            <p className="mt-3 text-slate-600 leading-7">
+              {feature.description}
+            </p>
+
+            {/* Arrow */}
+            <div className="mt-6 flex justify-center">
+              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-transparent transition-all duration-300 group-hover:bg-rose-500">
+                <svg
+                  className="w-5 h-5 text-slate-900 transition-colors duration-300 group-hover:text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+
+
       {/* Services Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -398,8 +636,7 @@ We believe that NDIS and people who offer support in the disability sector must 
               Services You Can Find
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Connect with providers across all NDIS service categories
-            </p>
+Connection to a wide range of providers who can support you with your funding.</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -671,240 +908,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
 
 
 
-      {/* Who We Help Section */}
-      
-<section className="relative overflow-hidden py-16 md:py-20">
-  {/* Background image */}
-  <div className="absolute inset-0">
-    <img
-      src="/uploads/who-we-help2.jpg"
-      alt=""
-      className="h-full w-full object-cover"
-    />
-    <div className="absolute inset-0 bg-black/20" />
-  </div>
-
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Headings */}
-    <div className="max-w-2xl">
-      <div className="text-sm font-semibold uppercase tracking-wider text-white/90">
-        Who We Help
-      </div>
-      <h2 className="mt-3 text-4xl md:text-5xl font-extrabold text-white leading-tight">
-        Connecting Participants &amp; Providers
-      </h2>
-      <p className="mt-4 text-lg text-white/90">
-        Whether you're seeking support or providing services, Better Together Network brings the
-        community together.
-      </p>
-    </div>
-
-    {/* Cards */}
-    <div className="mt-10 grid gap-6 max-w-2xl">
-      {/* Card 1 - White */}
-      <div
-        className="group rounded-3xl bg-white p-8 md:p-10
-                   shadow-[0_25px_60px_rgba(0,0,0,0.18)]
-                   transition-all duration-300
-                   hover:-translate-y-1 hover:shadow-[0_35px_80px_rgba(0,0,0,0.22)]"
-      >
-        <div className="flex items-start gap-5">
-          {/* Icon circle */}
-          <div
-            className="shrink-0 w-14 h-14 rounded-full bg-slate-900/90 text-white
-                       flex items-center justify-center
-                       transition-transform duration-300 group-hover:scale-105"
-          >
-            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 12a5 5 0 100-10 5 5 0 000 10z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M20 21a8 8 0 10-16 0" />
-            </svg>
-          </div>
-
-          <div>
-            <div className="text-sm font-semibold text-slate-600">NDIS Participants</div>
-            <h3 className="mt-1 text-2xl font-extrabold text-slate-900">
-              Looking for Support?
-            </h3>
-            <p className="mt-3 text-slate-600 leading-7">
-              Find verified NDIS service providers in your area. Browse profiles, compare services,
-              and connect with providers who match your needs and goals.
-            </p>
-
-            <div className="mt-6">
-              <Link
-                to="/find-support"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full
-                           bg-slate-900 text-white font-semibold
-                           transition-all duration-300
-                           hover:bg-slate-800 hover:-translate-y-0.5"
-              >
-                Find Support
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Card 2 - Pink */}
-      <div
-        className="group rounded-3xl bg-rose-600 p-8 md:p-10
-                   shadow-[0_25px_60px_rgba(0,0,0,0.18)]
-                   transition-all duration-300
-                   hover:-translate-y-1 hover:shadow-[0_35px_80px_rgba(0,0,0,0.22)]"
-      >
-        <div className="flex items-start gap-5">
-          {/* Icon circle */}
-          <div
-            className="shrink-0 w-14 h-14 rounded-full bg-white text-rose-600
-                       flex items-center justify-center
-                       transition-transform duration-300 group-hover:scale-105"
-          >
-            <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7a4 4 0 108 0 4 4 0 00-8 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M20 8v6" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M23 11h-6" />
-            </svg>
-          </div>
-
-          <div>
-            <div className="text-sm font-semibold text-white/85">NDIS Providers</div>
-            <h3 className="mt-1 text-2xl font-extrabold text-white">
-              For Provider
-            </h3>
-            <p className="mt-3 text-white/90 leading-7">
-              Join our network and connect with thousands of NDIS participants. Build your profile,
-              respond to requests, and grow your business.
-            </p>
-
-            <div className="mt-6">
-              <Link
-                to="/provide-support"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full
-                           bg-white text-rose-600 font-semibold
-                           transition-all duration-300
-                           hover:-translate-y-0.5 hover:bg-white/90"
-              >
-                Join as Provider
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-      
-      {/* Platform Features */}
-   <section className="relative py-20 bg-white overflow-hidden">
-  {/* subtle background shapes */}
-  <div className="pointer-events-none absolute inset-0">
-    <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full border border-slate-200/60" />
-    <div className="absolute -right-56 -top-20 h-[520px] w-[520px] rounded-full border border-slate-200/60" />
-    <div className="absolute right-0 top-0 h-[420px] w-[520px] opacity-30">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 to-transparent [clip-path:polygon(35%_0,100%_0,60%_100%,0_100%)]" />
-    </div>
-  </div>
-
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Header */}
-    <div className="text-center mb-16">
-      <span className="text-sm font-semibold text-rose-500 uppercase tracking-wider">
-        Platform Features
-      </span>
-      <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mt-3 mb-4">
-        Everything You Need in One Place
-      </h2>
-      <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
-        Powerful features designed to make your NDIS journey smoother
-      </p>
-    </div>
-
-    {/* Items */}
-    <div className="grid md:grid-cols-2 lg:grid-cols-4">
-      {platformFeatures.map((feature, index) => (
-        <div
-          key={index}
-          className={`group relative px-8 py-10 text-center transition-all duration-300 ${
-            index !== platformFeatures.length - 1
-              ? "lg:border-r lg:border-slate-200/70"
-              : ""
-          }`}
-        >
-          {/* Hover panel */}
-          <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <div className="absolute inset-3 rounded-2xl bg-white shadow-[0_18px_45px_rgba(15,23,42,0.10)] border border-slate-200/70" />
-          </div>
-
-          {/* Content wrapper */}
-          <div className="relative">
-            {/* Circle Image */}
-            <div className="relative mx-auto w-40 h-40">
-              <img
-                src={feature.image}
-                alt={feature.title}
-                className="w-full h-full object-cover rounded-full shadow-md transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-                onError={(e) => handleImageError(e, feature.title)}
-              />
-
-              {/* Floating icon badge */}
-              <div className="absolute -top-1 -right-2 w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center transition-all duration-300 group-hover:bg-rose-500">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="w-7 h-7 text-rose-500 transition-colors duration-300 group-hover:text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  {/* simple “feature” icon */}
-                  <path d="M12 2v4" />
-                  <path d="M12 18v4" />
-                  <path d="M4.93 4.93l2.83 2.83" />
-                  <path d="M16.24 16.24l2.83 2.83" />
-                  <path d="M2 12h4" />
-                  <path d="M18 12h4" />
-                  <path d="M4.93 19.07l2.83-2.83" />
-                  <path d="M16.24 7.76l2.83-2.83" />
-                  <circle cx="12" cy="12" r="3.2" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Title */}
-            <h3 className="mt-8 text-xl font-extrabold text-slate-900 transition-colors duration-300 group-hover:text-rose-500">
-              {feature.title}
-            </h3>
-
-            {/* Description */}
-            <p className="mt-3 text-slate-600 leading-7">
-              {feature.description}
-            </p>
-
-            {/* Arrow */}
-            <div className="mt-6 flex justify-center">
-              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-transparent transition-all duration-300 group-hover:bg-rose-500">
-                <svg
-                  className="w-5 h-5 text-slate-900 transition-colors duration-300 group-hover:text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </span>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
+ 
       {/* Testimonials Carousel */}
 <section className="py-20 bg-white">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1032,9 +1036,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
 how you connect with businesses who can help.             </span>
           </h2>
           
-          <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed">
-We can’t say “join thousands of participants and providers who have already discovered” – 
-Join a network of participants and providers who are ready to create meaningful connections and experience the power of the Better Together Network. 
+          <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed"> Join a network of participants and providers who are ready to create meaningful connections and experience the power of the Better Together Network. 
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
