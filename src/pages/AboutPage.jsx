@@ -105,14 +105,14 @@ const AboutPage = () => {
       icon: '🌟',
       color: 'from-yellow-500 to-orange-500',
     },
-       {
+    {
       number: '08',
       title: 'Local, Relationship-Driven, Not Just Digital',
       description: 'We focus on building local networks, peer support, and in-person connections — not just clicks and profiles — so people can find real community, not just services.',
       icon: '👥',
       color: 'from-yellow-500 to-orange-500',
     },
-       {
+    {
       number: '09',
       title: 'Advocacy as a Core Function, Not an Add-On',
       description: 'We don’t sit on the sidelines. We organise, amplify community voices, and engage with government and systems so that policies, pricing, and practices reflect what disabled people and small providers actually need..',
@@ -145,22 +145,22 @@ const AboutPage = () => {
               🌟 About Better Together Network
             </span>
           </div>
-          
+
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
             Reimagining Disability
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
               With the Power of Local Community
             </span>
           </h1>
-          
+
           <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-4xl mx-auto leading-relaxed">
             Building Stronger NDIS Communities — Together
           </p>
 
           <div className="max-w-4xl mx-auto">
             <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
-              We are an independent NDIS community platform designed to bring people together — providers, participants, 
-              families, and local specialists — to create stronger, more connected, and more supportive disability networks 
+              We are an independent NDIS community platform designed to bring people together — providers, participants,
+              families, and local specialists — to create stronger, more connected, and more supportive disability networks
               across Australia.
             </p>
           </div>
@@ -169,7 +169,7 @@ const AboutPage = () => {
         {/* Wave divider */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" />
           </svg>
         </div>
       </section>
@@ -201,33 +201,33 @@ const AboutPage = () => {
                     <p className="text-purple-200 mt-2">SD Connect</p>
                   </div>
                 </div>
-                
+
                 <div className="md:w-2/3 p-10">
                   <div className="prose prose-lg max-w-none">
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Sue Dymond is a powerhouse of lived experience, advocacy, and community leadership — and a driving 
-                      force behind this platform. Her work is shaped by decades of navigating disability, raising a child 
+                      Sue Dymond is a powerhouse of lived experience, advocacy, and community leadership — and a driving
+                      force behind this platform. Her work is shaped by decades of navigating disability, raising a child
                       with Down syndrome, and supporting families who often feel unheard, overwhelmed, or left behind by the system.
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Sue's journey has never been theoretical. It has been lived — deeply, personally, and courageously. 
-                      From the early challenges of raising her son to becoming a mentor, author, advocate, and founder of 
-                      SD Connect, she has transformed her experiences into a mission to educate, empower, and unite people 
+                      Sue's journey has never been theoretical. It has been lived — deeply, personally, and courageously.
+                      From the early challenges of raising her son to becoming a mentor, author, advocate, and founder of
+                      SD Connect, she has transformed her experiences into a mission to educate, empower, and unite people
                       across the disability community.
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Her work spans councils, disability organisations, community groups, and families across Victoria, 
-                      where she has consistently challenged outdated thinking, inspired new perspectives, and pushed for 
-                      genuine inclusion and respect. She is known for her honesty, her humour, and her unwavering belief 
+                      Her work spans councils, disability organisations, community groups, and families across Victoria,
+                      where she has consistently challenged outdated thinking, inspired new perspectives, and pushed for
+                      genuine inclusion and respect. She is known for her honesty, her humour, and her unwavering belief
                       that real change begins with real people coming together.
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Sue's lived experience is not just part of her story — it is the foundation of her leadership. 
-                      She understands the gaps, the frustrations, and the emotional weight families carry because she 
-                      has lived it. She also understands the potential of the NDIS when community, providers, and 
+                      Sue's lived experience is not just part of her story — it is the foundation of her leadership.
+                      She understands the gaps, the frustrations, and the emotional weight families carry because she
+                      has lived it. She also understands the potential of the NDIS when community, providers, and
                       participants work together with integrity and heart.
                     </p>
 
@@ -259,7 +259,7 @@ const AboutPage = () => {
 
                     <div className="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 text-white">
                       <p className="text-xl font-bold italic">
-                        "It only takes one person to spark change — but when a community stands together, 
+                        "It only takes one person to spark change — but when a community stands together,
                         transformation becomes unstoppable."
                       </p>
                     </div>
@@ -284,56 +284,56 @@ const AboutPage = () => {
                     <p className="text-blue-200">Accessible Living Homes</p>
                   </div>
                 </div>
-                
+
                 <div className="md:w-2/3 p-10">
                   <div className="prose prose-lg max-w-none">
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Karen Burgess is an accomplished disability sector leader, reform advocate, and Business Development 
-                      Manager at Accessible Living Homes. With more than three decades of experience across disability, 
-                      community services, and systems reform, she brings a rare combination of lived experience, strategic 
+                      Karen Burgess is an accomplished disability sector leader, reform advocate, and Business Development
+                      Manager at Accessible Living Homes. With more than three decades of experience across disability,
+                      community services, and systems reform, she brings a rare combination of lived experience, strategic
                       capability, and professional insight to her work.
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      As an openly dyslexic professional, Karen has built her career on transforming personal experience 
-                      into leadership. Her dyslexia has shaped her commitment to accessible communication, inclusive practice, 
-                      and the recognition of diverse cognitive strengths within organisational and service environments. 
-                      She is known for her ability to translate complex policy into clear, practical language that supports 
+                      As an openly dyslexic professional, Karen has built her career on transforming personal experience
+                      into leadership. Her dyslexia has shaped her commitment to accessible communication, inclusive practice,
+                      and the recognition of diverse cognitive strengths within organisational and service environments.
+                      She is known for her ability to translate complex policy into clear, practical language that supports
                       both participants and providers to navigate the NDIS with confidence.
                     </p>
 
                     <div className="bg-indigo-50 rounded-2xl p-6 border-l-4 border-indigo-600 mb-6">
                       <p className="text-lg text-gray-700">
-                        Karen holds a <strong>Master of Business Leadership from Charles Sturt University</strong>, 
-                        complementing her extensive sector experience with advanced capability in governance, organisational 
-                        leadership, and strategic development. Her academic and professional background enables her to bridge 
+                        Karen holds a <strong>Master of Business Leadership from Charles Sturt University</strong>,
+                        complementing her extensive sector experience with advanced capability in governance, organisational
+                        leadership, and strategic development. Her academic and professional background enables her to bridge
                         the gap between policy intent, operational reality, and participant experience.
                       </p>
                     </div>
 
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Throughout her career, Karen has been a strong advocate for <strong>transparency, accountability, 
-                      and ethical practice</strong>. She has acted as a whistleblower when required, demonstrating integrity 
-                      and courage in calling out practices that compromise participant safety, dignity, or rights. Her 
-                      leadership is grounded in a commitment to ensuring that disability services operate with honesty, 
+                      Throughout her career, Karen has been a strong advocate for <strong>transparency, accountability,
+                        and ethical practice</strong>. She has acted as a whistleblower when required, demonstrating integrity
+                      and courage in calling out practices that compromise participant safety, dignity, or rights. Her
+                      leadership is grounded in a commitment to ensuring that disability services operate with honesty,
                       fairness, and respect for the people they exist to support.
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Karen's work spans community mobilisation, sector education, and systems improvement. She is deeply 
-                      committed to elevating the voices of people with disability, strengthening small providers, and promoting 
-                      a sector culture that values lived experience as expertise. Her approach is principled, collaborative, 
+                      Karen's work spans community mobilisation, sector education, and systems improvement. She is deeply
+                      committed to elevating the voices of people with disability, strengthening small providers, and promoting
+                      a sector culture that values lived experience as expertise. Her approach is principled, collaborative,
                       and firmly aligned with the belief that meaningful reform must be shaped by the people most affected by it.
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      Karen continues to be a respected voice in the disability community — a leader who brings clarity, 
+                      Karen continues to be a respected voice in the disability community — a leader who brings clarity,
                       integrity, and lived experience to every space she enters.
                     </p>
 
                     <div className="mt-6 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-6 text-white">
                       <p className="text-xl font-bold italic">
-                        "We are bridging the gaps and responding to change by bringing people together to grow this 
+                        "We are bridging the gaps and responding to change by bringing people together to grow this
                         community and lead with the strength of disabled experience."
                       </p>
                     </div>
@@ -357,25 +357,25 @@ const AboutPage = () => {
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
               <p className="text-xl text-gray-700 leading-relaxed mb-6">
-                Our mission is to <strong>strengthen and drive the disability sector</strong> by fostering genuine connection, 
+                Our mission is to <strong>strengthen and drive the disability sector</strong> by fostering genuine connection,
                 collaboration, and community — one local relationship at a time.
               </p>
-              
+
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided by people 
-                with disabilities</strong>. Provider practices, community spaces, and sector standards should be built through 
+                We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided by people
+                  with disabilities</strong>. Provider practices, community spaces, and sector standards should be built through
                 authentic co-design, grounded in disability theory and the core principle that <strong>"nothing about us without us"</strong>.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                People with disabilities are not passive recipients of services — they are leaders, designers, and experts in 
+                People with disabilities are not passive recipients of services — they are leaders, designers, and experts in
                 their own lives. Their lived experience informs how providers operate, how communities connect, and how the scheme evolves.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed">
-                We are also committed to becoming a <strong>collective voice for both providers and participants</strong>, 
-                demonstrating that when we come together, we can influence quality, culture, and practice from the ground up. 
-                Collaboration creates momentum. Shared values create change. A united community can show what ethical, 
+                We are also committed to becoming a <strong>collective voice for both providers and participants</strong>,
+                demonstrating that when we come together, we can influence quality, culture, and practice from the ground up.
+                Collaboration creates momentum. Shared values create change. A united community can show what ethical,
                 person-centred, locally driven support truly looks like.
               </p>
             </div>
@@ -387,16 +387,26 @@ const AboutPage = () => {
                 Our Mission in Action
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                By empowering participants, supporting local providers and amplifying lived experience, we aim to build a support ecosystem that is ethical, inclusive and genuinely community-driven — a place where real choice and control are 
-                protected, local businesses are valued, and smaller providers have the strength of a unified voice to advocate 
+                By empowering participants, supporting local providers and amplifying lived experience, we aim to build a support ecosystem that is ethical, inclusive and genuinely community-driven — a place where real choice and control are
+                protected, local businesses are valued, and smaller providers have the strength of a unified voice to advocate
                 for fair, sustainable conditions.
+              </p>
+            </div>
+
+            {/* About Us */}
+            <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-10 border border-green-200">
+             
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Better Together Network strengthens and drives the disability sector by fostering genuine connection, collaboration and community — one local relationship at a time. We bring together providers across the ecosystem, including intermediary services and organisations that offer supports to disability services, so that everyone working alongside disabled people is connected, informed and aligned in quality, ethical practice.<br></br>
+                We believe that better care and support for disabled people should be shaped and guided by disabled people themselves — with provider practices, community spaces and sector standards built through authentic co‑design and the core principle “nothing about us without us.” People with disability are leaders, designers and experts in their own lives; their lived experience must inform how providers operate, how communities connect and how systems evolve.<br></br>
+                By empowering participants, supporting local providers and intermediaries, and amplifying lived experience, Better Together Network builds an ethical, inclusive, community‑driven ecosystem where real choice and control are protected, local businesses are valued, and smaller providers gain the strength of a unified voice to advocate for fair, sustainable conditions and quality practice.
               </p>
             </div>
 
             {/* Mission Statement */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-10 text-white text-center">
               <p className="text-2xl md:text-3xl font-bold leading-relaxed">
-                To build a connected, Supportive Community where people, providers and local networks grow stronger together — 
+                To build a connected, Supportive Community where people, providers and local networks grow stronger together —
                 and where the sector is shaped by the very people it exists to serve.
               </p>
             </div>
@@ -414,8 +424,8 @@ const AboutPage = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {missionTaglines.map((tagline, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
                 <div className="flex items-start">
@@ -439,7 +449,7 @@ const AboutPage = () => {
               A Connected, Local, Inclusive NDIS Community
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              We are creating a community where no one stands alone — not providers, not participants, not families. 
+              We are creating a community where no one stands alone — not providers, not participants, not families.
               A community where connection replaces isolation, and collaboration replaces competition.
             </p>
           </div>
@@ -447,7 +457,7 @@ const AboutPage = () => {
           {/* Vision Points */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {visionPoints.map((point, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
@@ -500,15 +510,15 @@ const AboutPage = () => {
               Why We're Different from Anything Else in the Marketplace
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              We are not another directory, not another provider group, and not another NDIS service platform. 
-              We are building something fundamentally different — a community-driven, lived-experience-led ecosystem 
+              We are not another directory, not another provider group, and not another NDIS service platform.
+              We are building something fundamentally different — a community-driven, lived-experience-led ecosystem
               designed to shift the culture of disability support in Australia.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whyDifferent.map((item, index) => (
-              <div 
+              <div
                 key={index}
                 className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100 hover:border-transparent overflow-hidden"
               >
@@ -520,7 +530,7 @@ const AboutPage = () => {
                 <div className={`bg-gradient-to-br ${item.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg`}>
                   {item.icon}
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-gray-900 mb-4 pr-12">{item.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{item.description}</p>
               </div>
@@ -553,16 +563,16 @@ const AboutPage = () => {
           <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border-2 border-purple-200 mb-12">
             <div className="prose prose-lg max-w-none">
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Our <em>No One Left Behind</em> model is driven by women with disabilities whose lived experience shapes 
-                every decision, every connection, and every part of this community. This platform is built on the belief 
-                that real change happens when those who have walked the path lead the way — when women who have navigated 
+                Our <em>No One Left Behind</em> model is driven by women with disabilities whose lived experience shapes
+                every decision, every connection, and every part of this community. This platform is built on the belief
+                that real change happens when those who have walked the path lead the way — when women who have navigated
                 the system, challenged its gaps, and carried its weight stand at the centre of reform.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                We honour the leadership, insight, and resilience of disabled women who have long been the quiet backbone 
-                of advocacy, care, and community building. Their lived experience is not symbolic — it is the engine of 
-                this platform. It guides how we connect people, how we support families, how we hold providers accountable, 
+                We honour the leadership, insight, and resilience of disabled women who have long been the quiet backbone
+                of advocacy, care, and community building. Their lived experience is not symbolic — it is the engine of
+                this platform. It guides how we connect people, how we support families, how we hold providers accountable,
                 and how we build a sector where no one is left behind.
               </p>
             </div>
@@ -591,11 +601,11 @@ const AboutPage = () => {
           {/* Leadership Statement */}
           <div className="mt-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-10 text-white text-center">
             <p className="text-2xl md:text-3xl font-bold leading-relaxed mb-6">
-              By centring disabled women's leadership, we create a community that is stronger, more honest, 
+              By centring disabled women's leadership, we create a community that is stronger, more honest,
               and more deeply connected — a community where everyone has a place, a voice, and a pathway forward.
             </p>
             <p className="text-xl font-semibold">
-              Ensuring the voice of the NDIS community is loud and heard, and that from the ground up it is embedded, 
+              Ensuring the voice of the NDIS community is loud and heard, and that from the ground up it is embedded,
               respected, and practised in every viewpoint.
             </p>
           </div>
@@ -619,19 +629,19 @@ const AboutPage = () => {
               🚀 Join the Movement
             </span>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Ready to Be Part of
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
               This Movement?
             </span>
           </h2>
-          
+
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join the movement reshaping what disability support can be — bold, honest, and rebuilt through 
+            Join the movement reshaping what disability support can be — bold, honest, and rebuilt through
             the power of lived experience.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             <Link
               to="/subscription"
@@ -644,7 +654,7 @@ const AboutPage = () => {
                 </svg>
               </span>
             </Link>
-            
+
             <Link
               to="/contact"
               className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-2xl hover:bg-white/20 transition-all duration-300 shadow-lg"
@@ -654,7 +664,7 @@ const AboutPage = () => {
           </div>
 
           <p className="text-lg text-gray-300 italic">
-            Because this is not just a platform. It is a collective force reimagining a stronger, fairer, 
+            Because this is not just a platform. It is a collective force reimagining a stronger, fairer,
             and more human disability system — one built by the community, for the community.
           </p>
         </div>
