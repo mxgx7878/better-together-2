@@ -348,7 +348,7 @@ const AboutPage = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Our Mission</span>
+            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">About Us</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               Strengthen and Drive the Disability Sector
             </h2>
@@ -357,27 +357,11 @@ const AboutPage = () => {
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
               <p className="text-xl text-gray-700 leading-relaxed mb-6">
-                Our mission is to <strong>strengthen and drive the disability sector</strong> by fostering genuine connection,
-                collaboration, and community — one local relationship at a time.
-              </p>
+Better Together Network strengthens and drives the disability sector by fostering genuine connection, collaboration and community — one local relationship at a time. We bring together providers across the ecosystem, including intermediary services and organisations that offer supports to disability services, so that everyone working alongside disabled people is connected, informed and aligned in quality, ethical practice.
+We believe that better care and support for disabled people should be shaped and guided by disabled people themselves — with provider practices, community spaces and sector standards built through authentic co‑design and the core principle “nothing about us without us.” People with disability are leaders, designers and experts in their own lives; their lived experience must inform how providers operate, how communities connect and how systems evolve.<br/><br/>
+By empowering participants, supporting local providers and intermediaries, and amplifying lived experience, Better Together Network builds an ethical, inclusive, community‑driven ecosystem where real choice and control are protected, local businesses are valued, and smaller providers gain the strength of a unified voice to advocate for fair, sustainable conditions and quality practice.                 </p>
 
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided by people
-                  with disabilities</strong>. Provider practices, community spaces, and sector standards should be built through
-                authentic co-design, grounded in disability theory and the core principle that <strong>"nothing about us without us"</strong>.
-              </p>
 
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                People with disabilities are not passive recipients of services — they are leaders, designers, and experts in
-                their own lives. Their lived experience informs how providers operate, how communities connect, and how the scheme evolves.
-              </p>
-
-              <p className="text-lg text-gray-700 leading-relaxed">
-                We are also committed to becoming a <strong>collective voice for both providers and participants</strong>,
-                demonstrating that when we come together, we can influence quality, culture, and practice from the ground up.
-                Collaboration creates momentum. Shared values create change. A united community can show what ethical,
-                person-centred, locally driven support truly looks like.
-              </p>
             </div>
 
             {/* Mission in Action */}
@@ -393,15 +377,7 @@ const AboutPage = () => {
               </p>
             </div>
 
-            {/* About Us */}
-            <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-10 border border-green-200">
-             
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Better Together Network strengthens and drives the disability sector by fostering genuine connection, collaboration and community — one local relationship at a time. We bring together providers across the ecosystem, including intermediary services and organisations that offer supports to disability services, so that everyone working alongside disabled people is connected, informed and aligned in quality, ethical practice.<br></br>
-                We believe that better care and support for disabled people should be shaped and guided by disabled people themselves — with provider practices, community spaces and sector standards built through authentic co‑design and the core principle “nothing about us without us.” People with disability are leaders, designers and experts in their own lives; their lived experience must inform how providers operate, how communities connect and how systems evolve.<br></br>
-                By empowering participants, supporting local providers and intermediaries, and amplifying lived experience, Better Together Network builds an ethical, inclusive, community‑driven ecosystem where real choice and control are protected, local businesses are valued, and smaller providers gain the strength of a unified voice to advocate for fair, sustainable conditions and quality practice.
-              </p>
-            </div>
+          
 
             {/* Mission Statement */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-10 text-white text-center">

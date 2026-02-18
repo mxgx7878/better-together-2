@@ -92,30 +92,29 @@ const LandingPage3 = () => {
     e.target.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect width="800" height="600" fill="%234f46e5"/%3E%3Ctext x="50%25" y="50%25" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dominant-baseline="middle"%3E${encodeURIComponent(fallbackText)}%3C/text%3E%3C/svg%3E`;
   }, []);
 
-  // Services
-  const services = useMemo(() => [
-    {
-      title: 'Daily Living Support',
-      description: 'Help with everyday tasks like cooking, cleaning, and household management.',
-      image: '/uploads/daily.jpg',
-    },
-    {
-      title: 'Therapy Services',
-      description: 'Connect with occupational therapists, speech pathologists, and more.',
-      image: '/uploads/therapy.jpg',
-    },
-    {
-      title: 'Social & Community',
-      description: 'Participate in social activities and community events with support.',
-      image: '/uploads/social.jpg',
-    },
-    {
-      title: 'Support Coordination',
-      description: 'Get help navigating and managing your NDIS plan effectively.',
-      image: '/uploads/support2.jpg',
-    },
-  ], []);
-
+// Services
+const services = useMemo(() => [
+  {
+    title: 'NDIA Services & Businesses',
+    description: 'Connect with businesses and providers delivering support under the National Disability Insurance Agency.',
+    image: '/uploads/ndis.jpg',
+  },
+  {
+    title: 'TAC Services',
+    description: 'Find businesses offering Transport Accident Commission funded support and rehabilitation services.',
+    image: '/uploads/tac.png',
+  },
+  {
+    title: 'Health Services',
+    description: 'Browse allied health professionals and wellness providers supporting your health and wellbeing goals.',
+    image: '/uploads/health-care.jpg',
+  },
+  {
+    title: 'Medical Services',
+    description: 'Access medical practitioners and specialists who understand disability and complex care needs.',
+    image: '/uploads/medical.jpg',
+  },
+], []);
   // How It Works
   const howItWorks = useMemo(() => [
     {
@@ -347,7 +346,7 @@ const LandingPage3 = () => {
             {/* Image */}
             <div className="order-2 lg:order-1">
               <img
-                src="/uploads/chess.jpg"
+                src="/uploads/about.png"
                 alt="Community gathering"
                 className="rounded-3xl shadow-2xl w-full h-[600px] object-cover"
                 loading="lazy"
@@ -631,12 +630,13 @@ We believe that NDIS and people who offer support in the disability sector must 
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">What We Offer</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Services You Can Find
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-Connection to a wide range of providers who can support you with your funding.</p>
+           <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Businesses Who Support You</span>
+<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
+  Services You Can Find
+</h2>
+<p className="text-xl text-gray-600 max-w-3xl mx-auto">
+  Connection to a wide range of businesses who offer support across NDIA, TAC, health and medical services.
+</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
