@@ -704,7 +704,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
       <div className="relative md:col-span-5">
         <div className="absolute -left-4 top-1 hidden h-20 w-[2px] bg-red-500 md:block" />
         <p className="max-w-md text-sm leading-7 text-white/80 md:pl-2">
-          Connect with quality NDIS support in four simple steps.
+          Connect with quality NDIS support in simple steps.
         </p>
       </div>
     </div>
