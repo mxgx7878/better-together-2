@@ -346,7 +346,7 @@ const services = useMemo(() => [
             {/* Image */}
             <div className="order-2 lg:order-1">
               <img
-                src="/uploads/about.png"
+                src="/uploads/hearing-aid.jpg"
                 alt="Community gathering"
                 className="rounded-3xl shadow-2xl w-full h-[600px] object-cover"
                 loading="lazy"
