@@ -11,8 +11,8 @@ const FeaturesPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
-      title: 'Connections with Trusted NDIS Providers',
-      description: 'Build genuine partnerships with providers who understand the sector\'s realities. Share referrals, collaborate on services, and strengthen your network with people who truly "get" the NDIS.',
+      title: 'Connections with Trusted disability-sector Providers',
+      description: 'Build genuine partnerships with providers who understand the sector\'s realities. Share referrals, collaborate on services, and strengthen your network with people who truly "get" the disability-sector.',
       details: ['Professional networking', 'Referral partnerships', 'Sector collaboration', 'Community building'],
       color: 'from-purple-500 to-indigo-600',
     },
@@ -79,7 +79,7 @@ const FeaturesPage = () => {
         </svg>
       ),
       title: 'Workplace Tools and Practical Resources',
-      description: 'Use tools designed to help you work smarter, stay compliant, and deliver services aligned with the NDIS Act, its objects, and its principles. Reduce administrative burden and streamline your operations.',
+      description: 'Use tools designed to help you work smarter, stay compliant, and deliver services aligned with the disability-sector Act, its objects, and its principles. Reduce administrative burden and streamline your operations.',
       details: ['Compliance tools', 'Document templates', 'Training resources', 'Operational systems'],
       color: 'from-cyan-500 to-blue-600',
     },
@@ -90,7 +90,7 @@ const FeaturesPage = () => {
         </svg>
       ),
       title: 'Thought Leadership and Sector Education',
-      description: 'Stay informed with guidance that deepens your understanding of disability rights, lived experience, and the evolving NDIS landscape. Build confidence in your practice and stay ahead of sector changes.',
+      description: 'Stay informed with guidance that deepens your understanding of disability rights, lived experience, and the evolving disability-sector landscape. Build confidence in your practice and stay ahead of sector changes.',
       details: ['Sector insights', 'Best practices', 'Policy updates', 'Educational content'],
       color: 'from-yellow-500 to-orange-500',
     },
@@ -114,7 +114,7 @@ const FeaturesPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       ),
-      title: 'Support with Understanding and Coordinating Your NDIS Plan',
+      title: 'Support with Understanding and Coordinating Your disability-sector Plan',
       description: 'Get help making sense of your plan, using your funding effectively, and connecting with the right supports at the right time.',
       details: ['Plan guidance', 'Funding coordination', 'Service matching', 'Goal planning'],
       color: 'from-blue-500 to-indigo-600',
@@ -126,7 +126,7 @@ const FeaturesPage = () => {
         </svg>
       ),
       title: 'Clear Information, Guidance, and Practical Support',
-      description: 'Access easy-to-understand information about how the NDIS works, what your rights are, and how to make informed decisions about your supports.',
+      description: 'Access easy-to-understand information about how the disability-sector works, what your rights are, and how to make informed decisions about your supports.',
       details: ['Plain language guides', 'Rights information', 'Decision-making tools', 'Resource library'],
       color: 'from-purple-500 to-pink-600',
     },
@@ -137,7 +137,7 @@ const FeaturesPage = () => {
         </svg>
       ),
       title: 'Advocacy and Help Navigating Challenges',
-      description: 'Receive guidance from people who understand NDIS rules, processes, and pathways — and who can help you speak up, resolve issues, and protect your rights.',
+      description: 'Receive guidance from people who understand disability-sector rules, processes, and pathways — and who can help you speak up, resolve issues, and protect your rights.',
       details: ['Advocacy support', 'Issue resolution', 'Appeals guidance', 'Rights protection'],
       color: 'from-teal-500 to-cyan-600',
     },
@@ -158,7 +158,7 @@ const FeaturesPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       ),
-      title: 'Connections with Trusted, Local NDIS Providers',
+      title: 'Connections with Trusted, Local disability-sector Providers',
       description: 'Find reliable, experienced providers who align with your needs, values, and goals — without the overwhelm of searching alone.',
       details: ['Verified providers', 'Local matching', 'Quality focus', 'Values alignment'],
       color: 'from-orange-500 to-red-500',
@@ -170,7 +170,7 @@ const FeaturesPage = () => {
         </svg>
       ),
       title: 'Access to Specialists and Disability Sector Expertise',
-      description: 'Receive support from people who understand disability, the NDIS, and the realities of everyday life. Get reassurance, clarity, and practical advice when you need it most.',
+      description: 'Receive support from people who understand disability, the disability-sector, and the realities of everyday life. Get reassurance, clarity, and practical advice when you need it most.',
       details: ['Expert consultations', 'Specialist referrals', 'Professional guidance', 'Evidence-based support'],
       color: 'from-indigo-500 to-purple-600',
     },
@@ -240,7 +240,7 @@ const FeaturesPage = () => {
           </h1>
           
           <p className="text-xl md:text-2xl mb-12 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Whether you're a service provider or someone seeking NDIS support, 
+            Whether you're a service provider or someone seeking disability-sector support, 
             we've built powerful tools to help you succeed.
           </p>
 
@@ -329,7 +329,7 @@ const FeaturesPage = () => {
                 Features for Service Providers
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Everything you need to grow your NDIS business, connect with participants, 
+                Everything you need to grow your disability-sector business, connect with participants, 
                 and deliver exceptional service.
               </p>
             </div>
@@ -369,7 +369,7 @@ const FeaturesPage = () => {
               <div className="inline-block bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Grow Your Business?</h3>
                 <p className="text-gray-600 mb-6 max-w-lg mx-auto">
-                  Join hundreds of providers already connecting with NDIS participants through our platform.
+                  Join hundreds of providers already connecting with disability-sector participants through our platform.
                 </p>
                 <Link
                   to="/subscription"
@@ -397,11 +397,11 @@ const FeaturesPage = () => {
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-                Features for NDIS Participants
+                Features for disability-sector Participants
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Simple, accessible tools designed to help you Participants, 
-                connect with providers, and take control of your NDIS journey.
+                connect with providers, and take control of your disability-sector journey.
               </p>
             </div>
 
@@ -440,7 +440,7 @@ const FeaturesPage = () => {
               <div className="inline-block bg-gradient-to-r from-green-50 to-teal-50 rounded-3xl p-10 border border-green-200">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Find Your Support?</h3>
                 <p className="text-gray-600 mb-6 max-w-lg mx-auto">
-                  Join thousands of participants who've found quality NDIS providers through our platform.
+                  Join thousands of participants who've found quality disability-sector providers through our platform.
                 </p>
                 <Link
                   to="/subscription"
