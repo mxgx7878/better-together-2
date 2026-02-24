@@ -6,8 +6,8 @@ const ProvideSupportPage = () => {
 
   const benefits = [
     {
-      title: 'Connections with Trusted NDIS Providers',
-      description: 'Build genuine partnerships with providers who understand the sector\'s realities. Share referrals, collaborate on services, and strengthen your network with people who truly "get" the NDIS.',
+      title: 'Connections with Trusted disability services Providers',
+      description: 'Build genuine partnerships with providers who understand the sector\'s realities. Share referrals, collaborate on services, and strengthen your network with people who truly "get" the disability services.',
       icon: '🤝',
       color: 'from-purple-500 to-indigo-600',
     },
@@ -43,13 +43,13 @@ const ProvideSupportPage = () => {
     },
     {
       title: 'Workplace Tools and Practical Resources',
-      description: 'Use tools designed to help you work smarter, stay compliant, and deliver services aligned with the NDIS Act, its objects, and its principles. Reduce administrative burden and streamline your operations.',
+      description: 'Use tools designed to help you work smarter, stay compliant, and deliver services aligned with the disability services Act, its objects, and its principles. Reduce administrative burden and streamline your operations.',
       icon: '🛠️',
       color: 'from-cyan-500 to-blue-600',
     },
     {
       title: 'Thought Leadership and Sector Education',
-      description: 'Stay informed with guidance that deepens your understanding of disability rights, lived experience, and the evolving NDIS landscape. Build confidence in your practice and stay ahead of sector changes.',
+      description: 'Stay informed with guidance that deepens your understanding of disability rights, lived experience, and the evolving disability services landscape. Build confidence in your practice and stay ahead of sector changes.',
       icon: '📚',
       color: 'from-yellow-500 to-orange-500',
     },
@@ -121,12 +121,12 @@ const ProvideSupportPage = () => {
 
 const servicesYouCanOffer = [
   {
-    category: 'NDIS Service Providers (Registered & Unregistered)',
+    category: 'disability services Service Providers (Registered & Unregistered)',
     qualified: false,
     icon: '🏢',
     color: 'from-blue-500 to-indigo-600',
     services: [
-      'Registered NDIS providers delivering support across all registration groups',
+      'Registered disability services providers delivering support across all registration groups',
       'Unregistered providers offering flexible, person-centred services',
       'Sole traders and micro-providers with niche or localised supports',
       'Multidisciplinary teams partnering with other businesses to deliver wraparound care'
@@ -138,7 +138,7 @@ const servicesYouCanOffer = [
     icon: '⚖️',
     color: 'from-purple-500 to-pink-600',
     services: [
-      'Business lawyers (NDIS compliance, contracts, disputes)',
+      'Business lawyers (disability services compliance, contracts, disputes)',
       'Commercial / employment lawyers',
       'Trademark / IP lawyers',
       'Notary and document certification services'
@@ -150,7 +150,7 @@ const servicesYouCanOffer = [
     icon: '💰',
     color: 'from-teal-500 to-green-600',
     services: [
-      'Accountants and bookkeepers (NDIS-ready reporting, payroll, BAS)',
+      'Accountants and bookkeepers (disability services-ready reporting, payroll, BAS)',
       'Financial planners and business advisors',
       'Insurance brokers (public liability, professional indemnity, workers comp)',
       'Audit and compliance review services'
@@ -164,7 +164,7 @@ const servicesYouCanOffer = [
     services: [
       'HR specialists (policies, performance management, workplace culture)',
       'Recruitment agencies and temp staffing services',
-      'Training and RTOs (NDIS practice standards, safeguarding, clinical skills)',
+      'Training and RTOs (disability services practice standards, safeguarding, clinical skills)',
       'Workplace health & safety consultants'
     ],
   },
@@ -186,7 +186,7 @@ const servicesYouCanOffer = [
     icon: '📣',
     color: 'from-yellow-500 to-amber-600',
     services: [
-      'Marketing agencies and consultants (NDIS-savvy)',
+      'Marketing agencies and consultants (disability services-savvy)',
       'Graphic designers and brand strategists',
       'Copywriters and content creators (plain language, accessibility-focused)',
       'Social media management and digital advertising services'
@@ -256,7 +256,7 @@ const servicesYouCanOffer = [
     },
     {
       title: 'AI Assistant',
-      description: 'Get instant answers to NDIS-related questions and policy guidance.',
+      description: 'Get instant answers to disability services-related questions and policy guidance.',
       icon: '🤖',
     },
   ];
@@ -285,7 +285,7 @@ const servicesYouCanOffer = [
       answer: 'You can create a basic profile for free. Premium features like direct messaging, featured listings, and full resource access require a subscription. We offer different plans to suit providers of all sizes.',
     },
     {
-      question: 'Do I need to be NDIS registered?',
+      question: 'Do I need to be disability services registered?',
       answer: 'Both registered and non-registered providers can join Better Together Network. We encourage you to display your registration status on your profile so participants can make informed decisions.',
     },
     {
@@ -294,7 +294,7 @@ const servicesYouCanOffer = [
     },
     {
       question: 'What services can I offer?',
-      answer: 'You can offer any NDIS-fundable service you\'re qualified to provide. This includes daily living support, therapy services, personal care, support coordination, and more. Some services require specific qualifications.',
+      answer: 'You can offer any disability services-fundable service you\'re qualified to provide. This includes daily living support, therapy services, personal care, support coordination, and more. Some services require specific qualifications.',
     },
     {
       question: 'How do I get more visibility?',
@@ -361,7 +361,7 @@ const servicesYouCanOffer = [
               </h1>
               
               <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-                Running a NDIS business can feel isolating — especially when you're juggling compliance, service delivery, staffing, and participant needs. But you don't have to do it alone.
+                Running a disability services business can feel isolating — especially when you're juggling compliance, service delivery, staffing, and participant needs. But you don't have to do it alone.
               </p>
               
               <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
@@ -491,7 +491,7 @@ const servicesYouCanOffer = [
               Everything You Need to Succeed
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive support designed to help NDIS providers build sustainable, values-driven businesses
+              Comprehensive support designed to help disability services providers build sustainable, values-driven businesses
             </p>
           </div>
 
@@ -586,7 +586,7 @@ const servicesYouCanOffer = [
               What Services Can You Offer?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Connect with participants seeking a wide range of NDIS services.
+              Connect with participants seeking a wide range of disability services.
             </p>
           </div>
 
@@ -684,7 +684,7 @@ const servicesYouCanOffer = [
               Platform Features for Providers
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything you need to manage and grow your NDIS business.
+              Everything you need to manage and grow your disability services business.
             </p>
           </div>
 
@@ -811,7 +811,7 @@ const servicesYouCanOffer = [
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join 1,500+ providers already growing their NDIS business through Better Together Network. 
+            Join 1,500+ providers already growing their disability services business through Better Together Network. 
             Build your profile and start receiving enquiries.
           </p>
           

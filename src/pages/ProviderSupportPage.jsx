@@ -13,7 +13,8 @@ const ProviderSupportPage = () => {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-xl text-gray-600 mb-8">
-            This page will contain resources and support for NDIS service providers.
+            This page will contain resources and support for Disability Service
+ service providers.
           </p>
           <div className="bg-gray-100 rounded-lg p-12">
             <p className="text-gray-500">Content coming soon...</p>

@@ -9,7 +9,7 @@ const FindSupportPage = () => {
   const participantSupports = [
     {
       icon: '📋',
-      title: 'Support with Understanding and Coordinating Your NDIS Plan',
+      title: 'Support with Understanding and Coordinating Your Disability Service Plan',
       description: 'Get help making sense of your plan, using your funding effectively, and connecting with the right supports at the right time.',
       color: 'from-blue-500 to-indigo-600',
       details: [
@@ -22,10 +22,10 @@ const FindSupportPage = () => {
     {
       icon: '💡',
       title: 'Clear Information, Guidance, and Practical Support',
-      description: 'Access easy-to-understand information about how the NDIS works, what your rights are, and how to make informed decisions about your supports.',
+      description: 'Access easy-to-understand information about how the Disability Service works, what your rights are, and how to make informed decisions about your supports.',
       color: 'from-purple-500 to-pink-600',
       details: [
-        'NDIS rules explained simply',
+        'Disability Service rules explained simply',
         'Your rights and responsibilities',
         'Decision-making frameworks',
         'Plain language resources',
@@ -34,7 +34,7 @@ const FindSupportPage = () => {
     {
       icon: '🛡️',
       title: 'Advocacy and Help Navigating Challenges',
-      description: 'Receive guidance from people who understand NDIS rules, processes, and pathways — and who can help you speak up, resolve issues, and protect your rights.',
+      description: 'Receive guidance from people who understand Disability Service rules, processes, and pathways — and who can help you speak up, resolve issues, and protect your rights.',
       color: 'from-teal-500 to-cyan-600',
       details: [
         'Issue resolution support',
@@ -57,7 +57,7 @@ const FindSupportPage = () => {
     },
     {
       icon: '🔍',
-      title: 'Connections with Trusted, Local NDIS Providers',
+      title: 'Connections with Trusted, Local Disability Service Providers',
       description: 'Find reliable, experienced providers who align with your needs, values, and goals — without the overwhelm of searching alone.',
       color: 'from-orange-500 to-red-500',
       details: [
@@ -70,7 +70,7 @@ const FindSupportPage = () => {
     {
       icon: '👨‍⚕️',
       title: 'Access to Specialists and Disability Sector Expertise',
-      description: 'Receive support from people who understand disability, the NDIS, and the realities of everyday life. Get reassurance, clarity, and practical advice when you need it most.',
+      description: 'Receive support from people who understand disability, the Disability Service, and the realities of everyday life. Get reassurance, clarity, and practical advice when you need it most.',
       color: 'from-indigo-500 to-purple-600',
       details: [
         'Expert consultations',
@@ -93,7 +93,7 @@ const FindSupportPage = () => {
     },
     {
       icon: '🌱',
-      title: 'Support for Ethical, Sustainable NDIS Providers',
+      title: 'Support for Ethical, Sustainable Disability Service Providers',
       description: 'Access guidance, tools, and community so you can deliver high-quality, person-centred supports while running a healthy, values-driven business. Business and practice mentoring, ethical service design and improvement, local collaboration and referral pathways.',
       color: 'from-pink-500 to-rose-600',
       details: [
@@ -103,7 +103,7 @@ const FindSupportPage = () => {
     {
       icon: '📣',
       title: 'Collective Voice and Systems Change',
-      description: 'Be part of a movement that speaks up for a fair, accessible, and community-driven NDIS — led by people with lived experience. Community consultations and feedback forums Policy input and submissions Campaigns to protect choice, control, and local providers',
+      description: 'Be part of a movement that speaks up for a fair, accessible, and community-driven Disability Service — led by people with lived experience. Community consultations and feedback forums Policy input and submissions Campaigns to protect choice, control, and local providers',
       color: 'from-pink-500 to-rose-600',
       details: [
         
@@ -112,11 +112,11 @@ const FindSupportPage = () => {
   ];
 const services = [
   {
-    title: 'NDIS Service Providers (Registered & Unregistered)',
+    title: 'Disability Service Service Providers (Registered & Unregistered)',
     icon: '🏢',
     color: 'from-blue-500 to-indigo-600',
     examples: [
-      'Registered NDIS providers delivering support across all registration groups',
+      'Registered Disability Service providers delivering support across all registration groups',
       'Unregistered providers offering flexible, person-centred services',
       'Sole traders and micro-providers with niche or localised supports',
       'Multidisciplinary teams partnering with other businesses to deliver wraparound care'
@@ -127,7 +127,7 @@ const services = [
     icon: '⚖️',
     color: 'from-purple-500 to-pink-600',
     examples: [
-      'Business lawyers (NDIS compliance, contracts, disputes)',
+      'Business lawyers (Disability Service compliance, contracts, disputes)',
       'Commercial / employment lawyers',
       'Trademark / IP lawyers',
       'Notary and document certification services'
@@ -138,7 +138,7 @@ const services = [
     icon: '💰',
     color: 'from-teal-500 to-green-600',
     examples: [
-      'Accountants and bookkeepers (NDIS-ready reporting, payroll, BAS)',
+      'Accountants and bookkeepers (Disability Service-ready reporting, payroll, BAS)',
       'Financial planners and business advisors',
       'Insurance brokers (public liability, professional indemnity, workers comp)',
       'Audit and compliance review services'
@@ -151,7 +151,7 @@ const services = [
     examples: [
       'HR specialists (policies, performance management, workplace culture)',
       'Recruitment agencies and temp staffing services',
-      'Training and RTOs (NDIS practice standards, safeguarding, clinical skills)',
+      'Training and RTOs (Disability Service practice standards, safeguarding, clinical skills)',
       'Workplace health & safety consultants'
     ],
   },
@@ -171,7 +171,7 @@ const services = [
     icon: '📣',
     color: 'from-yellow-500 to-amber-600',
     examples: [
-      'Marketing agencies and consultants (NDIS-savvy)',
+      'Marketing agencies and consultants (Disability Service-savvy)',
       'Graphic designers and brand strategists',
       'Copywriters and content creators (plain language, accessibility-focused)',
       'Social media management and digital advertising services'
@@ -218,7 +218,7 @@ const services = [
     {
       step: '02',
       title: 'Tell Us What You Need',
-      description: 'Use the message board or job board to share what you\'re looking for — whether it\'s a support worker, therapist, plan guidance, or help understanding NDIS processes.',
+      description: 'Use the message board or job board to share what you\'re looking for — whether it\'s a support worker, therapist, plan guidance, or help understanding Disability Service processes.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -240,7 +240,7 @@ const services = [
     {
       step: '04',
       title: 'Access Guidance & Advocacy',
-      description: 'Depending on your subscription, you can connect with: NDIS-experienced advocates, people who can explain your plan, experts who can guide you through reviews, and legal teams if things escalate to the AAT.',
+      description: 'Depending on your subscription, you can connect with: Disability Service-experienced advocates, people who can explain your plan, experts who can guide you through reviews, and legal teams if things escalate to the AAT.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -251,7 +251,7 @@ const services = [
     {
       step: '05',
       title: 'Feel Supported Every Step of the Way',
-      description: 'You\'re never left to navigate the NDIS alone. Our community, advocates, and providers are here to help you make informed decisions and feel confident in your rights.',
+      description: 'You\'re never left to navigate the Disability Service alone. Our community, advocates, and providers are here to help you make informed decisions and feel confident in your rights.',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
@@ -264,7 +264,7 @@ const services = [
   const benefits = [
     {
       title: 'Verified Providers',
-      description: 'All providers on our platform are verified and many are NDIS registered, giving you peace of mind.',
+      description: 'All providers on our platform are verified and many are Disability Service registered, giving you peace of mind.',
       icon: '✓',
     },
     {
@@ -305,15 +305,15 @@ const services = [
     },
     {
       question: 'Are the providers verified?',
-      answer: 'We encourage all providers to display their NDIS registration status and qualifications on their profiles. We recommend verifying credentials before engaging any provider.',
+      answer: 'We encourage all providers to display their Disability Service registration status and qualifications on their profiles. We recommend verifying credentials before engaging any provider.',
     },
     {
       question: 'How do payments work?',
       answer: 'Better Together Network is a connection platform only. We help you find and connect with providers, but payment arrangements are made directly between you and your chosen provider.',
     },
     {
-      question: 'Can I use my NDIS funding?',
-      answer: 'Yes! Once you connect with a provider through our platform, you can arrange to use your NDIS funding directly with them based on your plan management type.',
+      question: 'Can I use my Disability Service funding?',
+      answer: 'Yes! Once you connect with a provider through our platform, you can arrange to use your Disability Service funding directly with them based on your plan management type.',
     },
     {
       question: 'What if I need help using the platform?',
@@ -324,7 +324,7 @@ const services = [
   const testimonials = [
     {
       name: 'Sarah M.',
-      role: 'NDIS Participant',
+      role: 'Disability Service Participant',
       content: 'Better Together Network made it so easy to Participants workers in my area. I love being able to see provider profiles and choose who I want to work with.',
       rating: 5,
       avatar: '👩',
@@ -373,7 +373,7 @@ const services = [
               </h1>
               
               <p className="text-xl md:text-2xl mb-6 text-gray-200 leading-relaxed">
-                Navigating the NDIS can feel overwhelming — but you don't have to do it alone.
+                Navigating the disability services can feel overwhelming — but you don't have to do it alone.
               </p>
 
               <p className="text-lg mb-8 text-gray-200 leading-relaxed">
@@ -546,7 +546,7 @@ const services = [
               Here are the businesses we are encouraging
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every great disability service needs a strong support crew. NDIS providers and the businesses that stand behind them — join a network designed to amplify your impact and strengthen the whole sector. It really does take a community, and we need you. 
+              Every great disability service needs a strong support crew. Disability Service providers and the businesses that stand behind them — join a network designed to amplify your impact and strengthen the whole sector. It really does take a community, and we need you. 
             </p>
           </div>
 
@@ -592,55 +592,73 @@ const services = [
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Simple Process</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              How It Works for Participants & Families
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Supportive. Safe. Easy to Navigate.
-            </p>
-          </div>
+    {/* How It Works */}
+<section id="how-it-works" className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+  {/* Subtle background decoration */}
+  <div className="absolute top-0 left-0 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+  <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-100/40 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
-            {howItWorks.map((item, index) => (
-              <div key={index} className="relative">
-                {/* Connector Line */}
-                {index < howItWorks.length - 1 && (
-                  <div className="hidden lg:block absolute top-16 left-full w-full h-1 bg-gradient-to-r from-teal-300 to-blue-300 -translate-y-1/2 z-0" style={{ width: 'calc(100% - 2rem)' }}></div>
-                )}
-                
-                <div className="relative z-10 bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 text-center">
-                  {/* Step Number */}
-                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    {item.step}
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="text-center mb-20">
+      <span className="inline-block px-4 py-1.5 text-xs font-bold text-purple-700 uppercase tracking-widest bg-purple-100 rounded-full mb-4">Simple Process</span>
+      <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2 mb-5 tracking-tight">
+        How It Works for Participants & Families
+      </h2>
+      <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+        Supportive. Safe. Easy to Navigate.
+      </p>
+    </div>
+
+    {/* Timeline layout */}
+    <div className="relative">
+      {/* Connecting line */}
+      <div className="hidden lg:block absolute top-24 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-teal-200 via-blue-200 via-purple-200 to-pink-200"></div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4">
+        {howItWorks.map((item, index) => (
+          <div key={index} className="relative group">
+            <div className="relative z-10 bg-white rounded-2xl p-6 pt-16 shadow-md hover:shadow-xl transition-all duration-500 border border-gray-100 text-center group-hover:-translate-y-1 group-hover:border-transparent">
+              
+              {/* Floating step badge on timeline */}
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-20">
+                <div className="relative">
+                  <div className="w-10 h-10 bg-white rounded-full shadow-md border-2 border-gray-100 flex items-center justify-center group-hover:border-teal-400 transition-colors duration-300">
+                    <span className="text-sm font-extrabold bg-gradient-to-r from-teal-500 to-blue-500 bg-clip-text text-transparent">{item.step}</span>
                   </div>
-                  
-                  <div className={`bg-gradient-to-br ${item.color} w-20 h-20 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-lg`}>
-                    {item.icon}
-                  </div>
-                  
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{item.description}</p>
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* Closing Statement */}
-          <div className="mt-16 text-center">
-            <div className="inline-block bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-200 max-w-3xl">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                <strong>This process is designed to be simple, safe, and empowering</strong> — giving you real choice, real control, and real support.
-              </p>
+              {/* Icon */}
+              <div className={`bg-gradient-to-br ${item.color} w-16 h-16 rounded-xl flex items-center justify-center text-white mx-auto mb-5 shadow-md group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
+                {item.icon}
+              </div>
+              
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
             </div>
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
 
+    {/* Closing Statement */}
+    <div className="mt-20 text-center">
+      <div className="relative inline-block max-w-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-purple-500 rounded-2xl blur-sm opacity-10"></div>
+        <div className="relative bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-500 to-blue-500 flex items-center justify-center mx-auto mb-4">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="text-lg text-gray-700 leading-relaxed">
+            <strong className="text-gray-900">This process is designed to be simple, safe, and empowering</strong> — giving you real choice, real control, and real support.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
       {/* Benefits Section */}
       <section id="benefits" className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -778,7 +796,7 @@ const services = [
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of NDIS participants who've found quality support through Better Together Network. It's free to get started.
+            Join thousands of Disability‑sector service participants who've found quality support through Better Together Network. It's free to get started.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -5,14 +5,14 @@ const AboutPage = () => {
   const [activeValue, setActiveValue] = useState(null);
 
   const missionTaglines = [
-    "Where lived experience leads, and a stronger NDIS grows from the ground up.",
-    "Many voices, one community — reshaping the NDIS with heart, dignity, and unity.",
-    "Rooted in lived experience, rising together to shape a better NDIS.",
+    "Where lived experience leads, and a stronger disability services grows from the ground up.",
+    "Many voices, one community — reshaping the disability services with heart, dignity, and unity.",
+    "Rooted in lived experience, rising together to shape a better disability services.",
     "When people and providers stand together, the whole sector rises.",
-    "A community of voices becoming the change the NDIS was meant to hold.",
+    "A community of voices becoming the change the disability services was meant to hold.",
     "Where connection becomes strength, and strength becomes collective change.",
     "Lived experience at the centre, community at the heart, change from the ground up.",
-    "Together, we grow the NDIS into the community it was always meant to be.",
+    "Together, we grow the disability services into the community it was always meant to be.",
     "Uniting voices, lifting standards, and shaping the future — together."
   ];
 
@@ -50,7 +50,7 @@ const AboutPage = () => {
     {
       icon: '🤝',
       title: 'Community-Driven Support',
-      description: 'The NDIS remains community-driven and sustainable We work together to advocate for fair, ethical, and accessible systems that support both participants and local providers to thrive.',
+      description: 'The disability services remains community-driven and sustainable We work together to advocate for fair, ethical, and accessible systems that support both participants and local providers to thrive.',
       color: 'from-orange-500 to-blue-600',
     },
   ];
@@ -87,7 +87,7 @@ const AboutPage = () => {
     {
       number: '05',
       title: 'Support Beyond Services',
-      description: 'We don\'t just help people Participantss. We help them understand the NDIS, navigate reviews, access advocacy, and feel confident in their rights. We also help providers grow ethically, connect locally, and build sustainable businesses.',
+      description: 'We don\'t just help people Participantss. We help them understand the disability services, navigate reviews, access advocacy, and feel confident in their rights. We also help providers grow ethically, connect locally, and build sustainable businesses.',
       icon: '🎯',
       color: 'from-orange-500 to-amber-600',
     },
@@ -125,7 +125,7 @@ const AboutPage = () => {
     'Protecting real choice and control for participants',
     'Supporting local providers who deliver genuine value',
     'Advocating for fair conditions that allow small businesses to thrive',
-    'Engaging with government to ensure the NDIS remains accessible, ethical, and community-driven',
+    'Engaging with government to ensure the disability services remains accessible, ethical, and community-driven',
   ];
 
   return (
@@ -154,12 +154,11 @@ const AboutPage = () => {
           </h1>
 
           <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-4xl mx-auto leading-relaxed">
-            Building Stronger NDIS Communities — Together
-          </p>
+Building Stronger Communities — Together          </p>
 
           <div className="max-w-4xl mx-auto">
             <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
-              We are an independent NDIS community platform designed to bring people together — providers, participants,
+              We are an independent disability-sector community platform designed to bring people together — providers, participants,
               families, and local specialists — to create stronger, more connected, and more supportive disability networks
               across Australia.
             </p>
@@ -187,161 +186,190 @@ const AboutPage = () => {
             </p>
           </div>
 
-          {/* Sue Dymond */}
-          <div className="mb-16">
-            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
-              <div className="md:flex">
-                <div className="md:w-1/3 bg-gradient-to-br from-purple-600 to-pink-600 p-12 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-40 h-40 bg-white rounded-full flex items-center justify-center text-8xl mb-6 mx-auto shadow-2xl">
-                      👩
-                    </div>
-                    <h3 className="text-3xl font-bold text-white mb-2">Sue Dymond</h3>
-                    <p className="text-purple-100 text-lg font-semibold">Founder & Community Leader</p>
-                    <p className="text-purple-200 mt-2">SD Connect</p>
-                  </div>
-                </div>
+        
+{/* Karen Burgess */}
+<div>
+  <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden border border-gray-100">
+    <div className="md:flex">
+      <div className="md:w-[35%] bg-gradient-to-br from-indigo-700 via-indigo-600 to-blue-500 p-12 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-40 h-40 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute bottom-0 right-0 w-60 h-60 bg-white rounded-full translate-x-1/3 translate-y-1/3"></div>
+        </div>
+        <div className="text-center relative z-10">
+          <div className="w-44 h-44 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
+            <img src="/uploads/karen.JPG" alt="Karen Burgess" className="w-full h-full object-cover" />
+          </div>
+          <h3 className="text-3xl font-bold text-white mb-1 tracking-tight">Karen Burgess</h3>
+          <p className="text-blue-200 text-sm font-semibold tracking-widest uppercase mt-1">FIML</p>
+          <div className="w-12 h-0.5 bg-blue-300/50 mx-auto my-3"></div>
+          <p className="text-blue-100 font-medium">Business Development Manager</p>
+          <p className="text-blue-200/80 text-sm mt-1">Accessible Living Homes</p>
+        </div>
+      </div>
 
-                <div className="md:w-2/3 p-10">
-                  <div className="prose prose-lg max-w-none">
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Sue Dymond is a powerhouse of lived experience, advocacy, and community leadership — and a driving
-                      force behind this platform. Her work is shaped by decades of navigating disability, raising a child
-                      with Down syndrome, and supporting families who often feel unheard, overwhelmed, or left behind by the system.
-                    </p>
+      <div className="md:w-[65%] p-10 md:p-12">
+        <div className="max-w-none space-y-5">
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Karen Burgess is an accomplished disability sector leader, reform advocate, and Business Development
+            Manager at Accessible Living Homes. With more than three decades of experience across disability,
+            community services, and systems reform, she brings a rare combination of lived experience, strategic
+            capability, and professional insight to her work.
+          </p>
 
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Sue's journey has never been theoretical. It has been lived — deeply, personally, and courageously.
-                      From the early challenges of raising her son to becoming a mentor, author, advocate, and founder of
-                      SD Connect, she has transformed her experiences into a mission to educate, empower, and unite people
-                      across the disability community.
-                    </p>
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            As an openly dyslexic professional, Karen has built her career on transforming personal experience
+            into leadership. Her dyslexia has shaped her commitment to accessible communication, inclusive practice,
+            and the recognition of diverse cognitive strengths within organisational and service environments.
+            She is known for her ability to translate complex policy into clear, practical language that supports
+            both participants and providers to navigate the disability services with confidence.
+          </p>
 
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Her work spans councils, disability organisations, community groups, and families across Victoria,
-                      where she has consistently challenged outdated thinking, inspired new perspectives, and pushed for
-                      genuine inclusion and respect. She is known for her honesty, her humour, and her unwavering belief
-                      that real change begins with real people coming together.
-                    </p>
-
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Sue's lived experience is not just part of her story — it is the foundation of her leadership.
-                      She understands the gaps, the frustrations, and the emotional weight families carry because she
-                      has lived it. She also understands the potential of the NDIS when community, providers, and
-                      participants work together with integrity and heart.
-                    </p>
-
-                    <div className="bg-purple-50 rounded-2xl p-6 border-l-4 border-purple-600">
-                      <p className="text-lg text-gray-700 italic mb-4">
-                        This platform reflects Sue's vision:
-                      </p>
-                      <ul className="space-y-2">
-                        <li className="flex items-start">
-                          <svg className="w-5 h-5 text-purple-600 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span className="text-gray-700">A community where lived experience leads</span>
-                        </li>
-                        <li className="flex items-start">
-                          <svg className="w-5 h-5 text-purple-600 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span className="text-gray-700">Where providers and participants stand side by side</span>
-                        </li>
-                        <li className="flex items-start">
-                          <svg className="w-5 h-5 text-purple-600 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span className="text-gray-700">And where quality, connection, and humanity rise from the ground up</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 text-white">
-                      <p className="text-xl font-bold italic">
-                        "It only takes one person to spark change — but when a community stands together,
-                        transformation becomes unstoppable."
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 border-l-4 border-indigo-500">
+            <p className="text-[17px] text-gray-700">
+              Karen holds a <strong className="text-indigo-700">Master of Business Leadership from Charles Sturt University</strong>,
+              complementing her extensive sector experience with advanced capability in governance, organisational
+              leadership, and strategic development. Her academic and professional background enables her to bridge
+              the gap between policy intent, operational reality, and participant experience.
+            </p>
           </div>
 
-          {/* Karen Burgess */}
-          <div>
-            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
-              <div className="md:flex">
-                <div className="md:w-1/3 bg-gradient-to-br from-indigo-600 to-blue-600 p-12 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-40 h-40 bg-white rounded-full flex items-center justify-center text-8xl mb-6 mx-auto shadow-2xl">
-                      👩‍💼
-                    </div>
-                    <h3 className="text-3xl font-bold text-white mb-2">Karen Burgess</h3>
-                    <p className="text-blue-100 text-lg font-semibold">FIML</p>
-                    <p className="text-blue-200 mt-2">Business Development Manager</p>
-                    <p className="text-blue-200">Accessible Living Homes</p>
-                  </div>
-                </div>
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Throughout her career, Karen has been a strong advocate for <strong className="text-gray-800">transparency, accountability,
+              and ethical practice</strong>. She has acted as a whistleblower when required, demonstrating integrity
+            and courage in calling out practices that compromise participant safety, dignity, or rights. Her
+            leadership is grounded in a commitment to ensuring that disability services operate with honesty,
+            fairness, and respect for the people they exist to support.
+          </p>
 
-                <div className="md:w-2/3 p-10">
-                  <div className="prose prose-lg max-w-none">
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Karen Burgess is an accomplished disability sector leader, reform advocate, and Business Development
-                      Manager at Accessible Living Homes. With more than three decades of experience across disability,
-                      community services, and systems reform, she brings a rare combination of lived experience, strategic
-                      capability, and professional insight to her work.
-                    </p>
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Karen's work spans community mobilisation, sector education, and systems improvement. She is deeply
+            committed to elevating the voices of people with disability, strengthening small providers, and promoting
+            a sector culture that values lived experience as expertise. Her approach is principled, collaborative,
+            and firmly aligned with the belief that meaningful reform must be shaped by the people most affected by it.
+          </p>
 
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      As an openly dyslexic professional, Karen has built her career on transforming personal experience
-                      into leadership. Her dyslexia has shaped her commitment to accessible communication, inclusive practice,
-                      and the recognition of diverse cognitive strengths within organisational and service environments.
-                      She is known for her ability to translate complex policy into clear, practical language that supports
-                      both participants and providers to navigate the NDIS with confidence.
-                    </p>
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Karen continues to be a respected voice in the disability community — a leader who brings clarity,
+            integrity, and lived experience to every space she enters.
+          </p>
 
-                    <div className="bg-indigo-50 rounded-2xl p-6 border-l-4 border-indigo-600 mb-6">
-                      <p className="text-lg text-gray-700">
-                        Karen holds a <strong>Master of Business Leadership from Charles Sturt University</strong>,
-                        complementing her extensive sector experience with advanced capability in governance, organisational
-                        leadership, and strategic development. Her academic and professional background enables her to bridge
-                        the gap between policy intent, operational reality, and participant experience.
-                      </p>
-                    </div>
-
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Throughout her career, Karen has been a strong advocate for <strong>transparency, accountability,
-                        and ethical practice</strong>. She has acted as a whistleblower when required, demonstrating integrity
-                      and courage in calling out practices that compromise participant safety, dignity, or rights. Her
-                      leadership is grounded in a commitment to ensuring that disability services operate with honesty,
-                      fairness, and respect for the people they exist to support.
-                    </p>
-
-                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                      Karen's work spans community mobilisation, sector education, and systems improvement. She is deeply
-                      committed to elevating the voices of people with disability, strengthening small providers, and promoting
-                      a sector culture that values lived experience as expertise. Her approach is principled, collaborative,
-                      and firmly aligned with the belief that meaningful reform must be shaped by the people most affected by it.
-                    </p>
-
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Karen continues to be a respected voice in the disability community — a leader who brings clarity,
-                      integrity, and lived experience to every space she enters.
-                    </p>
-
-                    <div className="mt-6 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-6 text-white">
-                      <p className="text-xl font-bold italic">
-                        "We are bridging the gaps and responding to change by bringing people together to grow this
-                        community and lead with the strength of disabled experience."
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-blue-500 rounded-2xl p-7 text-white shadow-lg shadow-indigo-200">
+            <div className="flex items-start gap-3">
+              <svg className="w-8 h-8 text-indigo-200 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p className="text-lg font-medium italic leading-relaxed">
+                We are bridging the gaps and responding to change by bringing people together to grow this
+                community and lead with the strength of disabled experience.
+              </p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{/* Sue Dymond */}
+<div className="mb-16">
+  <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden border border-gray-100">
+    <div className="md:flex">
+      <div className="md:w-[35%] bg-gradient-to-br from-purple-700 via-purple-600 to-pink-500 p-12 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute bottom-0 left-0 w-60 h-60 bg-white rounded-full -translate-x-1/3 translate-y-1/3"></div>
+        </div>
+        <div className="text-center relative z-10">
+        <div className="w-44 h-44 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
+            <img src="/uploads/Sue.jpg" alt="Sue Dymond" className="w-full h-full object-cover" />
+          </div>
+          <h3 className="text-3xl font-bold text-white mb-1 tracking-tight">Sue Dymond</h3>
+          <div className="w-12 h-0.5 bg-purple-300/50 mx-auto my-3"></div>
+          <p className="text-purple-100 font-medium">Founder & Community Leader</p>
+          <p className="text-purple-200/80 text-sm mt-1">SD Connect</p>
+        </div>
+      </div>
+
+      <div className="md:w-[65%] p-10 md:p-12">
+        <div className="max-w-none space-y-5">
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Sue Dymond is a powerhouse of lived experience, advocacy, and community leadership — and a driving
+            force behind this platform. Her work is shaped by decades of navigating disability, raising a child
+            with Down syndrome, and supporting families who often feel unheard, overwhelmed, or left behind by the system.
+          </p>
+
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Sue's journey has never been theoretical. It has been lived — deeply, personally, and courageously.
+            From the early challenges of raising her son to becoming a mentor, author, advocate, and founder of
+            SD Connect, she has transformed her experiences into a mission to educate, empower, and unite people
+            across the disability community.
+          </p>
+
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Her work spans councils, disability organisations, community groups, and families across Victoria,
+            where she has consistently challenged outdated thinking, inspired new perspectives, and pushed for
+            genuine inclusion and respect. She is known for her honesty, her humour, and her unwavering belief
+            that real change begins with real people coming together.
+          </p>
+
+          <p className="text-[17px] text-gray-600 leading-relaxed">
+            Sue's lived experience is not just part of her story — it is the foundation of her leadership.
+            She understands the gaps, the frustrations, and the emotional weight families carry because she
+            has lived it. She also understands the potential of the disability services when community, providers, and
+            participants work together with integrity and heart.
+          </p>
+
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border-l-4 border-purple-500">
+            <p className="text-[17px] text-gray-700 italic mb-4 font-medium">
+              This platform reflects Sue's vision:
+            </p>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-3">
+                <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span className="text-gray-700 text-[17px]">A community where lived experience leads</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span className="text-gray-700 text-[17px]">Where providers and participants stand side by side</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span className="text-gray-700 text-[17px]">And where quality, connection, and humanity rise from the ground up</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-gradient-to-r from-purple-600 via-purple-600 to-pink-500 rounded-2xl p-7 text-white shadow-lg shadow-purple-200">
+            <div className="flex items-start gap-3">
+              <svg className="w-8 h-8 text-purple-200 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p className="text-lg font-medium italic leading-relaxed">
+                It only takes one person to spark change — but when a community stands together,
+                transformation becomes unstoppable.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
         </div>
       </section>
       {/* Our Mission Section */}
@@ -422,7 +450,7 @@ By empowering participants, supporting local providers and intermediaries, and a
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Our Vision</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              A Connected, Local, Inclusive NDIS Community
+              A Connected, Local, Inclusive disability services Community
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
               We are creating a community where no one stands alone — not providers, not participants, not families.
@@ -470,7 +498,7 @@ By empowering participants, supporting local providers and intermediaries, and a
           <div className="mt-16 text-center">
             <div className="inline-block bg-gradient-to-r from-green-600 to-teal-600 rounded-3xl p-10 text-white max-w-4xl">
               <p className="text-2xl md:text-3xl font-bold leading-relaxed">
-                Our vision is simple: a connected NDIS ecosystem where people, providers, and communities grow stronger together.
+                Our vision is simple: a connected disability services ecosystem where people, providers, and communities grow stronger together.
               </p>
             </div>
           </div>
@@ -486,7 +514,7 @@ By empowering participants, supporting local providers and intermediaries, and a
               Why We're Different from Anything Else in the Marketplace
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              We are not another directory, not another provider group, and not another NDIS service platform.
+              We are not another directory, not another provider group, and not another disability services service platform.
               We are building something fundamentally different — a community-driven, lived-experience-led ecosystem
               designed to shift the culture of disability support in Australia.
             </p>
@@ -581,7 +609,7 @@ By empowering participants, supporting local providers and intermediaries, and a
               and more deeply connected — a community where everyone has a place, a voice, and a pathway forward.
             </p>
             <p className="text-xl font-semibold">
-              Ensuring the voice of the NDIS community is loud and heard, and that from the ground up it is embedded,
+              Ensuring the voice of the disability services community is loud and heard, and that from the ground up it is embedded,
               respected, and practised in every viewpoint.
             </p>
           </div>

@@ -22,14 +22,14 @@ const LandingPage3 = () => {
     {
       title: "Reimagining Disability",
       subtitle: "With the Power of Local Communities",
-      description: "We are an independent platform dedicated to fostering connections within local communities and linking people with local providers. This mission is at the core of everything we do.",
+      description: "We are an independent platform dedicated to fostering connections within local communities and linking people with local disability service providers",
       image: "/uploads/bgnew1.jpg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
       secondaryBtn: { text: "For Provider", link: "/provide-support" }
     },
     {
-      title: "Where Lived Experience",
-      subtitle: "Leads the Way",
+      title: "Led by People ",
+      subtitle: "with Lived Experience",
       description: "We are people with disabilities offering and designing for people with disabilities. Every decision is driven by authentic lived experience and community wisdom.",
       image: "/uploads/bg-two.jpeg",
       primaryBtn: { text: "Learn More", link: "/about" },
@@ -95,12 +95,12 @@ const LandingPage3 = () => {
 // Services
 const services = useMemo(() => [
   {
-    title: 'NDIA Services & Businesses',
+    title: 'Service Organisations & Businesses',
     description: 'Connect with businesses and providers delivering support under the National Disability Insurance Agency.',
     image: '/uploads/ndis.jpg',
   },
   {
-    title: 'TAC Services',
+    title: 'Transport Accident Support Services',
     description: 'Find businesses offering Transport Accident Commission funded support and rehabilitation services.',
     image: '/uploads/tac.png',
   },
@@ -363,13 +363,11 @@ const services = useMemo(() => [
               <div className="w-24 h-1 bg-indigo-600 mb-8"></div>
               
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-We are an independent community platform designed to bring people together. 
-We believe that NDIS and people who offer support in the disability sector must operate effectively, and this needs to be driven, shaped and led by people with disabilities. 
+We believe that disability-sector services and people who offer support in the disability sector must operate effectively, and this needs to be driven, shaped, and led by people with disabilities
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided 
-                by people with disabilities</strong>. Provider practices, community spaces, and sector standards should 
+                We believe disability services must operate effectively, and they should be driven, shaped, and guided by people with disabilities. Provider practices, community spaces, and sector standards should 
                 be built through authentic co‑design, grounded in disability theory and the core principle that 
                 <strong> "nothing about us without us"</strong>.
               </p>
@@ -440,12 +438,12 @@ We believe that NDIS and people who offer support in the disability sector must 
           </div>
 
           <div>
-            <div className="text-sm font-semibold text-slate-600">NDIS Participants</div>
+            <div className="text-sm font-semibold text-slate-600">Participants Seeking Support</div>
             <h3 className="mt-1 text-2xl font-extrabold text-slate-900">
               Looking for Support?
             </h3>
             <p className="mt-3 text-slate-600 leading-7">
-              Find verified NDIS service providers in your area. Browse profiles, compare services,
+              Find verified disability-sector service providers in your area. Browse profiles, compare services,
               and connect with providers who match your needs and goals.
             </p>
 
@@ -487,12 +485,12 @@ We believe that NDIS and people who offer support in the disability sector must 
           </div>
 
           <div>
-            <div className="text-sm font-semibold text-white/85">NDIS Providers</div>
+            <div className="text-sm font-semibold text-white/85">Service Providers</div>
             <h3 className="mt-1 text-2xl font-extrabold text-white">
               For Provider
             </h3>
             <p className="mt-3 text-white/90 leading-7">
-              Join our network and connect with thousands of NDIS participants. Build your profile,
+              Join our network and connect with thousands of disability-sector participants. Build your profile,
               respond to requests, and grow your business.
             </p>
 
@@ -535,7 +533,7 @@ We believe that NDIS and people who offer support in the disability sector must 
         Everything You Need in One Place
       </h2>
       <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
-        Powerful features designed to make your NDIS journey smoother
+        Powerful features designed to make your disability services journey smoother
       </p>
     </div>
 
@@ -630,12 +628,12 @@ We believe that NDIS and people who offer support in the disability sector must 
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-           <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Businesses Who Support You</span>
+           <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">Service Providers Who Support You</span>
 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
   Services You Can Find
 </h2>
 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-  Connection to a wide range of businesses who offer support across NDIA, TAC, health and medical services.
+  Connection to a wide range of businesses who offer support across disability-sector services, health, and medical services
 </p>
           </div>
 
@@ -704,7 +702,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
       <div className="relative md:col-span-5">
         <div className="absolute -left-4 top-1 hidden h-20 w-[2px] bg-red-500 md:block" />
         <p className="max-w-md text-sm leading-7 text-white/80 md:pl-2">
-          Connect with quality NDIS support in simple steps.
+          Connect with quality disability services support in simple steps.
         </p>
       </div>
     </div>

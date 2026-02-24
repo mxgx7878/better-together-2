@@ -84,7 +84,7 @@ const SubscriptionPage = () => {
         { text: 'Updates on community events, workshops, and opportunities', included: true },
         { text: 'A safe space to ask questions and learn from others', included: true },
         { text: 'Browse provider profiles', included: true },
-        { text: 'Direct connection with NDIS-experienced advocates', included: false },
+        { text: 'Direct connection with disability services-experienced advocates', included: false },
         { text: 'Access to legal teams', included: false },
         { text: 'Priority provider matching', included: false },
       ],
@@ -98,12 +98,12 @@ const SubscriptionPage = () => {
       name: 'Guidance & Support',
       tagline: 'Personalized Help',
       price: 29,
-      description: 'For people who want more personalised help navigating the NDIS and understanding their rights, options, and pathways',
+      description: 'For people who want more personalised help navigating the disability services and understanding their rights, options, and pathways',
       features: [
         { text: 'Everything in Community Connection', included: true, bold: true },
-        { text: 'Direct connection with NDIS-experienced advocates', included: true },
+        { text: 'Direct connection with disability services-experienced advocates', included: true },
         { text: 'Support to understand your plan, funding categories, and reviews', included: true },
-        { text: 'Access to experts who can explain NDIS rules clearly', included: true },
+        { text: 'Access to experts who can explain disability services rules clearly', included: true },
         { text: 'Practical advice for plan meetings and reviews', included: true },
         { text: 'Priority access to providers matching your needs', included: true },
         { text: 'Access to legal teams', included: false },
@@ -123,7 +123,7 @@ const SubscriptionPage = () => {
       description: 'For participants and families who want deeper support, especially when things become complex or overwhelming',
       features: [
         { text: 'Everything in Guidance & Support', included: true, bold: true },
-        { text: 'Connection with legal teams who understand NDIS matters', included: true },
+        { text: 'Connection with legal teams who understand disability services matters', included: true },
         { text: 'Access to AAT training, workshops, and resources', included: true },
         { text: 'Guidance from advocates on your rights and options', included: true },
         { text: 'Support to make complex processes less intimidating', included: true },
@@ -156,9 +156,9 @@ const SubscriptionPage = () => {
     { feature: 'Access to message & job board', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
     { feature: 'Connect with local providers', tier1: '✔️', tier2: '✔️', tier3: '✔️ (priority)' },
     { feature: 'Community updates & events', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Help understanding your NDIS plan', tier1: '—', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Help understanding your disability services plan', tier1: '—', tier2: '✔️', tier3: '✔️' },
     { feature: 'Guidance through reviews & processes', tier1: '—', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Access to advocates & NDIS support', tier1: '—', tier2: '✔️', tier3: '✔️' },
+    { feature: 'Access to advocates & disability services support', tier1: '—', tier2: '✔️', tier3: '✔️' },
     { feature: 'Access to legal teams (AAT support)', tier1: '—', tier2: '—', tier3: '✔️' },
     { feature: 'Training & resources for complex processes', tier1: '—', tier2: '—', tier3: '✔️' },
     { feature: 'Enhanced support & guidance', tier1: '—', tier2: '✔️', tier3: '✔️ (highest)' },
@@ -433,7 +433,7 @@ const SubscriptionPage = () => {
                 <div className="text-center">
                   <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">5</div>
                   <h3 className="font-bold text-gray-900 mb-2">Feel Supported</h3>
-                  <p className="text-sm text-gray-600">You're never left to navigate the NDIS alone</p>
+                  <p className="text-sm text-gray-600">You're never left to navigate the disability services alone</p>
                 </div>
               </>
             )}
