@@ -879,8 +879,8 @@ Fast & Reliable Connections To Trusted Services        </h2>
 
         {/* CTA */}
         <div className="mt-8">
-          <button
-            type="button"
+          <Link
+          to="/about"
             className="inline-flex items-center justify-center px-6 py-3 rounded-xl
                        bg-indigo-600 text-white font-semibold
                        shadow-lg transition-all duration-300
@@ -897,7 +897,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </div>
