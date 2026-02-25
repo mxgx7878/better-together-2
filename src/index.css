@@ -6,3 +6,8 @@
 html {
   scroll-behavior: smooth;
 }
+@media (max-width: 1024px) {  /* Adjust if your tablet breakpoint is different */
+  .desktop-nav {
+    display: none;
+  }
+}
