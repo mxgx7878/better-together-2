@@ -198,7 +198,7 @@ Building Stronger Communities — Together          </p>
         </div>
         <div className="text-center relative z-10">
           <div className="w-44 h-44 mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
-            <img src="/uploads/karen.JPG" alt="Karen Burgess" className="w-full h-full object-cover" />
+            <img src="/uploads/karen02.jpg" alt="Karen Burgess" className="w-full h-full object-cover" />
           </div>
           <h3 className="text-3xl font-bold text-white mb-1 tracking-tight">Karen Burgess</h3>
           <p className="text-blue-200 text-sm font-semibold tracking-widest uppercase mt-1">FIML</p>
