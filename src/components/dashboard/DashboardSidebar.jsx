@@ -59,19 +59,22 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white flex flex-col z-40 transition-all duration-300 ease-in-out ${
-        isCollapsed ? 'w-20' : 'w-72'
-      }`}
+    className={`fixed top-0 left-0 h-screen text-white flex flex-col z-40 transition-all duration-300 ease-in-out ${
+    isProvider
+      ? 'bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950'
+      : 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900'
+  } ${isCollapsed ? 'w-20' : 'w-72'}`}
     >
       {/* Logo & Toggle */}
       <div className="flex items-center justify-between px-4 h-20 border-b border-white/10 flex-shrink-0">
         {!isCollapsed && (
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+            {/* <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
               <span className="text-white font-bold text-sm">BT</span>
-            </div>
+            </div> */}
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-white truncate">Better Together</p>
+              <img src="/uploads/LOGO WHITE.png" className='w-24' alt="" />  
+              {/* <p className="text-sm font-semibold text-white truncate">Better Together</p> */}
               <p className="text-[11px] text-slate-400 truncate">
                 {isProvider ? 'Provider Portal' : 'Participant Portal'}
               </p>

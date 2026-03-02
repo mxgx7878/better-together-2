@@ -73,29 +73,6 @@ const ProviderDashboardHome = () => {
         </div>
       )}
 
-      {/* Free Tier Upgrade Banner */}
-      {!isPaid && (
-        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-6 text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/4"></div>
-          </div>
-          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-xl font-bold">Unlock Client Referrals & Premium Tools</h3>
-              <p className="text-purple-100 mt-1 text-sm max-w-xl">
-                Upgrade to Growth & Referral to receive direct participant referrals, enhanced directory visibility, messaging, and job board access.
-              </p>
-            </div>
-            <Link
-              to="/dashboard/upgrade"
-              className="px-6 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition-colors shadow-lg flex-shrink-0"
-            >
-              View Plans →
-            </Link>
-          </div>
-        </div>
-      )}
 
       {/* Analytics Cards - Paid Only */}
       {isPaid && (
@@ -151,8 +128,7 @@ const ProviderDashboardHome = () => {
       {/* Quick Navigation Grid */}
       <div>
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Access</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {tiles.map((tile) => (
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">          {tiles.map((tile) => (
             <Link
               key={tile.label}
               to={tile.path}
@@ -287,6 +263,32 @@ const ProviderDashboardHome = () => {
           </Link>
         </div>
       </div>
+
+
+            {/* Free Tier Upgrade Banner */}
+      {!isPaid && (
+        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-6 text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/4"></div>
+          </div>
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <h3 className="text-xl font-bold">Unlock Client Referrals & Premium Tools</h3>
+              <p className="text-purple-100 mt-1 text-sm max-w-xl">
+                Upgrade to Growth & Referral to receive direct participant referrals, enhanced directory visibility, messaging, and job board access.
+              </p>
+            </div>
+            <Link
+              to="/dashboard/upgrade"
+              className="px-6 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition-colors shadow-lg flex-shrink-0"
+            >
+              View Plans →
+            </Link>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
