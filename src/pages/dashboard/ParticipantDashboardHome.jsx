@@ -51,62 +51,7 @@ const ParticipantDashboardHome = () => {
           </div>
         </div>
       </div>
-
-      {/* Profile Completion */}
-      {user.profileComplete < 100 && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl flex-shrink-0">
-              ✏️
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-slate-800">Complete your profile</h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Add your details so providers can understand your needs ({user.profileComplete}% done)
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 flex-shrink-0">
-            <div className="w-28 h-2 bg-slate-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                style={{ width: `${user.profileComplete}%` }}
-              />
-            </div>
-            <Link
-              to="/dashboard/profile"
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-xl transition-colors"
-            >
-              Edit
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {/* Free Tier Upgrade CTA */}
-      {!isPaid && (
-        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-6 text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
-          </div>
-          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-xl font-bold">Get a Personal Plan Buddy</h3>
-              <p className="text-purple-100 mt-1 text-sm max-w-xl">
-                Upgrade to Personal Support Plus for $200/year and get guided help from real people — personalised inbox support, monthly check-ins, advocate and lawyer connections, and AAT preparation help.
-              </p>
-            </div>
-            <Link
-              to="/dashboard/upgrade"
-              className="px-6 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition-colors shadow-lg flex-shrink-0"
-            >
-              Learn More →
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {/* Plan Buddy Card — Paid Only */}
+     {/* Plan Buddy Card — Paid Only */}
       {isPaid && user.planBuddy && (
         <div className="bg-white rounded-2xl shadow-sm border border-purple-100 p-6">
           <div className="flex items-start justify-between">
@@ -136,7 +81,6 @@ const ParticipantDashboardHome = () => {
           </div>
         </div>
       )}
-
       {/* Quick Navigation Grid */}
       <div>
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Your Portal</h2>
@@ -243,6 +187,62 @@ const ParticipantDashboardHome = () => {
           </Link>
         </div>
       </div>
+
+      {/* Profile Completion */}
+      {user.profileComplete < 100 && (
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl flex-shrink-0">
+              ✏️
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-slate-800">Complete your profile</h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Add your details so providers can understand your needs ({user.profileComplete}% done)
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 flex-shrink-0">
+            <div className="w-28 h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
+                style={{ width: `${user.profileComplete}%` }}
+              />
+            </div>
+            <Link
+              to="/dashboard/profile"
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-xl transition-colors"
+            >
+              Edit
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Free Tier Upgrade CTA */}
+      {!isPaid && (
+        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-6 text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
+          </div>
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <h3 className="text-xl font-bold">Get a Personal Plan Buddy</h3>
+              <p className="text-purple-100 mt-1 text-sm max-w-xl">
+                Upgrade to Personal Support Plus for $200/year and get guided help from real people — personalised inbox support, monthly check-ins, advocate and lawyer connections, and AAT preparation help.
+              </p>
+            </div>
+            <Link
+              to="/dashboard/upgrade"
+              className="px-6 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition-colors shadow-lg flex-shrink-0"
+            >
+              Learn More →
+            </Link>
+          </div>
+        </div>
+      )}
+
+ 
 
       {/* Provider Spotlight Ribbon - Paid participants see marketing */}
       {isPaid && (
