@@ -211,48 +211,30 @@ Building Stronger Communities — Together          </p>
       <div className="md:w-[65%] p-10 md:p-12">
         <div className="max-w-none space-y-5">
           <p className="text-[17px] text-gray-600 leading-relaxed">
-            Karen Burgess is an accomplished disability sector leader, reform advocate, and Business Development
-            Manager at Accessible Living Homes. With more than three decades of experience across disability,
-            community services, and systems reform, she brings a rare combination of lived experience, strategic
-            capability, and professional insight to her work.
+           Karen Burgess is an accomplished disability sector leader, reform advocate, and nationally recognised voice for rights‑based, ethical practice across Australia’s complex care systems. With more than three decades of experience spanning disability, community services, and systems reform, she brings a rare combination of lived experience, strategic capability, and deep operational insight to every space she enters.
           </p>
 
           <p className="text-[17px] text-gray-600 leading-relaxed">
-            As an openly dyslexic professional, Karen has built her career on transforming personal experience
-            into leadership. Her dyslexia has shaped her commitment to accessible communication, inclusive practice,
-            and the recognition of diverse cognitive strengths within organisational and service environments.
-            She is known for her ability to translate complex policy into clear, practical language that supports
-            both participants and providers to navigate the disability services with confidence.
+          As a proudly disabled and openly dyslexic professional, Karen has built her career on transforming personal experience into leadership. Her dyslexia has shaped her commitment to accessible communication, inclusive practice, and the recognition of diverse cognitive strengths within organisations and service environments. She is widely respected for her ability to translate complex policy into clear, practical language that empowers both participants and providers to navigate disability supports with confidence.
           </p>
 
           <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 border-l-4 border-indigo-500">
             <p className="text-[17px] text-gray-700">
-              Karen holds a <strong className="text-indigo-700">Master of Business Leadership from Charles Sturt University</strong>,
-              complementing her extensive sector experience with advanced capability in governance, organisational
-              leadership, and strategic development. Her academic and professional background enables her to bridge
-              the gap between policy intent, operational reality, and participant experience.
+             Karen holds a Master of Business Leadership from Charles Sturt University and is a Fellow of the Institute of Managers and Leaders (FIML) — recognition reserved for senior leaders who demonstrate excellence in governance, strategic leadership, and ethical practice. Her academic and professional background enables her to bridge the gap between policy intent, operational reality, and participant experience.
             </p>
           </div>
 
           <p className="text-[17px] text-gray-600 leading-relaxed">
-            Throughout her career, Karen has been a strong advocate for <strong className="text-gray-800">transparency, accountability,
-              and ethical practice</strong>. She has acted as a whistleblower when required, demonstrating integrity
-            and courage in calling out practices that compromise participant safety, dignity, or rights. Her
-            leadership is grounded in a commitment to ensuring that disability services operate with honesty,
-            fairness, and respect for the people they exist to support.
+          Her leadership has been acknowledged through multiple award nominations, including recognition for community impact, sector leadership, and contributions to disability reform. Karen is also a sought‑after speaker and panelist, known for her clarity, integrity, and ability to challenge systemic barriers while centring lived experience in every conversation.
+          <br></br>
+          Throughout her career, Karen has been a strong advocate for transparency, accountability, and participant safety. She has acted as a whistleblower when required, demonstrating courage and integrity in calling out practices that compromise dignity, rights, or ethical standards. Her approach is principled, collaborative, and grounded in the belief that meaningful reform must be shaped by the people most affected by it.
           </p>
 
           <p className="text-[17px] text-gray-600 leading-relaxed">
-            Karen's work spans community mobilisation, sector education, and systems improvement. She is deeply
-            committed to elevating the voices of people with disability, strengthening small providers, and promoting
-            a sector culture that values lived experience as expertise. Her approach is principled, collaborative,
-            and firmly aligned with the belief that meaningful reform must be shaped by the people most affected by it.
-          </p>
+Karen’s work spans community mobilisation, sector education, and systems improvement. She is deeply committed to elevating the voices of people with disability, strengthening small providers, and promoting a sector culture that values lived experience as expertise.          </p>
 
           <p className="text-[17px] text-gray-600 leading-relaxed">
-            Karen continues to be a respected voice in the disability community — a leader who brings clarity,
-            integrity, and lived experience to every space she enters.
-          </p>
+Karen Burgess remains a respected and influential voice in the disability community — a leader who brings clarity, courage, and lived experience to every room, every conversation, and every reform effort she touches.          </p>
 
           <div className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-blue-500 rounded-2xl p-7 text-white shadow-lg shadow-indigo-200">
             <div className="flex items-start gap-3">
