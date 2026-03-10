@@ -204,7 +204,7 @@ Building Stronger Communities — Together          </p>
           <p className="text-blue-200 text-sm font-semibold tracking-widest uppercase mt-1">FIML</p>
           <div className="w-12 h-0.5 bg-blue-300/50 mx-auto my-3"></div>
           <p className="text-blue-100 font-medium">Business Development Manager</p>
-          <p className="text-blue-200/80 text-sm mt-1">Accessible Living Homes</p>
+          <p className="text-blue-200/80 text-sm mt-1">NDIS Community Founder</p>
         </div>
       </div>
 
