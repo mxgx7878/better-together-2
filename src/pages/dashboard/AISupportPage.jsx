@@ -51,7 +51,13 @@ const AISupportPage = () => {
       <div className="flex items-center gap-3 pb-4 border-b border-slate-200 flex-shrink-0">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            <rect x="5" y="8" width="14" height="10" rx="2" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+            <line x1="12" y1="8" x2="12" y2="5" strokeWidth={1.8} strokeLinecap="round" />
+            <circle cx="12" cy="4" r="1" strokeWidth={1.5} />
+            <circle cx="9" cy="13" r="1.5" strokeWidth={1.5} />
+            <circle cx="15" cy="13" r="1.5" strokeWidth={1.5} />
+            <line x1="5" y1="12" x2="3" y2="12" strokeWidth={1.8} strokeLinecap="round" />
+            <line x1="19" y1="12" x2="21" y2="12" strokeWidth={1.8} strokeLinecap="round" />
           </svg>
         </div>
         <div>

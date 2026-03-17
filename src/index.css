@@ -11,3 +11,21 @@ html {
     display: none;
   }
 }
+
+/* Scrolling logo ribbon animation */
+@keyframes scroll-ribbon {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-ribbon {
+  animation: scroll-ribbon 30s linear infinite;
+}
+
+.animate-scroll-ribbon:hover {
+  animation-play-state: paused;
+}

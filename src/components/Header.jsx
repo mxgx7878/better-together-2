@@ -15,15 +15,15 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center py-2">
-            <img 
-              src="/uploads/logo.jpg" 
+            <img
+              src="/uploads/logo.jpg"
               alt="Better Together - Reimagining Disabilities"
-              className="h-14 w-auto object-contain"
+              className="h-16 w-auto object-contain drop-shadow-sm"
             />
           </Link>
 
@@ -33,19 +33,19 @@ const Header = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
+                className="text-gray-900 hover:text-purple-600 transition-colors duration-200 font-semibold"
               >
                 {link.name}
               </Link>
             ))}
-            
+
             {/* Divider */}
             <div className="h-6 w-px bg-gray-300"></div>
-            
+
             {/* Auth Links */}
             <Link
               to="/login"
-              className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
+              className="text-gray-900 hover:text-purple-600 transition-colors duration-200 font-semibold"
             >
               Login
             </Link>

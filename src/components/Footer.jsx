@@ -132,6 +132,50 @@ const Footer = () => {
       </div>
     </div>
 
+    {/* Paid Business Partners Ribbon */}
+    <div className="border-t border-white/10 mt-10 pt-8">
+      <h4 className="text-center text-xs font-bold uppercase tracking-widest text-gray-500 mb-6">Our Business Partners</h4>
+      <div className="overflow-hidden relative">
+        {/* Fade edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-gray-900 to-transparent z-10"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-gray-900 to-transparent z-10"></div>
+        {/* Scrolling ribbon */}
+        <div className="animate-scroll-ribbon flex items-center gap-12 w-max">
+          {/* First set of logos */}
+          {[
+            { name: 'Provider 1', placeholder: 'P1' },
+            { name: 'Provider 2', placeholder: 'P2' },
+            { name: 'Provider 3', placeholder: 'P3' },
+            { name: 'Provider 4', placeholder: 'P4' },
+            { name: 'Provider 5', placeholder: 'P5' },
+            { name: 'Provider 6', placeholder: 'P6' },
+            { name: 'Provider 7', placeholder: 'P7' },
+            { name: 'Provider 8', placeholder: 'P8' },
+          ].map((partner, i) => (
+            <div key={`a-${i}`} className="flex-shrink-0 w-24 h-16 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
+              <span className="text-xs text-gray-400 font-medium">{partner.placeholder}</span>
+            </div>
+          ))}
+          {/* Duplicate set for seamless loop */}
+          {[
+            { name: 'Provider 1', placeholder: 'P1' },
+            { name: 'Provider 2', placeholder: 'P2' },
+            { name: 'Provider 3', placeholder: 'P3' },
+            { name: 'Provider 4', placeholder: 'P4' },
+            { name: 'Provider 5', placeholder: 'P5' },
+            { name: 'Provider 6', placeholder: 'P6' },
+            { name: 'Provider 7', placeholder: 'P7' },
+            { name: 'Provider 8', placeholder: 'P8' },
+          ].map((partner, i) => (
+            <div key={`b-${i}`} className="flex-shrink-0 w-24 h-16 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
+              <span className="text-xs text-gray-400 font-medium">{partner.placeholder}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p className="text-center text-[10px] text-gray-600 mt-4">Featured providers with premium subscriptions</p>
+    </div>
+
     {/* Copyright */}
     <div className="border-t border-white/10 mt-10 pt-8 text-center">
       <p className="text-xs text-gray-500">&copy; {new Date().getFullYear()} Better Together Network. All rights reserved.</p>
