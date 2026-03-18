@@ -495,31 +495,19 @@ const ContactPage = () => {
             <p className="text-xl text-gray-600">123 Collins Street, Melbourne VIC 3000, Australia</p>
           </div>
           
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-            {/* Gradient border effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 p-1 rounded-3xl">
-              <div className="bg-gray-300 h-full w-full rounded-3xl flex items-center justify-center">
-                <div className="text-center p-8">
-                  <svg className="w-24 h-24 mx-auto text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <h3 className="text-2xl font-bold text-gray-700 mb-2">Interactive Map</h3>
-                  <p className="text-gray-600">
-                    Google Maps Integration
-                    <br />
-                    <span className="text-sm">(Replace with actual embedded map)</span>
-                  </p>
-                  <a
-                    href="https://www.google.com/maps/search/123+Collins+Street+Melbourne+VIC+3000+Australia"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg"
-                  >
-                    View on Google Maps
-                  </a>
-                </div>
-              </div>
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl" style={{ padding: '3px', background: 'linear-gradient(to right, #9333ea, #ec4899, #ea580c)' }}>
+            <div className="rounded-3xl overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.97159731531664!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642b4a858c1fd%3A0x6bda3a8c4e5c8b0e!2s123%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sau!4v1710000000000!5m2!1sen!2sau"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="123 Collins Street, Melbourne VIC 3000, Australia"
+                className="w-full"
+              ></iframe>
             </div>
           </div>
         </div>
