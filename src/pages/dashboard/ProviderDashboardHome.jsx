@@ -58,7 +58,7 @@ const ProviderDashboardHome = () => {
 
       {/* Analytics Cards - Paid Only */}
       {isPaid && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <AnalyticsCard label="Profile Views" value={analytics.profileViews} change="+12%" positive
             icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>}
           />
@@ -77,7 +77,7 @@ const ProviderDashboardHome = () => {
       {/* Quick Navigation Grid */}
       <div>
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Access</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {tiles.map((tile) => (
             <Link
               key={tile.label}
@@ -100,8 +100,8 @@ const ProviderDashboardHome = () => {
       </div>
 
       {/* Activity + Profile */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+      <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
           <h3 className="text-base font-semibold text-slate-800 mb-4">Recent Activity</h3>
           <div className="space-y-4">
             {isPaid ? (
@@ -121,7 +121,7 @@ const ProviderDashboardHome = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
           <h3 className="text-base font-semibold text-slate-800 mb-4">Your Profile</h3>
           <div className="text-center mb-5">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xl font-bold text-white mx-auto mb-3">
@@ -163,9 +163,9 @@ const ProviderDashboardHome = () => {
 
       {/* Profile Completion Banner */}
       {user.profileComplete < 100 && (
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-2xl flex-shrink-0">👋</div>
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-100 flex items-center justify-center text-xl sm:text-2xl flex-shrink-0">👋</div>
             <div>
               <h3 className="text-sm font-semibold text-amber-900">Complete your profile</h3>
               <p className="text-sm text-amber-700 mt-0.5">Your profile is {user.profileComplete}% complete. A complete profile helps participants find you.</p>
@@ -184,14 +184,14 @@ const ProviderDashboardHome = () => {
 
       {/* Free Tier Upgrade Banner */}
       {!isPaid && (
-        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-6 text-white relative overflow-hidden">
+        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-4 sm:p-6 text-white relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/4"></div>
           </div>
-          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
             <div>
-              <h3 className="text-xl font-bold">Unlock Client Referrals & Premium Tools</h3>
+              <h3 className="text-lg sm:text-xl font-bold">Unlock Client Referrals & Premium Tools</h3>
               <p className="text-purple-100 mt-1 text-sm max-w-xl">Upgrade to Growth & Referral to receive direct participant referrals, enhanced directory visibility, messaging, and job board access.</p>
             </div>
             <Link to="/dashboard/upgrade" className="px-6 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition-colors shadow-lg flex-shrink-0">
@@ -373,16 +373,16 @@ function FeaturedPartnersRibbon() {
 
 function AnalyticsCard({ label, value, change, positive, icon }) {
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+    <div className="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-100">
       <div className="flex items-center justify-between mb-3">
-        <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">{icon}</div>
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">{icon}</div>
         {change && (
           <span className={`text-xs font-semibold px-2 py-1 rounded-full ${positive ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
             {change}
           </span>
         )}
       </div>
-      <p className="text-2xl font-bold text-slate-800">{value}</p>
+      <p className="text-xl sm:text-2xl font-bold text-slate-800">{value}</p>
       <p className="text-xs text-slate-500 mt-1">{label}</p>
     </div>
   );
@@ -390,13 +390,14 @@ function AnalyticsCard({ label, value, change, positive, icon }) {
 
 function ActivityItem({ icon, title, desc, time, highlight }) {
   return (
-    <div className={`flex items-start gap-3 p-3 rounded-xl transition-colors ${highlight ? 'bg-purple-50/50 border border-purple-100' : 'hover:bg-slate-50'}`}>
-      <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-lg flex-shrink-0">{icon}</div>
+    <div className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl transition-colors ${highlight ? 'bg-purple-50/50 border border-purple-100' : 'hover:bg-slate-50'}`}>
+      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-100 flex items-center justify-center text-base sm:text-lg flex-shrink-0">{icon}</div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-slate-800">{title}</p>
-        <p className="text-xs text-slate-500 mt-0.5 truncate">{desc}</p>
+        <p className="text-xs sm:text-sm font-medium text-slate-800">{title}</p>
+        <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 truncate">{desc}</p>
+        <span className="text-[10px] sm:hidden text-slate-400 mt-0.5 block">{time}</span>
       </div>
-      <span className="text-[11px] text-slate-400 flex-shrink-0 whitespace-nowrap">{time}</span>
+      <span className="text-[11px] text-slate-400 flex-shrink-0 whitespace-nowrap hidden sm:block">{time}</span>
     </div>
   );
 }

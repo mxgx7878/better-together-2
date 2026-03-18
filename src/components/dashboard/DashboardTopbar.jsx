@@ -29,9 +29,9 @@ const DashboardTopbar = ({ sidebarCollapsed, onMobileMenuToggle }) => {
 
   return (
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200/80">
-      <div className="flex items-center justify-between px-6 lg:px-8 h-16">
+      <div className="flex items-center justify-between px-3 sm:px-6 lg:px-8 h-16">
         {/* Mobile menu button + Greeting */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           {onMobileMenuToggle && (
             <button
               onClick={onMobileMenuToggle}
@@ -44,10 +44,10 @@ const DashboardTopbar = ({ sidebarCollapsed, onMobileMenuToggle }) => {
             </button>
           )}
           <div>
-          <h1 className="text-lg font-semibold text-slate-800">
+          <h1 className="text-sm sm:text-lg font-semibold text-slate-800 truncate">
             {getGreeting()}, {user.name.split(' ')[0]}
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-[10px] sm:text-xs text-slate-500 truncate max-w-[150px] sm:max-w-none">
             {isProvider ? user.organisation : `${user.location}`}
             {isPaid && (
               <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700">
@@ -64,7 +64,7 @@ const DashboardTopbar = ({ sidebarCollapsed, onMobileMenuToggle }) => {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           {/* Search */}
           <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-sm text-slate-500 transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

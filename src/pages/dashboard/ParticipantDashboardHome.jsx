@@ -35,7 +35,7 @@ const ParticipantDashboardHome = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-8">
       {/* Welcome Card */}
-      <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border border-purple-100 rounded-2xl p-6">
+      <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border border-purple-100 rounded-2xl p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl flex-shrink-0">
             🌟
@@ -53,27 +53,27 @@ const ParticipantDashboardHome = () => {
       </div>
      {/* Plan Buddy Card — Paid Only */}
       {isPaid && user.planBuddy && (
-        <div className="bg-white rounded-2xl shadow-sm border border-purple-100 p-6">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
+        <div className="bg-white rounded-2xl shadow-sm border border-purple-100 p-4 sm:p-6">
+          <div className="flex flex-col min-[400px]:flex-row items-start min-[400px]:justify-between gap-3">
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+              <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white text-base sm:text-xl font-bold flex-shrink-0">
                 {user.planBuddy.name.split(' ').map(n => n[0]).join('')}
               </div>
-              <div>
-                <p className="text-xs text-purple-600 font-semibold uppercase tracking-wide">Your Plan Buddy</p>
-                <h3 className="text-lg font-semibold text-slate-800">{user.planBuddy.name}</h3>
-                <p className="text-sm text-slate-500 mt-0.5">Next check-in: {new Date(user.planBuddy.nextCheckIn).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs text-purple-600 font-semibold uppercase tracking-wide">Your Plan Buddy</p>
+                <h3 className="text-base sm:text-lg font-semibold text-slate-800 truncate">{user.planBuddy.name}</h3>
+                <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">Next check-in: {new Date(user.planBuddy.nextCheckIn).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
             </div>
             <Link
               to="/dashboard/plan-buddy"
-              className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-medium rounded-xl transition-colors"
+              className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-medium rounded-xl transition-colors flex-shrink-0"
             >
               Message
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-slate-100">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100">
             <QuickAction icon="📩" label="Send a question" />
             <QuickAction icon="📋" label="View my checklist" />
             <QuickAction icon="📅" label="Schedule check-in" />
@@ -84,7 +84,7 @@ const ParticipantDashboardHome = () => {
       {/* Quick Navigation Grid */}
       <div>
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Your Portal</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
           {tiles.map((tile) => (
             <Link
               key={tile.label}
@@ -106,9 +106,9 @@ const ParticipantDashboardHome = () => {
       </div>
 
       {/* Recent Activity & Quick Info */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Activity Feed */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
           <h3 className="text-base font-semibold text-slate-800 mb-4">What's Happening</h3>
           <div className="space-y-4">
             <ActivityItem
@@ -142,7 +142,7 @@ const ParticipantDashboardHome = () => {
         </div>
 
         {/* Profile Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
           <h3 className="text-base font-semibold text-slate-800 mb-4">Your Profile</h3>
 
           <div className="text-center mb-5">
@@ -190,9 +190,9 @@ const ParticipantDashboardHome = () => {
 
       {/* Profile Completion */}
       {user.profileComplete < 100 && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl flex-shrink-0">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-50 flex items-center justify-center text-xl sm:text-2xl flex-shrink-0">
               ✏️
             </div>
             <div>
@@ -221,13 +221,13 @@ const ParticipantDashboardHome = () => {
 
       {/* Free Tier Upgrade CTA */}
       {!isPaid && (
-        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-6 text-white relative overflow-hidden">
+        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-4 sm:p-6 text-white relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
           </div>
-          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
             <div>
-              <h3 className="text-xl font-bold">Get a Personal Plan Buddy</h3>
+              <h3 className="text-lg sm:text-xl font-bold">Get a Personal Plan Buddy</h3>
               <p className="text-purple-100 mt-1 text-sm max-w-xl">
                 Upgrade to Personal Support Plus for $200/year and get guided help from real people — personalised inbox support, monthly check-ins, advocate and lawyer connections, and AAT preparation help.
               </p>
@@ -278,15 +278,16 @@ const ParticipantDashboardHome = () => {
 
 function ActivityItem({ icon, title, desc, time, highlight }) {
   return (
-    <div className={`flex items-start gap-3 p-3 rounded-xl transition-colors ${highlight ? 'bg-purple-50/50 border border-purple-100' : 'hover:bg-slate-50'}`}>
-      <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-lg flex-shrink-0">
+    <div className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl transition-colors ${highlight ? 'bg-purple-50/50 border border-purple-100' : 'hover:bg-slate-50'}`}>
+      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-100 flex items-center justify-center text-base sm:text-lg flex-shrink-0">
         {icon}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-slate-800">{title}</p>
-        <p className="text-xs text-slate-500 mt-0.5 truncate">{desc}</p>
+        <p className="text-xs sm:text-sm font-medium text-slate-800">{title}</p>
+        <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 truncate">{desc}</p>
+        <span className="text-[10px] sm:hidden text-slate-400 mt-0.5 block">{time}</span>
       </div>
-      <span className="text-[11px] text-slate-400 flex-shrink-0 whitespace-nowrap">{time}</span>
+      <span className="text-[11px] text-slate-400 flex-shrink-0 whitespace-nowrap hidden sm:block">{time}</span>
     </div>
   );
 }
