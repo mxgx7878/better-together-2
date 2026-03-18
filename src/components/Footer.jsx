@@ -41,8 +41,8 @@ const Footer = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold">Better Together Network</h3> */}
-<img src="/uploads/LOGO WHITE.png" className="h-32" alt="Better Together Network Logo" />
+          <h3 className="text-xl font-bold">The Better Together Network</h3> */}
+<img src="/uploads/LOGO WHITE.png" className="h-32" alt="The Better Together Network Logo" />
         </div>
         <p className="text-sm text-gray-400 mb-6 leading-relaxed">
           Connecting participants and providers through community-driven solutions
@@ -134,7 +134,7 @@ const Footer = () => {
 
     {/* Copyright */}
     <div className="border-t border-white/10 mt-10 pt-8 text-center">
-      <p className="text-xs text-gray-500">&copy; {new Date().getFullYear()} Better Together Network. All rights reserved.</p>
+      <p className="text-xs text-gray-500">&copy; {new Date().getFullYear()} The Better Together Network. All rights reserved.</p>
     </div>
   </div>
 </footer>

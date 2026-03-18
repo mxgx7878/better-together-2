@@ -93,7 +93,7 @@ const LoginPage = () => {
             <Link to="/" className="inline-block mb-8">
               <img 
                 src="/uploads/logo.jpg" 
-                alt="Better Together Logo"
+                alt="The Better Together Logo"
                 className="h-16 w-auto"
               />
             </Link>
@@ -341,7 +341,7 @@ const LoginPage = () => {
               </div>
             </div>
             <p className="text-gray-200 italic">
-              "Better Together Network made finding the right provider so much easier. I found my perfect match within days!"
+              "The Better Together Network made finding the right provider so much easier. I found my perfect match within days!"
             </p>
           </div>
         </div>

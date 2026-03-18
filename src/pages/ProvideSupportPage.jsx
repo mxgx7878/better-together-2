@@ -286,11 +286,11 @@ const servicesYouCanOffer = [
     },
     {
       question: 'Do I need to be disability services registered?',
-      answer: 'Both registered and non-registered providers can join Better Together Network. We encourage you to display your registration status on your profile so participants can make informed decisions.',
+      answer: 'Both registered and non-registered providers can join The Better Together Network. We encourage you to display your registration status on your profile so participants can make informed decisions.',
     },
     {
       question: 'How do payments work?',
-      answer: 'Better Together Network is a connection platform — we help you find and connect with participants. Payment arrangements are made directly between you and your clients. We don\'t handle payments or take a cut of your earnings.',
+      answer: 'The Better Together Network is a connection platform — we help you find and connect with participants. Payment arrangements are made directly between you and your clients. We don\'t handle payments or take a cut of your earnings.',
     },
     {
       question: 'What services can I offer?',
@@ -311,7 +311,7 @@ const servicesYouCanOffer = [
       name: 'Rebecca T.',
       role: 'Support Coordinator',
       business: 'Care Connect Services',
-      content: 'Better Together Network has been fantastic for growing my support coordination business. The job board helps me find clients who need my specific expertise.',
+      content: 'The Better Together Network has been fantastic for growing my support coordination business. The job board helps me find clients who need my specific expertise.',
       rating: 5,
       avatar: '👩‍💼',
     },
@@ -515,7 +515,7 @@ const servicesYouCanOffer = [
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-green-600 uppercase tracking-wider">Before You Join</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Is Better Together Network Right for You?
+              Is The Better Together Network Right for You?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our platform helps providers connect with participants. Here's what you should know.
@@ -570,7 +570,7 @@ const servicesYouCanOffer = [
               <span className="text-3xl mr-4">🔗</span>
               <div className="text-left">
                 <p className="font-bold text-gray-900">Connection Platform</p>
-                <p className="text-sm text-gray-600">Better Together Network is a connection platform. We help you find participants, but don't handle payments. You keep 100% of what you earn from clients.</p>
+                <p className="text-sm text-gray-600">The Better Together Network is a connection platform. We help you find participants, but don't handle payments. You keep 100% of what you earn from clients.</p>
               </div>
             </div>
           </div>
@@ -709,7 +709,7 @@ const servicesYouCanOffer = [
               What Providers Say
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from providers who've grown their business with Better Together Network.
+              Hear from providers who've grown their business with The Better Together Network.
             </p>
           </div>
 
@@ -811,7 +811,7 @@ const servicesYouCanOffer = [
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join 1,500+ providers already growing their disability services business through Better Together Network. 
+            Join 1,500+ providers already growing their disability services business through The Better Together Network. 
             Build your profile and start receiving enquiries.
           </p>
           

@@ -74,7 +74,7 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
             </div> */}
             <div className="min-w-0">
               <img src="/uploads/logo.jpg" className='w-24' alt="" />  
-              {/* <p className="text-sm font-semibold text-white truncate">Better Together</p> */}
+              {/* <p className="text-sm font-semibold text-white truncate">The Better Together</p> */}
               <p className="text-[11px] text-slate-400 truncate">
                 {isProvider ? 'Provider Portal' : 'Participant Portal'}
               </p>

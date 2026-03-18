@@ -50,7 +50,7 @@ const LandingPage3 = () => {
     {
       name: 'Sarah M.',
       role: 'NDIS Participant',
-      content: 'Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
+      content: 'The Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
       image: '/uploads/testimonial-sarah.jpg',
       rating: 5,
     },
@@ -64,7 +64,7 @@ const LandingPage3 = () => {
     {
       name: 'Michelle R.',
       role: 'Support Coordinator',
-      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
+      content: 'I recommend The Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
       image: '/uploads/testimonial-michelle.jpg',
       rating: 5,
     },
@@ -410,7 +410,7 @@ We believe that disability-sector services and people who offer support in the d
         Connecting Participants &amp; Providers
       </h2>
       <p className="mt-4 text-lg text-white/90">
-        Whether you're seeking support or providing services, Better Together Network brings the
+        Whether you're seeking support or providing services, The Better Together Network brings the
         community together.
       </p>
     </div>
@@ -919,7 +919,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
         What Our Community Says
       </h2>
       <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-        Real experiences from real people in the Better Together Network community
+        Real experiences from real people in The Better Together Network community
       </p>
     </div>
 
@@ -1034,7 +1034,7 @@ Fast & Reliable Connections To Trusted Services        </h2>
 how you connect with businesses who can help.             </span>
           </h2>
           
-          <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed"> Join a network of participants and providers who are ready to create meaningful connections and experience the power of the Better Together Network. 
+          <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed"> Join a network of participants and providers who are ready to create meaningful connections and experience the power of The Better Together Network. 
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">

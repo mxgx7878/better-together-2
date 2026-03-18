@@ -90,7 +90,7 @@ const LandingPage = () => {
     {
       name: 'Sarah M.',
       role: 'NDIS Participant',
-      content: 'Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
+      content: 'The Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
       avatar: '👩',
       rating: 5,
     },
@@ -104,7 +104,7 @@ const LandingPage = () => {
     {
       name: 'Michelle R.',
       role: 'Support Coordinator',
-      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
+      content: 'I recommend The Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
       avatar: '👩‍💼',
       rating: 5,
     },
@@ -591,7 +591,7 @@ const LandingPage = () => {
               Connecting Participants & Providers
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you're seeking support or providing services, Better Together Network brings the community together.
+              Whether you're seeking support or providing services, The Better Together Network brings the community together.
             </p>
           </div>
 
@@ -892,7 +892,7 @@ const LandingPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
               What Our Community Says
             </h2>
-            <p className="text-xl text-gray-600">Real experiences from real people in the Better Together Network community</p>
+            <p className="text-xl text-gray-600">Real experiences from real people in The Better Together Network community</p>
           </div>
 
           <div className="max-w-4xl mx-auto">
@@ -1070,7 +1070,7 @@ const LandingPage = () => {
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
             Join thousands of participants and providers who have already discovered 
-            the power of meaningful connections through Better Together Network.
+            the power of meaningful connections through The Better Together Network.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">

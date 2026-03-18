@@ -22,7 +22,7 @@ const Header = () => {
           <Link to="/" className="flex items-center py-2">
             <img 
               src="/uploads/logo.jpg" 
-              alt="Better Together - Reimagining Disabilities"
+              alt="The Better Together - Reimagining Disabilities"
               className="h-14 w-auto object-contain"
             />
           </Link>

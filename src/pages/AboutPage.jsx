@@ -142,7 +142,7 @@ const AboutPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🌟 About Better Together Network
+              🌟 About The Better Together Network
             </span>
           </div>
 
@@ -367,9 +367,9 @@ Karen Burgess remains a respected and influential voice in the disability commun
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
               <p className="text-xl text-gray-700 leading-relaxed mb-6">
-Better Together Network strengthens and drives the disability sector by fostering genuine connection, collaboration and community — one local relationship at a time. We bring together providers across the ecosystem, including intermediary services and organisations that offer supports to disability services, so that everyone working alongside disabled people is connected, informed and aligned in quality, ethical practice.
+The Better Together Network strengthens and drives the disability sector by fostering genuine connection, collaboration and community — one local relationship at a time. We bring together providers across the ecosystem, including intermediary services and organisations that offer supports to disability services, so that everyone working alongside disabled people is connected, informed and aligned in quality, ethical practice.
 We believe that better care and support for disabled people should be shaped and guided by disabled people themselves — with provider practices, community spaces and sector standards built through authentic co‑design and the core principle “nothing about us without us.” People with disability are leaders, designers and experts in their own lives; their lived experience must inform how providers operate, how communities connect and how systems evolve.<br/><br/>
-By empowering participants, supporting local providers and intermediaries, and amplifying lived experience, Better Together Network builds an ethical, inclusive, community‑driven ecosystem where real choice and control are protected, local businesses are valued, and smaller providers gain the strength of a unified voice to advocate for fair, sustainable conditions and quality practice.                 </p>
+By empowering participants, supporting local providers and intermediaries, and amplifying lived experience, The Better Together Network builds an ethical, inclusive, community‑driven ecosystem where real choice and control are protected, local businesses are valued, and smaller providers gain the strength of a unified voice to advocate for fair, sustainable conditions and quality practice.                 </p>
 
 
             </div>

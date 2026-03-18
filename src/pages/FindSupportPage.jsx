@@ -296,7 +296,7 @@ const services = [
 
   const faqs = [
     {
-      question: 'Is Better Together Network free to use?',
+      question: 'Is The Better Together Network free to use?',
       answer: 'Yes! You can create a profile and browse providers for free. We offer premium subscriptions with additional features like direct messaging, advocacy support, and advanced guidance.',
     },
     {
@@ -309,7 +309,7 @@ const services = [
     },
     {
       question: 'How do payments work?',
-      answer: 'Better Together Network is a connection platform only. We help you find and connect with providers, but payment arrangements are made directly between you and your chosen provider.',
+      answer: 'The Better Together Network is a connection platform only. We help you find and connect with providers, but payment arrangements are made directly between you and your chosen provider.',
     },
     {
       question: 'Can I use my Disability Service funding?',
@@ -325,21 +325,21 @@ const services = [
     {
       name: 'Sarah M.',
       role: 'Disability Service Participant',
-      content: 'Better Together Network made it so easy to Participants workers in my area. I love being able to see provider profiles and choose who I want to work with.',
+      content: 'The Better Together Network made it so easy to Participants workers in my area. I love being able to see provider profiles and choose who I want to work with.',
       rating: 5,
       avatar: '👩',
     },
     {
       name: 'David L.',
       role: 'Parent & Carer',
-      content: 'Finding the right therapy services for my son was overwhelming until we found Better Together Network. The search filters helped us find exactly what we needed.',
+      content: 'Finding the right therapy services for my son was overwhelming until we found The Better Together Network. The search filters helped us find exactly what we needed.',
       rating: 5,
       avatar: '👨',
     },
     {
       name: 'Michelle K.',
       role: 'Support Coordinator',
-      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore their options and make informed choices about their support.',
+      content: 'I recommend The Better Together Network to all my clients. It gives them the tools to explore their options and make informed choices about their support.',
       rating: 5,
       avatar: '👩‍💼',
     },
@@ -695,7 +695,7 @@ const services = [
               What Our Community Says
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from participants who've found their support through Better Together Network.
+              Hear from participants who've found their support through The Better Together Network.
             </p>
           </div>
 
@@ -796,7 +796,7 @@ const services = [
           </h2>
           
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of Disability‑sector service participants who've found quality support through Better Together Network. It's free to get started.
+            Join thousands of Disability‑sector service participants who've found quality support through The Better Together Network. It's free to get started.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
