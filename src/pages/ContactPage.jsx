@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Globe, Users, Zap, Calendar, Handshake, Star, CheckCircle } from '../components/Icons';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -11,19 +12,57 @@ const ContactPage = () => {
   });
 
   const [formStatus, setFormStatus] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
+  const [showLiveChat, setShowLiveChat] = useState(false);
+
+  const validateEmail = (email) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(email);
+  };
+
+  const validatePhone = (phone) => {
+    if (!phone) return true; // Phone is optional
+    const cleaned = phone.replace(/[\s\-()]+/g, '');
+    return /^\+?\d{8,15}$/.test(cleaned);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errors = {};
+
+    if (!validateEmail(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (formData.phone && !validatePhone(formData.phone)) {
+      errors.phone = 'Please enter a valid phone number (digits only)';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setFormErrors({});
     // Form submission logic here
     setFormStatus('success');
     setTimeout(() => setFormStatus(null), 5000);
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+
+    // For phone field, strip non-numeric characters except + and spaces
+    if (name === 'phone') {
+      const sanitized = value.replace(/[^0-9+\s\-()]/g, '');
+      setFormData({ ...formData, [name]: sanitized });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+
+    // Clear error when user types
+    if (formErrors[name]) {
+      setFormErrors({ ...formErrors, [name]: '' });
+    }
   };
 
   const contactMethods = [
@@ -35,9 +74,9 @@ const ContactPage = () => {
       ),
       title: 'Email Us',
       subtitle: 'Our friendly team is here to help',
-      details: ['info@ndisconnect.com', 'support@ndisconnect.com'],
+      details: ['weare@bettertogethernetwork.com.au'],
       color: 'from-purple-500 to-purple-600',
-      link: 'mailto:info@ndisconnect.com'
+      link: 'mailto:weare@bettertogethernetwork.com.au'
     },
     {
       icon: (
@@ -47,9 +86,9 @@ const ContactPage = () => {
       ),
       title: 'Call Us',
       subtitle: 'Mon-Fri from 9am to 5pm AEST',
-      details: ['1800 NDIS HELP', '+61 3 1234 5678'],
+      details: ['0403 678 767'],
       color: 'from-green-500 to-teal-600',
-      link: 'tel:1800634743'
+      link: 'tel:0403678767'
     },
     {
       icon: (
@@ -62,7 +101,7 @@ const ContactPage = () => {
       subtitle: 'Come say hello at our office',
       details: ['123 Collins Street', 'Melbourne VIC 3000', 'Australia'],
       color: 'from-orange-500 to-red-500',
-      link: 'https://maps.google.com'
+      link: 'https://www.google.com/maps/search/123+Collins+Street+Melbourne+VIC+3000+Australia'
     },
     {
       icon: (
@@ -74,7 +113,8 @@ const ContactPage = () => {
       subtitle: 'Get instant support',
       details: ['Available 24/7', 'Average response: 2 min'],
       color: 'from-pink-500 to-rose-600',
-      link: '#'
+      link: '#live-chat',
+      onClick: () => setShowLiveChat(true)
     }
   ];
 
@@ -102,7 +142,7 @@ const ContactPage = () => {
         </svg>
       ),
       color: 'bg-blue-600 hover:bg-blue-700',
-      url: '#'
+      url: 'http://www.facebook.com/groups/bettertogethernetworkaustralia'
     },
     {
       name: 'LinkedIn',
@@ -112,27 +152,7 @@ const ContactPage = () => {
         </svg>
       ),
       color: 'bg-blue-700 hover:bg-blue-800',
-      url: '#'
-    },
-    {
-      name: 'YouTube',
-      icon: (
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-        </svg>
-      ),
-      color: 'bg-red-600 hover:bg-red-700',
-      url: '#'
-    },
-    {
-      name: 'Twitter',
-      icon: (
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-        </svg>
-      ),
-      color: 'bg-sky-500 hover:bg-sky-600',
-      url: '#'
+      url: 'https://www.linkedin.com/groups/14784418'
     }
   ];
 
@@ -150,7 +170,7 @@ const ContactPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              💬 We're Here to Help
+              <MessageCircle className="w-4 h-4 inline mr-1" /> We're Here to Help
             </span>
           </div>
           
@@ -213,6 +233,7 @@ const ContactPage = () => {
               <a
                 key={index}
                 href={method.link}
+                onClick={method.onClick ? (e) => { e.preventDefault(); method.onClick(); } : undefined}
                 className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200"
               >
                 <div className={`bg-gradient-to-br ${method.color} w-16 h-16 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
@@ -285,9 +306,12 @@ const ContactPage = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-200"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-200 ${formErrors.email ? 'border-red-400 focus:border-red-500' : 'border-gray-300 focus:border-purple-600'}`}
                       placeholder="john@example.com"
                     />
+                    {formErrors.email && (
+                      <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
+                    )}
                   </div>
 
                   <div>
@@ -300,9 +324,14 @@ const ContactPage = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-200"
-                      placeholder="+61 4XX XXX XXX"
+                      inputMode="numeric"
+                      pattern="[0-9+\s\-()]*"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-200 ${formErrors.phone ? 'border-red-400 focus:border-red-500' : 'border-gray-300 focus:border-purple-600'}`}
+                      placeholder="04XX XXX XXX"
                     />
+                    {formErrors.phone && (
+                      <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>
+                    )}
                   </div>
                 </div>
 
@@ -467,34 +496,22 @@ const ContactPage = () => {
           <div className="text-center mb-12">
             <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">Location</span>
             <h2 className="text-4xl font-bold text-gray-900 mt-2 mb-4">Find Us Here</h2>
-            <p className="text-xl text-gray-600">Visit our office or connect with us remotely</p>
+            <p className="text-xl text-gray-600">123 Collins Street, Melbourne VIC 3000, Australia</p>
           </div>
           
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-            {/* Gradient border effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 p-1 rounded-3xl">
-              <div className="bg-gray-300 h-full w-full rounded-3xl flex items-center justify-center">
-                <div className="text-center p-8">
-                  <svg className="w-24 h-24 mx-auto text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <h3 className="text-2xl font-bold text-gray-700 mb-2">Interactive Map</h3>
-                  <p className="text-gray-600">
-                    Google Maps Integration
-                    <br />
-                    <span className="text-sm">(Replace with actual embedded map)</span>
-                  </p>
-                  <a 
-                    href="https://maps.google.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg"
-                  >
-                    Open in Google Maps
-                  </a>
-                </div>
-              </div>
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl" style={{ padding: '3px', background: 'linear-gradient(to right, #9333ea, #ec4899, #ea580c)' }}>
+            <div className="rounded-3xl overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.97159731531664!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642b4a858c1fd%3A0x6bda3a8c4e5c8b0e!2s123%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sau!4v1710000000000!5m2!1sen!2sau"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="123 Collins Street, Melbourne VIC 3000, Australia"
+                className="w-full"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -518,11 +535,11 @@ const ContactPage = () => {
             Our support team is here to help. Don't hesitate to reach out!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-10 py-5 rounded-2xl font-bold text-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-2xl transform hover:scale-105">
-              Start Live Chat
+            <button onClick={() => setShowLiveChat(true)} className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-10 py-5 rounded-2xl font-bold text-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-2xl transform hover:scale-105">
+              {showLiveChat ? 'Chat Started!' : 'Start Live Chat'}
             </button>
             <a
-              href="tel:1800634743"
+              href="tel:0403678767"
               className="inline-flex items-center justify-center bg-white/10 backdrop-blur-lg border-2 border-white/30 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white/20 transition-all duration-300 shadow-lg"
             >
               Call Now

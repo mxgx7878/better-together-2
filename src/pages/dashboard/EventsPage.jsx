@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Sparkles, CheckCircle } from '../../components/Icons';
 
 const mockEvents = [
   { id: 1, title: 'Melbourne Provider Networking Breakfast', date: '2026-02-28', time: '8:00 AM – 10:00 AM', location: 'The Commons, Melbourne CBD', type: 'networking', cost: 'Free', accessibility: 'Wheelchair accessible, Auslan interpreter available', desc: 'Connect with local providers over breakfast. Share insights, build referral pathways, and grow your network.', rsvpd: true, attendees: 34 },
@@ -65,7 +66,7 @@ const EventsPage = () => {
               onClick={() => setShowSponsor(true)}
               className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-xl transition-all shadow-md"
             >
-              ✨ Sponsor an Event
+              <Sparkles className="w-4 h-4 text-white inline" /> Sponsor an Event
             </button>
           )}
           <div className="flex bg-slate-100 rounded-lg p-0.5">
@@ -178,7 +179,7 @@ const EventsPage = () => {
                           : 'bg-purple-600 hover:bg-purple-700 text-white shadow-md'
                       }`}
                     >
-                      {rsvps[event.id] ? '✓ RSVP’d' : 'RSVP'}
+                      {rsvps[event.id] ? <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Confirmed</span> : "RSVP"}
                     </button>
                   </div>
 

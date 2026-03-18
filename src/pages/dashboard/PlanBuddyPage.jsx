@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Heart, FileText, CheckCircle } from '../../components/Icons';
 
 const mockMessages = [
   { id: 1, from: 'buddy', date: '2026-02-14', content: 'Hi! Just checking in before your plan review next month. Have you started gathering your provider reports? I\'ve added a checklist to your tasks below.' },
@@ -24,21 +25,28 @@ const PlanBuddyPage = () => {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState(mockMessages);
   const [activeTab, setActiveTab] = useState('chat');
+  const [showScheduleConfirm, setShowScheduleConfirm] = useState(false);
+  const [copiedDraft, setCopiedDraft] = useState(false);
+  const [editingDraft, setEditingDraft] = useState(false);
+  const [requestedConnections, setRequestedConnections] = useState([]);
+  const [peerMatchRequested, setPeerMatchRequested] = useState(false);
 
   if (!isPaid) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-5">💜</div>
+        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <Heart className="w-8 h-8 text-purple-600" />
+        </div>
         <h1 className="text-2xl font-bold text-slate-800 mb-2">My Plan Buddy</h1>
         <p className="text-slate-600 mb-3">Your Personal Plan Buddy (PPB) provides one-on-one support to help you navigate the NDIS.</p>
         <div className="bg-purple-50 rounded-xl p-4 text-left text-sm text-purple-800 mb-6 max-w-md mx-auto">
           <p className="font-semibold mb-2">What a Plan Buddy offers:</p>
           <ul className="space-y-1.5">
-            <li>✓ Personal support inbox & check-ins</li>
-            <li>✓ Help drafting emails and letters</li>
-            <li>✓ Plan review preparation</li>
-            <li>✓ Peer matching & connection</li>
-            <li>✓ Advocate & lawyer connections</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Personal support inbox & check-ins</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Help drafting emails and letters</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Plan review preparation</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Peer matching & connection</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Advocate & lawyer connections</li>
           </ul>
         </div>
         <a href="/dashboard/upgrade" className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all">
@@ -88,8 +96,8 @@ const PlanBuddyPage = () => {
             </div>
           </div>
           <div className="flex gap-2">
-            <button className="px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur rounded-xl text-sm font-medium transition-colors">
-              Schedule Check-in
+            <button onClick={() => { setShowScheduleConfirm(true); setTimeout(() => setShowScheduleConfirm(false), 2000); }} className="px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur rounded-xl text-sm font-medium transition-colors">
+              {showScheduleConfirm ? 'Request Sent!' : 'Schedule Check-in'}
             </button>
           </div>
         </div>
@@ -188,8 +196,12 @@ const PlanBuddyPage = () => {
               <p className="mt-2">Thank you for your support.</p>
             </div>
             <div className="flex gap-3">
-              <button className="px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-xl">Copy to Clipboard</button>
-              <button className="px-4 py-2 bg-slate-100 text-slate-600 text-sm font-medium rounded-xl">Edit</button>
+              <button onClick={() => { navigator.clipboard?.writeText('Hi [Support Coordinator name],\n\nI hope you\'re well. I\'m preparing for my upcoming NDIS plan review and was wondering if you could please provide a summary report of our work together over the past 12 months.\n\nIt would be helpful if the report could include the goals we\'ve worked on, progress made, and any recommendations for future funding.\n\nIf possible, could I receive this by [date]?\n\nThank you for your support.'); setCopiedDraft(true); setTimeout(() => setCopiedDraft(false), 2000); }} className="px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-xl">
+                {copiedDraft ? 'Copied!' : 'Copy to Clipboard'}
+              </button>
+              <button onClick={() => setEditingDraft(!editingDraft)} className={`px-4 py-2 text-sm font-medium rounded-xl ${editingDraft ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-600'}`}>
+                {editingDraft ? 'Done Editing' : 'Edit'}
+              </button>
             </div>
           </div>
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
@@ -197,7 +209,7 @@ const PlanBuddyPage = () => {
             <div className="grid sm:grid-cols-2 gap-3">
               {['Provider feedback email', 'Plan review personal statement', 'Change of provider request', 'Internal review request', 'Complaint to NDIS Commission', 'Advocate referral request'].map((tmpl, i) => (
                 <button key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-purple-50 transition-colors text-left">
-                  <span className="text-xl">📄</span>
+                  <FileText className="w-5 h-5 text-slate-500" />
                   <span className="text-sm font-medium text-slate-700">{tmpl}</span>
                 </button>
               ))}
@@ -223,8 +235,8 @@ const PlanBuddyPage = () => {
                     <h4 className="text-sm font-semibold text-slate-800">{conn.name}</h4>
                     <p className="text-xs text-slate-500">{conn.type} · {conn.desc}</p>
                   </div>
-                  <button className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-semibold rounded-xl transition-colors flex-shrink-0">
-                    Request Connection
+                  <button onClick={() => setRequestedConnections(prev => prev.includes(i) ? prev : [...prev, i])} className={`px-4 py-2 text-sm font-semibold rounded-xl transition-colors flex-shrink-0 ${requestedConnections.includes(i) ? 'bg-emerald-50 text-emerald-700' : 'bg-purple-50 hover:bg-purple-100 text-purple-700'}`}>
+                    {requestedConnections.includes(i) ? 'Requested' : 'Request Connection'}
                   </button>
                 </div>
               ))}
@@ -233,8 +245,8 @@ const PlanBuddyPage = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
             <h3 className="text-lg font-semibold text-slate-800 mb-4">Peer Matching</h3>
             <p className="text-sm text-slate-600 mb-4">Connect with other participants who share similar experiences or goals.</p>
-            <button className="px-5 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md">
-              Find a Peer Match
+            <button onClick={() => setPeerMatchRequested(true)} className={`px-5 py-3 font-semibold rounded-xl shadow-md transition-all ${peerMatchRequested ? 'bg-emerald-500 text-white' : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'}`}>
+              {peerMatchRequested ? 'Match Request Submitted!' : 'Find a Peer Match'}
             </button>
           </div>
         </div>

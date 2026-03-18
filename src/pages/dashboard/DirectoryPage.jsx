@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Star } from '../../components/Icons';
 
 const mockProviders = [
   { id: 1, name: 'Allied Health Plus', type: 'Therapy Services', services: ['OT', 'Speech Pathology', 'Physiotherapy'], location: 'Melbourne CBD', distance: 5, rating: 4.8, reviews: 23, registered: true, openToCollab: true, featured: true, desc: 'Comprehensive allied health services with a person-centred approach.', tags: ['NDIS Registered', 'Telehealth', 'Home Visits'] },
@@ -251,7 +252,7 @@ const DirectoryPage = () => {
                   bookmarks.includes(selectedProvider.id) ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >
-                {bookmarks.includes(selectedProvider.id) ? '★ Saved' : '☆ Save'}
+                {bookmarks.includes(selectedProvider.id) ? <><Star className="w-4 h-4 fill-current inline" /> Saved</> : <><Star className="w-4 h-4 inline" /> Save</>}
               </button>
             </div>
           </div>

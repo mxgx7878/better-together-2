@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Pin } from '../../components/Icons';
 
 const mockThreads = [
   { id: 1, title: 'New NDIS pricing changes — how is everyone adapting?', author: 'Karen B.', authorRole: 'Support Coordinator', date: '2026-02-16', replies: 12, views: 89, topic: 'compliance', pinned: true, lastReply: '2 hours ago', preview: 'With the mid-year pricing update, I\'m finding it challenging to reconcile the new rates with existing service agreements...' },
@@ -23,6 +24,7 @@ const QAForumPage = () => {
   const [topicFilter, setTopicFilter] = useState('all');
   const [showNewThread, setShowNewThread] = useState(false);
   const [sortBy, setSortBy] = useState('recent');
+  const [selectedThread, setSelectedThread] = useState(null);
 
   const filtered = mockThreads
     .filter(t => topicFilter === 'all' || t.topic === topicFilter)
@@ -76,14 +78,14 @@ const QAForumPage = () => {
       {/* Thread List */}
       <div className="space-y-3">
         {filtered.map(thread => (
-          <div key={thread.id} className={`bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-all cursor-pointer ${thread.pinned ? 'border-amber-200 bg-amber-50/30' : 'border-slate-100'}`}>
+          <div key={thread.id} onClick={() => setSelectedThread(selectedThread === thread.id ? null : thread.id)} className={`bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-all cursor-pointer ${thread.pinned ? 'border-amber-200 bg-amber-50/30' : 'border-slate-100'} ${selectedThread === thread.id ? 'ring-2 ring-purple-300 border-purple-200' : ''}`}>
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                 {thread.author === 'Anonymous' ? '?' : thread.author.split(' ').map(n => n[0]).join('')}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  {thread.pinned && <span className="text-amber-600 text-xs font-bold">📌 Pinned</span>}
+                  {thread.pinned && <span className="text-amber-600 text-xs font-bold flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> Pinned</span>}
                   <h3 className="text-base font-semibold text-slate-800 hover:text-purple-700 transition-colors">{thread.title}</h3>
                 </div>
                 <p className="text-sm text-slate-500 mt-1 line-clamp-2">{thread.preview}</p>
@@ -130,7 +132,7 @@ const QAForumPage = () => {
                 <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-purple-600" />
                 <span className="text-sm text-slate-600">Post anonymously</span>
               </label>
-              <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md">
+              <button onClick={() => setShowNewThread(false)} className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md">
                 Post Discussion
               </button>
             </div>

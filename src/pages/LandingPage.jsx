@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Search, Users, FileText, MessageCircle, Home, Briefcase, Lightbulb, Target, Heart, Handshake, Leaf, Sprout, Star, Shield, ShieldCheck, Lock, CheckCircle, ThumbsUp, Building2, Sparkles, Brain, Compass, BookOpen, Zap, User, TrendingUp, Eye, Globe } from '../components/Icons';
 
 const LandingPage = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -16,25 +17,25 @@ const LandingPage = () => {
     {
       title: 'Daily Living Support',
       description: 'Help with everyday tasks like cooking, cleaning, and household management.',
-      icon: '🏠',
+      icon: <Home className="w-7 h-7 text-white" />,
       color: 'from-blue-500 to-indigo-600',
     },
     {
       title: 'Therapy Services',
       description: 'Connect with occupational therapists, speech pathologists, and more.',
-      icon: '💪',
+      icon: <TrendingUp className="w-7 h-7 text-white" />,
       color: 'from-orange-500 to-red-500',
     },
     {
       title: 'Social & Community',
       description: 'Participate in social activities and community events with support.',
-      icon: '🌟',
+      icon: <Star className="w-7 h-7 text-white" />,
       color: 'from-purple-500 to-pink-600',
     },
     {
       title: 'Support Coordination',
       description: 'Get help navigating and managing your NDIS plan effectively.',
-      icon: '📋',
+      icon: <FileText className="w-7 h-7 text-white" />,
       color: 'from-teal-500 to-green-600',
     },
   ];
@@ -44,44 +45,28 @@ const LandingPage = () => {
       step: '01',
       title: 'Tell Us What You Need',
       description: 'Share your requirements and the type of NDIS services you\'re looking for.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      ),
+      icon: <Search className="w-8 h-8" />,
       color: 'from-orange-500 to-amber-500',
     },
     {
       step: '02',
       title: 'We Match You With Providers',
       description: 'We\'ll show you possible providers and services that match your specific needs.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      ),
+      icon: <Users className="w-8 h-8" />,
       color: 'from-orange-500 to-amber-500',
     },
     {
       step: '03',
       title: 'Connect Safely',
       description: 'With your permission, we facilitate secure connections between you and providers.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      ),
+      icon: <FileText className="w-8 h-8" />,
       color: 'from-orange-500 to-amber-500',
     },
     {
       step: '04',
       title: 'Build Relationships',
       description: 'Qualified providers will reach out to you and you can choose who to work with.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      ),
+      icon: <MessageCircle className="w-8 h-8" />,
       color: 'from-orange-500 to-amber-500',
     },
   ];
@@ -90,22 +75,22 @@ const LandingPage = () => {
     {
       name: 'Sarah M.',
       role: 'NDIS Participant',
-      content: 'Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
-      avatar: '👩',
+      content: 'The Better Together Network made finding the right support workers so much easier. I love being able to browse profiles and choose who I want to work with.',
+      avatar: <User className="w-8 h-8 text-purple-600" />,
       rating: 5,
     },
     {
       name: 'James K.',
       role: 'Service Provider',
       content: 'As a provider, this platform has connected me with participants who truly benefit from my services. It\'s a game-changer for growing my business.',
-      avatar: '👨‍⚕️',
+      avatar: <User className="w-8 h-8 text-blue-600" />,
       rating: 5,
     },
     {
       name: 'Michelle R.',
       role: 'Support Coordinator',
-      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
-      avatar: '👩‍💼',
+      content: 'I recommend The Better Together Network to all my clients. It gives them the tools to explore options and make informed choices about their support.',
+      avatar: <User className="w-8 h-8 text-pink-600" />,
       rating: 5,
     },
   ];
@@ -116,42 +101,42 @@ const LandingPage = () => {
       number: '01',
       title: 'Led by Disabled People',
       description: 'Not built about disabled people, but by disabled people. Lived experience drives every decision.',
-      icon: '👥',
+      icon: <Users className="w-7 h-7 text-white" />,
       color: 'from-purple-500 to-indigo-600',
     },
     {
       number: '02',
       title: 'Community First',
       description: 'We prioritize connection, safety, and transparency over profits and metrics.',
-      icon: '❤️',
+      icon: <Heart className="w-7 h-7 text-white" />,
       color: 'from-pink-500 to-rose-600',
     },
     {
       number: '03',
       title: 'No Commission Model',
       description: 'Keep 100% of your earnings. We believe ethical connections shouldn\'t cost you.',
-      icon: '💰',
+      icon: <Briefcase className="w-7 h-7 text-white" />,
       color: 'from-yellow-500 to-amber-500',
     },
     {
       number: '04',
       title: 'Ground-Up Approach',
       description: 'We listen to the community, respond to real needs, and build tools that reflect lived realities.',
-      icon: '🌱',
+      icon: <Sprout className="w-7 h-7 text-white" />,
       color: 'from-green-500 to-teal-600',
     },
     {
       number: '05',
       title: 'Participants & Providers Unite',
       description: 'We bring both sides together safely, because real change happens when everyone has a voice.',
-      icon: '🤝',
+      icon: <Handshake className="w-7 h-7 text-white" />,
       color: 'from-indigo-500 to-purple-600',
     },
     {
       number: '06',
       title: 'Transparency & Accountability',
       description: 'We build a culture where honesty is standard, whistleblowing is respected, and community safety comes first.',
-      icon: '🔒',
+      icon: <Lock className="w-7 h-7 text-white" />,
       color: 'from-cyan-500 to-blue-600',
     },
   ];
@@ -159,37 +144,37 @@ const LandingPage = () => {
   // FIXED: Added 6th vision point for even grid (2 rows of 3)
   const visionPoints = [
     {
-      icon: '🤝',
+      icon: <Handshake className="w-7 h-7 text-white" />,
       title: 'Providers Support Each Other',
       description: 'Collaboration becomes the norm, not the exception.',
       color: 'from-blue-500 to-indigo-600',
     },
     {
-      icon: '🔍',
+      icon: <Search className="w-7 h-7 text-white" />,
       title: 'Easy Access to Trusted Services',
       description: 'Real choice and control are strengthened through genuine, transparent connections.',
       color: 'from-green-500 to-teal-600',
     },
     {
-      icon: '🏘️',
+      icon: <Globe className="w-7 h-7 text-white" />,
       title: 'Local Relationships Valued',
       description: 'Communities thrive when people know, trust, and support one another.',
       color: 'from-purple-500 to-pink-600',
     },
     {
-      icon: '✨',
+      icon: <Sparkles className="w-7 h-7 text-white" />,
       title: 'Trust & Transparency First',
       description: 'We prioritise integrity, lived experience, and the voices of people with disability.',
       color: 'from-orange-500 to-red-500',
     },
     {
-      icon: '💪',
+      icon: <TrendingUp className="w-7 h-7 text-white" />,
       title: 'Connected & Empowered',
       description: 'Everyone deserves access to clear information, respectful support, and a community that listens.',
       color: 'from-cyan-500 to-blue-600',
     },
     {
-      icon: '🎯',
+      icon: <Target className="w-7 h-7 text-white" />,
       title: 'Support Beyond Services',
       description: 'We help you understand the NDIS, navigate reviews, access advocacy, and feel confident in your rights.',
       color: 'from-yellow-500 to-amber-500',
@@ -198,65 +183,53 @@ const LandingPage = () => {
 
   const platformFeatures = [
     {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      ),
+      icon: <Search className="w-8 h-8" />,
       title: 'Smart Provider Search',
       description: 'Advanced filters to find the perfect provider for your needs',
-      color: 'bg-gradient-to-br from-purple-500 to-purple-600'
+      color: 'bg-gradient-to-br from-purple-500 to-purple-600',
+      link: '/find-support'
     },
     {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      ),
+      icon: <Users className="w-8 h-8" />,
       title: 'Community Network',
       description: 'Connect with thousands of participants and providers',
-      color: 'bg-gradient-to-br from-green-500 to-green-600'
+      color: 'bg-gradient-to-br from-green-500 to-green-600',
+      link: '/about'
     },
     {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      ),
+      icon: <ShieldCheck className="w-8 h-8" />,
       title: 'Verified Quality',
       description: 'All providers verified for quality and compliance',
-      color: 'bg-gradient-to-br from-yellow-500 to-orange-500'
+      color: 'bg-gradient-to-br from-yellow-500 to-orange-500',
+      link: '/provide-support'
     },
     {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
+      icon: <Zap className="w-8 h-8" />,
       title: '24/7 Support',
       description: 'Get instant answers with our support team',
-      color: 'bg-gradient-to-br from-pink-500 to-red-500'
+      color: 'bg-gradient-to-br from-pink-500 to-red-500',
+      link: '/contact'
     }
   ];
 
   const trustIndicators = [
     {
-      icon: '🛡️',
+      icon: <Shield className="w-10 h-10 text-green-600" />,
       title: 'NDIS Quality & Safety',
       description: 'We adhere to NDIS Quality and Safeguards Commission standards'
     },
     {
-      icon: '🔐',
+      icon: <Lock className="w-10 h-10 text-green-600" />,
       title: 'Secure Platform',
       description: 'Your data is encrypted and protected with industry-leading security'
     },
     {
-      icon: '✅',
+      icon: <CheckCircle className="w-10 h-10 text-green-600" />,
       title: 'Verified Providers',
       description: 'All providers undergo thorough verification before joining'
     },
     {
-      icon: '💯',
+      icon: <ThumbsUp className="w-10 h-10 text-green-600" />,
       title: '98% Satisfaction',
       description: 'Our community consistently rates us 5 stars for service quality'
     }
@@ -275,10 +248,10 @@ const LandingPage = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40">
           <div className="text-center max-w-5xl mx-auto">
-            
+
             {/* Main Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-tight">
-              Reimagining Disability with the Power of 
+              Reimagining Disability with the Power of
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
                 Local Communities
               </span>
@@ -292,9 +265,9 @@ const LandingPage = () => {
             {/* Explore Our Platform */}
             <div className="mb-12">
               <h2 className="text-3xl font-bold mb-10">Explore Our Platform</h2>
-              
+
               <div className="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
-                
+
                 {/* Participants */}
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
                   <div className="flex items-start">
@@ -367,27 +340,27 @@ const LandingPage = () => {
             {/* Main Mission Statement */}
             <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-yellow-50 rounded-3xl p-10 mb-12 border-2 border-purple-200 shadow-xl">
               <div className="text-center mb-8">
-                <div className="text-6xl mb-4">🌱</div>
+                <div className="mb-4 flex justify-center"><Sprout className="w-12 h-12 text-green-600" /></div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-6">
                   Where Lived Experience Leads
                 </h3>
               </div>
-              
+
               <p className="text-xl text-gray-700 leading-relaxed mb-6 text-center">
-                We are an independent NDIS community platform designed to bring people together — providers, 
-                participants, families, and local specialists — to create stronger, more connected, and more 
+                We are an independent NDIS community platform designed to bring people together — providers,
+                participants, families, and local specialists — to create stronger, more connected, and more
                 supportive disability networks across Australia.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided 
-                by people with disabilities</strong>. Provider practices, community spaces, and sector standards should 
-                be built through authentic co‑design, grounded in disability theory and the core principle that 
+                We believe the NDIS must not only operate effectively, but be <strong>driven, shaped, and guided
+                by people with disabilities</strong>. Provider practices, community spaces, and sector standards should
+                be built through authentic co‑design, grounded in disability theory and the core principle that
                 <strong> "nothing about us without us"</strong>.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed text-center">
-                <strong>Our mission:</strong> To build a connected NDIS community where people, providers, and local 
+                <strong>Our mission:</strong> To build a connected NDIS community where people, providers, and local
                 networks grow stronger together — and where the sector is shaped by the very people it exists to serve.
               </p>
             </div>
@@ -395,15 +368,15 @@ const LandingPage = () => {
             {/* Mission Taglines - Grid of 3 */}
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { tagline: "Where lived experience leads, and a stronger NDIS grows from the ground up.", icon: '🌿' },
-                { tagline: "Many voices, one community — reshaping the NDIS with heart, dignity, and unity.", icon: '🌟' },
-                { tagline: "When people and providers stand together, the whole sector rises.", icon: '🤝' }
+                { tagline: "Where lived experience leads, and a stronger NDIS grows from the ground up.", icon: <Leaf className="w-7 h-7" /> },
+                { tagline: "Many voices, one community — reshaping the NDIS with heart, dignity, and unity.", icon: <Star className="w-7 h-7" /> },
+                { tagline: "When people and providers stand together, the whole sector rises.", icon: <Handshake className="w-7 h-7" /> }
               ].map((item, index) => (
                 <div
                   key={index}
                   className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100"
                 >
-                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <div className="mb-4">{item.icon}</div>
                   <p className="text-gray-700 leading-relaxed italic">"{item.tagline}"</p>
                 </div>
               ))}
@@ -423,8 +396,8 @@ const LandingPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block mb-6">
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wide shadow-lg">
-                ✨ What Makes Us Different
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wide shadow-lg inline-flex items-center gap-2">
+                <Sparkles className="w-4 h-4" /> What Makes Us Different
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
@@ -435,7 +408,7 @@ const LandingPage = () => {
             </p>
             <div className="w-32 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mt-8"></div>
             <p className="text-xl text-gray-600 mt-6 max-w-3xl mx-auto">
-              We're not another directory or provider platform. We're building a community-driven ecosystem 
+              We're not another directory or provider platform. We're building a community-driven ecosystem
               that puts lived experience at the heart of everything we do.
             </p>
           </div>
@@ -453,10 +426,10 @@ const LandingPage = () => {
                 </div>
 
                 {/* Icon with gradient background */}
-                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl text-3xl mb-6 shadow-md`}>
+                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl mb-6 shadow-md`}>
                   {item.icon}
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{item.description}</p>
               </div>
@@ -468,27 +441,27 @@ const LandingPage = () => {
             <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-3xl p-1 shadow-2xl">
               <div className="bg-white rounded-3xl p-10">
                 <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full text-5xl mb-6">
-                    🛡️
+                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full mb-6">
+                    <Shield className="w-10 h-10 text-purple-600" />
                   </div>
                   <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                     No One Left Behind
                   </h3>
                   <p className="text-xl text-gray-700 leading-relaxed mb-8 max-w-3xl mx-auto">
-                    Our platform ensures that <strong>disabled people lead the conversation</strong>, lived experience 
+                    Our platform ensures that <strong>disabled people lead the conversation</strong>, lived experience
                     is treated as expertise, community replaces isolation, and no one navigates the system alone.
                   </p>
-                  
+
                   {/* Key commitments */}
                   <div className="grid md:grid-cols-2 gap-6 mb-8">
                     {[
-                      { icon: '👥', text: 'Disabled people lead every decision' },
-                      { icon: '💡', text: 'Lived experience drives innovation' },
-                      { icon: '🤝', text: 'Community replaces isolation' },
-                      { icon: '🎯', text: 'Support accessible at every level' }
+                      { icon: <Users className="w-7 h-7 text-purple-600" />, text: 'Disabled people lead every decision' },
+                      { icon: <Lightbulb className="w-7 h-7 text-purple-600" />, text: 'Lived experience drives innovation' },
+                      { icon: <Handshake className="w-7 h-7 text-purple-600" />, text: 'Community replaces isolation' },
+                      { icon: <Target className="w-7 h-7 text-purple-600" />, text: 'Support accessible at every level' }
                     ].map((item, index) => (
                       <div key={index} className="flex items-start bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-purple-200">
-                        <span className="text-3xl mr-3">{item.icon}</span>
+                        <span className="mr-3 flex-shrink-0">{item.icon}</span>
                         <span className="text-gray-700 font-medium text-left">{item.text}</span>
                       </div>
                     ))}
@@ -526,25 +499,25 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                icon: '🌱',
+                icon: <Sprout className="w-7 h-7 text-white" />,
                 title: 'Community First',
                 description: 'We prioritize genuine connections and collaborative growth over profit-driven metrics.',
                 color: 'from-green-400 to-teal-500'
               },
               {
-                icon: '💎',
+                icon: <Sparkles className="w-7 h-7 text-white" />,
                 title: 'Transparency',
                 description: 'Honesty is our standard. We build trust through open communication and accountability.',
                 color: 'from-blue-400 to-indigo-500'
               },
               {
-                icon: '🤝',
+                icon: <Handshake className="w-7 h-7 text-white" />,
                 title: 'Equality',
                 description: 'Participants and providers meet as equals, fostering mutual respect and understanding.',
                 color: 'from-purple-400 to-pink-500'
               },
               {
-                icon: '🎯',
+                icon: <Target className="w-7 h-7 text-white" />,
                 title: 'Empowerment',
                 description: 'We provide tools, knowledge, and support to help everyone make informed decisions.',
                 color: 'from-orange-400 to-red-500'
@@ -554,7 +527,7 @@ const LandingPage = () => {
                 key={index}
                 className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100"
               >
-                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${value.color} rounded-2xl text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform`}>
+                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${value.color} rounded-2xl mb-6 shadow-md group-hover:scale-110 transition-transform`}>
                   {value.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
@@ -571,7 +544,7 @@ const LandingPage = () => {
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
                 <p className="text-2xl md:text-3xl font-bold text-gray-900 leading-relaxed mb-6 italic">
-                  "It only takes one person to spark change — but when a community stands together, 
+                  "It only takes one person to spark change — but when a community stands together,
                   transformation becomes unstoppable."
                 </p>
                 <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-4"></div>
@@ -591,7 +564,7 @@ const LandingPage = () => {
               Connecting Participants & Providers
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you're seeking support or providing services, Better Together Network brings the community together.
+              Whether you're seeking support or providing services, The Better Together Network brings the community together.
             </p>
           </div>
 
@@ -600,12 +573,12 @@ const LandingPage = () => {
             <div className="group relative bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-10 shadow-lg hover:shadow-2xl transition-all duration-300 border border-teal-200 overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-teal-500 rounded-full opacity-10 -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-500"></div>
               <div className="relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-lg">
-                  🔍
+                <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                  <Search className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-4">Looking for Support?</h3>
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  Find verified NDIS service providers in your area. Browse profiles, compare services, 
+                  Find verified NDIS service providers in your area. Browse profiles, compare services,
                   and connect with providers who match your needs and goals.
                 </p>
                 <ul className="space-y-3 mb-8">
@@ -644,12 +617,12 @@ const LandingPage = () => {
             <div className="group relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 shadow-lg hover:shadow-2xl transition-all duration-300 border border-purple-200 overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500 rounded-full opacity-10 -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-500"></div>
               <div className="relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-4xl mb-6 shadow-lg">
-                  🏢
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                  <Building2 className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-4">Are you providing support?</h3>
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  Join our network and connect with thousands of NDIS participants. Build your profile, 
+                  Join our network and connect with thousands of NDIS participants. Build your profile,
                   respond to requests, and grow your business.
                 </p>
                 <ul className="space-y-3 mb-8">
@@ -706,7 +679,7 @@ const LandingPage = () => {
                 key={index}
                 className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
-                <div className={`bg-gradient-to-br ${service.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                <div className={`bg-gradient-to-br ${service.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   {service.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
@@ -750,17 +723,17 @@ const LandingPage = () => {
                 {index < howItWorks.length - 1 && (
                   <div className="hidden lg:block absolute top-12 left-full w-full h-1 bg-gradient-to-r from-orange-300 to-orange-200 -translate-y-1/2 z-0" style={{ width: 'calc(100% - 2rem)' }}></div>
                 )}
-                
+
                 <div className="relative z-10 bg-white rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100 hover:border-orange-200">
                   {/* Step Number */}
                   <div className="absolute -top-4 -right-4 w-10 h-10 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
                     {index + 1}
                   </div>
-                  
+
                   <div className={`bg-gradient-to-br ${step.color} w-20 h-20 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-lg`}>
                     {step.icon}
                   </div>
-                  
+
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
                   <p className="text-gray-600 leading-relaxed">{step.description}</p>
                 </div>
@@ -797,16 +770,23 @@ const LandingPage = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {platformFeatures.map((feature, index) => (
-              <div
+              <Link
                 key={index}
+                to={feature.link}
                 className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
                 <div className={`${feature.color} w-16 h-16 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-700 transition-colors">{feature.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
+                <span className="inline-flex items-center mt-4 text-sm font-semibold text-purple-600 group-hover:translate-x-1 transition-transform">
+                  Explore
+                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
             ))}
           </div>
 
@@ -833,7 +813,7 @@ const LandingPage = () => {
               A Connected, Local, Inclusive NDIS Community
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              We are creating a community where no one stands alone — not providers, not participants, not families. 
+              We are creating a community where no one stands alone — not providers, not participants, not families.
               A community where connection replaces isolation, and collaboration replaces competition.
             </p>
           </div>
@@ -841,11 +821,11 @@ const LandingPage = () => {
           {/* Vision Points - FIXED: Now 6 items in 2 rows of 3 */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {visionPoints.map((point, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
-                <div className={`bg-gradient-to-br ${point.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg`}>
+                <div className={`bg-gradient-to-br ${point.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
                   {point.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{point.title}</h3>
@@ -875,7 +855,7 @@ const LandingPage = () => {
                 key={index}
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-green-200 text-center transform hover:-translate-y-2"
               >
-                <div className="text-5xl mb-4">{indicator.icon}</div>
+                <div className="mb-4 flex justify-center">{indicator.icon}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{indicator.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{indicator.description}</p>
               </div>
@@ -892,15 +872,15 @@ const LandingPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-6">
               What Our Community Says
             </h2>
-            <p className="text-xl text-gray-600">Real experiences from real people in the Better Together Network community</p>
+            <p className="text-xl text-gray-600">Real experiences from real people in The Better Together Network community</p>
           </div>
 
           <div className="max-w-4xl mx-auto">
             <div className="relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-12 shadow-2xl border-2 border-purple-200">
               {/* Testimonial Content */}
               <div className="text-center mb-8">
-                <div className="text-6xl mb-6">{testimonials[activeTestimonial].avatar}</div>
-                
+                <div className="mb-6 flex justify-center">{testimonials[activeTestimonial].avatar}</div>
+
                 <div className="flex justify-center mb-6">
                   {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
                     <svg key={i} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
@@ -954,7 +934,7 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Free Tier */}
             <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8 shadow-lg border-2 border-green-200">
-              <div className="text-4xl mb-4">🌱</div>
+              <div className="mb-4"><Sprout className="w-8 h-8 text-green-600" /></div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Free</h3>
               <p className="text-4xl font-extrabold text-gray-900 mb-2">$0<span className="text-lg font-normal text-gray-600">/month</span></p>
               <p className="text-gray-600 mb-6">Perfect to get started</p>
@@ -983,7 +963,7 @@ const LandingPage = () => {
                   MOST POPULAR
                 </span>
               </div>
-              <div className="text-4xl mb-4">📈</div>
+              <div className="mb-4"><TrendingUp className="w-8 h-8 text-purple-600" /></div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Growth</h3>
               <p className="text-4xl font-extrabold text-gray-900 mb-2">$49<span className="text-lg font-normal text-gray-600">/month</span></p>
               <p className="text-gray-600 mb-6">For growing businesses</p>
@@ -1007,7 +987,7 @@ const LandingPage = () => {
 
             {/* Premium Tier */}
             <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8 shadow-lg border-2 border-orange-200">
-              <div className="text-4xl mb-4">⭐</div>
+              <div className="mb-4"><Star className="w-8 h-8 text-orange-500" /></div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Premium</h3>
               <p className="text-4xl font-extrabold text-gray-900 mb-2">$99<span className="text-lg font-normal text-gray-600">/month</span></p>
               <p className="text-gray-600 mb-6">Maximum visibility</p>
@@ -1056,23 +1036,23 @@ const LandingPage = () => {
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block mb-6">
-            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🚀 Join Today
+            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-2">
+              <Zap className="w-4 h-4" /> Join Today
             </span>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Ready to Transform Your
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
               NDIS Experience?
             </span>
           </h2>
-          
+
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of participants and providers who have already discovered 
-            the power of meaningful connections through Better Together Network.
+            Join thousands of participants and providers who have already discovered
+            the power of meaningful connections through The Better Together Network.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
               to="/find-support"
@@ -1085,7 +1065,7 @@ const LandingPage = () => {
                 </svg>
               </span>
             </Link>
-            
+
             <Link
               to="/provide-support"
               className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-2xl hover:bg-white/20 transition-all duration-300 shadow-lg"
@@ -1130,15 +1110,15 @@ const LandingPage = () => {
             transform: translate(-20px, 20px) scale(0.9);
           }
         }
-        
+
         .animate-blob {
           animation: blob 7s infinite;
         }
-        
+
         .animation-delay-2000 {
           animation-delay: 2s;
         }
-        
+
         .animation-delay-4000 {
           animation-delay: 4s;
         }

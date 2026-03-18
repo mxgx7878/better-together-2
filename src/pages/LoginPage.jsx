@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Lock, Zap, Target, User } from '../components/Icons';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -67,17 +68,17 @@ const LoginPage = () => {
 
   const features = [
     {
-      icon: '🔒',
+      icon: <Lock className="w-8 h-8 text-purple-400" />,
       title: 'Secure & Private',
       description: 'Your data is encrypted and protected with industry-standard security'
     },
     {
-      icon: '⚡',
+      icon: <Zap className="w-8 h-8 text-yellow-400" />,
       title: 'Quick Access',
       description: 'Sign in once and stay connected across all your devices'
     },
     {
-      icon: '🎯',
+      icon: <Target className="w-8 h-8 text-pink-400" />,
       title: 'Personalized Experience',
       description: 'Get recommendations tailored to your specific needs'
     }
@@ -93,7 +94,7 @@ const LoginPage = () => {
             <Link to="/" className="inline-block mb-8">
               <img 
                 src="/uploads/logo.jpg" 
-                alt="Better Together Logo"
+                alt="The Better Together Logo"
                 className="h-16 w-auto"
               />
             </Link>
@@ -304,7 +305,7 @@ const LoginPage = () => {
                 key={index}
                 className="flex items-start bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:translate-x-2"
               >
-                <div className="text-4xl mr-4 flex-shrink-0">{feature.icon}</div>
+                <div className="mr-4 flex-shrink-0">{feature.icon}</div>
                 <div>
                   <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
                   <p className="text-gray-200">{feature.description}</p>
@@ -332,8 +333,8 @@ const LoginPage = () => {
           {/* Testimonial */}
           <div className="mt-12 bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full flex items-center justify-center text-2xl mr-4">
-                👩‍💼
+              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full flex items-center justify-center mr-4">
+                <User className="w-7 h-7 text-white" />
               </div>
               <div>
                 <div className="font-bold">Sarah Johnson</div>
@@ -341,7 +342,7 @@ const LoginPage = () => {
               </div>
             </div>
             <p className="text-gray-200 italic">
-              "Better Together Network made finding the right provider so much easier. I found my perfect match within days!"
+              "The Better Together Network made finding the right provider so much easier. I found my perfect match within days!"
             </p>
           </div>
         </div>

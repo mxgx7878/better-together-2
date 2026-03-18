@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Heart, Pin } from '../../components/Icons';
 
 const mockPosts = [
   { id: 1, author: 'Rebecca M.', date: '2026-02-16', category: 'tips', title: 'My top 3 tips for a successful plan review', content: 'Just had my plan review and got everything I asked for! Here\'s what helped me: 1) Started preparing 3 months early, 2) Collected evidence from all my providers, 3) Wrote a clear statement about my goals.', likes: 24, replies: 8, pinned: true },
@@ -22,6 +23,7 @@ const MessageBoardPage = () => {
   const [filter, setFilter] = useState('all');
   const [showNewPost, setShowNewPost] = useState(false);
   const [likedPosts, setLikedPosts] = useState([1, 3]);
+  const [expandedReplies, setExpandedReplies] = useState(null);
 
   const filtered = filter === 'all' ? mockPosts : mockPosts.filter(p => p.category === filter);
 
@@ -43,7 +45,7 @@ const MessageBoardPage = () => {
 
       {/* Community Guidelines */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
-        <span className="text-lg flex-shrink-0">💙</span>
+        <Heart className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
         <p className="text-sm text-blue-800">This is a safe, supportive community space. Be respectful, share kindly, and remember everyone's journey is different. You can post anonymously if you prefer.</p>
       </div>
 
@@ -67,7 +69,7 @@ const MessageBoardPage = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  {post.pinned && <span className="text-xs text-amber-600 font-bold">📌 Pinned</span>}
+                  {post.pinned && <span className="text-xs text-amber-600 font-bold flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> Pinned</span>}
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${categoryConfig[post.category]?.color}`}>{categoryConfig[post.category]?.label}</span>
                 </div>
                 <h3 className="text-base font-semibold text-slate-800">{post.title}</h3>
@@ -77,7 +79,7 @@ const MessageBoardPage = () => {
                     <svg className="w-4 h-4" fill={likedPosts.includes(post.id) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                     {post.likes + (likedPosts.includes(post.id) && post.id !== 1 && post.id !== 3 ? 1 : 0)}
                   </button>
-                  <button className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-purple-500 transition-colors">
+                  <button onClick={() => setExpandedReplies(expandedReplies === post.id ? null : post.id)} className={`flex items-center gap-1.5 text-sm transition-colors ${expandedReplies === post.id ? 'text-purple-600 font-medium' : 'text-slate-400 hover:text-purple-500'}`}>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                     {post.replies} replies
                   </button>

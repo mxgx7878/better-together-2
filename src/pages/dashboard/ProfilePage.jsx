@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { CheckCircle } from '../../components/Icons';
 
 const serviceCategories = [
   { id: 'ndis', label: 'NDIS Supports', subs: ['Core Supports', 'Capacity Building', 'Capital Supports', 'SIL / STA / MTA', 'Support Coordination', 'Therapy Services', 'Early Childhood', 'Community Participation', 'Employment Supports'] },
@@ -89,7 +90,7 @@ const ProfilePage = () => {
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           )}
-          {saveStatus === 'saved' ? '✓ Saved!' : saveStatus === 'saving' ? 'Saving...' : 'Save Changes'}
+          {saveStatus === 'saved' ? <><CheckCircle className="w-4 h-4 inline" /> Saved!</> : saveStatus === 'saving' ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
 
@@ -121,12 +122,12 @@ const ProfilePage = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-slate-100 rounded-xl p-1 overflow-x-auto">
+      <div className="flex gap-1 bg-slate-100 rounded-xl p-1 overflow-x-auto scrollbar-thin">
         {tabs.map(tab => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`flex-1 min-w-[120px] px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+            className={`flex-1 min-w-[90px] sm:min-w-[120px] px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
               activeTab === tab.key
                 ? 'bg-white text-purple-700 shadow-sm'
                 : 'text-slate-500 hover:text-slate-700'

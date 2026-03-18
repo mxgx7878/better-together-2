@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { ClipboardList, Search, DollarSign, Edit, Scale, Landmark, Handshake, Target, Briefcase, Laptop, Lock } from '../../components/Icons';
 
 const modules = [
-  { id: 1, title: 'Understanding Your NDIS Plan', category: 'Getting Started', lessons: 6, completed: 4, icon: '📋', desc: 'Learn how to read and understand your NDIS plan, including funding categories and budgets.', difficulty: 'Beginner' },
-  { id: 2, title: 'Choosing the Right Providers', category: 'Getting Started', lessons: 5, completed: 5, icon: '🔍', desc: 'How to find, compare, and choose providers that match your goals.', difficulty: 'Beginner' },
-  { id: 3, title: 'Self-Management Basics', category: 'Managing Your Plan', lessons: 8, completed: 2, icon: '💰', desc: 'A step-by-step guide to self-managing your NDIS funding effectively.', difficulty: 'Intermediate' },
-  { id: 4, title: 'Preparing for Plan Reviews', category: 'Managing Your Plan', lessons: 4, completed: 0, icon: '📝', desc: 'Get ready for your plan review with templates, tips, and checklists.', difficulty: 'Beginner' },
-  { id: 5, title: 'Your Rights Under the NDIS', category: 'Know Your Rights', lessons: 5, completed: 0, icon: '⚖️', desc: 'Understand your rights as a participant, including complaints and appeals.', difficulty: 'Beginner' },
-  { id: 6, title: 'AAT Appeals Process', category: 'Know Your Rights', lessons: 6, completed: 0, icon: '🏛️', desc: 'Step-by-step guide to the Administrative Appeals Tribunal process.', difficulty: 'Advanced', paid: true },
-  { id: 7, title: 'Building Your Support Team', category: 'Living Well', lessons: 4, completed: 0, icon: '🤝', desc: 'Tips for building a reliable team of support workers and coordinators.', difficulty: 'Beginner' },
-  { id: 8, title: 'Goal Setting & Achievement', category: 'Living Well', lessons: 5, completed: 0, icon: '🎯', desc: 'How to set meaningful goals and track your progress over time.', difficulty: 'Intermediate' },
-  { id: 9, title: 'Employment & Your NDIS Plan', category: 'Employment', lessons: 4, completed: 0, icon: '💼', desc: 'How NDIS funding can support your employment goals.', difficulty: 'Intermediate' },
-  { id: 10, title: 'Technology & Assistive Tools', category: 'Living Well', lessons: 6, completed: 0, icon: '💻', desc: 'Discover assistive technology that can help you live more independently.', difficulty: 'Beginner' },
+  { id: 1, title: 'Understanding Your NDIS Plan', category: 'Getting Started', lessons: 6, completed: 4, icon: ClipboardList, desc: 'Learn how to read and understand your NDIS plan, including funding categories and budgets.', difficulty: 'Beginner' },
+  { id: 2, title: 'Choosing the Right Providers', category: 'Getting Started', lessons: 5, completed: 5, icon: Search, desc: 'How to find, compare, and choose providers that match your goals.', difficulty: 'Beginner' },
+  { id: 3, title: 'Self-Management Basics', category: 'Managing Your Plan', lessons: 8, completed: 2, icon: DollarSign, desc: 'A step-by-step guide to self-managing your NDIS funding effectively.', difficulty: 'Intermediate' },
+  { id: 4, title: 'Preparing for Plan Reviews', category: 'Managing Your Plan', lessons: 4, completed: 0, icon: Edit, desc: 'Get ready for your plan review with templates, tips, and checklists.', difficulty: 'Beginner' },
+  { id: 5, title: 'Your Rights Under the NDIS', category: 'Know Your Rights', lessons: 5, completed: 0, icon: Scale, desc: 'Understand your rights as a participant, including complaints and appeals.', difficulty: 'Beginner' },
+  { id: 6, title: 'AAT Appeals Process', category: 'Know Your Rights', lessons: 6, completed: 0, icon: Landmark, desc: 'Step-by-step guide to the Administrative Appeals Tribunal process.', difficulty: 'Advanced', paid: true },
+  { id: 7, title: 'Building Your Support Team', category: 'Living Well', lessons: 4, completed: 0, icon: Handshake, desc: 'Tips for building a reliable team of support workers and coordinators.', difficulty: 'Beginner' },
+  { id: 8, title: 'Goal Setting & Achievement', category: 'Living Well', lessons: 5, completed: 0, icon: Target, desc: 'How to set meaningful goals and track your progress over time.', difficulty: 'Intermediate' },
+  { id: 9, title: 'Employment & Your NDIS Plan', category: 'Employment', lessons: 4, completed: 0, icon: Briefcase, desc: 'How NDIS funding can support your employment goals.', difficulty: 'Intermediate' },
+  { id: 10, title: 'Technology & Assistive Tools', category: 'Living Well', lessons: 6, completed: 0, icon: Laptop, desc: 'Discover assistive technology that can help you live more independently.', difficulty: 'Beginner' },
 ];
 
 const categories = [...new Set(modules.map(m => m.category))];
@@ -53,18 +54,18 @@ const LearningHubPage = () => {
             <span className="text-lg font-bold">{overallProgress}%</span>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-4 mt-5">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-5">
           <div className="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-            <p className="text-2xl font-bold">{modules.filter(m => m.completed === m.lessons).length}</p>
-            <p className="text-xs text-blue-200">Completed</p>
+            <p className="text-xl sm:text-2xl font-bold">{modules.filter(m => m.completed === m.lessons).length}</p>
+            <p className="text-[10px] sm:text-xs text-blue-200">Completed</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-            <p className="text-2xl font-bold">{modules.filter(m => m.completed > 0 && m.completed < m.lessons).length}</p>
-            <p className="text-xs text-blue-200">In Progress</p>
+          <div className="bg-white/10 backdrop-blur rounded-xl p-2 sm:p-3 text-center">
+            <p className="text-xl sm:text-2xl font-bold">{modules.filter(m => m.completed > 0 && m.completed < m.lessons).length}</p>
+            <p className="text-[10px] sm:text-xs text-blue-200">In Progress</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-            <p className="text-2xl font-bold">{modules.filter(m => m.completed === 0).length}</p>
-            <p className="text-xs text-blue-200">Not Started</p>
+          <div className="bg-white/10 backdrop-blur rounded-xl p-2 sm:p-3 text-center">
+            <p className="text-xl sm:text-2xl font-bold">{modules.filter(m => m.completed === 0).length}</p>
+            <p className="text-[10px] sm:text-xs text-blue-200">Not Started</p>
           </div>
         </div>
       </div>
@@ -89,17 +90,18 @@ const LearningHubPage = () => {
         {filtered.map(mod => {
           const progress = mod.lessons > 0 ? Math.round((mod.completed / mod.lessons) * 100) : 0;
           const isLocked = mod.paid && !isPaid;
+          const ModIcon = mod.icon;
           return (
             <div key={mod.id} className={`bg-white rounded-2xl shadow-sm border p-5 hover:shadow-md transition-all ${isLocked ? 'border-slate-200 opacity-80' : mod.completed === mod.lessons ? 'border-emerald-200' : 'border-slate-100'} ${isLocked ? '' : 'cursor-pointer'}`}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
-                  <span className="text-3xl">{mod.icon}</span>
+                  <ModIcon className="w-7 h-7 flex-shrink-0 text-slate-600" />
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-base font-semibold text-slate-800">{mod.title}</h3>
                       {isLocked && (
                         <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1">
-                          🔒 Paid
+                          <Lock className="w-3 h-3" /> Paid
                         </span>
                       )}
                     </div>

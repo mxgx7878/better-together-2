@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Inbox, MessageCircle, CheckCircle, Zap } from '../../components/Icons';
 
 const mockRequests = [
   { id: 1, participant: 'Emily Watson', location: 'Melbourne CBD', service: 'Support Coordination', urgency: 'high', status: 'new', date: '2026-02-16', message: 'Looking for a support coordinator to help me navigate my new NDIS plan. I need help understanding my funding categories and connecting with providers.', responseTime: null },
@@ -33,7 +34,7 @@ const ServiceRequestsPage = () => {
   if (!isPaid) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-5">📨</div>
+        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-5"><Inbox className="w-10 h-10 text-purple-600" /></div>
         <h1 className="text-2xl font-bold text-slate-800 mb-2">Service Requests & Referrals</h1>
         <p className="text-slate-600 mb-6">Upgrade to a paid plan to receive service requests from participants and manage referrals.</p>
         <a href="/dashboard/upgrade" className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all">
@@ -69,10 +70,10 @@ const ServiceRequestsPage = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="New Requests" value={requests.filter(r => r.status === 'new').length} icon="📨" color="purple" />
-        <StatCard label="Responded" value={requests.filter(r => r.status === 'responded').length} icon="💬" color="blue" />
-        <StatCard label="Accepted" value={requests.filter(r => r.status === 'accepted').length} icon="✅" color="emerald" />
-        <StatCard label="Avg Response Time" value="1.5h" icon="⚡" color="amber" />
+        <StatCard label="New Requests" value={requests.filter(r => r.status === 'new').length} icon={<Inbox className="w-5 h-5" />} color="purple" />
+        <StatCard label="Responded" value={requests.filter(r => r.status === 'responded').length} icon={<MessageCircle className="w-5 h-5" />} color="blue" />
+        <StatCard label="Accepted" value={requests.filter(r => r.status === 'accepted').length} icon={<CheckCircle className="w-5 h-5" />} color="emerald" />
+        <StatCard label="Avg Response Time" value="1.5h" icon={<Zap className="w-5 h-5" />} color="amber" />
       </div>
 
       {/* Filters */}
@@ -198,7 +199,7 @@ function StatCard({ label, value, icon, color }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-4">
       <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-xl ${colors[color]} flex items-center justify-center text-lg`}>{icon}</div>
+        <div className={`w-10 h-10 rounded-xl ${colors[color]} flex items-center justify-center`}>{icon}</div>
         <div>
           <p className="text-xl font-bold text-slate-800">{value}</p>
           <p className="text-xs text-slate-500">{label}</p>

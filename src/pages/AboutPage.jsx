@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Handshake, Search, Sprout, Sparkles, TrendingUp, Users, Heart, Target, Shield, Lightbulb, Eye, Star, Globe, CheckCircle, Rocket, Brain, BookOpen, Flag } from '../components/Icons';
 
 const AboutPage = () => {
   const [activeValue, setActiveValue] = useState(null);
@@ -18,37 +19,37 @@ const AboutPage = () => {
 
   const visionPoints = [
     {
-      icon: '🤝',
+      icon: <Handshake className="w-8 h-8 text-white" />,
       title: 'Providers Support Each Other',
       description: 'Collaboration becomes the norm, not the exception.',
       color: 'from-blue-500 to-indigo-600',
     },
     {
-      icon: '🔍',
+      icon: <Search className="w-8 h-8 text-white" />,
       title: 'Easy Access to Trusted Services',
       description: 'Real choice and control are strengthened through genuine, transparent connections.',
       color: 'from-green-500 to-teal-600',
     },
     {
-      icon: '🌱',
+      icon: <Sprout className="w-8 h-8 text-white" />,
       title: 'Local Relationships Valued',
       description: 'Communities thrive when people know, trust, and support one another.',
       color: 'from-purple-500 to-pink-600',
     },
     {
-      icon: '✨',
+      icon: <Sparkles className="w-8 h-8 text-white" />,
       title: 'Trust & Transparency First',
       description: 'We prioritise integrity, lived experience, and the voices of people with disability.',
       color: 'from-orange-500 to-red-500',
     },
     {
-      icon: '💪',
+      icon: <TrendingUp className="w-8 h-8 text-white" />,
       title: 'Connected & Empowered',
       description: 'Everyone deserves access to clear information, respectful support, and a community that listens.',
       color: 'from-cyan-500 to-blue-600',
     },
     {
-      icon: '🤝',
+      icon: <Handshake className="w-8 h-8 text-white" />,
       title: 'Community-Driven Support',
       description: 'The disability services remains community-driven and sustainable We work together to advocate for fair, ethical, and accessible systems that support both participants and local providers to thrive.',
       color: 'from-orange-500 to-blue-600',
@@ -60,63 +61,63 @@ const AboutPage = () => {
       number: '01',
       title: 'Led by Disabled People — Not Corporations',
       description: 'Most platforms are built about disabled people. Ours is built by disabled people. Lived experience shapes every decision, every feature, every connection.',
-      icon: '👥',
+      icon: <Users className="w-8 h-8 text-white" />,
       color: 'from-purple-500 to-indigo-600',
     },
     {
       number: '02',
       title: 'Community First, Not Profit First',
       description: 'We prioritise connection, safety, and transparency over sales funnels and corporate metrics. Our model is built to strengthen the community — not extract from it.',
-      icon: '❤️',
+      icon: <Heart className="w-8 h-8 text-white" />,
       color: 'from-pink-500 to-rose-600',
     },
     {
       number: '03',
       title: 'Ground-Up Approach, Not Top-Down System',
       description: 'We don\'t impose solutions from above. We listen to the community, respond to real needs, and build tools that reflect the lived realities of participants, families, and small providers.',
-      icon: '🌱',
+      icon: <Sprout className="w-8 h-8 text-white" />,
       color: 'from-green-500 to-teal-600',
     },
     {
       number: '04',
       title: 'Participants and Providers Meet as Equals',
       description: 'Most platforms separate the two. We bring them together — safely, ethically, and with clear boundaries — because real change happens when everyone is in the same room.',
-      icon: '🤝',
+      icon: <Handshake className="w-8 h-8 text-white" />,
       color: 'from-blue-500 to-cyan-600',
     },
     {
       number: '05',
       title: 'Support Beyond Services',
       description: 'We don\'t just help people Participantss. We help them understand the disability services, navigate reviews, access advocacy, and feel confident in their rights. We also help providers grow ethically, connect locally, and build sustainable businesses.',
-      icon: '🎯',
+      icon: <Target className="w-8 h-8 text-white" />,
       color: 'from-orange-500 to-amber-600',
     },
     {
       number: '06',
       title: 'Transparency and Accountability at the Core',
       description: 'We are building a culture where honesty is standard, not optional. Where whistleblowing is respected. Where poor practice is challenged. Where community safety comes before convenience.',
-      icon: '🔍',
+      icon: <Search className="w-8 h-8 text-white" />,
       color: 'from-indigo-500 to-purple-600',
     },
     {
       number: '07',
       title: 'A "No One Left Behind" Model',
       description: 'Our platform ensures that disabled people lead the conversation, lived experience is treated as expertise, community replaces isolation, support is accessible at every level, and no one navigates the system alone.',
-      icon: '🌟',
+      icon: <Star className="w-8 h-8 text-white" />,
       color: 'from-yellow-500 to-orange-500',
     },
     {
       number: '08',
       title: 'Local, Relationship-Driven, Not Just Digital',
       description: 'We focus on building local networks, peer support, and in-person connections — not just clicks and profiles — so people can find real community, not just services.',
-      icon: '👥',
+      icon: <Users className="w-8 h-8 text-white" />,
       color: 'from-yellow-500 to-orange-500',
     },
     {
       number: '09',
       title: 'Advocacy as a Core Function, Not an Add-On',
-      description: 'We don’t sit on the sidelines. We organise, amplify community voices, and engage with government and systems so that policies, pricing, and practices reflect what disabled people and small providers actually need..',
-      icon: '💎',
+      description: 'We don\u2019t sit on the sidelines. We organise, amplify community voices, and engage with government and systems so that policies, pricing, and practices reflect what disabled people and small providers actually need..',
+      icon: <Sparkles className="w-8 h-8 text-white" />,
       color: 'from-yellow-500 to-orange-500',
     },
   ];
@@ -141,8 +142,8 @@ const AboutPage = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
-            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🌟 About Better Together Network
+            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-2">
+              <Star className="w-4 h-4" /> About The Better Together Network
             </span>
           </div>
 
@@ -186,7 +187,7 @@ Building Stronger Communities — Together          </p>
             </p>
           </div>
 
-        
+
 {/* Karen Burgess */}
 <div>
   <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden border border-gray-100">
@@ -211,7 +212,7 @@ Building Stronger Communities — Together          </p>
       <div className="md:w-[65%] p-10 md:p-12">
         <div className="max-w-none space-y-5">
           <p className="text-[17px] text-gray-600 leading-relaxed">
-           Karen Burgess is an accomplished disability sector leader, reform advocate, and nationally recognised voice for rights‑based, ethical practice across Australia’s complex care systems. With more than three decades of experience spanning disability, community services, and systems reform, she brings a rare combination of lived experience, strategic capability, and deep operational insight to every space she enters.
+           Karen Burgess is an accomplished disability sector leader, reform advocate, and nationally recognised voice for rights‑based, ethical practice across Australia's complex care systems. With more than three decades of experience spanning disability, community services, and systems reform, she brings a rare combination of lived experience, strategic capability, and deep operational insight to every space she enters.
           </p>
 
           <p className="text-[17px] text-gray-600 leading-relaxed">
@@ -231,7 +232,7 @@ Building Stronger Communities — Together          </p>
           </p>
 
           <p className="text-[17px] text-gray-600 leading-relaxed">
-Karen’s work spans community mobilisation, sector education, and systems improvement. She is deeply committed to elevating the voices of people with disability, strengthening small providers, and promoting a sector culture that values lived experience as expertise.          </p>
+Karen's work spans community mobilisation, sector education, and systems improvement. She is deeply committed to elevating the voices of people with disability, strengthening small providers, and promoting a sector culture that values lived experience as expertise.          </p>
 
           <p className="text-[17px] text-gray-600 leading-relaxed">
 Karen Burgess remains a respected and influential voice in the disability community — a leader who brings clarity, courage, and lived experience to every room, every conversation, and every reform effort she touches.          </p>
@@ -367,9 +368,9 @@ Karen Burgess remains a respected and influential voice in the disability commun
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
               <p className="text-xl text-gray-700 leading-relaxed mb-6">
-Better Together Network strengthens and drives the disability sector by fostering genuine connection, collaboration and community — one local relationship at a time. We bring together providers across the ecosystem, including intermediary services and organisations that offer supports to disability services, so that everyone working alongside disabled people is connected, informed and aligned in quality, ethical practice.
-We believe that better care and support for disabled people should be shaped and guided by disabled people themselves — with provider practices, community spaces and sector standards built through authentic co‑design and the core principle “nothing about us without us.” People with disability are leaders, designers and experts in their own lives; their lived experience must inform how providers operate, how communities connect and how systems evolve.<br/><br/>
-By empowering participants, supporting local providers and intermediaries, and amplifying lived experience, Better Together Network builds an ethical, inclusive, community‑driven ecosystem where real choice and control are protected, local businesses are valued, and smaller providers gain the strength of a unified voice to advocate for fair, sustainable conditions and quality practice.                 </p>
+The Better Together Network strengthens and drives the disability sector by fostering genuine connection, collaboration and community — one local relationship at a time. We bring together providers across the ecosystem, including intermediary services and organisations that offer supports to disability services, so that everyone working alongside disabled people is connected, informed and aligned in quality, ethical practice.
+We believe that better care and support for disabled people should be shaped and guided by disabled people themselves — with provider practices, community spaces and sector standards built through authentic co‑design and the core principle "nothing about us without us." People with disability are leaders, designers and experts in their own lives; their lived experience must inform how providers operate, how communities connect and how systems evolve.<br/><br/>
+By empowering participants, supporting local providers and intermediaries, and amplifying lived experience, The Better Together Network builds an ethical, inclusive, community‑driven ecosystem where real choice and control are protected, local businesses are valued, and smaller providers gain the strength of a unified voice to advocate for fair, sustainable conditions and quality practice.                 </p>
 
 
             </div>
@@ -377,7 +378,7 @@ By empowering participants, supporting local providers and intermediaries, and a
             {/* Mission in Action */}
             <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-3xl p-10 border border-green-200">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <span className="text-4xl mr-4">🎯</span>
+                <span className="mr-4"><Target className="w-8 h-8 text-green-600" /></span>
                 Our Mission in Action
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed">
@@ -387,7 +388,7 @@ By empowering participants, supporting local providers and intermediaries, and a
               </p>
             </div>
 
-          
+
 
             {/* Mission Statement */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-10 text-white text-center">
@@ -447,7 +448,7 @@ By empowering participants, supporting local providers and intermediaries, and a
                 key={index}
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
-                <div className={`bg-gradient-to-br ${point.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg`}>
+                <div className={`bg-gradient-to-br ${point.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
                   {point.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{point.title}</h3>
@@ -513,7 +514,7 @@ By empowering participants, supporting local providers and intermediaries, and a
                   <span className="text-gray-600 font-bold text-lg">{item.number}</span>
                 </div>
 
-                <div className={`bg-gradient-to-br ${item.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg`}>
+                <div className={`bg-gradient-to-br ${item.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
                   {item.icon}
                 </div>
 
@@ -611,8 +612,8 @@ By empowering participants, supporting local providers and intermediaries, and a
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block mb-6">
-            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🚀 Join the Movement
+            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-2">
+              <Rocket className="w-4 h-4" /> Join the Movement
             </span>
           </div>
 
@@ -669,15 +670,15 @@ By empowering participants, supporting local providers and intermediaries, and a
             transform: translate(-20px, 20px) scale(0.9);
           }
         }
-        
+
         .animate-blob {
           animation: blob 7s infinite;
         }
-        
+
         .animation-delay-2000 {
           animation-delay: 2s;
         }
-        
+
         .animation-delay-4000 {
           animation-delay: 4s;
         }

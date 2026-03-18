@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Building2, Users, Lock, Bot, Sparkles, Lightbulb, FileText, Handshake, Rocket } from '../components/Icons';
 
 const FeaturesPage = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -227,8 +228,8 @@ const FeaturesPage = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
-            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              ✨ Powerful Features
+            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-1">
+              <Sparkles className="w-4 h-4" /> Powerful Features
             </span>
           </div>
           
@@ -246,22 +247,22 @@ const FeaturesPage = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <div className="text-4xl mb-2">🏢</div>
+              <div className="mb-2"><Building2 className="w-8 h-8 text-white" /></div>
               <div className="text-2xl font-bold text-yellow-400">9</div>
               <div className="text-sm text-gray-300">Provider Features</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <div className="text-4xl mb-2">👥</div>
+              <div className="mb-2"><Users className="w-8 h-8 text-white" /></div>
               <div className="text-2xl font-bold text-yellow-400">8</div>
               <div className="text-sm text-gray-300">Participant Features</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <div className="text-4xl mb-2">🔒</div>
+              <div className="mb-2"><Lock className="w-8 h-8 text-white" /></div>
               <div className="text-2xl font-bold text-yellow-400">100%</div>
               <div className="text-sm text-gray-300">Secure Platform</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-              <div className="text-4xl mb-2">🤖</div>
+              <div className="mb-2"><Bot className="w-8 h-8 text-white" /></div>
               <div className="text-2xl font-bold text-yellow-400">24/7</div>
               <div className="text-sm text-gray-300">AI Support</div>
             </div>
@@ -322,7 +323,7 @@ const FeaturesPage = () => {
             <div className="text-center mb-16">
               <div className="inline-block mb-4">
                 <span className="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-                  🏢 Provider Portal
+                  <Building2 className="w-4 h-4 inline" /> Provider Portal
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
@@ -393,7 +394,7 @@ const FeaturesPage = () => {
             <div className="text-center mb-16">
               <div className="inline-block mb-4">
                 <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-                  👥 Participant Portal
+                  <Users className="w-4 h-4 inline" /> Participant Portal
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
@@ -528,7 +529,7 @@ const FeaturesPage = () => {
 
             <div className="mt-8 text-center">
               <div className="inline-flex items-center bg-yellow-50 border border-yellow-200 rounded-2xl px-6 py-4">
-                <span className="text-2xl mr-3">💡</span>
+                <span className="mr-3"><Lightbulb className="w-7 h-7 text-yellow-600" /></span>
                 <div className="text-left">
                   <p className="font-bold text-gray-900">Need Both?</p>
                   <p className="text-sm text-gray-600">Subscribe to both portals and access all features with a dual subscription.</p>
@@ -558,21 +559,21 @@ const FeaturesPage = () => {
                 step: '01',
                 title: 'Create Your Profile',
                 description: 'Sign up for free and create your personal profile. Providers can add their business details too.',
-                icon: '📝',
+                icon: <FileText className="w-8 h-8 text-white" />,
                 color: 'from-blue-500 to-indigo-600',
               },
               {
                 step: '02',
                 title: 'Choose Your Plan',
                 description: 'Select a subscription that fits your needs. Start with free or unlock premium features.',
-                icon: '✨',
+                icon: <Sparkles className="w-8 h-8 text-white" />,
                 color: 'from-purple-500 to-pink-600',
               },
               {
                 step: '03',
                 title: 'Start Connecting',
                 description: 'Access your dashboard, post requests, find providers, and join the community.',
-                icon: '🤝',
+                icon: <Handshake className="w-8 h-8 text-white" />,
                 color: 'from-green-500 to-teal-600',
               },
             ].map((item, index) => (
@@ -582,7 +583,7 @@ const FeaturesPage = () => {
                 )}
                 
                 <div className="relative z-10 bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 text-center">
-                  <div className={`bg-gradient-to-br ${item.color} w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg`}>
+                  <div className={`bg-gradient-to-br ${item.color} w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg`}>
                     {item.icon}
                   </div>
                   <div className="text-sm font-bold text-purple-600 mb-2">STEP {item.step}</div>
@@ -607,7 +608,7 @@ const FeaturesPage = () => {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block mb-6">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🚀 Get Started Today
+              <Rocket className="w-4 h-4 inline" /> Get Started Today
             </span>
           </div>
           

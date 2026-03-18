@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Search, Users, FileText, MessageCircle, Briefcase, Calendar, Shield, Heart, Handshake, Sprout, Star, Lightbulb, Target, CheckCircle, MapPin, Building2, BookOpen, User, Zap, Lock, Globe, Compass, Brain, Eye, TrendingUp, Home, Sparkles, Link2, Laptop, Megaphone, Clipboard, Scale, Wrench, Rocket } from '../components/Icons';
 
 const FindSupportPage = () => {
   const [activeQuestion, setActiveQuestion] = useState(null);
@@ -8,7 +9,7 @@ const FindSupportPage = () => {
   // The 7 key supports from WebsiteDoc.docx
   const participantSupports = [
     {
-      icon: '📋',
+      icon: <Clipboard className="w-10 h-10 text-white" />,
       title: 'Support with Understanding and Coordinating Your Disability Service Plan',
       description: 'Get help making sense of your plan, using your funding effectively, and connecting with the right supports at the right time.',
       color: 'from-blue-500 to-indigo-600',
@@ -20,7 +21,7 @@ const FindSupportPage = () => {
       ]
     },
     {
-      icon: '💡',
+      icon: <Lightbulb className="w-10 h-10 text-white" />,
       title: 'Clear Information, Guidance, and Practical Support',
       description: 'Access easy-to-understand information about how the Disability Service works, what your rights are, and how to make informed decisions about your supports.',
       color: 'from-purple-500 to-pink-600',
@@ -32,7 +33,7 @@ const FindSupportPage = () => {
       ]
     },
     {
-      icon: '🛡️',
+      icon: <Shield className="w-10 h-10 text-white" />,
       title: 'Advocacy and Help Navigating Challenges',
       description: 'Receive guidance from people who understand Disability Service rules, processes, and pathways — and who can help you speak up, resolve issues, and protect your rights.',
       color: 'from-teal-500 to-cyan-600',
@@ -44,7 +45,7 @@ const FindSupportPage = () => {
       ]
     },
     {
-      icon: '🤝',
+      icon: <Handshake className="w-10 h-10 text-white" />,
       title: 'Peer Support and Lived-Experience Coaching',
       description: 'Connect with individuals and families who have walked a similar path. Gain encouragement, insight, and practical strategies grounded in real-life experience.',
       color: 'from-green-500 to-emerald-600',
@@ -56,7 +57,7 @@ const FindSupportPage = () => {
       ]
     },
     {
-      icon: '🔍',
+      icon: <Search className="w-10 h-10 text-white" />,
       title: 'Connections with Trusted, Local Disability Service Providers',
       description: 'Find reliable, experienced providers who align with your needs, values, and goals — without the overwhelm of searching alone.',
       color: 'from-orange-500 to-red-500',
@@ -68,7 +69,7 @@ const FindSupportPage = () => {
       ]
     },
     {
-      icon: '👨‍⚕️',
+      icon: <Users className="w-10 h-10 text-white" />,
       title: 'Access to Specialists and Disability Sector Expertise',
       description: 'Receive support from people who understand disability, the Disability Service, and the realities of everyday life. Get reassurance, clarity, and practical advice when you need it most.',
       color: 'from-indigo-500 to-purple-600',
@@ -80,7 +81,7 @@ const FindSupportPage = () => {
       ]
     },
     {
-      icon: '❤️',
+      icon: <Heart className="w-10 h-10 text-white" />,
       title: 'A Safe, Supportive Community',
       description: 'Join a space where participants and families can share experiences, ask questions, and feel supported by others who understand the journey.',
       color: 'from-pink-500 to-rose-600',
@@ -92,28 +93,28 @@ const FindSupportPage = () => {
       ]
     },
     {
-      icon: '🌱',
+      icon: <Sprout className="w-10 h-10 text-white" />,
       title: 'Support for Ethical, Sustainable Disability Service Providers',
       description: 'Access guidance, tools, and community so you can deliver high-quality, person-centred supports while running a healthy, values-driven business. Business and practice mentoring, ethical service design and improvement, local collaboration and referral pathways.',
       color: 'from-pink-500 to-rose-600',
       details: [
-        
+
       ]
     },
     {
-      icon: '📣',
+      icon: <Megaphone className="w-10 h-10 text-white" />,
       title: 'Collective Voice and Systems Change',
       description: 'Be part of a movement that speaks up for a fair, accessible, and community-driven Disability Service — led by people with lived experience. Community consultations and feedback forums Policy input and submissions Campaigns to protect choice, control, and local providers',
       color: 'from-pink-500 to-rose-600',
       details: [
-        
+
       ]
     },
   ];
 const services = [
   {
     title: 'Disability Service Service Providers (Registered & Unregistered)',
-    icon: '🏢',
+    icon: <Building2 className="w-7 h-7 text-white" />,
     color: 'from-blue-500 to-indigo-600',
     examples: [
       'Registered Disability Service providers delivering support across all registration groups',
@@ -124,7 +125,7 @@ const services = [
   },
   {
     title: 'Professional & Legal Services',
-    icon: '⚖️',
+    icon: <Scale className="w-7 h-7 text-white" />,
     color: 'from-purple-500 to-pink-600',
     examples: [
       'Business lawyers (Disability Service compliance, contracts, disputes)',
@@ -135,7 +136,7 @@ const services = [
   },
   {
     title: 'Financial, Accounting & Insurance Services',
-    icon: '💰',
+    icon: <TrendingUp className="w-7 h-7 text-white" />,
     color: 'from-teal-500 to-green-600',
     examples: [
       'Accountants and bookkeepers (Disability Service-ready reporting, payroll, BAS)',
@@ -146,7 +147,7 @@ const services = [
   },
   {
     title: 'HR, Recruitment & Workforce Development',
-    icon: '👥',
+    icon: <Users className="w-7 h-7 text-white" />,
     color: 'from-orange-500 to-red-500',
     examples: [
       'HR specialists (policies, performance management, workplace culture)',
@@ -157,7 +158,7 @@ const services = [
   },
   {
     title: 'Technology, Systems & Admin Support',
-    icon: '💻',
+    icon: <Laptop className="w-7 h-7 text-white" />,
     color: 'from-cyan-500 to-blue-600',
     examples: [
       'Practice management and CRM software providers',
@@ -168,7 +169,7 @@ const services = [
   },
   {
     title: 'Marketing, Branding & Communications',
-    icon: '📣',
+    icon: <Megaphone className="w-7 h-7 text-white" />,
     color: 'from-yellow-500 to-amber-600',
     examples: [
       'Marketing agencies and consultants (Disability Service-savvy)',
@@ -179,7 +180,7 @@ const services = [
   },
   {
     title: 'Clinical, Equipment & Workplace Services',
-    icon: '🛠️',
+    icon: <Wrench className="w-7 h-7 text-white" />,
     color: 'from-indigo-500 to-blue-600',
     examples: [
       'Medical and allied health equipment suppliers',
@@ -190,7 +191,7 @@ const services = [
   },
   {
     title: 'Specialist Disability & Behaviour Support Services',
-    icon: '🧠',
+    icon: <Brain className="w-7 h-7 text-white" />,
     color: 'from-pink-500 to-purple-600',
     examples: [
       'Behaviour support practitioners and consulting teams',
@@ -265,38 +266,38 @@ const services = [
     {
       title: 'Verified Providers',
       description: 'All providers on our platform are verified and many are Disability Service registered, giving you peace of mind.',
-      icon: '✓',
+      icon: <CheckCircle className="w-7 h-7 text-white" />,
     },
     {
       title: 'Choice & Control',
       description: 'You decide who provides your support. Browse profiles, compare options, and choose what\'s right for you.',
-      icon: '🎯',
+      icon: <Target className="w-7 h-7 text-white" />,
     },
     {
       title: 'Local Connections',
       description: 'Find providers in your local community who understand your area and can provide in-person support.',
-      icon: '📍',
+      icon: <MapPin className="w-7 h-7 text-white" />,
     },
     {
       title: 'Secure Messaging',
       description: 'Communicate safely through our platform. No need to share personal contact details until you\'re ready.',
-      icon: '🔒',
+      icon: <Lock className="w-7 h-7 text-white" />,
     },
     {
       title: 'Free to Join',
       description: 'Create your profile and start browsing providers at no cost. Upgrade anytime for premium features.',
-      icon: '💫',
+      icon: <Sparkles className="w-7 h-7 text-white" />,
     },
     {
       title: 'Community Support',
       description: 'Join a supportive community, attend networking events, and connect with others on similar journeys.',
-      icon: '🤝',
+      icon: <Handshake className="w-7 h-7 text-white" />,
     },
   ];
 
   const faqs = [
     {
-      question: 'Is Better Together Network free to use?',
+      question: 'Is The Better Together Network free to use?',
       answer: 'Yes! You can create a profile and browse providers for free. We offer premium subscriptions with additional features like direct messaging, advocacy support, and advanced guidance.',
     },
     {
@@ -309,7 +310,7 @@ const services = [
     },
     {
       question: 'How do payments work?',
-      answer: 'Better Together Network is a connection platform only. We help you find and connect with providers, but payment arrangements are made directly between you and your chosen provider.',
+      answer: 'The Better Together Network is a connection platform only. We help you find and connect with providers, but payment arrangements are made directly between you and your chosen provider.',
     },
     {
       question: 'Can I use my Disability Service funding?',
@@ -325,23 +326,23 @@ const services = [
     {
       name: 'Sarah M.',
       role: 'Disability Service Participant',
-      content: 'Better Together Network made it so easy to Participants workers in my area. I love being able to see provider profiles and choose who I want to work with.',
+      content: 'The Better Together Network made it so easy to Participants workers in my area. I love being able to see provider profiles and choose who I want to work with.',
       rating: 5,
-      avatar: '👩',
+      avatar: <User className="w-8 h-8 text-white" />,
     },
     {
       name: 'David L.',
       role: 'Parent & Carer',
-      content: 'Finding the right therapy services for my son was overwhelming until we found Better Together Network. The search filters helped us find exactly what we needed.',
+      content: 'Finding the right therapy services for my son was overwhelming until we found The Better Together Network. The search filters helped us find exactly what we needed.',
       rating: 5,
-      avatar: '👨',
+      avatar: <User className="w-8 h-8 text-white" />,
     },
     {
       name: 'Michelle K.',
       role: 'Support Coordinator',
-      content: 'I recommend Better Together Network to all my clients. It gives them the tools to explore their options and make informed choices about their support.',
+      content: 'I recommend The Better Together Network to all my clients. It gives them the tools to explore their options and make informed choices about their support.',
       rating: 5,
-      avatar: '👩‍💼',
+      avatar: <User className="w-8 h-8 text-white" />,
     },
   ];
 
@@ -360,18 +361,18 @@ const services = [
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <div className="inline-block mb-4">
-                <span className="bg-teal-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-                  🔍 Participants
+                <span className="bg-teal-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-1.5">
+                  <Search className="w-4 h-4" /> Participants
                 </span>
               </div>
-              
+
               <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
                 Support. Clarity.
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-400">
                   Connection.
                 </span>
               </h1>
-              
+
               <p className="text-xl md:text-2xl mb-6 text-gray-200 leading-relaxed">
                 Navigating the disability services can feel overwhelming — but you don't have to do it alone.
               </p>
@@ -379,7 +380,7 @@ const services = [
               <p className="text-lg mb-8 text-gray-200 leading-relaxed">
                 Our platform is designed to give participants and families access to clear information, trusted providers, and practical guidance from people who genuinely care about your wellbeing.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   to="/subscription"
@@ -392,7 +393,7 @@ const services = [
                     </svg>
                   </span>
                 </Link>
-                
+
                 <Link
                   to="/features"
                   className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-xl hover:bg-white/20 transition-all duration-300"
@@ -433,9 +434,7 @@ const services = [
                     {['Daily Living Support', 'Therapy Services', 'Social & Community', 'Transport Assistance'].map((item, index) => (
                       <div key={index} className="flex items-center bg-white/10 rounded-xl px-4 py-3 hover:bg-white/20 transition-colors cursor-pointer">
                         <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center mr-4">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                          </svg>
+                          <Search className="w-5 h-5 text-white" />
                         </div>
                         <span className="font-medium">{item}</span>
                       </div>
@@ -444,9 +443,9 @@ const services = [
                   <div className="mt-6 pt-6 border-t border-white/20 text-center">
                     <p className="text-sm text-gray-300 mb-3">Join 10,000+ participants finding support</p>
                     <div className="flex justify-center -space-x-2">
-                      {['👩', '👨', '👩‍🦰', '👨‍🦱', '👩‍🦳'].map((avatar, i) => (
-                        <div key={i} className="w-10 h-10 bg-gradient-to-br from-teal-400 to-blue-400 rounded-full flex items-center justify-center text-lg border-2 border-white">
-                          {avatar}
+                      {[0, 1, 2, 3, 4].map((i) => (
+                        <div key={i} className="w-10 h-10 bg-gradient-to-br from-teal-400 to-blue-400 rounded-full flex items-center justify-center border-2 border-white">
+                          <User className="w-5 h-5 text-white" />
                         </div>
                       ))}
                     </div>
@@ -502,15 +501,15 @@ const services = [
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${support.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-                
+
                 <div className="relative z-10">
-                  <div className="text-5xl mb-6">
+                  <div className={`w-16 h-16 bg-gradient-to-br ${support.color} rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
                     {support.icon}
                   </div>
-                  
+
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{support.title}</h3>
                   <p className="text-gray-600 mb-4 leading-relaxed">{support.description}</p>
-                  
+
                   <ul className="space-y-2">
                     {support.details.slice(0, activeService === index ? 4 : 2).map((detail, idx) => (
                       <li key={idx} className="flex items-center text-sm text-gray-500">
@@ -546,7 +545,7 @@ const services = [
               Here are the businesses we are encouraging
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every great disability service needs a strong support crew. Disability Service providers and the businesses that stand behind them — join a network designed to amplify your impact and strengthen the whole sector. It really does take a community, and we need you. 
+              Every great disability service needs a strong support crew. Disability Service providers and the businesses that stand behind them — join a network designed to amplify your impact and strengthen the whole sector. It really does take a community, and we need you.
             </p>
           </div>
 
@@ -558,12 +557,12 @@ const services = [
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-                
+
                 <div className="relative z-10">
-                  <div className={`bg-gradient-to-br ${service.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                  <div className={`bg-gradient-to-br ${service.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                     {service.icon}
                   </div>
-                  
+
                   <div className="flex items-center mb-3">
                     <h3 className="text-xl font-bold text-gray-900">{service.title}</h3>
                     {service.qualified && (
@@ -572,9 +571,9 @@ const services = [
                       </span>
                     )}
                   </div>
-                  
+
                   <p className="text-gray-600 mb-4 leading-relaxed">{service.description}</p>
-                  
+
                   <ul className="space-y-2">
                     {service.examples.slice(0, 3).map((example, idx) => (
                       <li key={idx} className="flex items-center text-sm text-gray-500">
@@ -618,7 +617,7 @@ const services = [
         {howItWorks.map((item, index) => (
           <div key={index} className="relative group">
             <div className="relative z-10 bg-white rounded-2xl p-6 pt-16 shadow-md hover:shadow-xl transition-all duration-500 border border-gray-100 text-center group-hover:-translate-y-1 group-hover:border-transparent">
-              
+
               {/* Floating step badge on timeline */}
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-20">
                 <div className="relative">
@@ -632,7 +631,7 @@ const services = [
               <div className={`bg-gradient-to-br ${item.color} w-16 h-16 rounded-xl flex items-center justify-center text-white mx-auto mb-5 shadow-md group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
                 {item.icon}
               </div>
-              
+
               <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
             </div>
@@ -675,7 +674,7 @@ const services = [
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
               <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center text-2xl mb-6 shadow-md">
+                <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center mb-6 shadow-md">
                   {benefit.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
@@ -695,7 +694,7 @@ const services = [
               What Our Community Says
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from participants who've found their support through Better Together Network.
+              Hear from participants who've found their support through The Better Together Network.
             </p>
           </div>
 
@@ -703,7 +702,7 @@ const services = [
             {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
                 <div className="flex items-center mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-br from-teal-400 to-blue-400 rounded-full flex items-center justify-center text-2xl mr-4">
+                  <div className="w-14 h-14 bg-gradient-to-br from-teal-400 to-blue-400 rounded-full flex items-center justify-center mr-4">
                     {testimonial.avatar}
                   </div>
                   <div>
@@ -742,8 +741,8 @@ const services = [
 
           <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden"
               >
                 <button
@@ -751,10 +750,10 @@ const services = [
                   className="w-full px-6 py-5 text-left flex items-center justify-between"
                 >
                   <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
-                  <svg 
+                  <svg
                     className={`w-6 h-6 text-teal-500 flex-shrink-0 transform transition-transform ${activeQuestion === index ? 'rotate-180' : ''}`}
-                    fill="none" 
-                    stroke="currentColor" 
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -783,22 +782,22 @@ const services = [
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block mb-6">
-            <span className="bg-teal-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🚀 Start Your Search
+            <span className="bg-teal-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-1.5">
+              <Rocket className="w-4 h-4" /> Start Your Search
             </span>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Ready to Find
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-blue-300">
               Your Support Team?
             </span>
           </h2>
-          
+
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of Disability‑sector service participants who've found quality support through Better Together Network. It's free to get started.
+            Join thousands of Disability‑sector service participants who've found quality support through The Better Together Network. It's free to get started.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/subscription"
@@ -811,7 +810,7 @@ const services = [
                 </svg>
               </span>
             </Link>
-            
+
             <Link
               to="/provide-support"
               className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-2xl hover:bg-white/20 transition-all duration-300 shadow-lg"
@@ -839,15 +838,15 @@ const services = [
             transform: translate(-20px, 20px) scale(0.9);
           }
         }
-        
+
         .animate-blob {
           animation: blob 7s infinite;
         }
-        
+
         .animation-delay-2000 {
           animation-delay: 2s;
         }
-        
+
         .animation-delay-4000 {
           animation-delay: 4s;
         }
