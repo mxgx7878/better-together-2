@@ -63,7 +63,7 @@ const placeholderData = {
   },
   'admin-support': {
     title: 'Connect with Admin',
-    icon: '🎧',
+    icon: '🎙️',
     desc: 'Direct access to the platform support team for issues, feedback, and account questions.',
     features: ['Submit support tickets', 'Live chat (business hours)', 'Report issues', 'Feature requests'],
   },

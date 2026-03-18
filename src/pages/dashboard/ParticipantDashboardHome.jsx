@@ -13,7 +13,7 @@ const ParticipantDashboardHome = () => {
     { label: 'Events', icon: '📅', path: '/dashboard/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
     { label: 'Library', icon: '📚', path: '/dashboard/library', desc: 'Resources & documents', color: 'from-cyan-500 to-blue-600' },
     { label: 'Rights & Safety', icon: '🛡️', path: '/dashboard/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
-    { label: 'Connect with Admin', icon: '🎧', path: '/dashboard/admin-support', desc: 'Help & support', color: 'from-slate-500 to-slate-700' },
+    { label: 'Connect with Admin', icon: '🎙️', path: '/dashboard/admin-support', desc: 'Help & support', color: 'from-slate-500 to-slate-700' },
     { label: 'Upgrade Subscription', icon: '⭐', path: '/dashboard/upgrade', desc: 'Get a Plan Buddy', color: 'from-yellow-500 to-amber-600' },
   ];
 
@@ -27,7 +27,7 @@ const ParticipantDashboardHome = () => {
     { label: 'Events', icon: '📅', path: '/dashboard/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
     { label: 'Library', icon: '📚', path: '/dashboard/library', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
     { label: 'Rights & Safety', icon: '🛡️', path: '/dashboard/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
-    { label: 'Connect with Admin', icon: '🎧', path: '/dashboard/admin-support', desc: 'Help & feedback', color: 'from-slate-500 to-slate-700' },
+    { label: 'Connect with Admin', icon: '🎙️', path: '/dashboard/admin-support', desc: 'Help & feedback', color: 'from-slate-500 to-slate-700' },
   ];
 
   const tiles = isPaid ? paidTiles : freeTiles;

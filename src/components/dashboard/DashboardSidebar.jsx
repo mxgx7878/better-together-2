@@ -61,19 +61,19 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
     <aside
     className={`fixed top-0 left-0 h-screen text-white flex flex-col z-40 transition-all duration-300 ease-in-out ${
     isProvider
-      ? 'bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950'
+      ? 'bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950'
       : 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900'
   } ${isCollapsed ? 'w-20' : 'w-72'}`}
     >
       {/* Logo & Toggle */}
-      <div className="flex items-center justify-between px-4 h-20 border-b border-white/10 flex-shrink-0">
+      <div className="flex items-center justify-between px-4 h-20 border-b border-white/10 flex-shrink-0 bg-[#fff]">
         {!isCollapsed && (
           <div className="flex items-center gap-3 min-w-0">
             {/* <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
               <span className="text-white font-bold text-sm">BT</span>
             </div> */}
             <div className="min-w-0">
-              <img src="/uploads/LOGO WHITE.png" className='w-24' alt="" />  
+              <img src="/uploads/logo.jpg" className='w-24' alt="" />  
               {/* <p className="text-sm font-semibold text-white truncate">Better Together</p> */}
               <p className="text-[11px] text-slate-400 truncate">
                 {isProvider ? 'Provider Portal' : 'Participant Portal'}
@@ -83,7 +83,7 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
         )}
         <button
           onClick={onToggle}
-          className={`p-2 rounded-lg hover:bg-white/10 transition-colors text-slate-400 hover:text-white flex-shrink-0 ${isCollapsed ? 'mx-auto' : ''}`}
+          className={`p-2 rounded-lg hover:bg-white/10 transition-colors text-slate-400 hover:text-black flex-shrink-0 ${isCollapsed ? 'mx-auto' : ''}`}
           title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           <svg className={`w-5 h-5 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
