@@ -187,28 +187,28 @@ const LandingPage = () => {
       title: 'Smart Provider Search',
       description: 'Advanced filters to find the perfect provider for your needs',
       color: 'bg-gradient-to-br from-purple-500 to-purple-600',
-      link: '/dashboard/services'
+      link: '/find-support'
     },
     {
       icon: <Users className="w-8 h-8" />,
       title: 'Community Network',
       description: 'Connect with thousands of participants and providers',
       color: 'bg-gradient-to-br from-green-500 to-green-600',
-      link: '/dashboard/messages'
+      link: '/about'
     },
     {
       icon: <ShieldCheck className="w-8 h-8" />,
       title: 'Verified Quality',
       description: 'All providers verified for quality and compliance',
       color: 'bg-gradient-to-br from-yellow-500 to-orange-500',
-      link: '/dashboard/directory'
+      link: '/provide-support'
     },
     {
       icon: <Zap className="w-8 h-8" />,
       title: '24/7 Support',
       description: 'Get instant answers with our support team',
       color: 'bg-gradient-to-br from-pink-500 to-red-500',
-      link: '/dashboard/ai-support'
+      link: '/contact'
     }
   ];
 
