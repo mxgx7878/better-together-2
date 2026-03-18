@@ -25,7 +25,7 @@ const LandingPage3 = () => {
       description: "We are an independent platform dedicated to fostering connections within local communities and linking people with local disability service providers",
       image: "/uploads/bgnew1.jpg",
       primaryBtn: { text: "Find Support", link: "/find-support" },
-      secondaryBtn: { text: "For Provider", link: "/provide-support" }
+      secondaryBtn: { text: "For Providers", link: "/provide-support" }
     },
     {
       title: "Led by People ",

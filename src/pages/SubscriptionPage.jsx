@@ -492,7 +492,7 @@ const SubscriptionPage = () => {
             Ready to Get Started?
           </h2>
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto">
-            Join thousands of participants and providers using Better Together Network today
+            Join thousands of participants and providers using the Better Together Network today
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

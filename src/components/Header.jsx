@@ -83,7 +83,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-200">
+        <div className="lg:hidden bg-white border-t border-gray-200 max-h-[calc(100vh-5rem)] overflow-y-auto">
           <nav className="px-4 pt-2 pb-4 space-y-2">
             {navLinks.map((link) => (
               <Link
