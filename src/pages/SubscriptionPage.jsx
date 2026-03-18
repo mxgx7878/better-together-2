@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Sprout, TrendingUp, Star, Handshake, Compass, Shield, Sparkles, Building2, Users } from '../components/Icons';
 
 const SubscriptionPage = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('provider'); // 'provider' or 'participant'
   const [activePlan, setActivePlan] = useState(null);
 
@@ -294,7 +295,7 @@ const SubscriptionPage = () => {
                 </div>
 
                 <div className="p-8">
-                  <button className={`w-full ${plan.buttonStyle} text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 mb-8`}>
+                  <button onClick={() => navigate('/login')} className={`w-full ${plan.buttonStyle} text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 mb-8`}>
                     {plan.buttonText}
                   </button>
 
@@ -497,7 +498,7 @@ const SubscriptionPage = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-10 py-5 rounded-xl text-lg font-bold hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+            <button onClick={() => navigate('/login')} className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-10 py-5 rounded-xl text-lg font-bold hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
               Start Your Free Account
             </button>
             <Link

@@ -13,6 +13,7 @@ const ContactPage = () => {
 
   const [formStatus, setFormStatus] = useState(null);
   const [formErrors, setFormErrors] = useState({});
+  const [showLiveChat, setShowLiveChat] = useState(false);
 
   const validateEmail = (email) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -112,7 +113,8 @@ const ContactPage = () => {
       subtitle: 'Get instant support',
       details: ['Available 24/7', 'Average response: 2 min'],
       color: 'from-pink-500 to-rose-600',
-      link: '#'
+      link: '#live-chat',
+      onClick: () => setShowLiveChat(true)
     }
   ];
 
@@ -231,6 +233,7 @@ const ContactPage = () => {
               <a
                 key={index}
                 href={method.link}
+                onClick={method.onClick ? (e) => { e.preventDefault(); method.onClick(); } : undefined}
                 className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200"
               >
                 <div className={`bg-gradient-to-br ${method.color} w-16 h-16 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
@@ -532,8 +535,8 @@ const ContactPage = () => {
             Our support team is here to help. Don't hesitate to reach out!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-10 py-5 rounded-2xl font-bold text-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-2xl transform hover:scale-105">
-              Start Live Chat
+            <button onClick={() => setShowLiveChat(true)} className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-10 py-5 rounded-2xl font-bold text-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-2xl transform hover:scale-105">
+              {showLiveChat ? 'Chat Started!' : 'Start Live Chat'}
             </button>
             <a
               href="tel:0403678767"
