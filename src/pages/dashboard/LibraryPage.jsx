@@ -43,6 +43,7 @@ const categoryColors = {
 const LibraryPage = () => {
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
+  const [downloadedId, setDownloadedId] = useState(null);
 
   const filtered = documents
     .filter(d => {
@@ -133,10 +134,16 @@ const LibraryPage = () => {
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className="text-xs text-slate-400 hidden sm:inline">{new Date(doc.updated).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })}</span>
-                      <button className="p-2 bg-slate-50 hover:bg-purple-100 rounded-lg transition-colors group-hover:bg-purple-50">
-                        <svg className="w-4 h-4 text-slate-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
+                      <button onClick={(e) => { e.stopPropagation(); setDownloadedId(doc.id); setTimeout(() => setDownloadedId(null), 2000); }} className="p-2 bg-slate-50 hover:bg-purple-100 rounded-lg transition-colors group-hover:bg-purple-50">
+                        {downloadedId === doc.id ? (
+                          <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        ) : (
+                          <svg className="w-4 h-4 text-slate-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                          </svg>
+                        )}
                       </button>
                     </div>
                   </div>

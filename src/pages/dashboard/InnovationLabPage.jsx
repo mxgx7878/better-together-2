@@ -44,6 +44,7 @@ const typeColors = { guide: 'bg-blue-50 text-blue-700', video: 'bg-red-50 text-r
 const InnovationLabPage = () => {
   const [expanded, setExpanded] = useState(null);
   const [search, setSearch] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const allItems = categories.flatMap(c => c.items.map(i => ({ ...i, category: c.label })));
   const searchResults = search.length > 1 ? allItems.filter(i => i.title.toLowerCase().includes(search.toLowerCase())) : [];
@@ -72,7 +73,7 @@ const InnovationLabPage = () => {
             {searchResults.map((item, i) => {
               const TypeIcon = typeIconMap[item.type];
               return (
-                <button key={i} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50 last:border-0">
+                <button key={i} onClick={() => { const cat = categories.find(c => c.label === item.category); if (cat) setExpanded(cat.id); setSearch(''); setSelectedItem(item.title); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50 last:border-0">
                   {TypeIcon && <TypeIcon className="w-5 h-5 flex-shrink-0" />}
                   <div>
                     <p className="text-sm font-medium text-slate-800">{item.title}</p>
@@ -114,7 +115,7 @@ const InnovationLabPage = () => {
                     {cat.items.map((item, i) => {
                       const TypeIcon = typeIconMap[item.type];
                       return (
-                        <button key={i} className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl hover:bg-purple-50 hover:border-purple-200 border border-transparent transition-all text-left group">
+                        <button key={i} onClick={() => setSelectedItem(selectedItem === item.title ? null : item.title)} className={`flex items-center gap-3 p-4 rounded-xl hover:bg-purple-50 hover:border-purple-200 border transition-all text-left group ${selectedItem === item.title ? 'bg-purple-50 border-purple-300' : 'bg-slate-50 border-transparent'}`}>
                           {TypeIcon && <TypeIcon className="w-6 h-6 flex-shrink-0" />}
                           <div className="min-w-0 flex-1">
                             <p className="text-sm font-medium text-slate-800 group-hover:text-purple-700 transition-colors">{item.title}</p>
