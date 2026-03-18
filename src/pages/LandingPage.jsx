@@ -186,25 +186,29 @@ const LandingPage = () => {
       icon: <Search className="w-8 h-8" />,
       title: 'Smart Provider Search',
       description: 'Advanced filters to find the perfect provider for your needs',
-      color: 'bg-gradient-to-br from-purple-500 to-purple-600'
+      color: 'bg-gradient-to-br from-purple-500 to-purple-600',
+      link: '/dashboard/services'
     },
     {
       icon: <Users className="w-8 h-8" />,
       title: 'Community Network',
       description: 'Connect with thousands of participants and providers',
-      color: 'bg-gradient-to-br from-green-500 to-green-600'
+      color: 'bg-gradient-to-br from-green-500 to-green-600',
+      link: '/dashboard/messages'
     },
     {
       icon: <ShieldCheck className="w-8 h-8" />,
       title: 'Verified Quality',
       description: 'All providers verified for quality and compliance',
-      color: 'bg-gradient-to-br from-yellow-500 to-orange-500'
+      color: 'bg-gradient-to-br from-yellow-500 to-orange-500',
+      link: '/dashboard/directory'
     },
     {
       icon: <Zap className="w-8 h-8" />,
       title: '24/7 Support',
       description: 'Get instant answers with our support team',
-      color: 'bg-gradient-to-br from-pink-500 to-red-500'
+      color: 'bg-gradient-to-br from-pink-500 to-red-500',
+      link: '/dashboard/ai-support'
     }
   ];
 
@@ -766,16 +770,23 @@ const LandingPage = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {platformFeatures.map((feature, index) => (
-              <div
+              <Link
                 key={index}
+                to={feature.link}
                 className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
                 <div className={`${feature.color} w-16 h-16 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-700 transition-colors">{feature.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
+                <span className="inline-flex items-center mt-4 text-sm font-semibold text-purple-600 group-hover:translate-x-1 transition-transform">
+                  Explore
+                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
             ))}
           </div>
 
