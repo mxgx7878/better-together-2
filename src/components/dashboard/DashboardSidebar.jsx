@@ -34,7 +34,7 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
   ];
 
   const bottomNavItems = [
-    { label: isProvider ? 'AI Support' : 'Ask AI', icon: SparkleIcon, path: '/dashboard/ai-support', tier: 'all' },
+    { label: isProvider ? 'AI Support' : 'Ask AI', icon: AiIcon, path: '/dashboard/ai-support', tier: 'all' },
     { label: 'Upgrade Plan', icon: StarIcon, path: '/dashboard/upgrade', tier: 'free' },
     { label: 'Connect with Admin', icon: HeadsetIcon, path: '/dashboard/admin-support', tier: 'all' },
   ];
@@ -243,6 +243,42 @@ function DirectoryIcon({ className }) {
   return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  );
+}
+
+function AiIcon({ className }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      {/* Outer chip */}
+      <rect
+        x="4"
+        y="4"
+        width="16"
+        height="16"
+        rx="3"
+        strokeWidth={1.8}
+      />
+
+      {/* Circuit lines */}
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.8}
+        d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 9v6M9 12h6"
+      />
+
+      {/* Pins */}
+      <path
+        strokeLinecap="round"
+        strokeWidth={1.5}
+        d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"
+      />
     </svg>
   );
 }
