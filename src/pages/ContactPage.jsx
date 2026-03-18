@@ -97,9 +97,9 @@ const ContactPage = () => {
       ),
       title: 'Visit Us',
       subtitle: 'Come say hello at our office',
-      details: ['Australia Wide'],
+      details: ['123 Collins Street', 'Melbourne VIC 3000', 'Australia'],
       color: 'from-orange-500 to-red-500',
-      link: 'https://www.google.com/maps/place/Australia'
+      link: 'https://www.google.com/maps/search/123+Collins+Street+Melbourne+VIC+3000+Australia'
     },
     {
       icon: (
@@ -492,7 +492,7 @@ const ContactPage = () => {
           <div className="text-center mb-12">
             <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">Location</span>
             <h2 className="text-4xl font-bold text-gray-900 mt-2 mb-4">Find Us Here</h2>
-            <p className="text-xl text-gray-600">We're Australia wide — connect with us remotely from anywhere</p>
+            <p className="text-xl text-gray-600">123 Collins Street, Melbourne VIC 3000, Australia</p>
           </div>
           
           <div className="relative rounded-3xl overflow-hidden shadow-2xl">
@@ -511,7 +511,7 @@ const ContactPage = () => {
                     <span className="text-sm">(Replace with actual embedded map)</span>
                   </p>
                   <a
-                    href="https://www.google.com/maps/place/Australia"
+                    href="https://www.google.com/maps/search/123+Collins+Street+Melbourne+VIC+3000+Australia"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block mt-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg"
