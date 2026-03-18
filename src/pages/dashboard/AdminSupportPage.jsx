@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { CheckCircle } from '../../components/Icons';
 
 const faqItems = [
   { q: 'How do I update my profile information?', a: 'Navigate to your Profile page from the sidebar or top bar. You can edit your details, services, and notification preferences there.' },
@@ -78,7 +79,7 @@ const AdminSupportPage = () => {
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Send Us a Message</h2>
         {submitted ? (
           <div className="text-center py-8">
-            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">✓</div>
+            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4"><CheckCircle className="w-8 h-8 text-emerald-600" /></div>
             <h3 className="text-lg font-semibold text-slate-800">Message Sent!</h3>
             <p className="text-sm text-slate-500 mt-1">Our team will get back to you within 1-2 business days.</p>
           </div>

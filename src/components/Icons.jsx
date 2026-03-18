@@ -1,0 +1,140 @@
+/**
+ * Centralized Icon Components
+ * All icons used across the app are exported from here.
+ * Uses lucide-react for consistent, scalable SVG icons.
+ */
+
+export {
+  // Navigation & UI
+  Home,
+  Search,
+  Menu,
+  X,
+  ChevronDown,
+  ChevronRight,
+  ChevronLeft,
+  ArrowRight,
+  ArrowLeft,
+  ExternalLink,
+  LogOut,
+  Settings,
+  Bell,
+  User,
+  Users,
+  UserPlus,
+  UserCheck,
+
+  // Communication
+  MessageCircle,
+  MessageSquare,
+  Mail,
+  Inbox,
+  Send,
+  Phone,
+  Headphones,
+  Mic,
+  Megaphone,
+  Volume2,
+
+  // Content & Media
+  FileText,
+  Files,
+  FolderOpen,
+  BookOpen,
+  Library,
+  Newspaper,
+  Video,
+  Image,
+  Clipboard,
+  ClipboardList,
+
+  // Business & Work
+  Briefcase,
+  Building2,
+  Building,
+  TrendingUp,
+  BarChart3,
+  PieChart,
+  DollarSign,
+  CreditCard,
+  Receipt,
+  BadgeCheck,
+  Award,
+  Trophy,
+  Landmark,
+
+  // Calendar & Time
+  Calendar,
+  CalendarDays,
+  Clock,
+
+  // Actions & Status
+  Check,
+  CheckCircle,
+  CheckCircle2,
+  CircleDot,
+  Plus,
+  Minus,
+  Edit,
+  Trash2,
+  Download,
+  Upload,
+  RefreshCw,
+
+  // Safety & Security
+  Shield,
+  ShieldCheck,
+  Lock,
+  Unlock,
+  KeyRound,
+  Eye,
+  EyeOff,
+  AlertTriangle,
+  AlertCircle,
+
+  // Innovation & Ideas
+  Lightbulb,
+  Sparkles,
+  Zap,
+  Rocket,
+  Target,
+  Compass,
+  Brain,
+  Wrench,
+  Puzzle,
+  FlaskConical,
+
+  // Nature & Misc
+  Heart,
+  Star,
+  Gem,
+  Crown,
+  Gift,
+  Handshake,
+  Link2,
+  Globe,
+  MapPin,
+  Leaf,
+  Sprout,
+  Hand,
+  TreePine,
+  Sun,
+  Scale,
+
+  // Layout & Data
+  LayoutGrid,
+  List,
+  Filter,
+  SortAsc,
+  Laptop,
+  Monitor,
+  Smartphone,
+  Bot,
+  CircleHelp,
+  ThumbsUp,
+  Bookmark,
+  Pin,
+  Flag,
+  Tag,
+  Hash,
+} from 'lucide-react';

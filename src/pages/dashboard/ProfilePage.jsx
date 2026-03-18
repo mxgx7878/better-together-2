@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { CheckCircle } from '../../components/Icons';
 
 const serviceCategories = [
   { id: 'ndis', label: 'NDIS Supports', subs: ['Core Supports', 'Capacity Building', 'Capital Supports', 'SIL / STA / MTA', 'Support Coordination', 'Therapy Services', 'Early Childhood', 'Community Participation', 'Employment Supports'] },
@@ -89,7 +90,7 @@ const ProfilePage = () => {
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           )}
-          {saveStatus === 'saved' ? '✓ Saved!' : saveStatus === 'saving' ? 'Saving...' : 'Save Changes'}
+          {saveStatus === 'saved' ? <><CheckCircle className="w-4 h-4 inline" /> Saved!</> : saveStatus === 'saving' ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
 

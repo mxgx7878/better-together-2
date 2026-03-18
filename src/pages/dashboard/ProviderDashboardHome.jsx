@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { Calendar, Search, Lightbulb, BookOpen, MessageCircle, Bot, Star, Mic, Inbox, Briefcase, Megaphone, Settings, Mail, User, Hand as HandWave } from '../../components/Icons';
 
 // ─── Mock sponsor data ────────────────────────────────────────────
 // Replace with real API fetch. Each entry = a provider with the Marketing add-on.
@@ -20,28 +21,28 @@ const ProviderDashboardHome = () => {
   const { user, isPaid } = useAuth();
 
   const freeTiles = [
-    { label: 'Events & Networking', icon: '📅', path: '/dashboard/events',       desc: 'Discover events & connect',  color: 'from-violet-500 to-purple-600' },
-    { label: 'Provider Directory',  icon: '🔍', path: '/dashboard/directory',    desc: 'Find local providers',        color: 'from-blue-500 to-cyan-600' },
-    { label: 'Innovation Lab',      icon: '💡', path: '/dashboard/innovation-lab',desc: 'Training & resources',       color: 'from-amber-500 to-orange-600' },
-    { label: 'Library',             icon: '📚', path: '/dashboard/library',      desc: 'Documents & guides',          color: 'from-emerald-500 to-teal-600' },
-    { label: 'Q&A Forum',           icon: '💬', path: '/dashboard/qa',           desc: 'Ask & learn',                 color: 'from-pink-500 to-rose-600' },
-    { label: 'AI Support',          icon: '🤖', path: '/dashboard/ai-support',   desc: 'Instant NDIS help',           color: 'from-indigo-500 to-blue-600' },
-    { label: 'Update Subscription', icon: '⭐', path: '/dashboard/upgrade',      desc: 'Unlock premium tools',        color: 'from-yellow-500 to-amber-600' },
-    { label: 'Connect with Admin',  icon: '🎙️', path: '/dashboard/admin-support',desc: 'Get help & support',         color: 'from-slate-500 to-slate-700' },
+    { label: 'Events & Networking', icon: <Calendar className="w-6 h-6 text-white" />, path: '/dashboard/events',       desc: 'Discover events & connect',  color: 'from-violet-500 to-purple-600' },
+    { label: 'Provider Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/dashboard/directory',    desc: 'Find local providers',        color: 'from-blue-500 to-cyan-600' },
+    { label: 'Innovation Lab',      icon: <Lightbulb className="w-6 h-6 text-white" />, path: '/dashboard/innovation-lab',desc: 'Training & resources',       color: 'from-amber-500 to-orange-600' },
+    { label: 'Library',             icon: <BookOpen className="w-6 h-6 text-white" />, path: '/dashboard/library',      desc: 'Documents & guides',          color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q&A Forum',           icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/dashboard/qa',           desc: 'Ask & learn',                 color: 'from-pink-500 to-rose-600' },
+    { label: 'AI Support',          icon: <Bot className="w-6 h-6 text-white" />, path: '/dashboard/ai-support',   desc: 'Instant NDIS help',           color: 'from-indigo-500 to-blue-600' },
+    { label: 'Update Subscription', icon: <Star className="w-6 h-6 text-white" />, path: '/dashboard/upgrade',      desc: 'Unlock premium tools',        color: 'from-yellow-500 to-amber-600' },
+    { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/dashboard/admin-support',desc: 'Get help & support',         color: 'from-slate-500 to-slate-700' },
   ];
 
   const paidTiles = [
-    { label: 'Service Requests',    icon: '📨', path: '/dashboard/requests',     desc: 'Referrals & enquiries',      color: 'from-violet-500 to-purple-600', badge: '3' },
-    { label: 'Events & Networking', icon: '📅', path: '/dashboard/events',       desc: 'Events & sponsorship',       color: 'from-blue-500 to-cyan-600' },
-    { label: 'Provider Directory',  icon: '🔍', path: '/dashboard/directory',    desc: 'Find & collaborate',         color: 'from-teal-500 to-emerald-600' },
-    { label: 'Job Board',           icon: '💼', path: '/dashboard/jobs',         desc: 'Post & manage jobs',         color: 'from-amber-500 to-orange-600' },
-    { label: 'Innovation Lab',      icon: '💡', path: '/dashboard/innovation-lab',desc: 'Training & development',    color: 'from-pink-500 to-rose-600' },
-    { label: 'Library',             icon: '📚', path: '/dashboard/library',      desc: 'Documents & templates',      color: 'from-emerald-500 to-teal-600' },
-    { label: 'Q&A Forum',           icon: '💬', path: '/dashboard/qa',           desc: 'Provider discussions',       color: 'from-indigo-500 to-blue-600' },
-    { label: 'Marketing',           icon: '📣', path: '/dashboard/marketing',    desc: 'Boost your visibility',      color: 'from-red-500 to-pink-600' },
-    { label: 'AI Support',          icon: '🤖', path: '/dashboard/ai-support',   desc: 'AI-powered assistant',       color: 'from-purple-500 to-indigo-600' },
-    { label: 'Update Subscription', icon: '⚙️', path: '/dashboard/upgrade',      desc: 'Manage your plan',           color: 'from-slate-500 to-slate-700' },
-    { label: 'Connect with Admin',  icon: '🎙️', path: '/dashboard/admin-support',desc: 'Support & feedback',        color: 'from-gray-600 to-gray-800' },
+    { label: 'Service Requests',    icon: <Inbox className="w-6 h-6 text-white" />, path: '/dashboard/requests',     desc: 'Referrals & enquiries',      color: 'from-violet-500 to-purple-600', badge: '3' },
+    { label: 'Events & Networking', icon: <Calendar className="w-6 h-6 text-white" />, path: '/dashboard/events',       desc: 'Events & sponsorship',       color: 'from-blue-500 to-cyan-600' },
+    { label: 'Provider Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/dashboard/directory',    desc: 'Find & collaborate',         color: 'from-teal-500 to-emerald-600' },
+    { label: 'Job Board',           icon: <Briefcase className="w-6 h-6 text-white" />, path: '/dashboard/jobs',         desc: 'Post & manage jobs',         color: 'from-amber-500 to-orange-600' },
+    { label: 'Innovation Lab',      icon: <Lightbulb className="w-6 h-6 text-white" />, path: '/dashboard/innovation-lab',desc: 'Training & development',    color: 'from-pink-500 to-rose-600' },
+    { label: 'Library',             icon: <BookOpen className="w-6 h-6 text-white" />, path: '/dashboard/library',      desc: 'Documents & templates',      color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q&A Forum',           icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/dashboard/qa',           desc: 'Provider discussions',       color: 'from-indigo-500 to-blue-600' },
+    { label: 'Marketing',           icon: <Megaphone className="w-6 h-6 text-white" />, path: '/dashboard/marketing',    desc: 'Boost your visibility',      color: 'from-red-500 to-pink-600' },
+    { label: 'AI Support',          icon: <Bot className="w-6 h-6 text-white" />, path: '/dashboard/ai-support',   desc: 'AI-powered assistant',       color: 'from-purple-500 to-indigo-600' },
+    { label: 'Update Subscription', icon: <Settings className="w-6 h-6 text-white" />, path: '/dashboard/upgrade',      desc: 'Manage your plan',           color: 'from-slate-500 to-slate-700' },
+    { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/dashboard/admin-support',desc: 'Support & feedback',        color: 'from-gray-600 to-gray-800' },
   ];
 
   const tiles = isPaid ? paidTiles : freeTiles;
@@ -89,7 +90,7 @@ const ProviderDashboardHome = () => {
                   {tile.badge}
                 </span>
               )}
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tile.color} flex items-center justify-center text-2xl mb-3 group-hover:scale-110 transition-transform duration-300`}>
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tile.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
                 {tile.icon}
               </div>
               <h3 className="text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors">{tile.label}</h3>
@@ -106,16 +107,16 @@ const ProviderDashboardHome = () => {
           <div className="space-y-4">
             {isPaid ? (
               <>
-                <ActivityItem icon="📨" title="New service request received" desc="Participant in Melbourne CBD seeking support coordination" time="5 min ago" highlight />
-                <ActivityItem icon="📅" title="Event RSVP confirmed" desc="Melbourne Provider Networking Meetup — Feb 28" time="2 hours ago" />
-                <ActivityItem icon="👤" title="Profile viewed by 4 participants" desc="Your profile is gaining traction this week" time="Today" />
-                <ActivityItem icon="💬" title="New reply in Q&A Forum" desc="Someone responded to your compliance question" time="Yesterday" />
+                <ActivityItem icon={<Inbox className="w-5 h-5 text-purple-600" />} title="New service request received" desc="Participant in Melbourne CBD seeking support coordination" time="5 min ago" highlight />
+                <ActivityItem icon={<Calendar className="w-5 h-5 text-blue-600" />} title="Event RSVP confirmed" desc="Melbourne Provider Networking Meetup — Feb 28" time="2 hours ago" />
+                <ActivityItem icon={<User className="w-5 h-5 text-amber-600" />} title="Profile viewed by 4 participants" desc="Your profile is gaining traction this week" time="Today" />
+                <ActivityItem icon={<MessageCircle className="w-5 h-5 text-pink-600" />} title="New reply in Q&A Forum" desc="Someone responded to your compliance question" time="Yesterday" />
               </>
             ) : (
               <>
-                <ActivityItem icon="📅" title="New event near you" desc="Provider Connect Breakfast — Melbourne, March 5" time="1 hour ago" />
-                <ActivityItem icon="🔍" title="New provider in your area" desc="Allied Health Plus joined the directory" time="Today" />
-                <ActivityItem icon="💬" title="New Q&A discussion" desc="Topic: NDIS mid-year pricing updates" time="Yesterday" />
+                <ActivityItem icon={<Calendar className="w-5 h-5 text-blue-600" />} title="New event near you" desc="Provider Connect Breakfast — Melbourne, March 5" time="1 hour ago" />
+                <ActivityItem icon={<Search className="w-5 h-5 text-teal-600" />} title="New provider in your area" desc="Allied Health Plus joined the directory" time="Today" />
+                <ActivityItem icon={<MessageCircle className="w-5 h-5 text-indigo-600" />} title="New Q&A discussion" desc="Topic: NDIS mid-year pricing updates" time="Yesterday" />
               </>
             )}
           </div>
@@ -165,7 +166,7 @@ const ProviderDashboardHome = () => {
       {user.profileComplete < 100 && (
         <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-100 flex items-center justify-center text-xl sm:text-2xl flex-shrink-0">👋</div>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0"><HandWave className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" /></div>
             <div>
               <h3 className="text-sm font-semibold text-amber-900">Complete your profile</h3>
               <p className="text-sm text-amber-700 mt-0.5">Your profile is {user.profileComplete}% complete. A complete profile helps participants find you.</p>
@@ -391,7 +392,7 @@ function AnalyticsCard({ label, value, change, positive, icon }) {
 function ActivityItem({ icon, title, desc, time, highlight }) {
   return (
     <div className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl transition-colors ${highlight ? 'bg-purple-50/50 border border-purple-100' : 'hover:bg-slate-50'}`}>
-      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-100 flex items-center justify-center text-base sm:text-lg flex-shrink-0">{icon}</div>
+      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">{icon}</div>
       <div className="min-w-0 flex-1">
         <p className="text-xs sm:text-sm font-medium text-slate-800">{title}</p>
         <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 truncate">{desc}</p>

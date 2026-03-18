@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Megaphone, Calendar } from '../../components/Icons';
 
 const MarketingPage = () => {
   const { isPaid } = useAuth();
@@ -9,7 +10,9 @@ const MarketingPage = () => {
   if (!isPaid) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-5">📣</div>
+        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <Megaphone className="w-8 h-8 text-purple-600" />
+        </div>
         <h1 className="text-2xl font-bold text-slate-800 mb-2">Marketing & Visibility</h1>
         <p className="text-slate-600 mb-6">Upgrade to a paid plan to access marketing and advertising tools.</p>
         <a href="/dashboard/upgrade" className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md">Upgrade Now</a>
@@ -44,7 +47,7 @@ const MarketingPage = () => {
               <p className="text-xs text-purple-200 mt-1">Choose regions, service types, and demographics</p>
             </div>
           </div>
-          <p className="text-xs text-purple-200 mb-4">📅 Booking deadline: 25th of each month · Spots limited · Must have a paid subscription</p>
+          <p className="text-xs text-purple-200 mb-4 flex items-center gap-1.5"><Calendar className="w-4 h-4" /> Booking deadline: 25th of each month · Spots limited · Must have a paid subscription</p>
         </div>
       </div>
 

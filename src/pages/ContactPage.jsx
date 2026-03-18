@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Globe, Users, Zap, Calendar, Handshake, Star, CheckCircle } from '../components/Icons';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -167,7 +168,7 @@ const ContactPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              💬 We're Here to Help
+              <MessageCircle className="w-4 h-4 inline mr-1" /> We're Here to Help
             </span>
           </div>
           

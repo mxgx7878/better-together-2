@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Heart, Pin } from '../../components/Icons';
 
 const mockPosts = [
   { id: 1, author: 'Rebecca M.', date: '2026-02-16', category: 'tips', title: 'My top 3 tips for a successful plan review', content: 'Just had my plan review and got everything I asked for! Here\'s what helped me: 1) Started preparing 3 months early, 2) Collected evidence from all my providers, 3) Wrote a clear statement about my goals.', likes: 24, replies: 8, pinned: true },
@@ -43,7 +44,7 @@ const MessageBoardPage = () => {
 
       {/* Community Guidelines */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
-        <span className="text-lg flex-shrink-0">💙</span>
+        <Heart className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
         <p className="text-sm text-blue-800">This is a safe, supportive community space. Be respectful, share kindly, and remember everyone's journey is different. You can post anonymously if you prefer.</p>
       </div>
 
@@ -67,7 +68,7 @@ const MessageBoardPage = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  {post.pinned && <span className="text-xs text-amber-600 font-bold">📌 Pinned</span>}
+                  {post.pinned && <span className="text-xs text-amber-600 font-bold flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> Pinned</span>}
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${categoryConfig[post.category]?.color}`}>{categoryConfig[post.category]?.label}</span>
                 </div>
                 <h3 className="text-base font-semibold text-slate-800">{post.title}</h3>

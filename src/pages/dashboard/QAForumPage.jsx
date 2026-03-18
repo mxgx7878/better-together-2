@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Pin } from '../../components/Icons';
 
 const mockThreads = [
   { id: 1, title: 'New NDIS pricing changes — how is everyone adapting?', author: 'Karen B.', authorRole: 'Support Coordinator', date: '2026-02-16', replies: 12, views: 89, topic: 'compliance', pinned: true, lastReply: '2 hours ago', preview: 'With the mid-year pricing update, I\'m finding it challenging to reconcile the new rates with existing service agreements...' },
@@ -83,7 +84,7 @@ const QAForumPage = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  {thread.pinned && <span className="text-amber-600 text-xs font-bold">📌 Pinned</span>}
+                  {thread.pinned && <span className="text-amber-600 text-xs font-bold flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> Pinned</span>}
                   <h3 className="text-base font-semibold text-slate-800 hover:text-purple-700 transition-colors">{thread.title}</h3>
                 </div>
                 <p className="text-sm text-slate-500 mt-1 line-clamp-2">{thread.preview}</p>

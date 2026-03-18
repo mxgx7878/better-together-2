@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { Scale, Shield, Megaphone, Landmark, AlertCircle } from '../../components/Icons';
 
 const sections = [
   {
     id: 'rights',
     title: 'Your NDIS Rights',
-    icon: '⚖️',
+    icon: Scale,
     color: 'from-purple-500 to-indigo-600',
     items: [
       { title: 'Right to choose your providers', desc: 'You can choose who provides your supports, where and when.' },
@@ -18,7 +19,7 @@ const sections = [
   {
     id: 'safety',
     title: 'Staying Safe',
-    icon: '🛡️',
+    icon: Shield,
     color: 'from-emerald-500 to-teal-600',
     items: [
       { title: 'Recognising abuse and neglect', desc: 'Learn the signs of abuse, neglect, and exploitation so you can protect yourself.' },
@@ -30,7 +31,7 @@ const sections = [
   {
     id: 'complaints',
     title: 'Making a Complaint',
-    icon: '📢',
+    icon: Megaphone,
     color: 'from-amber-500 to-orange-600',
     items: [
       { title: 'Step 1: Talk to your provider', desc: 'Try to resolve the issue directly with your provider first.' },
@@ -42,7 +43,7 @@ const sections = [
   {
     id: 'appeals',
     title: 'Appeals & Reviews',
-    icon: '🏛️',
+    icon: Landmark,
     color: 'from-blue-500 to-cyan-600',
     items: [
       { title: 'Internal review', desc: 'Request an internal review within 3 months of a decision. A different person will review your case.' },
@@ -74,7 +75,7 @@ const RightsSafetyPage = () => {
       {/* Emergency Banner */}
       <div className="bg-red-50 border border-red-200 rounded-2xl p-5">
         <div className="flex items-start gap-3">
-          <span className="text-2xl flex-shrink-0">🆘</span>
+          <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
           <div>
             <h3 className="text-base font-semibold text-red-800">Need Immediate Help?</h3>
             <p className="text-sm text-red-700 mt-1">If you are in danger, call <strong>000</strong>. For NDIS complaints, call the NDIS Commission on <strong>1800 035 544</strong>.</p>
@@ -84,44 +85,47 @@ const RightsSafetyPage = () => {
 
       {/* Sections */}
       <div className="space-y-4">
-        {sections.map(section => (
-          <div key={section.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <button
-              onClick={() => setExpandedSection(expandedSection === section.id ? null : section.id)}
-              className="w-full flex items-center justify-between px-6 py-5 hover:bg-slate-50 transition-colors"
-            >
-              <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.color} flex items-center justify-center text-2xl`}>
-                  {section.icon}
+        {sections.map(section => {
+          const SectionIcon = section.icon;
+          return (
+            <div key={section.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+              <button
+                onClick={() => setExpandedSection(expandedSection === section.id ? null : section.id)}
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-slate-50 transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.color} flex items-center justify-center`}>
+                    <SectionIcon className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-base font-semibold text-slate-800">{section.title}</h3>
+                    <p className="text-xs text-slate-500">{section.items.length} topics</p>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <h3 className="text-base font-semibold text-slate-800">{section.title}</h3>
-                  <p className="text-xs text-slate-500">{section.items.length} topics</p>
-                </div>
-              </div>
-              <svg className={`w-5 h-5 text-slate-400 transition-transform ${expandedSection === section.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            {expandedSection === section.id && (
-              <div className="px-6 pb-5 border-t border-slate-100">
-                <div className="space-y-3 pt-4">
-                  {section.items.map((item, i) => (
-                    <div key={i} className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl">
-                      <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-sm font-bold text-purple-600">{i + 1}</span>
+                <svg className={`w-5 h-5 text-slate-400 transition-transform ${expandedSection === section.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {expandedSection === section.id && (
+                <div className="px-6 pb-5 border-t border-slate-100">
+                  <div className="space-y-3 pt-4">
+                    {section.items.map((item, i) => (
+                      <div key={i} className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl">
+                        <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-sm font-bold text-purple-600">{i + 1}</span>
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-800">{item.title}</h4>
+                          <p className="text-sm text-slate-600 mt-0.5">{item.desc}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="text-sm font-semibold text-slate-800">{item.title}</h4>
-                        <p className="text-sm text-slate-600 mt-0.5">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Important Contacts */}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Sprout, TrendingUp, Star, Handshake, Compass, Shield, Sparkles, Building2, Users } from '../components/Icons';
 
 const SubscriptionPage = () => {
   const [activeTab, setActiveTab] = useState('provider'); // 'provider' or 'participant'
@@ -24,7 +25,7 @@ const SubscriptionPage = () => {
       buttonText: 'Join Free',
       buttonStyle: 'bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600',
       highlight: false,
-      icon: '🌱',
+      icon: <Sprout className="w-10 h-10 text-green-600" />,
       color: 'green',
     },
     {
@@ -45,7 +46,7 @@ const SubscriptionPage = () => {
       buttonText: 'Start Growing',
       buttonStyle: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
       highlight: true,
-      icon: '📈',
+      icon: <TrendingUp className="w-10 h-10 text-purple-600" />,
       color: 'purple',
       badge: 'MOST POPULAR',
     },
@@ -67,7 +68,7 @@ const SubscriptionPage = () => {
       buttonText: 'Get Premium',
       buttonStyle: 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600',
       highlight: false,
-      icon: '🌟',
+      icon: <Star className="w-10 h-10 text-orange-600" />,
       color: 'orange',
     },
   ];
@@ -91,7 +92,7 @@ const SubscriptionPage = () => {
       buttonText: 'Join Free',
       buttonStyle: 'bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600',
       highlight: false,
-      icon: '🤝',
+      icon: <Handshake className="w-10 h-10 text-green-600" />,
       color: 'green',
     },
     {
@@ -112,7 +113,7 @@ const SubscriptionPage = () => {
       buttonText: 'Get Guidance',
       buttonStyle: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700',
       highlight: true,
-      icon: '🧭',
+      icon: <Compass className="w-10 h-10 text-blue-600" />,
       color: 'blue',
       badge: 'RECOMMENDED',
     },
@@ -134,34 +135,34 @@ const SubscriptionPage = () => {
       buttonText: 'Get Full Support',
       buttonStyle: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
       highlight: false,
-      icon: '🛡️',
+      icon: <Shield className="w-10 h-10 text-purple-600" />,
       color: 'purple',
     },
   ];
 
   const providerComparison = [
-    { feature: 'Access to events calendar', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Invitations to local networking events', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Provider message board access', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Client referral opportunities', tier1: '—', tier2: '✔️', tier3: '✔️ (priority)' },
-    { feature: 'Advertising placements', tier1: '—', tier2: '✔️', tier3: '✔️ (premium)' },
-    { feature: 'Networking with complementary businesses', tier1: '—', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Access to local referral pathways', tier1: '—', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Featured provider listing', tier1: '—', tier2: '—', tier3: '✔️' },
-    { feature: 'Exposure to participant groups', tier1: '—', tier2: '—', tier3: '✔️ (enhanced)' },
-    { feature: 'Opportunities to showcase expertise', tier1: '—', tier2: '—', tier3: '✔️' },
+    { feature: 'Access to events calendar', tier1: '✓', tier2: '✓', tier3: '✓' },
+    { feature: 'Invitations to local networking events', tier1: '✓', tier2: '✓', tier3: '✓' },
+    { feature: 'Provider message board access', tier1: '✓', tier2: '✓', tier3: '✓' },
+    { feature: 'Client referral opportunities', tier1: '—', tier2: '✓', tier3: '✓ (priority)' },
+    { feature: 'Advertising placements', tier1: '—', tier2: '✓', tier3: '✓ (premium)' },
+    { feature: 'Networking with complementary businesses', tier1: '—', tier2: '✓', tier3: '✓' },
+    { feature: 'Access to local referral pathways', tier1: '—', tier2: '✓', tier3: '✓' },
+    { feature: 'Featured provider listing', tier1: '—', tier2: '—', tier3: '✓' },
+    { feature: 'Exposure to participant groups', tier1: '—', tier2: '—', tier3: '✓ (enhanced)' },
+    { feature: 'Opportunities to showcase expertise', tier1: '—', tier2: '—', tier3: '✓' },
   ];
 
   const participantComparison = [
-    { feature: 'Access to message & job board', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Connect with local providers', tier1: '✔️', tier2: '✔️', tier3: '✔️ (priority)' },
-    { feature: 'Community updates & events', tier1: '✔️', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Help understanding your disability services plan', tier1: '—', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Guidance through reviews & processes', tier1: '—', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Access to advocates & disability services support', tier1: '—', tier2: '✔️', tier3: '✔️' },
-    { feature: 'Access to legal teams (AAT support)', tier1: '—', tier2: '—', tier3: '✔️' },
-    { feature: 'Training & resources for complex processes', tier1: '—', tier2: '—', tier3: '✔️' },
-    { feature: 'Enhanced support & guidance', tier1: '—', tier2: '✔️', tier3: '✔️ (highest)' },
+    { feature: 'Access to message & job board', tier1: '✓', tier2: '✓', tier3: '✓' },
+    { feature: 'Connect with local providers', tier1: '✓', tier2: '✓', tier3: '✓ (priority)' },
+    { feature: 'Community updates & events', tier1: '✓', tier2: '✓', tier3: '✓' },
+    { feature: 'Help understanding your disability services plan', tier1: '—', tier2: '✓', tier3: '✓' },
+    { feature: 'Guidance through reviews & processes', tier1: '—', tier2: '✓', tier3: '✓' },
+    { feature: 'Access to advocates & disability services support', tier1: '—', tier2: '✓', tier3: '✓' },
+    { feature: 'Access to legal teams (AAT support)', tier1: '—', tier2: '—', tier3: '✓' },
+    { feature: 'Training & resources for complex processes', tier1: '—', tier2: '—', tier3: '✓' },
+    { feature: 'Enhanced support & guidance', tier1: '—', tier2: '✓', tier3: '✓ (highest)' },
   ];
 
   const faqs = [
@@ -204,7 +205,7 @@ const SubscriptionPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <div className="inline-block mb-4">
             <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              💎 Subscription Plans
+              <Sparkles className="w-4 h-4 inline" /> Subscription Plans
             </span>
           </div>
           
@@ -229,7 +230,7 @@ const SubscriptionPage = () => {
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
             >
-              🏢 For Providers
+              <Building2 className="w-5 h-5 inline mr-1" /> For Providers
             </button>
             <button
               onClick={() => setActiveTab('participant')}
@@ -239,7 +240,7 @@ const SubscriptionPage = () => {
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
             >
-              👥 For Participants
+              <Users className="w-5 h-5 inline mr-1" /> For Participants
             </button>
           </div>
         </div>
@@ -278,7 +279,7 @@ const SubscriptionPage = () => {
                   plan.color === 'blue' ? 'bg-gradient-to-br from-blue-50 to-indigo-50' :
                   'bg-gradient-to-br from-orange-50 to-red-50'
                 }`}>
-                  <div className="text-5xl mb-4">{plan.icon}</div>
+                  <div className="mb-4">{plan.icon}</div>
                   <h3 className="text-3xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                   <p className="text-sm font-semibold text-gray-600 mb-4">{plan.tagline}</p>
                   

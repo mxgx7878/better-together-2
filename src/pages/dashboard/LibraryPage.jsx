@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BookOpen, FileText, FolderOpen } from '../../components/Icons';
 
 const documents = [
   { id: 1, title: 'Accessibility Standards Checklist', category: 'Compliance', type: 'pdf', size: '245 KB', updated: '2026-01-15' },
@@ -22,7 +23,13 @@ const documents = [
 ];
 
 const allCategories = ['All', ...new Set(documents.map(d => d.category))].sort();
-const typeIcons = { pdf: '📕', docx: '📘', xlsx: '📗' };
+
+const typeIconMap = {
+  pdf: { Icon: FileText, color: 'text-red-600' },
+  docx: { Icon: BookOpen, color: 'text-blue-600' },
+  xlsx: { Icon: FolderOpen, color: 'text-emerald-600' },
+};
+
 const categoryColors = {
   'Compliance': 'bg-red-50 text-red-700',
   'Templates': 'bg-emerald-50 text-emerald-700',
@@ -110,27 +117,31 @@ const LibraryPage = () => {
               <div className="flex-1 h-px bg-slate-200" />
             </div>
             <div className="space-y-2">
-              {grouped[letter].map(doc => (
-                <div key={doc.id} className="bg-white rounded-xl border border-slate-100 p-4 flex items-center gap-4 hover:shadow-md hover:border-purple-200 transition-all group cursor-pointer">
-                  <span className="text-2xl flex-shrink-0">{typeIcons[doc.type] || '📄'}</span>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors">{doc.title}</h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${categoryColors[doc.category] || 'bg-slate-100 text-slate-600'}`}>{doc.category}</span>
-                      <span className="text-[11px] text-slate-400 uppercase">{doc.type}</span>
-                      <span className="text-[11px] text-slate-400">{doc.size}</span>
+              {grouped[letter].map(doc => {
+                const typeInfo = typeIconMap[doc.type] || { Icon: FileText, color: 'text-slate-600' };
+                const TypeIcon = typeInfo.Icon;
+                return (
+                  <div key={doc.id} className="bg-white rounded-xl border border-slate-100 p-4 flex items-center gap-4 hover:shadow-md hover:border-purple-200 transition-all group cursor-pointer">
+                    <TypeIcon className={`w-6 h-6 flex-shrink-0 ${typeInfo.color}`} />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors">{doc.title}</h3>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${categoryColors[doc.category] || 'bg-slate-100 text-slate-600'}`}>{doc.category}</span>
+                        <span className="text-[11px] text-slate-400 uppercase">{doc.type}</span>
+                        <span className="text-[11px] text-slate-400">{doc.size}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className="text-xs text-slate-400 hidden sm:inline">{new Date(doc.updated).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })}</span>
+                      <button className="p-2 bg-slate-50 hover:bg-purple-100 rounded-lg transition-colors group-hover:bg-purple-50">
+                        <svg className="w-4 h-4 text-slate-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-xs text-slate-400 hidden sm:inline">{new Date(doc.updated).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })}</span>
-                    <button className="p-2 bg-slate-50 hover:bg-purple-100 rounded-lg transition-colors group-hover:bg-purple-50">
-                      <svg className="w-4 h-4 text-slate-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}

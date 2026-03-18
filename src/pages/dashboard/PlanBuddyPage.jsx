@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Heart, FileText, CheckCircle } from '../../components/Icons';
 
 const mockMessages = [
   { id: 1, from: 'buddy', date: '2026-02-14', content: 'Hi! Just checking in before your plan review next month. Have you started gathering your provider reports? I\'ve added a checklist to your tasks below.' },
@@ -28,17 +29,19 @@ const PlanBuddyPage = () => {
   if (!isPaid) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-5">💜</div>
+        <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+          <Heart className="w-8 h-8 text-purple-600" />
+        </div>
         <h1 className="text-2xl font-bold text-slate-800 mb-2">My Plan Buddy</h1>
         <p className="text-slate-600 mb-3">Your Personal Plan Buddy (PPB) provides one-on-one support to help you navigate the NDIS.</p>
         <div className="bg-purple-50 rounded-xl p-4 text-left text-sm text-purple-800 mb-6 max-w-md mx-auto">
           <p className="font-semibold mb-2">What a Plan Buddy offers:</p>
           <ul className="space-y-1.5">
-            <li>✓ Personal support inbox & check-ins</li>
-            <li>✓ Help drafting emails and letters</li>
-            <li>✓ Plan review preparation</li>
-            <li>✓ Peer matching & connection</li>
-            <li>✓ Advocate & lawyer connections</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Personal support inbox & check-ins</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Help drafting emails and letters</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Plan review preparation</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Peer matching & connection</li>
+            <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" /> Advocate & lawyer connections</li>
           </ul>
         </div>
         <a href="/dashboard/upgrade" className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all">
@@ -197,7 +200,7 @@ const PlanBuddyPage = () => {
             <div className="grid sm:grid-cols-2 gap-3">
               {['Provider feedback email', 'Plan review personal statement', 'Change of provider request', 'Internal review request', 'Complaint to NDIS Commission', 'Advocate referral request'].map((tmpl, i) => (
                 <button key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-purple-50 transition-colors text-left">
-                  <span className="text-xl">📄</span>
+                  <FileText className="w-5 h-5 text-slate-500" />
                   <span className="text-sm font-medium text-slate-700">{tmpl}</span>
                 </button>
               ))}

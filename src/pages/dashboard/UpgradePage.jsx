@@ -1,5 +1,6 @@
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { Megaphone } from '../../components/Icons';
 
 const UpgradePage = () => {
   const { user, isProvider, isPaid } = useAuth();
@@ -211,10 +212,10 @@ const UpgradePage = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             <div className="flex items-start gap-4">
               {/* Icon */}
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl ${
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
                 hasGrowthOrAbove ? 'bg-amber-100' : 'bg-slate-200'
               }`}>
-                📣
+                <Megaphone className={`w-6 h-6 ${hasGrowthOrAbove ? 'text-amber-700' : 'text-slate-500'}`} />
               </div>
 
               <div>

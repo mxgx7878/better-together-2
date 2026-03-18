@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Search, Users, FileText, MessageCircle, Briefcase, Calendar, Shield, Heart, Handshake, Sprout, Star, Lightbulb, Target, CheckCircle, MapPin, Building2, BookOpen, User, Zap, TrendingUp, Lock, Globe, Compass, Brain, Eye, Megaphone, DollarSign, BarChart3, Award, Sparkles, Rocket, Monitor, Link2, Wrench, FolderOpen, Video, ClipboardList, Scale, Bot } from '../components/Icons';
 
 const ProvideSupportPage = () => {
   const [activeQuestion, setActiveQuestion] = useState(null);
@@ -8,55 +9,55 @@ const ProvideSupportPage = () => {
     {
       title: 'Connections with Trusted disability services Providers',
       description: 'Build genuine partnerships with providers who understand the sector\'s realities. Share referrals, collaborate on services, and strengthen your network with people who truly "get" the disability services.',
-      icon: '🤝',
+      icon: <Handshake className="w-7 h-7 text-white" />,
       color: 'from-purple-500 to-indigo-600',
     },
     {
       title: 'Access to Participants Seeking Services',
       description: 'Connect with individuals and families actively looking for reliable, local supports. Increase your visibility and reach the right people at the right time.',
-      icon: '👥',
+      icon: <Users className="w-7 h-7 text-white" />,
       color: 'from-blue-500 to-cyan-600',
     },
     {
       title: 'Ethical, Sustainable Client Referrals',
       description: 'Receive direct referrals from participants who are searching for the services you offer. Grow your client base in a way that is transparent, participant-led, and aligned with best practice.',
-      icon: '🌱',
+      icon: <Sprout className="w-7 h-7 text-white" />,
       color: 'from-green-500 to-teal-600',
     },
     {
       title: 'Local Networking and Community Events',
       description: 'Join in-person gatherings designed to help you exchange knowledge, share experiences, and build a strong professional community. These events foster collaboration, not competition.',
-      icon: '📅',
+      icon: <Calendar className="w-7 h-7 text-white" />,
       color: 'from-orange-500 to-amber-600',
     },
     {
       title: 'Peer Support, Sector Guidance, and Leadership',
       description: 'Access a community of peers who can offer insights, encouragement, and practical advice. Learn from others who have navigated similar challenges and are committed to raising sector standards.',
-      icon: '💪',
+      icon: <Shield className="w-7 h-7 text-white" />,
       color: 'from-pink-500 to-rose-600',
     },
     {
       title: 'Access to Experts and Specialist Advice',
       description: 'Connect with industry professionals who can support you with business strategy, compliance and quality systems, operational efficiency, workforce development, and growth planning.',
-      icon: '🎯',
+      icon: <Target className="w-7 h-7 text-white" />,
       color: 'from-indigo-500 to-purple-600',
     },
     {
       title: 'Workplace Tools and Practical Resources',
       description: 'Use tools designed to help you work smarter, stay compliant, and deliver services aligned with the disability services Act, its objects, and its principles. Reduce administrative burden and streamline your operations.',
-      icon: '🛠️',
+      icon: <Wrench className="w-7 h-7 text-white" />,
       color: 'from-cyan-500 to-blue-600',
     },
     {
       title: 'Thought Leadership and Sector Education',
       description: 'Stay informed with guidance that deepens your understanding of disability rights, lived experience, and the evolving disability services landscape. Build confidence in your practice and stay ahead of sector changes.',
-      icon: '📚',
+      icon: <BookOpen className="w-7 h-7 text-white" />,
       color: 'from-yellow-500 to-orange-500',
     },
     {
       title: 'Cost-Effective Business Support Solutions',
       description: 'Access practical, affordable tools and human support that help reduce operational costs and maximise profitability. We connect you with real people who can help you manage your business more efficiently — not automated systems that leave you guessing.',
-      icon: '💰',
+      icon: <DollarSign className="w-7 h-7 text-white" />,
       color: 'from-emerald-500 to-green-600',
     },
   ];
@@ -123,7 +124,7 @@ const servicesYouCanOffer = [
   {
     category: 'disability services Service Providers (Registered & Unregistered)',
     qualified: false,
-    icon: '🏢',
+    icon: <Building2 className="w-7 h-7 text-white" />,
     color: 'from-blue-500 to-indigo-600',
     services: [
       'Registered disability services providers delivering support across all registration groups',
@@ -135,7 +136,7 @@ const servicesYouCanOffer = [
   {
     category: 'Professional & Legal Services',
     qualified: false,
-    icon: '⚖️',
+    icon: <Scale className="w-7 h-7 text-white" />,
     color: 'from-purple-500 to-pink-600',
     services: [
       'Business lawyers (disability services compliance, contracts, disputes)',
@@ -147,7 +148,7 @@ const servicesYouCanOffer = [
   {
     category: 'Financial, Accounting & Insurance Services',
     qualified: true,
-    icon: '💰',
+    icon: <DollarSign className="w-7 h-7 text-white" />,
     color: 'from-teal-500 to-green-600',
     services: [
       'Accountants and bookkeepers (disability services-ready reporting, payroll, BAS)',
@@ -159,7 +160,7 @@ const servicesYouCanOffer = [
   {
     category: 'HR, Recruitment & Workforce Development',
     qualified: true,
-    icon: '👥',
+    icon: <Users className="w-7 h-7 text-white" />,
     color: 'from-orange-500 to-red-500',
     services: [
       'HR specialists (policies, performance management, workplace culture)',
@@ -171,7 +172,7 @@ const servicesYouCanOffer = [
   {
     category: 'Technology, Systems & Admin Support',
     qualified: true,
-    icon: '💻',
+    icon: <Monitor className="w-7 h-7 text-white" />,
     color: 'from-cyan-500 to-blue-600',
     services: [
       'Practice management and CRM software providers',
@@ -183,7 +184,7 @@ const servicesYouCanOffer = [
   {
     category: 'Marketing, Branding & Communications',
     qualified: true,
-    icon: '📣',
+    icon: <Megaphone className="w-7 h-7 text-white" />,
     color: 'from-yellow-500 to-amber-600',
     services: [
       'Marketing agencies and consultants (disability services-savvy)',
@@ -195,7 +196,7 @@ const servicesYouCanOffer = [
   {
     category: 'Clinical, Equipment & Workplace Services',
     qualified: true,
-    icon: '🛠️',
+    icon: <Wrench className="w-7 h-7 text-white" />,
     color: 'from-indigo-500 to-blue-600',
     services: [
       'Medical and allied health equipment suppliers',
@@ -207,7 +208,7 @@ const servicesYouCanOffer = [
   {
     category: 'Specialist Disability & Behaviour Support Services',
     qualified: true,
-    icon: '🧠',
+    icon: <Brain className="w-7 h-7 text-white" />,
     color: 'from-pink-500 to-purple-600',
     services: [
       'Behaviour support practitioners and consulting teams',
@@ -222,42 +223,42 @@ const servicesYouCanOffer = [
     {
       title: 'Business Profile',
       description: 'Professional listing with your logo, services, qualifications, and contact details.',
-      icon: '🏢',
+      icon: <Building2 className="w-8 h-8 text-purple-600" />,
     },
     {
       title: 'Job Request Board',
       description: 'See requests from participants seeking your services and respond directly.',
-      icon: '📋',
+      icon: <ClipboardList className="w-8 h-8 text-purple-600" />,
     },
     {
       title: 'Secure Messaging',
       description: 'Communicate with potential clients through our secure platform.',
-      icon: '💬',
+      icon: <MessageCircle className="w-8 h-8 text-purple-600" />,
     },
     {
       title: 'Document Library',
       description: 'Access templates, guides, and resources for onboarding, HR, and marketing.',
-      icon: '📁',
+      icon: <FolderOpen className="w-8 h-8 text-purple-600" />,
     },
     {
       title: 'Training Videos',
       description: 'Educational content to help you stay compliant and grow your skills.',
-      icon: '🎥',
+      icon: <Video className="w-8 h-8 text-purple-600" />,
     },
     {
       title: 'Events Calendar',
       description: 'Network with other providers at exclusive events and workshops.',
-      icon: '📅',
+      icon: <Calendar className="w-8 h-8 text-purple-600" />,
     },
     {
       title: 'Community Board',
       description: 'Connect with fellow providers, share insights, and learn best practices.',
-      icon: '👥',
+      icon: <Users className="w-8 h-8 text-purple-600" />,
     },
     {
       title: 'AI Assistant',
       description: 'Get instant answers to disability services-related questions and policy guidance.',
-      icon: '🤖',
+      icon: <Bot className="w-8 h-8 text-purple-600" />,
     },
   ];
 
@@ -313,7 +314,7 @@ const servicesYouCanOffer = [
       business: 'Care Connect Services',
       content: 'The Better Together Network has been fantastic for growing my support coordination business. The job board helps me find clients who need my specific expertise.',
       rating: 5,
-      avatar: '👩‍💼',
+      avatar: <User className="w-8 h-8 text-purple-200" />,
     },
     {
       name: 'James K.',
@@ -321,7 +322,7 @@ const servicesYouCanOffer = [
       business: 'Independent Practice',
       content: 'As a sole practitioner, I love how easy it is to showcase my services and connect with participants in my local area. Great platform!',
       rating: 5,
-      avatar: '👨‍⚕️',
+      avatar: <User className="w-8 h-8 text-blue-200" />,
     },
     {
       name: 'Maria S.',
@@ -329,7 +330,7 @@ const servicesYouCanOffer = [
       business: 'Self-Employed',
       content: 'The networking events have been invaluable. I\'ve met other providers, learned so much, and even got referrals through connections I made.',
       rating: 5,
-      avatar: '👩',
+      avatar: <User className="w-8 h-8 text-pink-200" />,
     },
   ];
 
@@ -348,26 +349,26 @@ const servicesYouCanOffer = [
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <div className="inline-block mb-4">
-                <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-                  🏢 For Providers
+                <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-2">
+                  <Building2 className="w-4 h-4" /> For Providers
                 </span>
               </div>
-              
+
               <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
                 Connect. Collaborate.
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
                   Grow. Thrive.
                 </span>
               </h1>
-              
+
               <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
                 Running a disability services business can feel isolating — especially when you're juggling compliance, service delivery, staffing, and participant needs. But you don't have to do it alone.
               </p>
-              
+
               <p className="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
                 Our platform creates a supportive, collaborative environment where providers can build meaningful relationships, access practical tools, and grow their businesses with confidence.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   to="/subscription"
@@ -380,7 +381,7 @@ const servicesYouCanOffer = [
                     </svg>
                   </span>
                 </Link>
-                
+
                 <Link
                   to="/features"
                   className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-xl hover:bg-white/20 transition-all duration-300"
@@ -419,8 +420,8 @@ const servicesYouCanOffer = [
                   <h3 className="text-2xl font-bold mb-6">Why Providers Love Us</h3>
                   <div className="space-y-6">
                     <div className="flex items-center">
-                      <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-teal-400 rounded-xl flex items-center justify-center text-2xl mr-4">
-                        💰
+                      <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-teal-400 rounded-xl flex items-center justify-center mr-4">
+                        <DollarSign className="w-7 h-7 text-white" />
                       </div>
                       <div>
                         <div className="text-2xl font-bold text-yellow-400">No Commission</div>
@@ -428,8 +429,8 @@ const servicesYouCanOffer = [
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-xl flex items-center justify-center text-2xl mr-4">
-                        📈
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-xl flex items-center justify-center mr-4">
+                        <TrendingUp className="w-7 h-7 text-white" />
                       </div>
                       <div>
                         <div className="text-2xl font-bold text-yellow-400">50k+</div>
@@ -437,8 +438,8 @@ const servicesYouCanOffer = [
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl flex items-center justify-center text-2xl mr-4">
-                        ⭐
+                      <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl flex items-center justify-center mr-4">
+                        <Star className="w-7 h-7 text-white" />
                       </div>
                       <div>
                         <div className="text-2xl font-bold text-yellow-400">98%</div>
@@ -498,7 +499,7 @@ const servicesYouCanOffer = [
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
               <div key={index} className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                <div className={`bg-gradient-to-br ${benefit.color} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                <div className={`bg-gradient-to-br ${benefit.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   {benefit.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
@@ -526,8 +527,8 @@ const servicesYouCanOffer = [
             {/* What You Get */}
             <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-3xl p-8 border border-green-200">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex items-center justify-center text-white text-2xl mr-4">
-                  ✓
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex items-center justify-center text-white mr-4">
+                  <CheckCircle className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">What You Get</h3>
               </div>
@@ -546,8 +547,8 @@ const servicesYouCanOffer = [
             {/* What to Consider */}
             <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border border-amber-200">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-white text-2xl mr-4">
-                  💡
+                <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center text-white mr-4">
+                  <Lightbulb className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Things to Consider</h3>
               </div>
@@ -567,7 +568,7 @@ const servicesYouCanOffer = [
           {/* Important Note */}
           <div className="mt-12 text-center">
             <div className="inline-flex items-center bg-blue-50 border border-blue-200 rounded-2xl px-6 py-4 max-w-2xl">
-              <span className="text-3xl mr-4">🔗</span>
+              <span className="mr-4"><Link2 className="w-7 h-7 text-blue-600" /></span>
               <div className="text-left">
                 <p className="font-bold text-gray-900">Connection Platform</p>
                 <p className="text-sm text-gray-600">The Better Together Network is a connection platform. We help you find participants, but don't handle payments. You keep 100% of what you earn from clients.</p>
@@ -593,7 +594,7 @@ const servicesYouCanOffer = [
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {servicesYouCanOffer.map((service, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className={`bg-gradient-to-br ${service.color} w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md`}>
+                <div className={`bg-gradient-to-br ${service.color} w-14 h-14 rounded-xl flex items-center justify-center mb-4 shadow-md`}>
                   {service.icon}
                 </div>
                 <div className="flex items-center mb-3">
@@ -649,17 +650,17 @@ const servicesYouCanOffer = [
                 {index < howItWorks.length - 1 && (
                   <div className="hidden lg:block absolute top-16 left-full w-full h-1 bg-gradient-to-r from-purple-300 to-pink-300 -translate-y-1/2 z-0" style={{ width: 'calc(100% - 2rem)' }}></div>
                 )}
-                
+
                 <div className="relative z-10 bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 text-center">
                   {/* Step Number */}
                   <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
                     {item.step}
                   </div>
-                  
+
                   <div className={`bg-gradient-to-br ${item.color} w-20 h-20 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-lg`}>
                     {item.icon}
                   </div>
-                  
+
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                   <p className="text-gray-600 leading-relaxed">{item.description}</p>
                 </div>
@@ -691,7 +692,7 @@ const servicesYouCanOffer = [
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {platformFeatures.map((feature, index) => (
               <div key={index} className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 text-center">
-                <div className="text-4xl mb-4">{feature.icon}</div>
+                <div className="mb-4 flex justify-center">{feature.icon}</div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
                 <p className="text-sm text-gray-600">{feature.description}</p>
               </div>
@@ -717,7 +718,7 @@ const servicesYouCanOffer = [
             {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-100">
                 <div className="flex items-center mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-2xl mr-4">
+                  <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center mr-4">
                     {testimonial.avatar}
                   </div>
                   <div>
@@ -757,8 +758,8 @@ const servicesYouCanOffer = [
 
           <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden"
               >
                 <button
@@ -766,10 +767,10 @@ const servicesYouCanOffer = [
                   className="w-full px-6 py-5 text-left flex items-center justify-between"
                 >
                   <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
-                  <svg 
+                  <svg
                     className={`w-6 h-6 text-purple-500 flex-shrink-0 transform transition-transform ${activeQuestion === index ? 'rotate-180' : ''}`}
-                    fill="none" 
-                    stroke="currentColor" 
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -798,23 +799,23 @@ const servicesYouCanOffer = [
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block mb-6">
-            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
-              🚀 Ready to Grow?
+            <span className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide inline-flex items-center gap-2">
+              <Rocket className="w-4 h-4" /> Ready to Grow?
             </span>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Start Connecting With
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
               Participants Today
             </span>
           </h2>
-          
+
           <p className="text-xl md:text-2xl mb-10 text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            Join 1,500+ providers already growing their disability services business through The Better Together Network. 
+            Join 1,500+ providers already growing their disability services business through The Better Together Network.
             Build your profile and start receiving enquiries.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/subscription"
@@ -827,7 +828,7 @@ const servicesYouCanOffer = [
                 </svg>
               </span>
             </Link>
-            
+
             <Link
               to="/find-support"
               className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-white/30 rounded-2xl hover:bg-white/20 transition-all duration-300 shadow-lg"
@@ -855,15 +856,15 @@ const servicesYouCanOffer = [
             transform: translate(-20px, 20px) scale(0.9);
           }
         }
-        
+
         .animate-blob {
           animation: blob 7s infinite;
         }
-        
+
         .animation-delay-2000 {
           animation-delay: 2s;
         }
-        
+
         .animation-delay-4000 {
           animation-delay: 4s;
         }
