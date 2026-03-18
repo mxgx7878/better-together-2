@@ -183,24 +183,28 @@ const LandingPage2 = () => {
       description: 'Advanced filters to find the perfect provider for your needs',
       image: '/uploads/feature-search.jpg',
       color: 'a855f7',
+      link: '/dashboard/services',
     },
     {
       title: 'Community Network',
       description: 'Connect with thousands of participants and providers',
       image: '/uploads/feature-network.jpg',
       color: '10b981',
+      link: '/dashboard/messages',
     },
     {
       title: 'Verified Quality',
       description: 'All providers verified for quality and compliance',
       image: '/uploads/feature-verified.jpg',
       color: 'fbbf24',
+      link: '/dashboard/directory',
     },
     {
       title: '24/7 Support',
       description: 'Get instant answers with our support team',
       image: '/uploads/feature-support.jpg',
       color: 'ec4899',
+      link: '/dashboard/ai-support',
     }
   ], []);
 
@@ -650,8 +654,9 @@ const LandingPage2 = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {platformFeatures.map((feature, index) => (
-              <div
+              <Link
                 key={index}
+                to={feature.link}
                 className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
                 <div className="relative h-48 overflow-hidden">
@@ -665,10 +670,16 @@ const LandingPage2 = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-700 transition-colors">{feature.title}</h3>
                   <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  <span className="inline-flex items-center mt-3 text-sm font-semibold text-purple-600 group-hover:translate-x-1 transition-transform">
+                    Explore
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
