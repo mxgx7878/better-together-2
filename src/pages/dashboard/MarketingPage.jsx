@@ -54,7 +54,7 @@ const MarketingPage = () => {
       {/* Book a Month */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
         <h3 className="text-lg font-semibold text-slate-800 mb-4">Book Your Marketing Month</h3>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-5">
           {['march', 'april', 'may', 'june', 'july', 'august'].map(month => (
             <button
               key={month}

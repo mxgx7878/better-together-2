@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import DashboardSidebar from './DashboardSidebar';
 import DashboardTopbar from './DashboardTopbar';
 import { useAuth } from '../../context/AuthContext';
@@ -8,6 +8,12 @@ const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useAuth();
+  const location = useLocation();
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   // Close mobile menu on window resize to desktop
   useEffect(() => {
@@ -27,20 +33,29 @@ const DashboardLayout = () => {
     }
   }, []);
 
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Mobile overlay */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-          onClick={() => setMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden transition-opacity duration-300"
+          onClick={closeMobileMenu}
         />
       )}
 
-      {/* Sidebar - hidden on mobile unless menu open */}
-      <div className={`lg:block ${mobileMenuOpen ? 'block' : 'hidden'}`}>
+      {/* Sidebar - on mobile: slide in/out, always expanded; on desktop: toggle collapse */}
+      <div
+        className={`fixed top-0 left-0 h-full z-40 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}
+      >
         <DashboardSidebar
           isCollapsed={sidebarCollapsed}
+          isMobile={mobileMenuOpen}
           onToggle={() => {
             if (window.innerWidth < 1024) {
               setMobileMenuOpen(false);
@@ -48,6 +63,7 @@ const DashboardLayout = () => {
               setSidebarCollapsed(!sidebarCollapsed);
             }
           }}
+          onMobileClose={closeMobileMenu}
         />
       </div>
 

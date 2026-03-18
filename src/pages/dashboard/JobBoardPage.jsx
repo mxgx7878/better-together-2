@@ -435,7 +435,7 @@ const JobBoardPage = () => {
 
                 {/* Application Form */}
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
                       <input type="text" defaultValue={user.name} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400" />
@@ -455,7 +455,7 @@ const JobBoardPage = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1.5">Availability</label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {['Weekdays', 'Weekends', 'Mornings', 'Evenings', 'Overnights', 'Flexible'].map(opt => (
                         <label key={opt} className="flex items-center gap-2 p-2.5 border border-slate-200 rounded-xl cursor-pointer hover:border-purple-300 transition-colors">
                           <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500" />

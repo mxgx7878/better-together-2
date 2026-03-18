@@ -2,10 +2,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
 
-const DashboardSidebar = ({ isCollapsed, onToggle }) => {
+const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) => {
   const { user, isProvider, isPaid, logout, switchProfile, currentProfile, availableProfiles } = useAuth();
   const navigate = useNavigate();
   const [showProfileSwitcher, setShowProfileSwitcher] = useState(false);
+
+  // On mobile, always show expanded sidebar
+  const collapsed = isMobile ? false : isCollapsed;
 
   // Provider navigation items
   const providerNavItems = [
@@ -59,15 +62,27 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
 
   return (
     <aside
-    className={`fixed top-0 left-0 h-screen text-white flex flex-col z-40 transition-all duration-300 ease-in-out ${
+    className={`h-screen text-white flex flex-col transition-all duration-300 ease-in-out ${
     isProvider
       ? 'bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950'
       : 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900'
-  } ${isCollapsed ? 'w-20' : 'w-72'}`}
+  } ${collapsed ? 'w-20' : 'w-72'}`}
     >
       {/* Logo & Toggle */}
       <div className="flex items-center justify-between px-4 h-20 border-b border-white/10 flex-shrink-0 bg-[#fff]">
-        {!isCollapsed && (
+        {/* Mobile close button */}
+        {isMobile && onMobileClose && (
+          <button
+            onClick={onMobileClose}
+            className="p-2 rounded-lg hover:bg-slate-100 transition-colors text-slate-500 lg:hidden flex-shrink-0"
+            aria-label="Close menu"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+        {!collapsed && (
           <div className="flex items-center gap-3 min-w-0">
             {/* <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
               <span className="text-white font-bold text-sm">BT</span>
@@ -83,22 +98,22 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
         )}
         <button
           onClick={onToggle}
-          className={`p-2 rounded-lg hover:bg-white/10 transition-colors text-slate-400 hover:text-black flex-shrink-0 ${isCollapsed ? 'mx-auto' : ''}`}
-          title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          className={`p-2 rounded-lg hover:bg-white/10 transition-colors text-slate-400 hover:text-black flex-shrink-0 ${collapsed ? 'mx-auto' : ''}`}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          <svg className={`w-5 h-5 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={`w-5 h-5 transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
           </svg>
         </button>
       </div>
 
       {/* User Profile Card */}
-      <div className={`px-3 py-4 border-b border-white/10 flex-shrink-0 ${isCollapsed ? 'px-2' : ''}`}>
-        <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
+      <div className={`px-3 py-4 border-b border-white/10 flex-shrink-0 ${collapsed ? 'px-2' : ''}`}>
+        <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0 text-sm font-bold text-white">
             {user.name.split(' ').map(n => n[0]).join('')}
           </div>
-          {!isCollapsed && (
+          {!collapsed && (
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-white truncate">{user.name}</p>
               <p className="text-[11px] text-slate-400 truncate">
@@ -121,12 +136,12 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
                 isActive
                   ? 'bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white shadow-lg shadow-purple-500/20'
                   : 'text-slate-300 hover:bg-white/8 hover:text-white'
-              } ${isCollapsed ? 'justify-center px-0' : ''}`
+              } ${collapsed ? 'justify-center px-0' : ''}`
             }
-            title={isCollapsed ? item.label : undefined}
+            title={collapsed ? item.label : undefined}
           >
             <item.icon className="w-5 h-5 flex-shrink-0" />
-            {!isCollapsed && (
+            {!collapsed && (
               <>
                 <span className="truncate">{item.label}</span>
                 {item.badge && (
@@ -136,7 +151,7 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
                 )}
               </>
             )}
-            {isCollapsed && item.badge && (
+            {collapsed && item.badge && (
               <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {item.badge}
               </span>
@@ -157,12 +172,12 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
                 isActive
                   ? 'bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white shadow-lg shadow-purple-500/20'
                   : 'text-slate-300 hover:bg-white/8 hover:text-white'
-              } ${isCollapsed ? 'justify-center px-0' : ''}`
+              } ${collapsed ? 'justify-center px-0' : ''}`
             }
-            title={isCollapsed ? item.label : undefined}
+            title={collapsed ? item.label : undefined}
           >
             <item.icon className="w-5 h-5 flex-shrink-0" />
-            {!isCollapsed && <span className="truncate">{item.label}</span>}
+            {!collapsed && <span className="truncate">{item.label}</span>}
           </NavLink>
         ))}
       </nav>
@@ -172,12 +187,12 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
         <div className="relative">
           <button
             onClick={() => setShowProfileSwitcher(!showProfileSwitcher)}
-            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-xs ${isCollapsed ? 'justify-center px-0' : ''}`}
+            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-xs ${collapsed ? 'justify-center px-0' : ''}`}
           >
             <svg className="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
             </svg>
-            {!isCollapsed && (
+            {!collapsed && (
               <span className="text-amber-400 font-medium truncate">
                 Demo: {profileLabels[currentProfile]?.label}
               </span>
@@ -185,7 +200,7 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
           </button>
 
           {showProfileSwitcher && (
-            <div className={`absolute bottom-full mb-2 ${isCollapsed ? 'left-full ml-2' : 'left-0 right-0'} bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden min-w-[220px] z-50`}>
+            <div className={`absolute bottom-full mb-2 ${collapsed ? 'left-full ml-2' : 'left-0 right-0'} bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden min-w-[220px] z-50`}>
               <div className="p-2 border-b border-white/10">
                 <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold px-2">Switch Demo Profile</p>
               </div>
@@ -209,13 +224,13 @@ const DashboardSidebar = ({ isCollapsed, onToggle }) => {
         {/* Logout */}
         <button
           onClick={() => navigate('/')}
-          className={`w-full flex items-center gap-2 px-3 py-2.5 mt-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${isCollapsed ? 'justify-center px-0' : ''}`}
+          className={`w-full flex items-center gap-2 px-3 py-2.5 mt-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
           title="Back to website"
         >
           <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
-          {!isCollapsed && <span>Exit to Website</span>}
+          {!collapsed && <span>Exit to Website</span>}
         </button>
       </div>
     </aside>

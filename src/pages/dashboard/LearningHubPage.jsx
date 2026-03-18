@@ -54,18 +54,18 @@ const LearningHubPage = () => {
             <span className="text-lg font-bold">{overallProgress}%</span>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-4 mt-5">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-5">
           <div className="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-            <p className="text-2xl font-bold">{modules.filter(m => m.completed === m.lessons).length}</p>
-            <p className="text-xs text-blue-200">Completed</p>
+            <p className="text-xl sm:text-2xl font-bold">{modules.filter(m => m.completed === m.lessons).length}</p>
+            <p className="text-[10px] sm:text-xs text-blue-200">Completed</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-            <p className="text-2xl font-bold">{modules.filter(m => m.completed > 0 && m.completed < m.lessons).length}</p>
-            <p className="text-xs text-blue-200">In Progress</p>
+          <div className="bg-white/10 backdrop-blur rounded-xl p-2 sm:p-3 text-center">
+            <p className="text-xl sm:text-2xl font-bold">{modules.filter(m => m.completed > 0 && m.completed < m.lessons).length}</p>
+            <p className="text-[10px] sm:text-xs text-blue-200">In Progress</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-            <p className="text-2xl font-bold">{modules.filter(m => m.completed === 0).length}</p>
-            <p className="text-xs text-blue-200">Not Started</p>
+          <div className="bg-white/10 backdrop-blur rounded-xl p-2 sm:p-3 text-center">
+            <p className="text-xl sm:text-2xl font-bold">{modules.filter(m => m.completed === 0).length}</p>
+            <p className="text-[10px] sm:text-xs text-blue-200">Not Started</p>
           </div>
         </div>
       </div>
