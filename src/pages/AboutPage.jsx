@@ -270,7 +270,7 @@ Karen Burgess remains a respected and influential voice in the disability commun
           </div>
           <h3 className="text-3xl font-bold text-white mb-1 tracking-tight">Sue Dymond</h3>
           <div className="w-12 h-0.5 bg-purple-300/50 mx-auto my-3"></div>
-          <p className="text-purple-100 font-medium">Founder & Community Leader</p>
+          <p className="text-purple-100 font-medium">Founder & Leader</p>
           <p className="text-purple-200/80 text-sm mt-1">SD Connect</p>
         </div>
       </div>
