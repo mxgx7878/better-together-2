@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import LandingPage from './pages/LandingPage3';
 import LandingPage3 from './pages/LandingPage3';
 import AboutPage from './pages/AboutPage';
 import FeaturesPage from './pages/FeaturesPage';
@@ -9,6 +10,10 @@ import ProvideSupportPage from './pages/ProvideSupportPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
+import WhatWeDoPage from './pages/WhatWeDoPage';
+import CalendarPage from './pages/CalendarPage';
+import BlogPage from './pages/BlogPage';
+import BusinessDirectoryPage from './pages/BusinessDirectoryPage';
 import ScrollToTop from './components/ScrollToTop';
 
 // Dashboard imports
@@ -33,6 +38,8 @@ import LearningHubPage from './pages/dashboard/LearningHubPage';
 import MessageBoardPage from './pages/dashboard/MessageBoardPage';
 import RightsSafetyPage from './pages/dashboard/RightsSafetyPage';
 import PlanBuddyPage from './pages/dashboard/PlanBuddyPage';
+import DocumentUploadPage from './pages/dashboard/DocumentUploadPage';
+import MessagingPage from './pages/dashboard/MessagingPage';
 
 function App() {
   return (
@@ -48,14 +55,19 @@ function App() {
                 <Header />
                 <main className="flex-grow">
                   <Routes>
-                    <Route path="/" element={<LandingPage3 />} />
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/what-we-do" element={<WhatWeDoPage />} />
+                    <Route path="/subscription" element={<SubscriptionPage />} />
+                    <Route path="/business-directory" element={<BusinessDirectoryPage />} />
+                    <Route path="/calendar" element={<CalendarPage />} />
+                    <Route path="/blog" element={<BlogPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    {/* Legacy routes - kept for backwards compatibility */}
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/features" element={<FeaturesPage />} />
                     <Route path="/find-support" element={<FindSupportPage />} />
                     <Route path="/provide-support" element={<ProvideSupportPage />} />
-                    <Route path="/subscription" element={<SubscriptionPage />} />
-                    <Route path="/contact" element={<ContactPage />} />
-                    <Route path="/login" element={<LoginPage />} />
                     <Route path="/landing3" element={<LandingPage3 />} />
                   </Routes>
                 </main>
@@ -70,12 +82,14 @@ function App() {
 
             {/* Shared routes (both provider & participant) */}
             <Route path="events" element={<EventsPage />} />
-            <Route path="library" element={<LibraryPage />} />
+            {/* <Route path="library" element={<LibraryPage />} /> */}
             <Route path="jobs" element={<JobBoardPage />} />
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="documents" element={<DocumentUploadPage />} />
+            <Route path="messaging" element={<MessagingPage />} />
 
             {/* Provider-specific routes */}
             <Route path="directory" element={<DirectoryPage />} />

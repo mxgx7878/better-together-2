@@ -10,28 +10,35 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   // On mobile, always show expanded sidebar
   const collapsed = isMobile ? false : isCollapsed;
 
-  // Provider navigation items
+  // Provider (Business) navigation items
   const providerNavItems = [
     { label: 'Home', icon: HomeIcon, path: '/dashboard', end: true, tier: 'all' },
-    { label: 'Events & Networking', icon: CalendarIcon, path: '/dashboard/events', tier: 'all' },
-    { label: 'Provider Directory', icon: DirectoryIcon, path: '/dashboard/directory', tier: 'all' },
+    { label: 'Profile & Services', icon: ProfileIcon, path: '/dashboard/profile', tier: 'all' },
+    { label: 'Messages', icon: ChatIcon, path: '/dashboard/messaging', tier: 'all' },
+    { label: 'Business Directory', icon: DirectoryIcon, path: '/dashboard/directory', tier: 'all' },
     { label: 'Service Requests', icon: InboxIcon, path: '/dashboard/requests', tier: 'paid', badge: isPaid ? '3' : null },
+    { label: 'Events & Networking', icon: CalendarIcon, path: '/dashboard/events', tier: 'all' },
     { label: 'Innovation Lab', icon: LightbulbIcon, path: '/dashboard/innovation-lab', tier: 'all' },
-    { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
-    { label: 'Q&A Forum', icon: ChatIcon, path: '/dashboard/qa', tier: 'all' },
+    // { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
+    { label: 'Q&A Forum', icon: ChatBubbleIcon, path: '/dashboard/qa', tier: 'all' },
     { label: 'Job Board', icon: BriefcaseIcon, path: '/dashboard/jobs', tier: 'paid' },
     { label: 'Marketing', icon: MegaphoneIcon, path: '/dashboard/marketing', tier: 'paid' },
+    { label: 'Documents', icon: DocumentIcon, path: '/dashboard/documents', tier: 'all' },
   ];
 
   // Participant navigation items
   const participantNavItems = [
     { label: 'Home', icon: HomeIcon, path: '/dashboard', end: true, tier: 'all' },
-    { label: 'Learning Hub', icon: BookOpenIcon, path: '/dashboard/learning', tier: 'all' },
+    { label: 'My Profile', icon: ProfileIcon, path: '/dashboard/profile', tier: 'all' },
     { label: 'Connect with Services', icon: DirectoryIcon, path: '/dashboard/services', tier: 'all' },
-    { label: 'Message Board', icon: ChatIcon, path: '/dashboard/messages', tier: 'all' },
+    { label: 'Messages', icon: ChatIcon, path: '/dashboard/messaging', tier: 'all' },
+    { label: 'Subscription', icon: StarIcon, path: '/dashboard/upgrade', tier: 'all' },
+    { label: 'Documents', icon: DocumentIcon, path: '/dashboard/documents', tier: 'all' },
+    { label: 'Learning Hub', icon: BookOpenIcon, path: '/dashboard/learning', tier: 'all' },
+    { label: 'Message Board', icon: ChatBubbleIcon, path: '/dashboard/messages', tier: 'all' },
     { label: 'Job Board', icon: BriefcaseIcon, path: '/dashboard/jobs', tier: 'all' },
     { label: 'Events', icon: CalendarIcon, path: '/dashboard/events', tier: 'all' },
-    { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
+    // { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
     { label: 'Rights & Safety', icon: ShieldIcon, path: '/dashboard/rights-safety', tier: 'all' },
     { label: 'My Plan Buddy', icon: HeartIcon, path: '/dashboard/plan-buddy', tier: 'paid' },
   ];
@@ -390,6 +397,30 @@ function HeadsetIcon({ className }) {
   return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+  );
+}
+
+function ProfileIcon({ className }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    </svg>
+  );
+}
+
+function DocumentIcon({ className }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  );
+}
+
+function ChatBubbleIcon({ className }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
     </svg>
   );
 }
