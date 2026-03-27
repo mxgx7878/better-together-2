@@ -82,7 +82,7 @@ function App() {
 
             {/* Shared routes (both provider & participant) */}
             <Route path="events" element={<EventsPage />} />
-            <Route path="library" element={<LibraryPage />} />
+            {/* <Route path="library" element={<LibraryPage />} /> */}
             <Route path="jobs" element={<JobBoardPage />} />
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
