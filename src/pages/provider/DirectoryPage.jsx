@@ -193,6 +193,69 @@ const DirectoryPage = () => {
         ))}
       </div>
 
+      {/* Connect With Providers Section */}
+      {isProvider && (
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+            <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+              <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              Providers Near You
+            </h3>
+            <div className="space-y-2">
+              {providers.filter(p => p.distance <= 15).slice(0, 3).map(p => (
+                <button key={p.id} onClick={() => setSelectedProvider(p)} className="w-full text-left flex items-center gap-2 p-2 rounded-lg hover:bg-purple-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+                    {p.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-slate-800 truncate">{p.name}</p>
+                    <p className="text-[10px] text-slate-400">{p.distance}km away</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+            <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+              <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+              Complementary Services
+            </h3>
+            <div className="space-y-2">
+              {providers.filter(p => p.openToCollab).slice(0, 3).map(p => (
+                <button key={p.id} onClick={() => setSelectedProvider(p)} className="w-full text-left flex items-center gap-2 p-2 rounded-lg hover:bg-emerald-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+                    {p.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-slate-800 truncate">{p.name}</p>
+                    <p className="text-[10px] text-emerald-600">Open to collaboration</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+            <h3 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
+              <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              Recently Viewed
+            </h3>
+            <div className="space-y-2">
+              {providers.slice(0, 3).map(p => (
+                <button key={p.id} onClick={() => setSelectedProvider(p)} className="w-full text-left flex items-center gap-2 p-2 rounded-lg hover:bg-amber-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+                    {p.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-slate-800 truncate">{p.name}</p>
+                    <p className="text-[10px] text-slate-400">Viewed today</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Provider Detail Modal */}
       {selectedProvider && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedProvider(null)}>

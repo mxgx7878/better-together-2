@@ -254,6 +254,12 @@ const EventsPage = () => {
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Additional notes</label>
                 <textarea rows={3} placeholder="Tell us about your goals for sponsoring..." className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400 resize-none" />
               </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
+                <p className="text-xs text-blue-700 flex items-center gap-1.5">
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                  After submitting, our admin team will contact you via direct message to collaborate on event details, timing, and branding.
+                </p>
+              </div>
               <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl transition-all shadow-md">
                 Submit Sponsorship Application
               </button>
