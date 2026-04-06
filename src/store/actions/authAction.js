@@ -29,7 +29,7 @@ export const switchUserProfile = createAsyncThunk(
   async (profileKey, { rejectWithValue }) => {
     try {
       // Validate profile key exists
-      const validProfiles = ['providerFree', 'providerPaid', 'participantFree', 'participantPaid'];
+      const validProfiles = ['providerFree', 'providerPaid', 'participantFree', 'participantPaid', 'admin'];
       if (!validProfiles.includes(profileKey)) {
         return rejectWithValue('Invalid profile');
       }

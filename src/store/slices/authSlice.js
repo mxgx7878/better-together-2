@@ -60,6 +60,18 @@ const mockUsers = {
       nextCheckIn: '2026-02-28',
     },
   },
+  admin: {
+    id: 'admin-001',
+    name: 'Sue Dymond',
+    email: 'sue@bettertogether.com.au',
+    role: 'admin',
+    tier: 'paid',
+    organisation: 'The Better Together Group',
+    avatar: null,
+    location: 'Melbourne, VIC',
+    joinedDate: '2024-01-01',
+    profileComplete: 100,
+  },
 };
 
 const initialState = {

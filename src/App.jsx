@@ -52,6 +52,15 @@ import RightsSafetyPage from './pages/participant/RightsSafetyPage';
 import PlanBuddyPage from './pages/participant/PlanBuddyPage';
 import LibraryPage from './pages/participant/LibraryPage';
 
+// Admin pages
+import UserManagementPage from './pages/admin/UserManagementPage';
+import ProviderApprovalsPage from './pages/admin/ProviderApprovalsPage';
+import ContentManagementPage from './pages/admin/ContentManagementPage';
+import SubscriptionManagementPage from './pages/admin/SubscriptionManagementPage';
+import SupportTicketsPage from './pages/admin/SupportTicketsPage';
+import ReportsPage from './pages/admin/ReportsPage';
+import PlatformSettingsPage from './pages/admin/PlatformSettingsPage';
+
 function App() {
   return (
     <ErrorBoundary>
@@ -130,6 +139,15 @@ function App() {
               <Route path="rights-safety" element={<RoleGuard allowedRoles={['participant']}><RightsSafetyPage /></RoleGuard>} />
               <Route path="plan-buddy" element={<RoleGuard allowedRoles={['participant']} requirePaid><PlanBuddyPage /></RoleGuard>} />
               <Route path="library" element={<LibraryPage />} />
+
+              {/* Admin-specific routes */}
+              <Route path="admin/users" element={<RoleGuard allowedRoles={['admin']}><UserManagementPage /></RoleGuard>} />
+              <Route path="admin/approvals" element={<RoleGuard allowedRoles={['admin']}><ProviderApprovalsPage /></RoleGuard>} />
+              <Route path="admin/content" element={<RoleGuard allowedRoles={['admin']}><ContentManagementPage /></RoleGuard>} />
+              <Route path="admin/subscriptions" element={<RoleGuard allowedRoles={['admin']}><SubscriptionManagementPage /></RoleGuard>} />
+              <Route path="admin/tickets" element={<RoleGuard allowedRoles={['admin']}><SupportTicketsPage /></RoleGuard>} />
+              <Route path="admin/reports" element={<RoleGuard allowedRoles={['admin']}><ReportsPage /></RoleGuard>} />
+              <Route path="admin/settings" element={<RoleGuard allowedRoles={['admin']}><PlatformSettingsPage /></RoleGuard>} />
 
               {/* Catch-all for dashboard */}
               <Route path="*" element={<NotFound />} />

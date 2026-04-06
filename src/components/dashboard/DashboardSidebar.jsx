@@ -3,7 +3,7 @@ import useAuth from '../../hooks/useAuth';
 import { useState } from 'react';
 
 const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) => {
-  const { user, isProvider, isPaid, logout, switchProfile, currentProfile, availableProfiles } = useAuth();
+  const { user, isProvider, isAdmin, isPaid, logout, switchProfile, currentProfile, availableProfiles } = useAuth();
   const navigate = useNavigate();
   const [showProfileSwitcher, setShowProfileSwitcher] = useState(false);
 
@@ -43,13 +43,25 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'My Plan Buddy', icon: HeartIcon, path: '/dashboard/plan-buddy', tier: 'paid' },
   ];
 
+  // Admin navigation items
+  const adminNavItems = [
+    { label: 'Dashboard', icon: HomeIcon, path: '/dashboard', end: true, tier: 'all' },
+    { label: 'User Management', icon: ProfileIcon, path: '/dashboard/admin/users', tier: 'all' },
+    { label: 'Provider Approvals', icon: ShieldIcon, path: '/dashboard/admin/approvals', tier: 'all', badge: '12' },
+    { label: 'Support Tickets', icon: HeadsetIcon, path: '/dashboard/admin/tickets', tier: 'all', badge: '8' },
+    { label: 'Content Management', icon: DocumentIcon, path: '/dashboard/admin/content', tier: 'all' },
+    { label: 'Subscriptions', icon: StarIcon, path: '/dashboard/admin/subscriptions', tier: 'all' },
+    { label: 'Reports & Analytics', icon: ChatBubbleIcon, path: '/dashboard/admin/reports', tier: 'all' },
+    { label: 'Platform Settings', icon: LightbulbIcon, path: '/dashboard/admin/settings', tier: 'all' },
+  ];
+
   const bottomNavItems = [
     { label: isProvider ? 'AI Support' : 'Ask AI', icon: AiIcon, path: '/dashboard/ai-support', tier: 'all' },
     { label: 'Upgrade Plan', icon: StarIcon, path: '/dashboard/upgrade', tier: 'free' },
     { label: 'Connect with Admin', icon: HeadsetIcon, path: '/dashboard/admin-support', tier: 'all' },
   ];
 
-  const navItems = isProvider ? providerNavItems : participantNavItems;
+  const navItems = isAdmin ? adminNavItems : isProvider ? providerNavItems : participantNavItems;
 
   const filteredNav = navItems.filter(item => item.tier === 'all' || (item.tier === 'paid' && isPaid));
   const filteredBottom = bottomNavItems.filter(item => item.tier === 'all' || (item.tier === 'free' && !isPaid));
@@ -59,6 +71,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     providerPaid: { label: 'Provider (Paid)', short: 'PP' },
     participantFree: { label: 'Participant (Free)', short: 'CF' },
     participantPaid: { label: 'Participant (Paid)', short: 'CP' },
+    admin: { label: 'Admin', short: 'AD' },
   };
 
   const handleProfileSwitch = (key) => {
@@ -70,9 +83,11 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   return (
     <aside
     className={`h-screen text-white flex flex-col transition-all duration-300 ease-in-out ${
-    isProvider
-      ? 'bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950'
-      : 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900'
+    isAdmin
+      ? 'bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900'
+      : isProvider
+        ? 'bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950'
+        : 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900'
   } ${collapsed ? 'w-20' : 'w-72'}`}
     >
       {/* Logo & Toggle */}
@@ -98,7 +113,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
               <img src="/uploads/logo.jpg" className='w-24' alt="" />  
               {/* <p className="text-sm font-semibold text-white truncate">The Better Together</p> */}
               <p className="text-[11px] text-slate-400 truncate">
-                {isProvider ? 'Provider Portal' : 'Participant Portal'}
+                {isAdmin ? 'Admin Portal' : isProvider ? 'Provider Portal' : 'Participant Portal'}
               </p>
             </div>
           </div>

@@ -13,6 +13,7 @@ const useAuth = () => {
 
   const isProvider = user?.role === 'provider';
   const isParticipant = user?.role === 'participant';
+  const isAdmin = user?.role === 'admin';
   const isFree = user?.tier === 'free';
   const isPaid = user?.tier === 'paid';
 
@@ -25,6 +26,7 @@ const useAuth = () => {
     logout,
     isProvider,
     isParticipant,
+    isAdmin,
     isFree,
     isPaid,
     availableProfiles,
