@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loginUser, logoutUser, switchUserProfile } from '../actions/authAction';
 
-const mockUsers = {
+export const mockUsers = {
   providerFree: {
     id: 'prov-001',
     name: 'Sarah Mitchell',
     email: 'sarah@communitycare.com.au',
+    password: 'provider123',
     role: 'provider',
     tier: 'free',
     organisation: 'Community Care Solutions',
@@ -17,7 +18,8 @@ const mockUsers = {
   providerPaid: {
     id: 'prov-002',
     name: 'Sarah Mitchell',
-    email: 'sarah@communitycare.com.au',
+    email: 'sarah.paid@communitycare.com.au',
+    password: 'provider456',
     role: 'provider',
     tier: 'paid',
     subscriptionPlan: 'Growth & Referral',
@@ -36,7 +38,8 @@ const mockUsers = {
   participantFree: {
     id: 'part-001',
     name: 'James Chen',
-    email: 'james.chen@email.com',
+    email: 'james@email.com',
+    password: 'participant123',
     role: 'participant',
     tier: 'free',
     avatar: null,
@@ -47,7 +50,8 @@ const mockUsers = {
   participantPaid: {
     id: 'part-002',
     name: 'James Chen',
-    email: 'james.chen@email.com',
+    email: 'james.paid@email.com',
+    password: 'participant456',
     role: 'participant',
     tier: 'paid',
     subscriptionPlan: 'Personal Support Plus',
@@ -63,7 +67,8 @@ const mockUsers = {
   admin: {
     id: 'admin-001',
     name: 'Sue Dymond',
-    email: 'sue@bettertogether.com.au',
+    email: 'admin@bettertogether.com.au',
+    password: 'admin123',
     role: 'admin',
     tier: 'paid',
     organisation: 'The Better Together Group',
@@ -75,9 +80,9 @@ const mockUsers = {
 };
 
 const initialState = {
-  user: mockUsers.providerFree,
-  isAuthenticated: true,
-  currentProfile: 'providerFree',
+  user: null,
+  isAuthenticated: false,
+  currentProfile: null,
   availableProfiles: Object.keys(mockUsers),
   loading: false,
   error: null,
@@ -98,7 +103,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.currentProfile = action.payload.profileKey;
-        state.user = mockUsers[action.payload.profileKey];
+        const userData = { ...mockUsers[action.payload.profileKey] };
+        delete userData.password;
+        state.user = userData;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -119,7 +126,9 @@ const authSlice = createSlice({
     builder
       .addCase(switchUserProfile.fulfilled, (state, action) => {
         state.currentProfile = action.payload;
-        state.user = mockUsers[action.payload];
+        const userData = { ...mockUsers[action.payload] };
+        delete userData.password;
+        state.user = userData;
       });
   },
 });

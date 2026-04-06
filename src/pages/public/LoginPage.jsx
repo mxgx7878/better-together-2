@@ -1,8 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Lock, Zap, Target, User } from '../../components/Icons';
+import useAuth from '../../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { login, loading, isAuthenticated } = useAuth();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -10,13 +15,44 @@ const LoginPage = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [formStatus, setFormStatus] = useState(null);
 
-  const handleSubmit = (e) => {
+  // If already authenticated, redirect
+  if (isAuthenticated) {
+    navigate('/dashboard', { replace: true });
+    return null;
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic here
-    setFormStatus('success');
-    setTimeout(() => setFormStatus(null), 5000);
+
+    if (!formData.email || !formData.password) {
+      toast.error('Please enter email and password');
+      return;
+    }
+
+    try {
+      const result = await login({ email: formData.email, password: formData.password });
+
+      if (result.meta.requestStatus === 'fulfilled') {
+        const profileKey = result.payload.profileKey;
+        toast.success('Login successful!');
+
+        // Role-based redirect
+        if (profileKey === 'admin') {
+          navigate('/dashboard', { replace: true });
+        } else if (profileKey.startsWith('provider')) {
+          navigate('/dashboard', { replace: true });
+        } else if (profileKey.startsWith('participant')) {
+          navigate('/dashboard', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
+      } else {
+        toast.error(result.payload || 'Invalid email or password');
+      }
+    } catch {
+      toast.error('Something went wrong. Please try again.');
+    }
   };
 
   const handleChange = (e) => {
@@ -25,6 +61,18 @@ const LoginPage = () => {
       ...formData,
       [e.target.name]: value
     });
+  };
+
+  const demoCredentials = [
+    { label: 'Admin', email: 'admin@bettertogether.com.au', password: 'admin123', color: 'from-slate-600 to-slate-800' },
+    { label: 'Provider (Free)', email: 'sarah@communitycare.com.au', password: 'provider123', color: 'from-gray-700 to-gray-900' },
+    { label: 'Provider (Paid)', email: 'sarah.paid@communitycare.com.au', password: 'provider456', color: 'from-purple-600 to-indigo-700' },
+    { label: 'Participant (Free)', email: 'james@email.com', password: 'participant123', color: 'from-blue-600 to-blue-800' },
+    { label: 'Participant (Paid)', email: 'james.paid@email.com', password: 'participant456', color: 'from-pink-600 to-rose-700' },
+  ];
+
+  const fillCredentials = (email, password) => {
+    setFormData(prev => ({ ...prev, email, password }));
   };
 
   const socialLogins = [
@@ -42,28 +90,6 @@ const LoginPage = () => {
       textColor: 'text-gray-700',
       borderColor: 'border-gray-300'
     },
-    // {
-    //   name: 'Facebook',
-    //   icon: (
-    //     <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
-    //       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-    //     </svg>
-    //   ),
-    //   bgColor: 'bg-[#1877F2] hover:bg-[#166FE5]',
-    //   textColor: 'text-white',
-    //   borderColor: 'border-[#1877F2]'
-    // },
-    // {
-    //   name: 'LinkedIn',
-    //   icon: (
-    //     <svg className="w-5 h-5" fill="#0A66C2" viewBox="0 0 24 24">
-    //       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    //     </svg>
-    //   ),
-    //   bgColor: 'bg-[#0A66C2] hover:bg-[#095196]',
-    //   textColor: 'text-white',
-    //   borderColor: 'border-[#0A66C2]'
-    // }
   ];
 
   const features = [
@@ -92,8 +118,8 @@ const LoginPage = () => {
           {/* Logo & Header */}
           <div>
             <Link to="/" className="inline-block mb-8">
-              <img 
-                src="/uploads/logo.jpg" 
+              <img
+                src="/uploads/logo.jpg"
                 alt="The Better Together Logo"
                 className="h-16 w-auto"
               />
@@ -104,6 +130,23 @@ const LoginPage = () => {
             <p className="text-lg text-gray-600">
               Sign in to your account to continue
             </p>
+          </div>
+
+          {/* Demo Quick Login Buttons */}
+          <div>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Quick Demo Login</p>
+            <div className="flex flex-wrap gap-2">
+              {demoCredentials.map((cred) => (
+                <button
+                  key={cred.label}
+                  type="button"
+                  onClick={() => fillCredentials(cred.email, cred.password)}
+                  className={`px-3 py-1.5 text-xs font-medium text-white rounded-lg bg-gradient-to-r ${cred.color} hover:opacity-90 transition-opacity`}
+                >
+                  {cred.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Social Login Buttons */}
@@ -232,25 +275,26 @@ const LoginPage = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 transform hover:scale-105"
+              disabled={loading}
+              className="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Sign In
-              <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
+              {loading ? (
+                <>
+                  <svg className="w-5 h-5 animate-spin mr-2" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </>
+              )}
             </button>
-
-            {/* Success Message */}
-            {formStatus === 'success' && (
-              <div className="bg-green-50 border-2 border-green-500 rounded-xl p-4 flex items-center">
-                <svg className="w-6 h-6 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p className="text-green-700 font-semibold">
-                  Login successful! Redirecting...
-                </p>
-              </div>
-            )}
           </form>
 
           {/* Sign Up Link */}
@@ -301,7 +345,7 @@ const LoginPage = () => {
           {/* Features */}
           <div className="space-y-6">
             {features.map((feature, index) => (
-              <div 
+              <div
                 key={index}
                 className="flex items-start bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:translate-x-2"
               >
@@ -361,15 +405,15 @@ const LoginPage = () => {
             transform: translate(-20px, 20px) scale(0.9);
           }
         }
-        
+
         .animate-blob {
           animation: blob 7s infinite;
         }
-        
+
         .animation-delay-2000 {
           animation-delay: 2s;
         }
-        
+
         .animation-delay-4000 {
           animation-delay: 4s;
         }
