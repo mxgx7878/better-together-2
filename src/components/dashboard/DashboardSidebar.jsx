@@ -17,7 +17,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Service Requests', icon: InboxIcon, path: '/dashboard/requests', tier: 'paid', badge: isPaid ? '3' : null },
     { label: 'Events & Networking', icon: CalendarIcon, path: '/dashboard/events', tier: 'all' },
     { label: 'Innovation Lab', icon: LightbulbIcon, path: '/dashboard/innovation-lab', tier: 'all' },
-    // { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
+    { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
     { label: 'Q&A Forum', icon: ChatBubbleIcon, path: '/dashboard/qa', tier: 'all' },
     { label: 'Job Board', icon: BriefcaseIcon, path: '/dashboard/jobs', tier: 'paid' },
     { label: 'Marketing', icon: MegaphoneIcon, path: '/dashboard/marketing', tier: 'paid' },
@@ -36,7 +36,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Message Board', icon: ChatBubbleIcon, path: '/dashboard/messages', tier: 'all' },
     { label: 'Job Board', icon: BriefcaseIcon, path: '/dashboard/jobs', tier: 'all' },
     { label: 'Events', icon: CalendarIcon, path: '/dashboard/events', tier: 'all' },
-    // { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
+    { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
     { label: 'Rights & Safety', icon: ShieldIcon, path: '/dashboard/rights-safety', tier: 'all' },
     { label: 'My Plan Buddy', icon: HeartIcon, path: '/dashboard/plan-buddy', tier: 'paid' },
   ];

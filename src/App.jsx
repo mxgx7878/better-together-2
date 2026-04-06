@@ -50,7 +50,7 @@ import LearningHubPage from './pages/participant/LearningHubPage';
 import MessageBoardPage from './pages/participant/MessageBoardPage';
 import RightsSafetyPage from './pages/participant/RightsSafetyPage';
 import PlanBuddyPage from './pages/participant/PlanBuddyPage';
-import LibraryPage from './pages/participant/LibraryPage';
+import LibraryPage from './pages/common/LibraryPage';
 
 // Admin pages
 import UserManagementPage from './pages/admin/UserManagementPage';

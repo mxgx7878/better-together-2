@@ -3,12 +3,12 @@ import useAuth from '../../hooks/useAuth';
 import { Pin } from '../../components/Icons';
 
 const mockThreads = [
-  { id: 1, title: 'New NDIS pricing changes — how is everyone adapting?', author: 'Karen B.', authorRole: 'Support Coordinator', date: '2026-02-16', replies: 12, views: 89, topic: 'compliance', pinned: true, lastReply: '2 hours ago', preview: 'With the mid-year pricing update, I\'m finding it challenging to reconcile the new rates with existing service agreements...' },
-  { id: 2, title: 'Best practices for participant onboarding documentation', author: 'Michael T.', authorRole: 'Provider Manager', date: '2026-02-15', replies: 8, views: 54, topic: 'practice', pinned: false, lastReply: '5 hours ago', preview: 'We recently revamped our onboarding process and wanted to share what\'s been working well for us...' },
-  { id: 3, title: 'Telehealth vs in-person — what are participants preferring?', author: 'Dr. Lisa M.', authorRole: 'Allied Health', date: '2026-02-14', replies: 15, views: 112, topic: 'service', pinned: false, lastReply: '1 day ago', preview: 'We\'ve noticed a shift back to in-person for younger participants but telehealth remains popular for...' },
-  { id: 4, title: 'SIL roster management — any good tools?', author: 'Anonymous', authorRole: 'Provider', date: '2026-02-13', replies: 6, views: 42, topic: 'tech', pinned: false, lastReply: '1 day ago', preview: 'Managing SIL rosters is becoming increasingly complex. Does anyone use software that integrates with NDIS claiming?' },
-  { id: 5, title: 'Worker screening turnaround times in VIC', author: 'Sarah K.', authorRole: 'HR Manager', date: '2026-02-12', replies: 4, views: 31, topic: 'compliance', pinned: false, lastReply: '2 days ago', preview: 'We\'re experiencing delays of 6+ weeks for worker screening checks. Is anyone else seeing this?' },
-  { id: 6, title: 'Tips for supporting participants through plan reviews', author: 'James P.', authorRole: 'Support Coordinator', date: '2026-02-10', replies: 19, views: 145, topic: 'practice', pinned: false, lastReply: '3 days ago', preview: 'Plan reviews can be stressful for participants. Here are some strategies that have worked well...' },
+  { id: 1, title: 'New NDIS pricing changes — how is everyone adapting?', author: 'Karen B.', authorRole: 'Support Coordinator', date: '2026-02-16', replies: 12, views: 89, topic: 'compliance', pinned: true, lastReply: '2 hours ago', expert: false, preview: 'With the mid-year pricing update, I\'m finding it challenging to reconcile the new rates with existing service agreements...' },
+  { id: 2, title: 'Best practices for participant onboarding documentation', author: 'Michael T.', authorRole: 'Provider Manager', date: '2026-02-15', replies: 8, views: 54, topic: 'practice', pinned: false, lastReply: '5 hours ago', expert: false, preview: 'We recently revamped our onboarding process and wanted to share what\'s been working well for us...' },
+  { id: 3, title: 'Telehealth vs in-person — what are participants preferring?', author: 'Dr. Lisa M.', authorRole: 'Allied Health', date: '2026-02-14', replies: 15, views: 112, topic: 'service', pinned: false, lastReply: '1 day ago', expert: true, preview: 'We\'ve noticed a shift back to in-person for younger participants but telehealth remains popular for...' },
+  { id: 4, title: 'SIL roster management — any good tools?', author: 'Anonymous', authorRole: 'Provider', date: '2026-02-13', replies: 6, views: 42, topic: 'tech', pinned: false, lastReply: '1 day ago', expert: false, preview: 'Managing SIL rosters is becoming increasingly complex. Does anyone use software that integrates with NDIS claiming?' },
+  { id: 5, title: 'Worker screening turnaround times in VIC', author: 'Sarah K.', authorRole: 'HR Manager', date: '2026-02-12', replies: 4, views: 31, topic: 'compliance', pinned: false, lastReply: '2 days ago', expert: false, preview: 'We\'re experiencing delays of 6+ weeks for worker screening checks. Is anyone else seeing this?' },
+  { id: 6, title: 'Tips for supporting participants through plan reviews', author: 'James P.', authorRole: 'Support Coordinator', date: '2026-02-10', replies: 19, views: 145, topic: 'practice', pinned: false, lastReply: '3 days ago', expert: true, preview: 'Plan reviews can be stressful for participants. Here are some strategies that have worked well...' },
 ];
 
 const topics = [
@@ -25,8 +25,15 @@ const QAForumPage = () => {
   const [showNewThread, setShowNewThread] = useState(false);
   const [sortBy, setSortBy] = useState('recent');
   const [selectedThread, setSelectedThread] = useState(null);
+  const [savedThreads, setSavedThreads] = useState([1, 6]);
+  const [showSaved, setShowSaved] = useState(false);
+
+  const toggleSave = (id) => {
+    setSavedThreads(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
 
   const filtered = mockThreads
+    .filter(t => showSaved ? savedThreads.includes(t.id) : true)
     .filter(t => topicFilter === 'all' || t.topic === topicFilter)
     .sort((a, b) => {
       if (a.pinned && !b.pinned) return -1;
@@ -53,6 +60,15 @@ const QAForumPage = () => {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
         <div className="flex gap-2 flex-wrap flex-1">
+          <button
+            onClick={() => setShowSaved(!showSaved)}
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
+              showSaved ? 'bg-amber-500 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-amber-300'
+            }`}
+          >
+            <svg className="w-3.5 h-3.5" fill={showSaved ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+            Saved ({savedThreads.length})
+          </button>
           {topics.map(t => (
             <button
               key={t.key}
@@ -86,6 +102,7 @@ const QAForumPage = () => {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   {thread.pinned && <span className="text-amber-600 text-xs font-bold flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> Pinned</span>}
+                  {thread.expert && <span className="text-emerald-700 bg-emerald-50 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200">Expert Response</span>}
                   <h3 className="text-base font-semibold text-slate-800 hover:text-purple-700 transition-colors">{thread.title}</h3>
                 </div>
                 <p className="text-sm text-slate-500 mt-1 line-clamp-2">{thread.preview}</p>
@@ -101,6 +118,9 @@ const QAForumPage = () => {
                     {thread.views} views
                   </span>
                   <span>Last reply: {thread.lastReply}</span>
+                  <button onClick={(e) => { e.stopPropagation(); toggleSave(thread.id); }} className="ml-auto" title={savedThreads.includes(thread.id) ? 'Unsave' : 'Save'}>
+                    <svg className={`w-4 h-4 ${savedThreads.includes(thread.id) ? 'text-amber-500 fill-amber-500' : 'text-slate-300 hover:text-amber-400'}`} fill={savedThreads.includes(thread.id) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                  </button>
                 </div>
               </div>
             </div>
