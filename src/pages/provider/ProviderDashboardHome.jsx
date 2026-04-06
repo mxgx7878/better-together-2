@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import { Calendar, Search, Lightbulb, BookOpen, MessageCircle, Bot, Star, Mic, Inbox, Briefcase, Megaphone, Settings, Mail, User, Hand as HandWave } from '../../components/Icons';
+import { Card } from '../../components/ui';
+import {
+  Home, Calendar, Search, Lightbulb, BookOpen, MessageCircle, Bot, Star,
+  Mic, Inbox, Briefcase, Megaphone, Settings, Mail, User, Hand as HandWave,
+  Bell, Eye, Users, Zap, CheckCircle, ShieldCheck, TrendingUp, BarChart3,
+  ArrowRight, Sparkles, Crown, Edit,
+} from '../../components/Icons';
 
 // ─── Mock sponsor data ────────────────────────────────────────────
-// Replace with real API fetch. Each entry = a provider with the Marketing add-on.
 const SPONSORS = [
   { id: 1,  name: 'Sunrise Support Services', initials: 'SS', bg: '#f59e0b', url: '#' },
   { id: 2,  name: 'CarePath NDIS',             initials: 'CP', bg: '#3b82f6', url: '#' },
@@ -17,32 +22,50 @@ const SPONSORS = [
   { id: 10, name: 'Empower NDIS Group',        initials: 'EG', bg: '#a855f7', url: '#' },
 ];
 
+// ─── Mock notifications ───────────────────────────────────────────
+const MOCK_NOTIFICATIONS = {
+  free: [
+    { id: 1, icon: <Calendar className="w-4 h-4" />, text: 'New event near you: Provider Connect Breakfast', time: '1h ago', color: 'text-blue-600', bg: 'bg-blue-50' },
+    { id: 2, icon: <Search className="w-4 h-4" />, text: 'Allied Health Plus joined the directory', time: '3h ago', color: 'text-teal-600', bg: 'bg-teal-50' },
+    { id: 3, icon: <MessageCircle className="w-4 h-4" />, text: 'New Q&A discussion: NDIS pricing updates', time: '1d ago', color: 'text-indigo-600', bg: 'bg-indigo-50' },
+  ],
+  paid: [
+    { id: 1, icon: <Inbox className="w-4 h-4" />, text: 'New service request from Melbourne CBD', time: '5m ago', color: 'text-purple-600', bg: 'bg-purple-50', highlight: true },
+    { id: 2, icon: <Calendar className="w-4 h-4" />, text: 'Event RSVP confirmed: Provider Networking Meetup', time: '2h ago', color: 'text-blue-600', bg: 'bg-blue-50' },
+    { id: 3, icon: <Users className="w-4 h-4" />, text: 'Profile viewed by 4 participants this week', time: '4h ago', color: 'text-amber-600', bg: 'bg-amber-50' },
+    { id: 4, icon: <MessageCircle className="w-4 h-4" />, text: 'New reply to your compliance question', time: '1d ago', color: 'text-pink-600', bg: 'bg-pink-50' },
+  ],
+};
+
+// ─── Main Component ───────────────────────────────────────────────
 const ProviderDashboardHome = () => {
   const { user, isPaid } = useAuth();
 
   const freeTiles = [
-    { label: 'Events & Networking', icon: <Calendar className="w-6 h-6 text-white" />, path: '/dashboard/events',       desc: 'Discover events & connect',  color: 'from-violet-500 to-purple-600' },
-    { label: 'Provider Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/dashboard/directory',    desc: 'Find local providers',        color: 'from-blue-500 to-cyan-600' },
-    { label: 'Innovation Lab',      icon: <Lightbulb className="w-6 h-6 text-white" />, path: '/dashboard/innovation-lab',desc: 'Training & resources',       color: 'from-amber-500 to-orange-600' },
-    { label: 'Library',             icon: <BookOpen className="w-6 h-6 text-white" />, path: '/dashboard/library',      desc: 'Documents & guides',          color: 'from-emerald-500 to-teal-600' },
-    { label: 'Q&A Forum',           icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/dashboard/qa',           desc: 'Ask & learn',                 color: 'from-pink-500 to-rose-600' },
-    { label: 'AI Support',          icon: <Bot className="w-6 h-6 text-white" />, path: '/dashboard/ai-support',   desc: 'Instant NDIS help',           color: 'from-indigo-500 to-blue-600' },
-    { label: 'Update Subscription', icon: <Star className="w-6 h-6 text-white" />, path: '/dashboard/upgrade',      desc: 'Unlock premium tools',        color: 'from-yellow-500 to-amber-600' },
-    { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/dashboard/admin-support',desc: 'Get help & support',         color: 'from-slate-500 to-slate-700' },
+    { label: 'Home',               icon: <Home />,           path: '/dashboard',              color: 'from-purple-500 to-purple-700' },
+    { label: 'Events & Networking', icon: <Calendar />,       path: '/dashboard/events',       color: 'from-violet-500 to-purple-600' },
+    { label: 'Provider Directory',  icon: <Search />,         path: '/dashboard/directory',    color: 'from-blue-500 to-cyan-600' },
+    { label: 'Innovation Lab',     icon: <Lightbulb />,      path: '/dashboard/innovation-lab', color: 'from-amber-500 to-orange-600' },
+    { label: 'Library',            icon: <BookOpen />,       path: '/dashboard/library',      color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q&A Forum',          icon: <MessageCircle />,  path: '/dashboard/qa',           color: 'from-pink-500 to-rose-600' },
+    { label: 'AI Support',         icon: <Bot />,            path: '/dashboard/ai-support',   color: 'from-indigo-500 to-blue-600' },
+    { label: 'Update Subscription', icon: <Star />,          path: '/dashboard/upgrade',      color: 'from-yellow-500 to-amber-600' },
+    { label: 'Connect with Admin', icon: <Mic />,            path: '/dashboard/admin-support', color: 'from-slate-500 to-slate-700' },
   ];
 
   const paidTiles = [
-    { label: 'Service Requests',    icon: <Inbox className="w-6 h-6 text-white" />, path: '/dashboard/requests',     desc: 'Referrals & enquiries',      color: 'from-violet-500 to-purple-600', badge: '3' },
-    { label: 'Events & Networking', icon: <Calendar className="w-6 h-6 text-white" />, path: '/dashboard/events',       desc: 'Events & sponsorship',       color: 'from-blue-500 to-cyan-600' },
-    { label: 'Provider Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/dashboard/directory',    desc: 'Find & collaborate',         color: 'from-teal-500 to-emerald-600' },
-    { label: 'Job Board',           icon: <Briefcase className="w-6 h-6 text-white" />, path: '/dashboard/jobs',         desc: 'Post & manage jobs',         color: 'from-amber-500 to-orange-600' },
-    { label: 'Innovation Lab',      icon: <Lightbulb className="w-6 h-6 text-white" />, path: '/dashboard/innovation-lab',desc: 'Training & development',    color: 'from-pink-500 to-rose-600' },
-    { label: 'Library',             icon: <BookOpen className="w-6 h-6 text-white" />, path: '/dashboard/library',      desc: 'Documents & templates',      color: 'from-emerald-500 to-teal-600' },
-    { label: 'Q&A Forum',           icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/dashboard/qa',           desc: 'Provider discussions',       color: 'from-indigo-500 to-blue-600' },
-    { label: 'Marketing',           icon: <Megaphone className="w-6 h-6 text-white" />, path: '/dashboard/marketing',    desc: 'Boost your visibility',      color: 'from-red-500 to-pink-600' },
-    { label: 'AI Support',          icon: <Bot className="w-6 h-6 text-white" />, path: '/dashboard/ai-support',   desc: 'AI-powered assistant',       color: 'from-purple-500 to-indigo-600' },
-    { label: 'Update Subscription', icon: <Settings className="w-6 h-6 text-white" />, path: '/dashboard/upgrade',      desc: 'Manage your plan',           color: 'from-slate-500 to-slate-700' },
-    { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/dashboard/admin-support',desc: 'Support & feedback',        color: 'from-gray-600 to-gray-800' },
+    { label: 'Home',               icon: <Home />,           path: '/dashboard',              color: 'from-purple-500 to-purple-700' },
+    { label: 'Service Requests',   icon: <Inbox />,          path: '/dashboard/requests',     color: 'from-violet-500 to-purple-600', badge: '3' },
+    { label: 'Events & Networking', icon: <Calendar />,      path: '/dashboard/events',       color: 'from-blue-500 to-cyan-600' },
+    { label: 'Provider Directory', icon: <Search />,         path: '/dashboard/directory',    color: 'from-teal-500 to-emerald-600' },
+    { label: 'Job Board',          icon: <Briefcase />,      path: '/dashboard/jobs',         color: 'from-amber-500 to-orange-600' },
+    { label: 'Innovation Lab',    icon: <Lightbulb />,      path: '/dashboard/innovation-lab', color: 'from-pink-500 to-rose-600' },
+    { label: 'Library',            icon: <BookOpen />,       path: '/dashboard/library',      color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q&A Forum',          icon: <MessageCircle />,  path: '/dashboard/qa',           color: 'from-indigo-500 to-blue-600' },
+    { label: 'Marketing',          icon: <Megaphone />,      path: '/dashboard/marketing',    color: 'from-red-500 to-pink-600' },
+    { label: 'AI Support',         icon: <Bot />,            path: '/dashboard/ai-support',   color: 'from-purple-500 to-indigo-600' },
+    { label: 'Update Subscription', icon: <Settings />,      path: '/dashboard/upgrade',      color: 'from-slate-500 to-slate-700' },
+    { label: 'Connect with Admin', icon: <Mic />,            path: '/dashboard/admin-support', color: 'from-gray-600 to-gray-800' },
   ];
 
   const tiles = isPaid ? paidTiles : freeTiles;
@@ -54,183 +77,373 @@ const ProviderDashboardHome = () => {
     responseRate: '0%',
   };
 
+  const notifications = isPaid ? MOCK_NOTIFICATIONS.paid : MOCK_NOTIFICATIONS.free;
+
   return (
     <div className="max-w-7xl mx-auto space-y-8">
 
-      {/* Analytics Cards - Paid Only */}
+      {/* ─── Welcome Header ─────────────────────────────────────────── */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 p-6 sm:p-8">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute -top-12 -right-12 w-64 h-64 bg-white rounded-full" />
+          <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-white rounded-full" />
+          <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
+        </div>
+        <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white">
+              Welcome back, {user.name?.split(' ')[0] || 'Provider'}
+            </h1>
+            <p className="text-purple-100 mt-1.5 text-sm sm:text-base">
+              {isPaid
+                ? 'Your dashboard is ready. Here is what is happening today.'
+                : 'Explore your portal and connect with the NDIS community.'}
+            </p>
+          </div>
+          <div className="flex items-center gap-3 flex-shrink-0">
+            {isPaid && (
+              <VerificationBadge verified={true} />
+            )}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/15 text-white backdrop-blur-sm border border-white/20">
+              <Crown className="w-3.5 h-3.5" />
+              {isPaid ? user.subscriptionPlan || 'Growth Plan' : 'Free Plan'}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Analytics Cards (Paid Only) ────────────────────────────── */}
       {isPaid && (
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          <AnalyticsCard label="Profile Views" value={analytics.profileViews} change="+12%" positive
-            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <AnalyticsCard
+            label="Profile Views"
+            value={analytics.profileViews}
+            change="+12%"
+            positive
+            icon={<Eye className="w-5 h-5" />}
+            gradient="from-purple-500 to-purple-600"
           />
-          <AnalyticsCard label="Referrals This Month" value={analytics.referralsThisMonth} change="+3" positive
-            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>}
+          <AnalyticsCard
+            label="Referrals"
+            value={analytics.referralsThisMonth}
+            change="+3"
+            positive
+            icon={<Users className="w-5 h-5" />}
+            gradient="from-blue-500 to-cyan-600"
           />
-          <AnalyticsCard label="Event Engagement" value={analytics.eventEngagement} change="+2" positive
-            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
+          <AnalyticsCard
+            label="Event Engagement"
+            value={analytics.eventEngagement}
+            change="+2"
+            positive
+            icon={<BarChart3 className="w-5 h-5" />}
+            gradient="from-pink-500 to-rose-600"
           />
-          <AnalyticsCard label="Response Rate" value={analytics.responseRate} change="" positive
-            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
+          <AnalyticsCard
+            label="Response Rate"
+            value={analytics.responseRate}
+            change=""
+            positive
+            icon={<Zap className="w-5 h-5" />}
+            gradient="from-amber-500 to-orange-600"
           />
         </div>
       )}
 
-      {/* Quick Navigation Grid */}
-      <div>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Access</h2>
-        <div className="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* ─── Portal Sections Grid ───────────────────────────────────── */}
+      <section>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg font-bold text-slate-800">Portal Sections</h2>
+          <span className="text-xs text-slate-400 hidden sm:block">
+            {isPaid ? '12 sections available' : '9 sections available'}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-4">
           {tiles.map((tile) => (
             <Link
               key={tile.label}
               to={tile.path}
-              className="group relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-lg hover:border-purple-200 transition-all duration-300 hover:-translate-y-1"
+              className="group relative bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-100 hover:shadow-xl hover:border-purple-200/60 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
+              {/* Hover gradient overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${tile.color} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-300 rounded-2xl`} />
+
               {tile.badge && (
-                <span className="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                <span className="absolute top-3 right-3 min-w-[20px] h-5 bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full flex items-center justify-center animate-pulse">
                   {tile.badge}
                 </span>
               )}
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tile.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+
+              <div className={`relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${tile.color} flex items-center justify-center mb-3 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6 sm:[&>svg]:h-6 text-white`}>
                 {tile.icon}
               </div>
-              <h3 className="text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors">{tile.label}</h3>
-              <p className="text-xs text-slate-500 mt-1">{tile.desc}</p>
+              <h3 className="text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors leading-tight">
+                {tile.label}
+              </h3>
+              <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-purple-500 absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0" />
             </Link>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Activity + Profile */}
+      {/* ─── Notifications + Profile Sidebar ────────────────────────── */}
       <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
-          <h3 className="text-base font-semibold text-slate-800 mb-4">Recent Activity</h3>
-          <div className="space-y-4">
-            {isPaid ? (
-              <>
-                <ActivityItem icon={<Inbox className="w-5 h-5 text-purple-600" />} title="New service request received" desc="Participant in Melbourne CBD seeking support coordination" time="5 min ago" highlight />
-                <ActivityItem icon={<Calendar className="w-5 h-5 text-blue-600" />} title="Event RSVP confirmed" desc="Melbourne Provider Networking Meetup — Feb 28" time="2 hours ago" />
-                <ActivityItem icon={<User className="w-5 h-5 text-amber-600" />} title="Profile viewed by 4 participants" desc="Your profile is gaining traction this week" time="Today" />
-                <ActivityItem icon={<MessageCircle className="w-5 h-5 text-pink-600" />} title="New reply in Q&A Forum" desc="Someone responded to your compliance question" time="Yesterday" />
-              </>
-            ) : (
-              <>
-                <ActivityItem icon={<Calendar className="w-5 h-5 text-blue-600" />} title="New event near you" desc="Provider Connect Breakfast — Melbourne, March 5" time="1 hour ago" />
-                <ActivityItem icon={<Search className="w-5 h-5 text-teal-600" />} title="New provider in your area" desc="Allied Health Plus joined the directory" time="Today" />
-                <ActivityItem icon={<MessageCircle className="w-5 h-5 text-indigo-600" />} title="New Q&A discussion" desc="Topic: NDIS mid-year pricing updates" time="Yesterday" />
-              </>
+
+        {/* Notifications Panel */}
+        <Card className="lg:col-span-2" padding="p-0">
+          <div className="flex items-center justify-between p-5 pb-0 sm:p-6 sm:pb-0">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <Bell className="w-4 h-4 text-white" />
+              </div>
+              <h3 className="text-base font-bold text-slate-800">Notifications</h3>
+            </div>
+            {notifications.length > 0 && (
+              <span className="text-[11px] font-semibold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">
+                {notifications.length} new
+              </span>
             )}
           </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
-          <h3 className="text-base font-semibold text-slate-800 mb-4">Your Profile</h3>
-          <div className="text-center mb-5">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xl font-bold text-white mx-auto mb-3">
-              {user.name.split(' ').map(n => n[0]).join('')}
-            </div>
-            <p className="font-semibold text-slate-800">{user.name}</p>
-            <p className="text-sm text-slate-500">{user.organisation}</p>
-            <p className="text-xs text-slate-400 mt-1">{user.location}</p>
-          </div>
-          <div className="mb-5">
-            <div className="flex items-center justify-between text-sm mb-2">
-              <span className="text-slate-600">Profile Completion</span>
-              <span className="font-semibold text-slate-800">{user.profileComplete}%</span>
-            </div>
-            <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-700" style={{ width: `${user.profileComplete}%` }} />
-            </div>
-          </div>
-          {isPaid && user.analytics && (
-            <div className="pt-4 border-t border-slate-100 space-y-3">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">Verification</span>
-                <span className="text-emerald-600 font-medium flex items-center gap-1">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
-                  Verified
-                </span>
+          <div className="p-4 sm:p-6 pt-3 sm:pt-4 space-y-2">
+            {notifications.map((notif) => (
+              <div
+                key={notif.id}
+                className={`flex items-start gap-3 p-3 rounded-xl transition-colors ${
+                  notif.highlight
+                    ? 'bg-purple-50/70 border border-purple-100'
+                    : 'hover:bg-slate-50'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-lg ${notif.bg} ${notif.color} flex items-center justify-center flex-shrink-0`}>
+                  {notif.icon}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm text-slate-700 leading-snug">{notif.text}</p>
+                  <span className="text-[11px] text-slate-400 mt-1 block">{notif.time}</span>
+                </div>
+                {notif.highlight && (
+                  <span className="w-2 h-2 rounded-full bg-purple-500 flex-shrink-0 mt-2" />
+                )}
               </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-500">Plan</span>
-                <span className="text-purple-600 font-medium">{user.subscriptionPlan}</span>
-              </div>
-            </div>
-          )}
-          <Link to="/dashboard/profile" className="mt-5 block w-full text-center py-2.5 px-4 bg-slate-50 hover:bg-slate-100 text-slate-700 text-sm font-medium rounded-xl transition-colors">
-            Edit Profile
-          </Link>
-        </div>
-      </div>
-
-      {/* Profile Completion Banner */}
-      {user.profileComplete < 100 && (
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0"><HandWave className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" /></div>
-            <div>
-              <h3 className="text-sm font-semibold text-amber-900">Complete your profile</h3>
-              <p className="text-sm text-amber-700 mt-0.5">Your profile is {user.profileComplete}% complete. A complete profile helps participants find you.</p>
-            </div>
+            ))}
           </div>
-          <div className="flex items-center gap-4 flex-shrink-0">
-            <div className="w-32 h-2 bg-amber-200 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style={{ width: `${user.profileComplete}%` }} />
+        </Card>
+
+        {/* Profile Completion + Status Card */}
+        <Card padding="p-0">
+          <div className="p-5 sm:p-6">
+            {/* Avatar */}
+            <div className="text-center mb-5">
+              <div className="relative inline-block">
+                <div className="w-18 h-18 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl font-bold text-white mx-auto" style={{ width: '72px', height: '72px' }}>
+                  {user.name?.split(' ').map(n => n[0]).join('') || 'P'}
+                </div>
+                {isPaid && (
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white">
+                    <CheckCircle className="w-3.5 h-3.5 text-white" />
+                  </div>
+                )}
+              </div>
+              <p className="font-bold text-slate-800 mt-3">{user.name}</p>
+              <p className="text-sm text-slate-500">{user.organisation}</p>
+              {user.location && (
+                <p className="text-xs text-slate-400 mt-0.5">{user.location}</p>
+              )}
             </div>
-            <Link to="/dashboard/profile" className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-xl transition-colors">
+
+            {/* Verification Status */}
+            {isPaid && (
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-100 mb-4">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <span className="text-xs font-semibold text-emerald-700">Verified Provider</span>
+              </div>
+            )}
+
+            {/* Profile Completion */}
+            <div className="mb-4">
+              <div className="flex items-center justify-between text-sm mb-2">
+                <span className="text-slate-600 font-medium">Profile completion</span>
+                <span className="font-bold text-slate-800">{user.profileComplete}%</span>
+              </div>
+              <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-700 relative"
+                  style={{ width: `${user.profileComplete}%` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-full" />
+                </div>
+              </div>
+              {user.profileComplete < 100 && (
+                <p className="text-[11px] text-slate-400 mt-1.5">
+                  Complete your profile to increase visibility
+                </p>
+              )}
+            </div>
+
+            {/* Plan Info */}
+            {isPaid && (
+              <div className="flex items-center justify-between text-sm py-2.5 border-t border-slate-100">
+                <span className="text-slate-500">Current plan</span>
+                <span className="font-semibold text-purple-600">{user.subscriptionPlan}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Edit Profile Link */}
+          <div className="border-t border-slate-100 p-4">
+            <Link
+              to="/dashboard/profile"
+              className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 text-purple-700 text-sm font-semibold rounded-xl transition-all duration-200"
+            >
+              <Edit className="w-4 h-4" />
               Edit Profile
             </Link>
           </div>
-        </div>
+        </Card>
+      </div>
+
+      {/* ─── Profile Completion Banner ──────────────────────────────── */}
+      {user.profileComplete < 100 && (
+        <Card padding="p-0" className="overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-amber-200/50">
+                <HandWave className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-amber-900">Complete your profile to stand out</h3>
+                <p className="text-sm text-amber-700 mt-0.5">
+                  Your profile is {user.profileComplete}% complete. A full profile helps participants find and trust you.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 flex-shrink-0">
+              <div className="w-32 h-2.5 bg-amber-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full"
+                  style={{ width: `${user.profileComplete}%` }}
+                />
+              </div>
+              <Link
+                to="/dashboard/profile"
+                className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-amber-200/50"
+              >
+                Complete Now
+              </Link>
+            </div>
+          </div>
+        </Card>
       )}
 
-      {/* Free Tier Upgrade Banner */}
+      {/* ─── Upgrade Banner (Free Users) ────────────────────────────── */}
       {!isPaid && (
-        <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-4 sm:p-6 text-white relative overflow-hidden">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 p-6 sm:p-8">
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/4"></div>
+            <div className="absolute top-0 right-0 w-72 h-72 bg-white rounded-full -translate-y-1/2 translate-x-1/4" />
+            <div className="absolute bottom-0 left-0 w-56 h-56 bg-white rounded-full translate-y-1/2 -translate-x-1/4" />
           </div>
-          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
+          <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+            <Sparkles className="w-8 h-8 text-white/20" />
+          </div>
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold">Unlock Client Referrals & Premium Tools</h3>
-              <p className="text-purple-100 mt-1 text-sm max-w-xl">Upgrade to Growth & Referral to receive direct participant referrals, enhanced directory visibility, messaging, and job board access.</p>
+              <div className="flex items-center gap-2 mb-2">
+                <Crown className="w-5 h-5 text-yellow-300" />
+                <span className="text-xs font-bold text-yellow-300 uppercase tracking-wider">Premium</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white">
+                Unlock Client Referrals & Premium Tools
+              </h3>
+              <p className="text-purple-100 mt-2 text-sm max-w-xl leading-relaxed">
+                Upgrade to Growth & Referral to receive direct participant referrals, enhanced directory visibility, messaging, job board access, and marketing tools.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 mt-4">
+                <UpgradeFeature text="Direct Referrals" />
+                <UpgradeFeature text="Job Board" />
+                <UpgradeFeature text="Marketing Tools" />
+                <UpgradeFeature text="Analytics" />
+              </div>
             </div>
-            <Link to="/dashboard/upgrade" className="px-6 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition-colors shadow-lg flex-shrink-0">
-              View Plans →
+            <Link
+              to="/dashboard/upgrade"
+              className="px-7 py-3.5 bg-white text-purple-700 font-bold rounded-xl hover:bg-purple-50 transition-all duration-200 shadow-xl flex-shrink-0 flex items-center gap-2"
+            >
+              View Plans
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       )}
 
-      {/* ─── Featured Partners Ribbon ─────────────────────────────────── */}
+      {/* ─── Featured Partners Ribbon ───────────────────────────────── */}
       <FeaturedPartnersRibbon />
 
     </div>
   );
 };
 
-// ─── Featured Partners Ribbon ─────────────────────────────────────────────────
-// Scrolling marquee of providers who have the Marketing add-on subscription.
-// CSS keyframes are injected once via a <style> tag.
+// ─── Upgrade Feature Pill ─────────────────────────────────────────
+function UpgradeFeature({ text }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-white/90 bg-white/10 px-3 py-1.5 rounded-full border border-white/10">
+      <CheckCircle className="w-3 h-3" />
+      {text}
+    </span>
+  );
+}
 
+// ─── Verification Badge ───────────────────────────────────────────
+function VerificationBadge({ verified }) {
+  if (!verified) return null;
+  return (
+    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-400/20 text-emerald-100 border border-emerald-400/20">
+      <ShieldCheck className="w-3.5 h-3.5" />
+      Verified
+    </span>
+  );
+}
+
+// ─── Analytics Card ───────────────────────────────────────────────
+function AnalyticsCard({ label, value, change, positive, icon, gradient }) {
+  return (
+    <Card className="hover:shadow-md transition-shadow duration-200" padding="p-4 sm:p-5">
+      <div className="flex items-center justify-between mb-3">
+        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${gradient} text-white flex items-center justify-center shadow-sm`}>
+          {icon}
+        </div>
+        {change && (
+          <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${
+            positive ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'
+          }`}>
+            {change}
+          </span>
+        )}
+      </div>
+      <p className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">{value}</p>
+      <p className="text-xs text-slate-500 mt-1 font-medium">{label}</p>
+    </Card>
+  );
+}
+
+// ─── Featured Partners Ribbon ─────────────────────────────────────
 function FeaturedPartnersRibbon() {
-  const track = [...SPONSORS, ...SPONSORS]; // duplicate for seamless loop
- 
+  const track = [...SPONSORS, ...SPONSORS];
+
   return (
     <div className="w-full">
- 
+
       {/* Header row */}
       <div className="flex items-center gap-3 mb-2.5 px-1">
         <span className="text-[11px] font-medium text-slate-500 uppercase tracking-widest whitespace-nowrap">
           Featured Partners
         </span>
         <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-[11px] text-slate-400 whitespace-nowrap">Sponsored · Marketing add-on</span>
+        <span className="text-[11px] text-slate-400 whitespace-nowrap">Sponsored</span>
       </div>
- 
+
       {/* Ribbon container */}
       <div className="relative">
- 
+
         {/* Drop shadow under ribbon */}
         <div
           className="absolute bottom-0 left-8 right-8 h-4 pointer-events-none"
@@ -240,10 +453,10 @@ function FeaturedPartnersRibbon() {
             transform: 'translateY(8px)',
           }}
         />
- 
+
         {/* Ribbon shape wrapper */}
         <div className="relative overflow-hidden" style={{ height: '72px' }}>
- 
+
           {/* SVG ribbon background */}
           <svg
             className="absolute inset-0 w-full h-full"
@@ -252,55 +465,40 @@ function FeaturedPartnersRibbon() {
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
-              {/* Main gradient — blue → purple → orange */}
               <linearGradient id="ribGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stopColor="#1d4ed8" />
-                <stop offset="25%"  stopColor="#4f46e5" />
-                <stop offset="50%"  stopColor="#7c3aed" />
+                <stop offset="0%"   stopColor="#7c3aed" />
+                <stop offset="25%"  stopColor="#8b5cf6" />
+                <stop offset="50%"  stopColor="#a855f7" />
                 <stop offset="70%"  stopColor="#c026d3" />
-                <stop offset="85%"  stopColor="#dc2626" />
-                <stop offset="100%" stopColor="#ea580c" />
+                <stop offset="85%"  stopColor="#db2777" />
+                <stop offset="100%" stopColor="#e11d48" />
               </linearGradient>
- 
-              {/* Top-down shine */}
+
               <linearGradient id="shineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%"   stopColor="rgba(255,255,255,0.22)" />
                 <stop offset="40%"  stopColor="rgba(255,255,255,0.04)" />
                 <stop offset="100%" stopColor="rgba(0,0,0,0.18)" />
               </linearGradient>
- 
-              {/* Left fold shadow */}
+
               <linearGradient id="foldL" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stopColor="#1e3a8a" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#1d4ed8" stopOpacity="0" />
+                <stop offset="0%"   stopColor="#4c1d95" stopOpacity="0.85" />
+                <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
               </linearGradient>
- 
-              {/* Right fold shadow */}
+
               <linearGradient id="foldR" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stopColor="#ea580c" stopOpacity="0" />
-                <stop offset="100%" stopColor="#7c2d12" stopOpacity="0.85" />
+                <stop offset="0%"   stopColor="#e11d48" stopOpacity="0" />
+                <stop offset="100%" stopColor="#881337" stopOpacity="0.85" />
               </linearGradient>
             </defs>
- 
-            {/* Main ribbon body — notched both ends */}
+
             <path d="M0,8 L34,36 L0,64 L900,64 L866,36 L900,8 Z" fill="url(#ribGrad)" />
- 
-            {/* Shine overlay */}
             <path d="M0,8 L34,36 L0,64 L900,64 L866,36 L900,8 Z" fill="url(#shineGrad)" />
- 
-            {/* Left fold darkening */}
             <path d="M0,8 L46,36 L0,64 L90,64 L90,8 Z" fill="url(#foldL)" opacity="0.5" />
- 
-            {/* Right fold darkening */}
             <path d="M810,8 L810,64 L900,64 L866,36 L900,8 Z" fill="url(#foldR)" opacity="0.5" />
- 
-            {/* Top highlight edge */}
             <path d="M34,8 L866,8" stroke="rgba(255,255,255,0.28)" strokeWidth="1" fill="none" />
- 
-            {/* Bottom subtle edge */}
             <path d="M0,64 L900,64" stroke="rgba(0,0,0,0.15)" strokeWidth="1" fill="none" />
           </svg>
- 
+
           {/* Scrolling logos on top of ribbon */}
           <div className="absolute inset-0 overflow-hidden flex items-center px-12">
             <style>{`
@@ -318,7 +516,7 @@ function FeaturedPartnersRibbon() {
                 animation-play-state: paused;
               }
             `}</style>
- 
+
             <div className="ribbon-track">
               {track.map((sponsor, i) => (
                 <a
@@ -328,7 +526,6 @@ function FeaturedPartnersRibbon() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 mx-4 flex-shrink-0 group"
                 >
-                  {/* Avatar or logo */}
                   <div
                     className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
                     style={{
@@ -338,14 +535,14 @@ function FeaturedPartnersRibbon() {
                   >
                     {sponsor.initials}
                   </div>
- 
-                  <span className="text-sm font-medium text-white whitespace-nowrap group-hover:text-yellow-200 transition-colors"
+
+                  <span
+                    className="text-sm font-medium text-white whitespace-nowrap group-hover:text-yellow-200 transition-colors"
                     style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
                   >
                     {sponsor.name}
                   </span>
- 
-                  {/* Divider dot */}
+
                   <span className="mx-2 opacity-30 text-white text-lg leading-none flex-shrink-0">·</span>
                 </a>
               ))}
@@ -353,7 +550,7 @@ function FeaturedPartnersRibbon() {
           </div>
         </div>
       </div>
- 
+
       {/* Footer CTA */}
       <div className="flex items-center justify-center gap-2 mt-2.5">
         <span className="text-[11px] text-slate-400">Want your logo here?</span>
@@ -364,41 +561,7 @@ function FeaturedPartnersRibbon() {
           Add Marketing add-on →
         </Link>
       </div>
- 
-    </div>
-  );
-}
 
-
-// ─── Sub-components ───────────────────────────────────────────────
-
-function AnalyticsCard({ label, value, change, positive, icon }) {
-  return (
-    <div className="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-100">
-      <div className="flex items-center justify-between mb-3">
-        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">{icon}</div>
-        {change && (
-          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${positive ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
-            {change}
-          </span>
-        )}
-      </div>
-      <p className="text-xl sm:text-2xl font-bold text-slate-800">{value}</p>
-      <p className="text-xs text-slate-500 mt-1">{label}</p>
-    </div>
-  );
-}
-
-function ActivityItem({ icon, title, desc, time, highlight }) {
-  return (
-    <div className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl transition-colors ${highlight ? 'bg-purple-50/50 border border-purple-100' : 'hover:bg-slate-50'}`}>
-      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">{icon}</div>
-      <div className="min-w-0 flex-1">
-        <p className="text-xs sm:text-sm font-medium text-slate-800">{title}</p>
-        <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 truncate">{desc}</p>
-        <span className="text-[10px] sm:hidden text-slate-400 mt-0.5 block">{time}</span>
-      </div>
-      <span className="text-[11px] text-slate-400 flex-shrink-0 whitespace-nowrap hidden sm:block">{time}</span>
     </div>
   );
 }
