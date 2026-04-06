@@ -1,11 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import { useState } from 'react';
 
 const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) => {
-  const { user, isProvider, isAdmin, isPaid, logout, switchProfile, currentProfile, availableProfiles } = useAuth();
+  const { user, isProvider, isAdmin, isPaid, logout } = useAuth();
   const navigate = useNavigate();
-  const [showProfileSwitcher, setShowProfileSwitcher] = useState(false);
 
   // On mobile, always show expanded sidebar
   const collapsed = isMobile ? false : isCollapsed;
@@ -65,20 +63,6 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
 
   const filteredNav = navItems.filter(item => item.tier === 'all' || (item.tier === 'paid' && isPaid));
   const filteredBottom = bottomNavItems.filter(item => item.tier === 'all' || (item.tier === 'free' && !isPaid));
-
-  const profileLabels = {
-    providerFree: { label: 'Provider (Free)', short: 'PF' },
-    providerPaid: { label: 'Provider (Paid)', short: 'PP' },
-    participantFree: { label: 'Participant (Free)', short: 'CF' },
-    participantPaid: { label: 'Participant (Paid)', short: 'CP' },
-    admin: { label: 'Admin', short: 'AD' },
-  };
-
-  const handleProfileSwitch = (key) => {
-    switchProfile(key);
-    setShowProfileSwitcher(false);
-    navigate('/dashboard');
-  };
 
   return (
     <aside
@@ -204,49 +188,11 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
         ))}
       </nav>
 
-      {/* Demo Profile Switcher */}
+      {/* Logout */}
       <div className="border-t border-white/10 p-3 flex-shrink-0">
-        <div className="relative">
-          <button
-            onClick={() => setShowProfileSwitcher(!showProfileSwitcher)}
-            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-xs ${collapsed ? 'justify-center px-0' : ''}`}
-          >
-            <svg className="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-            </svg>
-            {!collapsed && (
-              <span className="text-amber-400 font-medium truncate">
-                Demo: {profileLabels[currentProfile]?.label}
-              </span>
-            )}
-          </button>
-
-          {showProfileSwitcher && (
-            <div className={`absolute bottom-full mb-2 ${collapsed ? 'left-full ml-2' : 'left-0 right-0'} bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden min-w-[220px] z-50`}>
-              <div className="p-2 border-b border-white/10">
-                <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold px-2">Switch Demo Profile</p>
-              </div>
-              {availableProfiles.map((key) => (
-                <button
-                  key={key}
-                  onClick={() => handleProfileSwitch(key)}
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                    currentProfile === key
-                      ? 'bg-purple-600/30 text-purple-300'
-                      : 'text-slate-300 hover:bg-white/5'
-                  }`}
-                >
-                  {profileLabels[key]?.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Logout */}
         <button
           onClick={() => { logout(); navigate('/login'); }}
-          className={`w-full flex items-center gap-2 px-3 py-2.5 mt-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
+          className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
           title="Logout"
         >
           <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

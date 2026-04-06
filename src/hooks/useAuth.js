@@ -1,13 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, logoutUser, switchUserProfile } from '../store/actions/authAction';
+import { loginUser, logoutUser } from '../store/actions/authAction';
 
 const useAuth = () => {
   const dispatch = useDispatch();
-  const { user, isAuthenticated, currentProfile, availableProfiles, loading, error } = useSelector(
+  const { user, isAuthenticated, currentProfile, loading, error } = useSelector(
     (state) => state.auth
   );
 
-  const switchProfile = (profileKey) => dispatch(switchUserProfile(profileKey));
   const login = (credentials) => dispatch(loginUser(credentials));
   const logout = () => dispatch(logoutUser());
 
@@ -21,7 +20,6 @@ const useAuth = () => {
     user,
     isAuthenticated,
     currentProfile,
-    switchProfile,
     login,
     logout,
     isProvider,
@@ -29,7 +27,6 @@ const useAuth = () => {
     isAdmin,
     isFree,
     isPaid,
-    availableProfiles,
     loading,
     error,
   };

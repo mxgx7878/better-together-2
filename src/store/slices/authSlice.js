@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, logoutUser, switchUserProfile } from '../actions/authAction';
+import { loginUser, logoutUser } from '../actions/authAction';
 
 export const mockUsers = {
   providerFree: {
@@ -79,13 +79,46 @@ export const mockUsers = {
   },
 };
 
-const initialState = {
+// Load persisted auth from localStorage
+const loadAuthFromStorage = () => {
+  try {
+    const stored = localStorage.getItem('auth');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (parsed.isAuthenticated && parsed.currentProfile && mockUsers[parsed.currentProfile]) {
+        const userData = { ...mockUsers[parsed.currentProfile] };
+        delete userData.password;
+        return {
+          user: userData,
+          isAuthenticated: true,
+          currentProfile: parsed.currentProfile,
+          loading: false,
+          error: null,
+        };
+      }
+    }
+  } catch {
+    // ignore parse errors
+  }
+  return null;
+};
+
+const persisted = loadAuthFromStorage();
+
+const initialState = persisted || {
   user: null,
   isAuthenticated: false,
   currentProfile: null,
-  availableProfiles: Object.keys(mockUsers),
   loading: false,
   error: null,
+};
+
+const saveToStorage = (profileKey) => {
+  localStorage.setItem('auth', JSON.stringify({ isAuthenticated: true, currentProfile: profileKey }));
+};
+
+const clearStorage = () => {
+  localStorage.removeItem('auth');
 };
 
 const authSlice = createSlice({
@@ -106,6 +139,7 @@ const authSlice = createSlice({
         const userData = { ...mockUsers[action.payload.profileKey] };
         delete userData.password;
         state.user = userData;
+        saveToStorage(action.payload.profileKey);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -120,15 +154,7 @@ const authSlice = createSlice({
         state.currentProfile = null;
         state.loading = false;
         state.error = null;
-      });
-
-    // Switch Profile
-    builder
-      .addCase(switchUserProfile.fulfilled, (state, action) => {
-        state.currentProfile = action.payload;
-        const userData = { ...mockUsers[action.payload] };
-        delete userData.password;
-        state.user = userData;
+        clearStorage();
       });
   },
 });
