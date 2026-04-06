@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, FileText, FolderOpen } from '../../../components/Icons';
+import { BookOpen, FileText, FolderOpen } from '../../components/Icons';
 
 const documents = [
   { id: 1, title: 'Accessibility Standards Checklist', category: 'Compliance', type: 'pdf', size: '245 KB', updated: '2026-01-15' },

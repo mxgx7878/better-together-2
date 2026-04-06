@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Megaphone, Calendar } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Megaphone, Calendar } from '../../components/Icons';
 
 const MarketingPage = () => {
   const { isPaid } = useAuth();

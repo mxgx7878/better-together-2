@@ -28,30 +28,30 @@ import BusinessDirectoryPage from './pages/public/BusinessDirectoryPage';
 // Dashboard layout
 import DashboardLayout from './components/dashboard/DashboardLayout';
 
-// Common dashboard pages
-import DashboardHome from './pages/dashboard/common/DashboardHome';
-import ProfilePage from './pages/dashboard/common/ProfilePage';
-import EventsPage from './pages/dashboard/common/EventsPage';
-import JobBoardPage from './pages/dashboard/common/JobBoardPage';
-import AISupportPage from './pages/dashboard/common/AISupportPage';
-import UpgradePage from './pages/dashboard/common/UpgradePage';
-import AdminSupportPage from './pages/dashboard/common/AdminSupportPage';
-import DocumentUploadPage from './pages/dashboard/common/DocumentUploadPage';
-import MessagingPage from './pages/dashboard/common/MessagingPage';
+// Common pages (shared across roles)
+import DashboardHome from './pages/common/DashboardHome';
+import ProfilePage from './pages/common/ProfilePage';
+import EventsPage from './pages/common/EventsPage';
+import JobBoardPage from './pages/common/JobBoardPage';
+import AISupportPage from './pages/common/AISupportPage';
+import UpgradePage from './pages/common/UpgradePage';
+import AdminSupportPage from './pages/common/AdminSupportPage';
+import DocumentUploadPage from './pages/common/DocumentUploadPage';
+import MessagingPage from './pages/common/MessagingPage';
 
-// Provider dashboard pages
-import DirectoryPage from './pages/dashboard/provider/DirectoryPage';
-import ServiceRequestsPage from './pages/dashboard/provider/ServiceRequestsPage';
-import InnovationLabPage from './pages/dashboard/provider/InnovationLabPage';
-import QAForumPage from './pages/dashboard/provider/QAForumPage';
-import MarketingPage from './pages/dashboard/provider/MarketingPage';
+// Provider pages
+import DirectoryPage from './pages/provider/DirectoryPage';
+import ServiceRequestsPage from './pages/provider/ServiceRequestsPage';
+import InnovationLabPage from './pages/provider/InnovationLabPage';
+import QAForumPage from './pages/provider/QAForumPage';
+import MarketingPage from './pages/provider/MarketingPage';
 
-// Participant dashboard pages
-import LearningHubPage from './pages/dashboard/participant/LearningHubPage';
-import MessageBoardPage from './pages/dashboard/participant/MessageBoardPage';
-import RightsSafetyPage from './pages/dashboard/participant/RightsSafetyPage';
-import PlanBuddyPage from './pages/dashboard/participant/PlanBuddyPage';
-import LibraryPage from './pages/dashboard/participant/LibraryPage';
+// Participant pages
+import LearningHubPage from './pages/participant/LearningHubPage';
+import MessageBoardPage from './pages/participant/MessageBoardPage';
+import RightsSafetyPage from './pages/participant/RightsSafetyPage';
+import PlanBuddyPage from './pages/participant/PlanBuddyPage';
+import LibraryPage from './pages/participant/LibraryPage';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Star } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Star } from '../../components/Icons';
 
 const mockProviders = [
   { id: 1, name: 'Allied Health Plus', type: 'Therapy Services', services: ['OT', 'Speech Pathology', 'Physiotherapy'], location: 'Melbourne CBD', distance: 5, rating: 4.8, reviews: 23, registered: true, openToCollab: true, featured: true, desc: 'Comprehensive allied health services with a person-centred approach.', tags: ['NDIS Registered', 'Telehealth', 'Home Visits'] },

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Sparkles, CheckCircle } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Sparkles, CheckCircle } from '../../components/Icons';
 
 const mockEvents = [
   { id: 1, title: 'Melbourne Provider Networking Breakfast', date: '2026-02-28', time: '8:00 AM – 10:00 AM', location: 'The Commons, Melbourne CBD', type: 'networking', cost: 'Free', accessibility: 'Wheelchair accessible, Auslan interpreter available', desc: 'Connect with local providers over breakfast. Share insights, build referral pathways, and grow your network.', rsvpd: true, attendees: 34 },

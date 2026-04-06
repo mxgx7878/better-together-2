@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { CheckCircle } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { CheckCircle } from '../../components/Icons';
 
 const faqItems = [
   { q: 'How do I update my profile information?', a: 'Navigate to your Profile page from the sidebar or top bar. You can edit your details, services, and notification preferences there.' },

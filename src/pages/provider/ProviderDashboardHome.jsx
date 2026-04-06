@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
-import { Calendar, Search, Lightbulb, BookOpen, MessageCircle, Bot, Star, Mic, Inbox, Briefcase, Megaphone, Settings, Mail, User, Hand as HandWave } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Calendar, Search, Lightbulb, BookOpen, MessageCircle, Bot, Star, Mic, Inbox, Briefcase, Megaphone, Settings, Mail, User, Hand as HandWave } from '../../components/Icons';
 
 // ─── Mock sponsor data ────────────────────────────────────────────
 // Replace with real API fetch. Each entry = a provider with the Marketing add-on.

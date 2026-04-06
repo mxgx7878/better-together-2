@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { CheckCircle } from '../../../components/Icons';
-import { PageHeader, Card, InputField, Toggle, Button } from '../../../components/ui';
+import { useAuth } from '../../context/AuthContext';
+import { CheckCircle } from '../../components/Icons';
+import { PageHeader, Card, InputField, Toggle, Button } from '../../components/ui';
 import toast from 'react-hot-toast';
 
 const serviceCategories = [

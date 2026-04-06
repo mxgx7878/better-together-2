@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Lightbulb, CheckCircle } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Lightbulb, CheckCircle } from '../../components/Icons';
 
 // Mock jobs posted by providers
 const mockJobs = [

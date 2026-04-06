@@ -1,5 +1,5 @@
-import { useAuth } from '../../../context/AuthContext';
-import { Calendar, Search, Inbox, Lightbulb, BookOpen, MessageCircle, Briefcase, Megaphone, Sparkles, Settings, Mic, Link2, Shield, Heart, User, FileText } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Calendar, Search, Inbox, Lightbulb, BookOpen, MessageCircle, Briefcase, Megaphone, Sparkles, Settings, Mic, Link2, Shield, Heart, User, FileText } from '../../components/Icons';
 
 const placeholderData = {
   events: {

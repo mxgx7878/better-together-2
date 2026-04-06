@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Heart, FileText, CheckCircle } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Heart, FileText, CheckCircle } from '../../components/Icons';
 
 const mockMessages = [
   { id: 1, from: 'buddy', date: '2026-02-14', content: 'Hi! Just checking in before your plan review next month. Have you started gathering your provider reports? I\'ve added a checklist to your tasks below.' },

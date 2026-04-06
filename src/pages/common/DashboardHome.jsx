@@ -1,4 +1,4 @@
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import ProviderDashboardHome from '../provider/ProviderDashboardHome';
 import ParticipantDashboardHome from '../participant/ParticipantDashboardHome';
 

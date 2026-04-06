@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Upload, FileText, Trash2, Download, FolderOpen, Image, CheckCircle } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Upload, FileText, Trash2, Download, FolderOpen, Image, CheckCircle } from '../../components/Icons';
 
 const categories = ['NDIS Plan', 'Service Agreements', 'Medical Reports', 'Invoices & Receipts', 'Other'];
 

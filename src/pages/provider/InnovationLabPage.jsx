@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Trophy, Target, ClipboardList, Heart, TrendingUp, Laptop, FileText, Video, FolderOpen, Mic } from '../../../components/Icons';
+import { Trophy, Target, ClipboardList, Heart, TrendingUp, Laptop, FileText, Video, FolderOpen, Mic } from '../../components/Icons';
 
 const categories = [
   { id: 'practice', label: 'Practice Excellence', icon: Trophy, color: 'from-purple-500 to-indigo-600', items: [

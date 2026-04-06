@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
-import { BookOpen, Link2, Briefcase, MessageCircle, Calendar, Shield, Mic, Star, Heart, Search, Send, ClipboardList, Scale, Edit, Phone, Settings, Sparkles } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { BookOpen, Link2, Briefcase, MessageCircle, Calendar, Shield, Mic, Star, Heart, Search, Send, ClipboardList, Scale, Edit, Phone, Settings, Sparkles } from '../../components/Icons';
 
 const ParticipantDashboardHome = () => {
   const { user, isPaid } = useAuth();

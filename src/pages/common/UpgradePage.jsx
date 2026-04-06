@@ -1,6 +1,6 @@
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { Megaphone } from '../../../components/Icons';
+import { Megaphone } from '../../components/Icons';
 
 const UpgradePage = () => {
   const { user, isProvider, isPaid } = useAuth();

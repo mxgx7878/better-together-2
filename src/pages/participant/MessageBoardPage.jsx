@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Heart, Pin } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Heart, Pin } from '../../components/Icons';
 
 const mockPosts = [
   { id: 1, author: 'Rebecca M.', date: '2026-02-16', category: 'tips', title: 'My top 3 tips for a successful plan review', content: 'Just had my plan review and got everything I asked for! Here\'s what helped me: 1) Started preparing 3 months early, 2) Collected evidence from all my providers, 3) Wrote a clear statement about my goals.', likes: 24, replies: 8, pinned: true },

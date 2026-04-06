@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { Inbox, MessageCircle, CheckCircle, Zap } from '../../../components/Icons';
+import { useAuth } from '../../context/AuthContext';
+import { Inbox, MessageCircle, CheckCircle, Zap } from '../../components/Icons';
 
 const mockRequests = [
   { id: 1, participant: 'Emily Watson', location: 'Melbourne CBD', service: 'Support Coordination', urgency: 'high', status: 'new', date: '2026-02-16', message: 'Looking for a support coordinator to help me navigate my new NDIS plan. I need help understanding my funding categories and connecting with providers.', responseTime: null },

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Scale, Shield, Megaphone, Landmark, AlertCircle } from '../../../components/Icons';
+import { Scale, Shield, Megaphone, Landmark, AlertCircle } from '../../components/Icons';
 
 const sections = [
   {
