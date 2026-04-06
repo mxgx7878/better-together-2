@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { Megaphone, Calendar } from '../../components/Icons';
 
 const MarketingPage = () => {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { ClipboardList, Search, DollarSign, Edit, Scale, Landmark, Handshake, Target, Briefcase, Laptop, Lock } from '../../components/Icons';
 
 const modules = [

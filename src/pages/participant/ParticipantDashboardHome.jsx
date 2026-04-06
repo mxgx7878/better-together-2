@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { BookOpen, Link2, Briefcase, MessageCircle, Calendar, Shield, Mic, Star, Heart, Search, Send, ClipboardList, Scale, Edit, Phone, Settings, Sparkles } from '../../components/Icons';
 
 const ParticipantDashboardHome = () => {

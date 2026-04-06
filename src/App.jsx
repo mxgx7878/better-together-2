@@ -7,7 +7,6 @@ import ErrorBoundary from './components/errors/ErrorBoundary';
 import NotFound from './components/errors/NotFound';
 
 // Auth
-import { AuthProvider } from './context/AuthContext';
 import AuthGuard from './components/guards/AuthGuard';
 import RoleGuard from './components/guards/RoleGuard';
 
@@ -56,7 +55,6 @@ import LibraryPage from './pages/participant/LibraryPage';
 function App() {
   return (
     <ErrorBoundary>
-      <AuthProvider>
         <Router>
           <ScrollToTop />
           <Toaster
@@ -138,7 +136,6 @@ function App() {
             </Route>
           </Routes>
         </Router>
-      </AuthProvider>
     </ErrorBoundary>
   );
 }

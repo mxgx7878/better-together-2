@@ -1,4 +1,4 @@
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { Calendar, Search, Inbox, Lightbulb, BookOpen, MessageCircle, Briefcase, Megaphone, Sparkles, Settings, Mic, Link2, Shield, Heart, User, FileText } from '../../components/Icons';
 
 const placeholderData = {

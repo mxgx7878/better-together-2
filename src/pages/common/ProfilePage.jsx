@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { CheckCircle } from '../../components/Icons';
 import { PageHeader, Card, InputField, Toggle, Button } from '../../components/ui';
 import toast from 'react-hot-toast';

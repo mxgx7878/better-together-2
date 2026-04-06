@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { Calendar, Search, Lightbulb, BookOpen, MessageCircle, Bot, Star, Mic, Inbox, Briefcase, Megaphone, Settings, Mail, User, Hand as HandWave } from '../../components/Icons';
 
 // ─── Mock sponsor data ────────────────────────────────────────────

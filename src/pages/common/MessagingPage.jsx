@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { Search, Send, MessageCircle, Clock, ChevronLeft } from '../../components/Icons';
 
 const mockConversations = [

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import { Heart, FileText, CheckCircle } from '../../components/Icons';
 
 const mockMessages = [
