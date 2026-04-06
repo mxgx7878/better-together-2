@@ -121,7 +121,7 @@ function App() {
               <Route path="jobs" element={<JobBoardPage />} />
               <Route path="ai-support" element={<AISupportPage />} />
               <Route path="upgrade" element={<UpgradePage />} />
-              <Route path="admin-support" element={<AdminSupportPage />} />
+              <Route path="admin-support" element={<RoleGuard allowedRoles={['provider', 'participant']}><AdminSupportPage /></RoleGuard>} />
               <Route path="documents" element={<DocumentUploadPage />} />
               <Route path="messaging" element={<MessagingPage />} />
 

@@ -62,7 +62,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   const navItems = isAdmin ? adminNavItems : isProvider ? providerNavItems : participantNavItems;
 
   const filteredNav = navItems.filter(item => item.tier === 'all' || (item.tier === 'paid' && isPaid));
-  const filteredBottom = bottomNavItems.filter(item => item.tier === 'all' || (item.tier === 'free' && !isPaid));
+  const filteredBottom = isAdmin ? [] : bottomNavItems.filter(item => item.tier === 'all' || (item.tier === 'free' && !isPaid));
 
   return (
     <aside
