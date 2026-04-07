@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { CheckCircle } from '../../components/Icons';
+import { CheckCircle, MessageCircle, Send, X } from '../../components/Icons';
 
 const faqItems = [
   { q: 'How do I update my profile information?', a: 'Navigate to your Profile page from the sidebar or top bar. You can edit your details, services, and notification preferences there.' },
@@ -12,22 +12,110 @@ const faqItems = [
 ];
 
 const AdminSupportPage = () => {
-  const { user, isProvider } = useAuth();
+  const { user, isProvider, isPaid } = useAuth();
   const [expandedFaq, setExpandedFaq] = useState(null);
   const [contactType, setContactType] = useState('general');
   const [submitted, setSubmitted] = useState(false);
+  const [showLiveChat, setShowLiveChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    { id: 1, from: 'admin', name: 'BT Support', text: 'Hi! Welcome to live chat. How can we help you today?', time: new Date().toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' }) },
+  ]);
+  const [chatInput, setChatInput] = useState('');
 
   const handleSubmit = () => {
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
   };
 
+  const sendChatMessage = () => {
+    if (!chatInput.trim()) return;
+    const now = new Date().toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' });
+    setChatMessages(prev => [...prev, { id: Date.now(), from: 'user', name: user.name, text: chatInput.trim(), time: now }]);
+    setChatInput('');
+    setTimeout(() => {
+      setChatMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        from: 'admin',
+        name: 'BT Support',
+        text: 'Thanks for your message! A team member will respond shortly. Our business hours are Mon–Fri 9am–5pm AEST.',
+        time: new Date().toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' }),
+      }]);
+    }, 1000);
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-800">Connect with Admin</h1>
-        <p className="text-sm text-slate-500 mt-1">Get help, report issues, or give feedback to The Better Together team</p>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Connect with Admin</h1>
+          <p className="text-sm text-slate-500 mt-1">Get help, report issues, or give feedback to The Better Together team</p>
+        </div>
+        {isPaid && (
+          <button
+            onClick={() => setShowLiveChat(!showLiveChat)}
+            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-sm font-semibold rounded-xl shadow-md transition-all"
+          >
+            <MessageCircle className="w-4 h-4" />
+            {showLiveChat ? 'Hide Live Chat' : 'Live Chat'}
+            <span className="w-2 h-2 bg-emerald-300 rounded-full animate-pulse" />
+          </button>
+        )}
       </div>
+
+      {/* Live Chat Panel (Paid Only) */}
+      {isPaid && showLiveChat && (
+        <div className="bg-white rounded-2xl shadow-sm border border-emerald-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <MessageCircle className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Live Chat with Admin</p>
+                <p className="text-[10px] text-white/70 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block" />
+                  Business hours: Mon–Fri 9am–5pm AEST
+                </p>
+              </div>
+            </div>
+            <button onClick={() => setShowLiveChat(false)} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
+              <X className="w-4 h-4 text-white" />
+            </button>
+          </div>
+          <div className="h-64 overflow-y-auto p-4 space-y-3 bg-slate-50">
+            {chatMessages.map(msg => (
+              <div key={msg.id} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] px-3.5 py-2.5 rounded-xl text-sm ${
+                  msg.from === 'user'
+                    ? 'bg-emerald-600 text-white rounded-br-sm'
+                    : 'bg-white text-slate-700 border border-slate-200 rounded-bl-sm'
+                }`}>
+                  <p className="text-[10px] font-semibold mb-0.5 opacity-70">{msg.name}</p>
+                  <p>{msg.text}</p>
+                  <p className={`text-[10px] mt-1 ${msg.from === 'user' ? 'text-emerald-200' : 'text-slate-400'}`}>{msg.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-3 border-t border-slate-100 flex gap-2">
+            <input
+              type="text"
+              value={chatInput}
+              onChange={e => setChatInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && sendChatMessage()}
+              placeholder="Type your message..."
+              className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-emerald-400"
+            />
+            <button
+              onClick={sendChatMessage}
+              disabled={!chatInput.trim()}
+              className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl transition-all hover:shadow-md disabled:opacity-50"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Admin Team Cards */}
       <div className="grid sm:grid-cols-2 gap-4">
