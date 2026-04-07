@@ -3,17 +3,33 @@ import useAuth from '../../hooks/useAuth';
 import { Star } from '../../components/Icons';
 
 const mockProviders = [
-  { id: 1, name: 'Allied Health Plus', type: 'Therapy Services', services: ['OT', 'Speech Pathology', 'Physiotherapy'], location: 'Melbourne CBD', distance: 5, rating: 4.8, reviews: 23, registered: true, openToCollab: true, featured: true, desc: 'Comprehensive allied health services with a person-centred approach.', tags: ['NDIS Registered', 'Telehealth', 'Home Visits'] },
-  { id: 2, name: 'InReach Support Coordination', type: 'Support Coordination', services: ['Support Coordination', 'Psychosocial Recovery'], location: 'Richmond, VIC', distance: 8, rating: 4.9, reviews: 41, registered: true, openToCollab: true, featured: false, desc: 'Specialist support coordination helping participants navigate the NDIS.', tags: ['NDIS Registered', 'CALD Experience'] },
-  { id: 3, name: 'Sunshine Community Supports', type: 'Daily Living', services: ['Core Supports', 'Community Participation', 'Personal Care'], location: 'Footscray, VIC', distance: 12, rating: 4.6, reviews: 18, registered: true, openToCollab: false, featured: false, desc: 'Supporting daily living and community inclusion across Melbourne\'s west.', tags: ['NDIS Registered', 'Wheelchair Accessible'] },
-  { id: 4, name: 'MindBridge Psychology', type: 'Mental Health', services: ['Counselling', 'Psychology', 'Behaviour Support'], location: 'South Yarra, VIC', distance: 6, rating: 4.7, reviews: 35, registered: true, openToCollab: true, featured: true, desc: 'Trauma-informed mental health services for all ages.', tags: ['Trauma-Informed', 'NDIS Registered'] },
-  { id: 5, name: 'Able Employment Solutions', type: 'Employment', services: ['Employment Supports', 'Job Coaching', 'Resume Building'], location: 'Docklands, VIC', distance: 3, rating: 4.5, reviews: 12, registered: false, openToCollab: true, featured: false, desc: 'Helping participants find meaningful work and build career skills.', tags: ['Employment Focus', 'Supported Employment'] },
-  { id: 6, name: 'HomeFirst Modifications', type: 'Equipment & Home Mods', services: ['Home Modifications', 'Assistive Technology', 'Vehicle Mods'], location: 'Dandenong, VIC', distance: 28, rating: 4.4, reviews: 9, registered: true, openToCollab: false, featured: false, desc: 'Making homes and vehicles accessible for independent living.', tags: ['NDIS Registered', 'Capital Supports'] },
-  { id: 7, name: 'First Peoples Inclusion', type: 'Community & Inclusion', services: ['First Nations Services', 'Cultural Programs', 'Advocacy'], location: 'Fitzroy, VIC', distance: 7, rating: 4.9, reviews: 28, registered: true, openToCollab: true, featured: false, desc: 'Culturally safe, community-led supports for First Nations people.', tags: ['First Nations-led', 'Cultural Safety'] },
-  { id: 8, name: 'TechAssist Pro', type: 'Assistive Technology', services: ['Communication Devices', 'Smart Home', 'AT Assessments'], location: 'CBD, VIC', distance: 4, rating: 4.6, reviews: 15, registered: true, openToCollab: true, featured: false, desc: 'Specialist assistive technology assessments and device setup.', tags: ['AT Specialists', 'NDIS Registered'] },
+  { id: 1, name: 'Allied Health Plus', type: 'NDIS Supports', services: ['Therapy Services', 'Support Coordination', 'Community Participation'], location: 'Melbourne CBD', distance: 5, rating: 4.8, reviews: 23, registered: true, openToCollab: true, featured: true, desc: 'Comprehensive allied health services with a person-centred approach across OT, Speech Pathology and Physiotherapy.', tags: ['NDIS Registered', 'Telehealth', 'Home Visits'] },
+  { id: 2, name: 'InReach Support Coordination', type: 'NDIS Supports', services: ['Support Coordination', 'Psychosocial Recovery Coaching', 'Capacity Building'], location: 'Richmond, VIC', distance: 8, rating: 4.9, reviews: 41, registered: true, openToCollab: true, featured: false, desc: 'Specialist support coordination helping participants navigate the NDIS.', tags: ['NDIS Registered', 'CALD Experience'] },
+  { id: 3, name: 'Sunshine Community Supports', type: 'NDIS Supports', services: ['Core Supports', 'Community Participation', 'SIL / STA / MTA'], location: 'Footscray, VIC', distance: 12, rating: 4.6, reviews: 18, registered: true, openToCollab: false, featured: false, desc: 'Supporting daily living and community inclusion across Melbourne\'s west.', tags: ['NDIS Registered', 'Wheelchair Accessible'] },
+  { id: 4, name: 'MindBridge Psychology', type: 'Mental Health & Wellbeing', services: ['Counselling & Psychology', 'Peer Support', 'Psychosocial Programs'], location: 'South Yarra, VIC', distance: 6, rating: 4.7, reviews: 35, registered: true, openToCollab: true, featured: true, desc: 'Trauma-informed mental health services for all ages including AOD and crisis support.', tags: ['Trauma-Informed', 'NDIS Registered'] },
+  { id: 5, name: 'Able Employment Solutions', type: 'NDIS Supports', services: ['Employment Supports', 'Capacity Building Supports', 'Community Participation'], location: 'Docklands, VIC', distance: 3, rating: 4.5, reviews: 12, registered: false, openToCollab: true, featured: false, desc: 'Helping participants find meaningful work and build career skills.', tags: ['Employment Focus', 'Supported Employment'] },
+  { id: 6, name: 'HomeFirst Modifications', type: 'Equipment, Technology & Modifications', services: ['Home Modifications', 'Assistive Technology', 'Vehicle Modifications'], location: 'Dandenong, VIC', distance: 28, rating: 4.4, reviews: 9, registered: true, openToCollab: false, featured: false, desc: 'Making homes and vehicles accessible for independent living with mobility & seating solutions.', tags: ['NDIS Registered', 'Capital Supports'] },
+  { id: 7, name: 'First Peoples Inclusion', type: 'Community & Inclusion Services', services: ['First Nations-led Services', 'Advocacy & Rights Education', 'Community Participation Programs'], location: 'Fitzroy, VIC', distance: 7, rating: 4.9, reviews: 28, registered: true, openToCollab: true, featured: false, desc: 'Culturally safe, community-led supports for First Nations people.', tags: ['First Nations-led', 'Cultural Safety'] },
+  { id: 8, name: 'TechAssist Pro', type: 'Equipment, Technology & Modifications', services: ['Communication Devices', 'Assistive Technology', 'Mobility & Seating'], location: 'CBD, VIC', distance: 4, rating: 4.6, reviews: 15, registered: true, openToCollab: true, featured: false, desc: 'Specialist assistive technology assessments and device setup.', tags: ['AT Specialists', 'NDIS Registered'] },
+  { id: 9, name: 'GoldenYears Aged Care', type: 'Aged Care Supports', services: ['Home Care Packages', 'Allied Health for Older Adults', 'Dementia & Palliative Care'], location: 'Hawthorn, VIC', distance: 10, rating: 4.7, reviews: 32, registered: true, openToCollab: true, featured: false, desc: 'Compassionate aged care services including HCP and CHSP-funded supports.', tags: ['My Aged Care', 'Home Care'] },
+  { id: 10, name: 'Elevate Health Clinic', type: 'Health & Medical Services', services: ['Allied Health', 'Rehabilitation', 'Mental Health Services'], location: 'Prahran, VIC', distance: 9, rating: 4.8, reviews: 44, registered: true, openToCollab: true, featured: false, desc: 'GP and specialist clinics with allied health, counselling and hospital discharge support.', tags: ['Bulk Billing', 'Telehealth'] },
+  { id: 11, name: 'BrightPath Learning', type: 'Education & Early Learning', services: ['Early Childhood Intervention', 'School Inclusion', 'Learning Support & Tutoring'], location: 'Carlton, VIC', distance: 6, rating: 4.6, reviews: 19, registered: true, openToCollab: false, featured: false, desc: 'Supporting children and young people in education settings with inclusion and learning support.', tags: ['NDIS Registered', 'School-based'] },
+  { id: 12, name: 'SafeReturn Rehab', type: 'TAC, WorkSafe & Injury Management', services: ['TAC-funded Services', 'WorkSafe Rehabilitation', 'Return-to-work Programs'], location: 'Geelong, VIC', distance: 75, rating: 4.5, reviews: 21, registered: true, openToCollab: true, featured: false, desc: 'Specialist injury management and rehabilitation for TAC and WorkSafe clients.', tags: ['TAC Approved', 'WorkSafe'] },
+  { id: 13, name: 'ProviderPro Consulting', type: 'Business & Professional Services', services: ['Business Consulting', 'HR & Compliance', 'Marketing & Branding'], location: 'CBD, VIC', distance: 2, rating: 4.9, reviews: 37, registered: false, openToCollab: true, featured: false, desc: 'Business support for NDIS providers including accounting, legal, compliance and training.', tags: ['Provider Training', 'Business Growth'] },
 ];
 
-const serviceFilters = ['All Services', 'Therapy Services', 'Support Coordination', 'Daily Living', 'Mental Health', 'Employment', 'Equipment & Home Mods', 'Community & Inclusion', 'Assistive Technology'];
+const serviceFilters = [
+  'All Services',
+  'NDIS Supports',
+  'Aged Care Supports',
+  'Health & Medical Services',
+  'Education & Early Learning',
+  'Mental Health & Wellbeing',
+  'TAC, WorkSafe & Injury Management',
+  'Equipment, Technology & Modifications',
+  'Business & Professional Services',
+  'Community & Inclusion Services',
+];
 const radiusOptions = [10, 25, 50, 100];
 
 const DirectoryPage = () => {
@@ -202,7 +218,7 @@ const DirectoryPage = () => {
               Providers Near You
             </h3>
             <div className="space-y-2">
-              {providers.filter(p => p.distance <= 15).slice(0, 3).map(p => (
+              {mockProviders.filter(p => p.distance <= 15).slice(0, 3).map(p => (
                 <button key={p.id} onClick={() => setSelectedProvider(p)} className="w-full text-left flex items-center gap-2 p-2 rounded-lg hover:bg-purple-50 transition-colors">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
                     {p.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
@@ -221,7 +237,7 @@ const DirectoryPage = () => {
               Complementary Services
             </h3>
             <div className="space-y-2">
-              {providers.filter(p => p.openToCollab).slice(0, 3).map(p => (
+              {mockProviders.filter(p => p.openToCollab).slice(0, 3).map(p => (
                 <button key={p.id} onClick={() => setSelectedProvider(p)} className="w-full text-left flex items-center gap-2 p-2 rounded-lg hover:bg-emerald-50 transition-colors">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
                     {p.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
@@ -240,7 +256,7 @@ const DirectoryPage = () => {
               Recently Viewed
             </h3>
             <div className="space-y-2">
-              {providers.slice(0, 3).map(p => (
+              {mockProviders.slice(0, 3).map(p => (
                 <button key={p.id} onClick={() => setSelectedProvider(p)} className="w-full text-left flex items-center gap-2 p-2 rounded-lg hover:bg-amber-50 transition-colors">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
                     {p.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
