@@ -1,11 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { useState } from 'react';
+import useAuth from '../../hooks/useAuth';
 
 const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) => {
-  const { user, isProvider, isPaid, logout, switchProfile, currentProfile, availableProfiles } = useAuth();
+  const { user, isProvider, isAdmin, isPaid, logout } = useAuth();
   const navigate = useNavigate();
-  const [showProfileSwitcher, setShowProfileSwitcher] = useState(false);
 
   // On mobile, always show expanded sidebar
   const collapsed = isMobile ? false : isCollapsed;
@@ -19,7 +17,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Service Requests', icon: InboxIcon, path: '/dashboard/requests', tier: 'paid', badge: isPaid ? '3' : null },
     { label: 'Events & Networking', icon: CalendarIcon, path: '/dashboard/events', tier: 'all' },
     { label: 'Innovation Lab', icon: LightbulbIcon, path: '/dashboard/innovation-lab', tier: 'all' },
-    // { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
+    { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
     { label: 'Q&A Forum', icon: ChatBubbleIcon, path: '/dashboard/qa', tier: 'all' },
     { label: 'Job Board', icon: BriefcaseIcon, path: '/dashboard/jobs', tier: 'paid' },
     { label: 'Marketing', icon: MegaphoneIcon, path: '/dashboard/marketing', tier: 'paid' },
@@ -38,9 +36,21 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Message Board', icon: ChatBubbleIcon, path: '/dashboard/messages', tier: 'all' },
     { label: 'Job Board', icon: BriefcaseIcon, path: '/dashboard/jobs', tier: 'all' },
     { label: 'Events', icon: CalendarIcon, path: '/dashboard/events', tier: 'all' },
-    // { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
+    { label: 'Library', icon: LibraryIcon, path: '/dashboard/library', tier: 'all' },
     { label: 'Rights & Safety', icon: ShieldIcon, path: '/dashboard/rights-safety', tier: 'all' },
     { label: 'My Plan Buddy', icon: HeartIcon, path: '/dashboard/plan-buddy', tier: 'paid' },
+  ];
+
+  // Admin navigation items
+  const adminNavItems = [
+    { label: 'Dashboard', icon: HomeIcon, path: '/dashboard', end: true, tier: 'all' },
+    { label: 'User Management', icon: ProfileIcon, path: '/dashboard/admin/users', tier: 'all' },
+    { label: 'Provider Approvals', icon: ShieldIcon, path: '/dashboard/admin/approvals', tier: 'all', badge: '12' },
+    { label: 'Support Tickets', icon: HeadsetIcon, path: '/dashboard/admin/tickets', tier: 'all', badge: '8' },
+    { label: 'Content Management', icon: DocumentIcon, path: '/dashboard/admin/content', tier: 'all' },
+    { label: 'Subscriptions', icon: StarIcon, path: '/dashboard/admin/subscriptions', tier: 'all' },
+    { label: 'Reports & Analytics', icon: ChatBubbleIcon, path: '/dashboard/admin/reports', tier: 'all' },
+    { label: 'Platform Settings', icon: LightbulbIcon, path: '/dashboard/admin/settings', tier: 'all' },
   ];
 
   const bottomNavItems = [
@@ -49,30 +59,19 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Connect with Admin', icon: HeadsetIcon, path: '/dashboard/admin-support', tier: 'all' },
   ];
 
-  const navItems = isProvider ? providerNavItems : participantNavItems;
+  const navItems = isAdmin ? adminNavItems : isProvider ? providerNavItems : participantNavItems;
 
   const filteredNav = navItems.filter(item => item.tier === 'all' || (item.tier === 'paid' && isPaid));
-  const filteredBottom = bottomNavItems.filter(item => item.tier === 'all' || (item.tier === 'free' && !isPaid));
-
-  const profileLabels = {
-    providerFree: { label: 'Provider (Free)', short: 'PF' },
-    providerPaid: { label: 'Provider (Paid)', short: 'PP' },
-    participantFree: { label: 'Participant (Free)', short: 'CF' },
-    participantPaid: { label: 'Participant (Paid)', short: 'CP' },
-  };
-
-  const handleProfileSwitch = (key) => {
-    switchProfile(key);
-    setShowProfileSwitcher(false);
-    navigate('/dashboard');
-  };
+  const filteredBottom = isAdmin ? [] : bottomNavItems.filter(item => item.tier === 'all' || (item.tier === 'free' && !isPaid));
 
   return (
     <aside
     className={`h-screen text-white flex flex-col transition-all duration-300 ease-in-out ${
-    isProvider
-      ? 'bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950'
-      : 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900'
+    isAdmin
+      ? 'bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900'
+      : isProvider
+        ? 'bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950'
+        : 'bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900'
   } ${collapsed ? 'w-20' : 'w-72'}`}
     >
       {/* Logo & Toggle */}
@@ -98,7 +97,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
               <img src="/uploads/logo.jpg" className='w-24' alt="" />  
               {/* <p className="text-sm font-semibold text-white truncate">The Better Together</p> */}
               <p className="text-[11px] text-slate-400 truncate">
-                {isProvider ? 'Provider Portal' : 'Participant Portal'}
+                {isAdmin ? 'Admin Portal' : isProvider ? 'Provider Portal' : 'Participant Portal'}
               </p>
             </div>
           </div>
@@ -189,55 +188,17 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
         ))}
       </nav>
 
-      {/* Demo Profile Switcher */}
+      {/* Logout */}
       <div className="border-t border-white/10 p-3 flex-shrink-0">
-        <div className="relative">
-          <button
-            onClick={() => setShowProfileSwitcher(!showProfileSwitcher)}
-            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-xs ${collapsed ? 'justify-center px-0' : ''}`}
-          >
-            <svg className="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-            </svg>
-            {!collapsed && (
-              <span className="text-amber-400 font-medium truncate">
-                Demo: {profileLabels[currentProfile]?.label}
-              </span>
-            )}
-          </button>
-
-          {showProfileSwitcher && (
-            <div className={`absolute bottom-full mb-2 ${collapsed ? 'left-full ml-2' : 'left-0 right-0'} bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden min-w-[220px] z-50`}>
-              <div className="p-2 border-b border-white/10">
-                <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold px-2">Switch Demo Profile</p>
-              </div>
-              {availableProfiles.map((key) => (
-                <button
-                  key={key}
-                  onClick={() => handleProfileSwitch(key)}
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                    currentProfile === key
-                      ? 'bg-purple-600/30 text-purple-300'
-                      : 'text-slate-300 hover:bg-white/5'
-                  }`}
-                >
-                  {profileLabels[key]?.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Logout */}
         <button
-          onClick={() => navigate('/')}
-          className={`w-full flex items-center gap-2 px-3 py-2.5 mt-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
-          title="Back to website"
+          onClick={() => { logout(); navigate('/login'); }}
+          className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
+          title="Logout"
         >
           <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
-          {!collapsed && <span>Exit to Website</span>}
+          {!collapsed && <span>Logout</span>}
         </button>
       </div>
     </aside>

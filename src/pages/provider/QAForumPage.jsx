@@ -1,0 +1,266 @@
+import { useState } from 'react';
+import useAuth from '../../hooks/useAuth';
+import { Pin, MessageCircle, Send, X } from '../../components/Icons';
+
+const mockThreads = [
+  { id: 1, title: 'New NDIS pricing changes — how is everyone adapting?', author: 'Karen B.', authorRole: 'Support Coordinator', date: '2026-02-16', replies: 12, views: 89, topic: 'compliance', pinned: true, lastReply: '2 hours ago', expert: false, preview: 'With the mid-year pricing update, I\'m finding it challenging to reconcile the new rates with existing service agreements...' },
+  { id: 2, title: 'Best practices for participant onboarding documentation', author: 'Michael T.', authorRole: 'Provider Manager', date: '2026-02-15', replies: 8, views: 54, topic: 'practice', pinned: false, lastReply: '5 hours ago', expert: false, preview: 'We recently revamped our onboarding process and wanted to share what\'s been working well for us...' },
+  { id: 3, title: 'Telehealth vs in-person — what are participants preferring?', author: 'Dr. Lisa M.', authorRole: 'Allied Health', date: '2026-02-14', replies: 15, views: 112, topic: 'service', pinned: false, lastReply: '1 day ago', expert: true, preview: 'We\'ve noticed a shift back to in-person for younger participants but telehealth remains popular for...' },
+  { id: 4, title: 'SIL roster management — any good tools?', author: 'Anonymous', authorRole: 'Provider', date: '2026-02-13', replies: 6, views: 42, topic: 'tech', pinned: false, lastReply: '1 day ago', expert: false, preview: 'Managing SIL rosters is becoming increasingly complex. Does anyone use software that integrates with NDIS claiming?' },
+  { id: 5, title: 'Worker screening turnaround times in VIC', author: 'Sarah K.', authorRole: 'HR Manager', date: '2026-02-12', replies: 4, views: 31, topic: 'compliance', pinned: false, lastReply: '2 days ago', expert: false, preview: 'We\'re experiencing delays of 6+ weeks for worker screening checks. Is anyone else seeing this?' },
+  { id: 6, title: 'Tips for supporting participants through plan reviews', author: 'James P.', authorRole: 'Support Coordinator', date: '2026-02-10', replies: 19, views: 145, topic: 'practice', pinned: false, lastReply: '3 days ago', expert: true, preview: 'Plan reviews can be stressful for participants. Here are some strategies that have worked well...' },
+];
+
+const topics = [
+  { key: 'all', label: 'All Topics' },
+  { key: 'compliance', label: 'Compliance & Policy' },
+  { key: 'practice', label: 'Practice & Delivery' },
+  { key: 'service', label: 'Service Insights' },
+  { key: 'tech', label: 'Technology & Tools' },
+];
+
+const MOCK_LIVE_MESSAGES = [
+  { id: 1, name: 'Karen B.', text: 'Has anyone dealt with the new pricing changes for SIL?', time: '2:15 PM', avatar: 'KB' },
+  { id: 2, name: 'Dr. Lisa M.', text: 'Yes — the new line items took effect last month. Happy to share a breakdown.', time: '2:18 PM', avatar: 'LM' },
+  { id: 3, name: 'James P.', text: 'Would love to see that! We\'re still reconciling old agreements.', time: '2:22 PM', avatar: 'JP' },
+];
+
+const QAForumPage = () => {
+  const { user } = useAuth();
+  const [topicFilter, setTopicFilter] = useState('all');
+  const [showNewThread, setShowNewThread] = useState(false);
+  const [sortBy, setSortBy] = useState('recent');
+  const [selectedThread, setSelectedThread] = useState(null);
+  const [savedThreads, setSavedThreads] = useState([1, 6]);
+  const [showSaved, setShowSaved] = useState(false);
+  const [showLiveChat, setShowLiveChat] = useState(false);
+  const [liveChatMessages, setLiveChatMessages] = useState(MOCK_LIVE_MESSAGES);
+  const [liveChatInput, setLiveChatInput] = useState('');
+
+  const sendLiveMessage = () => {
+    if (!liveChatInput.trim()) return;
+    const now = new Date().toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' });
+    setLiveChatMessages(prev => [...prev, {
+      id: Date.now(),
+      name: user.name || 'You',
+      text: liveChatInput.trim(),
+      time: now,
+      avatar: user.name?.split(' ').map(n => n[0]).join('') || 'Y',
+      isMe: true,
+    }]);
+    setLiveChatInput('');
+  };
+
+  const toggleSave = (id) => {
+    setSavedThreads(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const filtered = mockThreads
+    .filter(t => showSaved ? savedThreads.includes(t.id) : true)
+    .filter(t => topicFilter === 'all' || t.topic === topicFilter)
+    .sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      if (sortBy === 'popular') return b.views - a.views;
+      return new Date(b.date) - new Date(a.date);
+    });
+
+  return (
+    <div className="max-w-5xl mx-auto space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Q&A Forum</h1>
+          <p className="text-sm text-slate-500 mt-1">Ask questions, share knowledge, and learn from other providers</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowLiveChat(!showLiveChat)}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all ${
+              showLiveChat
+                ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50'
+            }`}
+          >
+            <MessageCircle className="w-4 h-4" />
+            Live Chat
+            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+          </button>
+          <button
+            onClick={() => setShowNewThread(true)}
+            className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-xl shadow-md transition-all"
+          >
+            + New Discussion
+          </button>
+        </div>
+      </div>
+
+      {/* Live Chat Panel */}
+      {showLiveChat && (
+        <div className="bg-white rounded-2xl shadow-sm border border-emerald-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <MessageCircle className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Provider Live Chat</p>
+                <p className="text-[10px] text-white/70">Real-time Q&A with other providers — moderated for safety</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] text-white/70 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block" />
+                {liveChatMessages.length} online
+              </span>
+              <button onClick={() => setShowLiveChat(false)} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </div>
+          </div>
+          <div className="h-56 overflow-y-auto p-4 space-y-3 bg-slate-50">
+            {liveChatMessages.map(msg => (
+              <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} gap-2`}>
+                {!msg.isMe && (
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0 mt-1">
+                    {msg.avatar}
+                  </div>
+                )}
+                <div className={`max-w-[75%] px-3 py-2 rounded-xl text-sm ${
+                  msg.isMe
+                    ? 'bg-purple-600 text-white rounded-br-sm'
+                    : 'bg-white text-slate-700 border border-slate-200 rounded-bl-sm'
+                }`}>
+                  {!msg.isMe && <p className="text-[10px] font-semibold text-purple-600 mb-0.5">{msg.name}</p>}
+                  <p className="text-[13px]">{msg.text}</p>
+                  <p className={`text-[10px] mt-0.5 ${msg.isMe ? 'text-purple-200' : 'text-slate-400'}`}>{msg.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-3 border-t border-slate-100 flex gap-2">
+            <input
+              type="text"
+              value={liveChatInput}
+              onChange={e => setLiveChatInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && sendLiveMessage()}
+              placeholder="Ask a question or share an insight..."
+              className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-emerald-400"
+            />
+            <button
+              onClick={sendLiveMessage}
+              disabled={!liveChatInput.trim()}
+              className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl transition-all hover:shadow-md disabled:opacity-50"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+        <div className="flex gap-2 flex-wrap flex-1">
+          <button
+            onClick={() => setShowSaved(!showSaved)}
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
+              showSaved ? 'bg-amber-500 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-amber-300'
+            }`}
+          >
+            <svg className="w-3.5 h-3.5" fill={showSaved ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+            Saved ({savedThreads.length})
+          </button>
+          {topics.map(t => (
+            <button
+              key={t.key}
+              onClick={() => setTopicFilter(t.key)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                topicFilter === t.key ? 'bg-purple-600 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-purple-300'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <select
+          value={sortBy}
+          onChange={e => setSortBy(e.target.value)}
+          className="px-3 py-1.5 rounded-lg border border-slate-200 text-sm outline-none bg-white"
+        >
+          <option value="recent">Most Recent</option>
+          <option value="popular">Most Viewed</option>
+        </select>
+      </div>
+
+      {/* Thread List */}
+      <div className="space-y-3">
+        {filtered.map(thread => (
+          <div key={thread.id} onClick={() => setSelectedThread(selectedThread === thread.id ? null : thread.id)} className={`bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-all cursor-pointer ${thread.pinned ? 'border-amber-200 bg-amber-50/30' : 'border-slate-100'} ${selectedThread === thread.id ? 'ring-2 ring-purple-300 border-purple-200' : ''}`}>
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                {thread.author === 'Anonymous' ? '?' : thread.author.split(' ').map(n => n[0]).join('')}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  {thread.pinned && <span className="text-amber-600 text-xs font-bold flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> Pinned</span>}
+                  {thread.expert && <span className="text-emerald-700 bg-emerald-50 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200">Expert Response</span>}
+                  <h3 className="text-base font-semibold text-slate-800 hover:text-purple-700 transition-colors">{thread.title}</h3>
+                </div>
+                <p className="text-sm text-slate-500 mt-1 line-clamp-2">{thread.preview}</p>
+                <div className="flex items-center gap-4 mt-3 text-xs text-slate-400">
+                  <span className="font-medium text-slate-600">{thread.author}</span>
+                  <span>{thread.authorRole}</span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    {thread.replies} replies
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                    {thread.views} views
+                  </span>
+                  <span>Last reply: {thread.lastReply}</span>
+                  <button onClick={(e) => { e.stopPropagation(); toggleSave(thread.id); }} className="ml-auto" title={savedThreads.includes(thread.id) ? 'Unsave' : 'Save'}>
+                    <svg className={`w-4 h-4 ${savedThreads.includes(thread.id) ? 'text-amber-500 fill-amber-500' : 'text-slate-300 hover:text-amber-400'}`} fill={savedThreads.includes(thread.id) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* New Thread Modal */}
+      {showNewThread && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowNewThread(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6" onClick={e => e.stopPropagation()}>
+            <h2 className="text-xl font-bold text-slate-800 mb-5">Start a New Discussion</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Topic</label>
+                <select className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none bg-white">
+                  {topics.filter(t => t.key !== 'all').map(t => <option key={t.key} value={t.key}>{t.label}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Title</label>
+                <input type="text" placeholder="What's your question or discussion topic?" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Details</label>
+                <textarea rows={4} placeholder="Provide context or details..." className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400 resize-none" />
+              </div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-purple-600" />
+                <span className="text-sm text-slate-600">Post anonymously</span>
+              </label>
+              <button onClick={() => setShowNewThread(false)} className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md">
+                Post Discussion
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default QAForumPage;
