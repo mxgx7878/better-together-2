@@ -99,9 +99,9 @@ const ContactPage = () => {
       ),
       title: 'Visit Us',
       subtitle: 'Come say hello at our office',
-      details: ['123 Collins Street', 'Melbourne VIC 3000', 'Australia'],
+      details: ['328 Swanston St', 'Melbourne VIC 3000', 'Australia'],
       color: 'from-orange-500 to-red-500',
-      link: 'https://www.google.com/maps/search/123+Collins+Street+Melbourne+VIC+3000+Australia'
+      link: 'https://www.google.com/maps/search/328+Swanston+St+Melbourne+VIC+3000+Australia'
     },
     {
       icon: (
@@ -496,20 +496,20 @@ const ContactPage = () => {
           <div className="text-center mb-12">
             <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">Location</span>
             <h2 className="text-4xl font-bold text-gray-900 mt-2 mb-4">Find Us Here</h2>
-            <p className="text-xl text-gray-600">123 Collins Street, Melbourne VIC 3000, Australia</p>
+            <p className="text-xl text-gray-600">328 Swanston St, Melbourne VIC 3000, Australia</p>
           </div>
           
           <div className="relative rounded-3xl overflow-hidden shadow-2xl" style={{ padding: '3px', background: 'linear-gradient(to right, #9333ea, #ec4899, #ea580c)' }}>
             <div className="rounded-3xl overflow-hidden">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.97159731531664!3d-37.81627997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642b4a858c1fd%3A0x6bda3a8c4e5c8b0e!2s123%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sau!4v1710000000000!5m2!1sen!2sau"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.96305731531664!3d-37.81097997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642cb2b3e4f97%3A0x5045675218ce6e0!2s328%20Swanston%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sau!4v1710000000000!5m2!1sen!2sau"
                 width="100%"
                 height="450"
                 style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="123 Collins Street, Melbourne VIC 3000, Australia"
+                title="328 Swanston St, Melbourne VIC 3000, Australia"
                 className="w-full"
               ></iframe>
             </div>
