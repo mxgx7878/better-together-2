@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import DashboardSidebar from './DashboardSidebar';
 import DashboardTopbar from './DashboardTopbar';
+import FloatingAIChat from './FloatingAIChat';
 import useAuth from '../../hooks/useAuth';
 
 const DashboardLayout = () => {
@@ -84,6 +85,9 @@ const DashboardLayout = () => {
           <Outlet />
         </main>
       </div>
+
+      {/* Floating AI Chat Widget */}
+      <FloatingAIChat />
     </div>
   );
 };
