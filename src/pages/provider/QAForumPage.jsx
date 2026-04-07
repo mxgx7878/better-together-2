@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { Pin } from '../../components/Icons';
+import { Pin, MessageCircle, Send, X } from '../../components/Icons';
 
 const mockThreads = [
   { id: 1, title: 'New NDIS pricing changes — how is everyone adapting?', author: 'Karen B.', authorRole: 'Support Coordinator', date: '2026-02-16', replies: 12, views: 89, topic: 'compliance', pinned: true, lastReply: '2 hours ago', expert: false, preview: 'With the mid-year pricing update, I\'m finding it challenging to reconcile the new rates with existing service agreements...' },
@@ -19,6 +19,12 @@ const topics = [
   { key: 'tech', label: 'Technology & Tools' },
 ];
 
+const MOCK_LIVE_MESSAGES = [
+  { id: 1, name: 'Karen B.', text: 'Has anyone dealt with the new pricing changes for SIL?', time: '2:15 PM', avatar: 'KB' },
+  { id: 2, name: 'Dr. Lisa M.', text: 'Yes — the new line items took effect last month. Happy to share a breakdown.', time: '2:18 PM', avatar: 'LM' },
+  { id: 3, name: 'James P.', text: 'Would love to see that! We\'re still reconciling old agreements.', time: '2:22 PM', avatar: 'JP' },
+];
+
 const QAForumPage = () => {
   const { user } = useAuth();
   const [topicFilter, setTopicFilter] = useState('all');
@@ -27,6 +33,23 @@ const QAForumPage = () => {
   const [selectedThread, setSelectedThread] = useState(null);
   const [savedThreads, setSavedThreads] = useState([1, 6]);
   const [showSaved, setShowSaved] = useState(false);
+  const [showLiveChat, setShowLiveChat] = useState(false);
+  const [liveChatMessages, setLiveChatMessages] = useState(MOCK_LIVE_MESSAGES);
+  const [liveChatInput, setLiveChatInput] = useState('');
+
+  const sendLiveMessage = () => {
+    if (!liveChatInput.trim()) return;
+    const now = new Date().toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit' });
+    setLiveChatMessages(prev => [...prev, {
+      id: Date.now(),
+      name: user.name || 'You',
+      text: liveChatInput.trim(),
+      time: now,
+      avatar: user.name?.split(' ').map(n => n[0]).join('') || 'Y',
+      isMe: true,
+    }]);
+    setLiveChatInput('');
+  };
 
   const toggleSave = (id) => {
     setSavedThreads(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
@@ -49,13 +72,90 @@ const QAForumPage = () => {
           <h1 className="text-2xl font-bold text-slate-800">Q&A Forum</h1>
           <p className="text-sm text-slate-500 mt-1">Ask questions, share knowledge, and learn from other providers</p>
         </div>
-        <button
-          onClick={() => setShowNewThread(true)}
-          className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-xl shadow-md transition-all"
-        >
-          + New Discussion
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowLiveChat(!showLiveChat)}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all ${
+              showLiveChat
+                ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50'
+            }`}
+          >
+            <MessageCircle className="w-4 h-4" />
+            Live Chat
+            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+          </button>
+          <button
+            onClick={() => setShowNewThread(true)}
+            className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-xl shadow-md transition-all"
+          >
+            + New Discussion
+          </button>
+        </div>
       </div>
+
+      {/* Live Chat Panel */}
+      {showLiveChat && (
+        <div className="bg-white rounded-2xl shadow-sm border border-emerald-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <MessageCircle className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Provider Live Chat</p>
+                <p className="text-[10px] text-white/70">Real-time Q&A with other providers — moderated for safety</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] text-white/70 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full inline-block" />
+                {liveChatMessages.length} online
+              </span>
+              <button onClick={() => setShowLiveChat(false)} className="p-1 hover:bg-white/10 rounded-lg transition-colors">
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </div>
+          </div>
+          <div className="h-56 overflow-y-auto p-4 space-y-3 bg-slate-50">
+            {liveChatMessages.map(msg => (
+              <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} gap-2`}>
+                {!msg.isMe && (
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0 mt-1">
+                    {msg.avatar}
+                  </div>
+                )}
+                <div className={`max-w-[75%] px-3 py-2 rounded-xl text-sm ${
+                  msg.isMe
+                    ? 'bg-purple-600 text-white rounded-br-sm'
+                    : 'bg-white text-slate-700 border border-slate-200 rounded-bl-sm'
+                }`}>
+                  {!msg.isMe && <p className="text-[10px] font-semibold text-purple-600 mb-0.5">{msg.name}</p>}
+                  <p className="text-[13px]">{msg.text}</p>
+                  <p className={`text-[10px] mt-0.5 ${msg.isMe ? 'text-purple-200' : 'text-slate-400'}`}>{msg.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-3 border-t border-slate-100 flex gap-2">
+            <input
+              type="text"
+              value={liveChatInput}
+              onChange={e => setLiveChatInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && sendLiveMessage()}
+              placeholder="Ask a question or share an insight..."
+              className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-emerald-400"
+            />
+            <button
+              onClick={sendLiveMessage}
+              disabled={!liveChatInput.trim()}
+              className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl transition-all hover:shadow-md disabled:opacity-50"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
