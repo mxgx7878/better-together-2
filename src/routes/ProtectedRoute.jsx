@@ -1,25 +1,31 @@
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { selectIsAuthenticated, selectUser } from '../store/slices/authSlice';
 
-// Protects routes that require authentication
-// Optionally restricts by role(s)
 const ProtectedRoute = ({ allowedRoles }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectUser);
+  const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  // Not logged in → go to login
+  if (!isAuthenticated || !user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(user?.role)) {
-    // Redirect to appropriate dashboard based on role
-    const redirectMap = {
-      admin: '/admin',
-      provider: '/provider',
-      participant: '/participant',
-    };
-    return <Navigate to={redirectMap[user?.role] || '/'} replace />;
+  const userRole = (user.role || '').toLowerCase();
+
+  // Role check (case-insensitive)
+  if (allowedRoles && allowedRoles.length > 0) {
+    const allowed = allowedRoles.map((r) => r.toLowerCase());
+    if (!allowed.includes(userRole)) {
+      // Redirect to their own dashboard
+      const redirectMap = {
+        admin: '/admin',
+        provider: '/provider',
+        participant: '/participant',
+      };
+      return <Navigate to={redirectMap[userRole] || '/'} replace />;
+    }
   }
 
   return <Outlet />;

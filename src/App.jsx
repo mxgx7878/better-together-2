@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Toaster } from 'sonner';
 import ScrollToTop from './components/ScrollToTop';
+import { selectIsAuthenticated, selectUser } from './store/slices/authSlice';
 
 // Layouts
 import PublicLayout from './components/layout/PublicLayout';
@@ -56,6 +58,17 @@ import MessagingPage from './pages/shared/MessagingPage';
 import AISupportPage from './pages/shared/AISupportPage';
 import UpgradePage from './pages/shared/UpgradePage';
 import AdminSupportPage from './pages/shared/AdminSupportPage';
+
+// Catch-all: if logged in go to dashboard, otherwise go home
+function CatchAll() {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
+  if (isAuthenticated && user) {
+    const map = { admin: '/admin', provider: '/provider', participant: '/participant' };
+    return <Navigate to={map[(user.role || '').toLowerCase()] || '/'} replace />;
+  }
+  return <Navigate to="/" replace />;
+}
 
 function App() {
   return (
@@ -138,8 +151,8 @@ function App() {
           </Route>
         </Route>
 
-        {/* ─── Catch-all ──────────────────────────────────────── */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* ─── Catch-all: unknown routes go home ─────────────── */}
+        <Route path="*" element={<CatchAll />} />
       </Routes>
     </Router>
   );

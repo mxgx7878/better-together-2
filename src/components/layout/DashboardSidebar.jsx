@@ -1,15 +1,11 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
 import {
   selectUser,
   selectIsProvider,
-  selectIsParticipant,
   selectIsAdmin,
   selectIsPaid,
-  selectDummyUsers,
 } from '../../store/slices/authSlice';
-import { switchProfile } from '../../store/slices/authSlice';
 import { logoutUser } from '../../store/actions/authActions';
 import {
   Home,
@@ -31,7 +27,6 @@ import {
   Headphones,
   ChevronsLeft,
   X,
-  ChevronsUpDown,
   LogOut,
   LayoutDashboard,
   Users,
@@ -44,15 +39,11 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const isProvider = useSelector(selectIsProvider);
-  const isParticipant = useSelector(selectIsParticipant);
   const isAdmin = useSelector(selectIsAdmin);
   const isPaid = useSelector(selectIsPaid);
-  const dummyUsers = useSelector(selectDummyUsers);
-  const [showProfileSwitcher, setShowProfileSwitcher] = useState(false);
 
   const collapsed = isMobile ? false : isCollapsed;
 
-  // Get base path based on role
   const basePath = isAdmin ? '/admin' : isProvider ? '/provider' : '/participant';
 
   // Admin navigation
@@ -110,22 +101,6 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   const filteredNav = navItems.filter(
     (item) => item.tier === 'all' || (item.tier === 'paid' && isPaid)
   );
-
-  const profileLabels = {
-    'admin@bettertogether.com': { label: 'Admin', short: 'AD' },
-    'provider.free@test.com': { label: 'Provider (Free)', short: 'PF' },
-    'provider.paid@test.com': { label: 'Provider (Paid)', short: 'PP' },
-    'participant.free@test.com': { label: 'Participant (Free)', short: 'CF' },
-    'participant.paid@test.com': { label: 'Participant (Paid)', short: 'CP' },
-  };
-
-  const handleProfileSwitch = (email) => {
-    dispatch(switchProfile(email));
-    setShowProfileSwitcher(false);
-    const role = dummyUsers[email]?.role;
-    const redirectMap = { admin: '/admin', provider: '/provider', participant: '/participant' };
-    navigate(redirectMap[role] || '/');
-  };
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -246,57 +221,15 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
         ))}
       </nav>
 
-      {/* Demo Profile Switcher */}
+      {/* Logout */}
       <div className="border-t border-white/10 p-3 flex-shrink-0">
-        <div className="relative">
-          <button
-            onClick={() => setShowProfileSwitcher(!showProfileSwitcher)}
-            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-xs ${collapsed ? 'justify-center px-0' : ''}`}
-          >
-            <ChevronsUpDown className="w-4 h-4 text-amber-400 flex-shrink-0" />
-            {!collapsed && (
-              <span className="text-amber-400 font-medium truncate">
-                Demo: {profileLabels[user?.email]?.label || user?.role}
-              </span>
-            )}
-          </button>
-
-          {showProfileSwitcher && (
-            <div
-              className={`absolute bottom-full mb-2 ${
-                collapsed ? 'left-full ml-2' : 'left-0 right-0'
-              } bg-slate-800 rounded-xl shadow-2xl border border-white/10 overflow-hidden min-w-[220px] z-50`}
-            >
-              <div className="p-2 border-b border-white/10">
-                <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold px-2">
-                  Switch Demo Profile
-                </p>
-              </div>
-              {Object.keys(dummyUsers).map((email) => (
-                <button
-                  key={email}
-                  onClick={() => handleProfileSwitch(email)}
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                    user?.email === email
-                      ? 'bg-purple-600/30 text-purple-300'
-                      : 'text-slate-300 hover:bg-white/5'
-                  }`}
-                >
-                  {profileLabels[email]?.label || email}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Logout */}
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center gap-2 px-3 py-2.5 mt-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
+          className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
           title="Logout"
         >
           <LogOut className="w-5 h-5 flex-shrink-0" />
-          {!collapsed && <span>Exit to Website</span>}
+          {!collapsed && <span>Logout</span>}
         </button>
       </div>
     </aside>
