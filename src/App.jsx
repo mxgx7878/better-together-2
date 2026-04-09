@@ -28,6 +28,7 @@ import RegisterPage from './pages/public/RegisterPage';
 // ─── Admin Pages ────────────────────────────────────────────
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageUsersPage from './pages/admin/ManageUsersPage';
+import ManageEventsPage from './pages/admin/ManageEventsPage';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
 // ─── Provider Pages ─────────────────────────────────────────
@@ -86,6 +87,7 @@ function App() {
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<ManageUsersPage />} />
+            <Route path="events" element={<ManageEventsPage />} />
             <Route path="analytics" element={<AdminPlaceholder title="Analytics" />} />
             <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
             <Route path="ai-support" element={<AISupportPage />} />

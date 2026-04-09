@@ -26,6 +26,7 @@ const AdminDashboard = () => {
 
   const tiles = [
     { label: 'Manage Users', icon: Users, path: '/admin/users', desc: 'Users, providers & participants', color: 'from-blue-500 to-cyan-600' },
+    { label: 'Manage Events', icon: Heart, path: '/admin/events', desc: 'Create & manage events', color: 'from-pink-500 to-rose-600' },
     { label: 'Analytics', icon: BarChart3, path: '/admin/analytics', desc: 'Platform analytics & reports', color: 'from-emerald-500 to-teal-600' },
     { label: 'Settings', icon: Settings, path: '/admin/settings', desc: 'Platform configuration', color: 'from-slate-500 to-slate-700' },
     { label: 'Security', icon: Shield, path: '/admin/settings', desc: 'Security & compliance', color: 'from-red-500 to-rose-600' },
