@@ -1,103 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loginUser, logoutUser } from '../actions/authActions';
 
-// Dummy user data
+// Dummy users kept for demo profile switcher only
 const dummyUsers = {
-  'admin@bettertogether.com': {
-    id: 'admin-001',
-    name: 'Admin User',
-    email: 'admin@bettertogether.com',
-    password: 'admin123',
-    role: 'admin',
-    tier: 'paid',
-    organisation: 'Better Together Network',
-    avatar: null,
-    location: 'Melbourne, VIC',
-    joinedDate: '2024-01-01',
-    profileComplete: 100,
-  },
-  'provider.free@test.com': {
-    id: 'prov-001',
-    name: 'Sarah Mitchell',
-    email: 'provider.free@test.com',
-    password: 'provider123',
-    role: 'provider',
-    tier: 'free',
-    organisation: 'Community Care Solutions',
-    avatar: null,
-    location: 'Melbourne, VIC',
-    joinedDate: '2024-11-15',
-    profileComplete: 65,
-  },
-  'provider.paid@test.com': {
-    id: 'prov-002',
-    name: 'Sarah Mitchell',
-    email: 'provider.paid@test.com',
-    password: 'provider123',
-    role: 'provider',
-    tier: 'paid',
-    subscriptionPlan: 'Growth & Referral',
-    organisation: 'Community Care Solutions',
-    avatar: null,
-    location: 'Melbourne, VIC',
-    joinedDate: '2024-11-15',
-    profileComplete: 92,
-    analytics: {
-      profileViews: 148,
-      referralsThisMonth: 12,
-      eventEngagement: 8,
-      responseRate: '94%',
-    },
-  },
-  'participant.free@test.com': {
-    id: 'part-001',
-    name: 'James Chen',
-    email: 'participant.free@test.com',
-    password: 'participant123',
-    role: 'participant',
-    tier: 'free',
-    avatar: null,
-    location: 'Sydney, NSW',
-    joinedDate: '2025-01-10',
-    profileComplete: 70,
-  },
-  'participant.paid@test.com': {
-    id: 'part-002',
-    name: 'James Chen',
-    email: 'participant.paid@test.com',
-    password: 'participant123',
-    role: 'participant',
-    tier: 'paid',
-    subscriptionPlan: 'Personal Support Plus',
-    avatar: null,
-    location: 'Sydney, NSW',
-    joinedDate: '2025-01-10',
-    profileComplete: 88,
-    planBuddy: {
-      name: 'Karen Burgess',
-      nextCheckIn: '2026-02-28',
-    },
-  },
+  'admin@together.com': { role: 'admin' },
+  'provider.free@test.com': { role: 'provider', tier: 'free' },
+  'provider.paid@test.com': { role: 'provider', tier: 'paid' },
+  'participant.free@test.com': { role: 'participant', tier: 'free' },
+  'participant.paid@test.com': { role: 'participant', tier: 'paid' },
 };
 
-// Try to restore user from localStorage
-const loadUserFromStorage = () => {
+// Restore from localStorage on app load
+const loadFromStorage = () => {
   try {
-    const storedUser = localStorage.getItem('bt_user');
-    if (storedUser) {
-      return JSON.parse(storedUser);
+    const user = localStorage.getItem('bt_user');
+    const token = localStorage.getItem('bt_token');
+    if (user && token) {
+      return { user: JSON.parse(user), token };
     }
   } catch {
     // ignore
   }
-  return null;
+  return { user: null, token: null };
 };
 
-const storedUser = loadUserFromStorage();
+const stored = loadFromStorage();
 
 const initialState = {
-  user: storedUser,
-  isAuthenticated: !!storedUser,
+  user: stored.user,
+  token: stored.token,
+  isAuthenticated: !!stored.token,
   loading: false,
   error: null,
   dummyUsers,
@@ -110,15 +42,21 @@ const authSlice = createSlice({
     clearError(state) {
       state.error = null;
     },
-    // For demo profile switching
+    // For demo profile switching (sets user locally, no API call)
     switchProfile(state, action) {
       const email = action.payload;
-      const user = state.dummyUsers[email];
-      if (user) {
-        const { password, ...safeUser } = user;
-        state.user = safeUser;
+      const dummy = state.dummyUsers[email];
+      if (dummy) {
+        // Build a minimal user object for demo switching
+        const user = {
+          ...state.user,
+          email,
+          role: dummy.role,
+          tier: dummy.tier || 'paid',
+        };
+        state.user = user;
         state.isAuthenticated = true;
-        localStorage.setItem('bt_user', JSON.stringify(safeUser));
+        localStorage.setItem('bt_user', JSON.stringify(user));
       }
     },
   },
@@ -131,7 +69,8 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
         state.isAuthenticated = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -141,6 +80,7 @@ const authSlice = createSlice({
       // Logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+        state.token = null;
         state.isAuthenticated = false;
         state.loading = false;
         state.error = null;
@@ -152,6 +92,7 @@ export const { clearError, switchProfile } = authSlice.actions;
 
 // Selectors
 export const selectUser = (state) => state.auth.user;
+export const selectToken = (state) => state.auth.token;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectAuthLoading = (state) => state.auth.loading;
 export const selectAuthError = (state) => state.auth.error;
