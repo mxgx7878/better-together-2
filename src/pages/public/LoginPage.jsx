@@ -217,7 +217,7 @@ const LoginPage = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Don&apos;t have an account?{' '}
-              <Link to="/subscription" className="font-bold text-purple-600 hover:text-purple-700 transition-colors">
+              <Link to="/register" className="font-bold text-purple-600 hover:text-purple-700 transition-colors">
                 Create an account
               </Link>
             </p>

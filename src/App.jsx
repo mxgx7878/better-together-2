@@ -23,6 +23,7 @@ import BlogPage from './pages/public/BlogPage';
 import ContactPage from './pages/public/ContactPage';
 import AboutPage from './pages/public/AboutPage';
 import LoginPage from './pages/public/LoginPage';
+import RegisterPage from './pages/public/RegisterPage';
 
 // ─── Admin Pages ────────────────────────────────────────────
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -71,9 +72,10 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
         </Route>
 
-        {/* ─── Login (restricted: redirect if already logged in) */}
+        {/* ─── Auth pages (restricted: redirect if already logged in) */}
         <Route element={<PublicRoute restricted />}>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Route>
 
         {/* ─── Dashboard redirect (role-based) ────────────────── */}
@@ -84,8 +86,6 @@ function App() {
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<ManageUsersPage />} />
-            <Route path="providers" element={<AdminPlaceholder title="Manage Providers" />} />
-            <Route path="participants" element={<AdminPlaceholder title="Manage Participants" />} />
             <Route path="analytics" element={<AdminPlaceholder title="Analytics" />} />
             <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
             <Route path="ai-support" element={<AISupportPage />} />

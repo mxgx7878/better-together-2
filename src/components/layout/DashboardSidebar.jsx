@@ -59,8 +59,6 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   const adminNavItems = [
     { label: 'Dashboard', icon: LayoutDashboard, path: '/admin', end: true, tier: 'all' },
     { label: 'Manage Users', icon: Users, path: '/admin/users', tier: 'all' },
-    { label: 'Manage Providers', icon: Briefcase, path: '/admin/providers', tier: 'all' },
-    { label: 'Manage Participants', icon: Heart, path: '/admin/participants', tier: 'all' },
     { label: 'Analytics', icon: BarChart3, path: '/admin/analytics', tier: 'all' },
     { label: 'Settings', icon: Settings, path: '/admin/settings', tier: 'all' },
   ];
