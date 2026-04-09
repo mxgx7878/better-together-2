@@ -1,14 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { API_BASE_URL } from '../../constants';
 
-// In dev: Vite proxy forwards /api/* to localhost:8000
-// In prod: set VITE_API_BASE_URL in .env
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/login`, {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
