@@ -17,7 +17,8 @@ const RoleRedirect = () => {
     participant: '/participant',
   };
 
-  return <Navigate to={redirectMap[user?.role] || '/'} replace />;
+  const role = (user?.role || '').toLowerCase();
+  return <Navigate to={redirectMap[role] || '/'} replace />;
 };
 
 export default RoleRedirect;

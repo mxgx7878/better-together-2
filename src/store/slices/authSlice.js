@@ -96,11 +96,12 @@ export const selectToken = (state) => state.auth.token;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectAuthStatus = (state) => state.auth.status;
 export const selectAuthError = (state) => state.auth.error;
-export const selectIsProvider = (state) => state.auth.user?.role === 'provider';
-export const selectIsParticipant = (state) => state.auth.user?.role === 'participant';
-export const selectIsAdmin = (state) => state.auth.user?.role === 'admin';
-export const selectIsFree = (state) => state.auth.user?.tier === 'free';
-export const selectIsPaid = (state) => state.auth.user?.tier === 'paid';
+export const selectUserRole = (state) => (state.auth.user?.role || '').toLowerCase();
+export const selectIsProvider = (state) => selectUserRole(state) === 'provider';
+export const selectIsParticipant = (state) => selectUserRole(state) === 'participant';
+export const selectIsAdmin = (state) => selectUserRole(state) === 'admin';
+export const selectIsFree = (state) => (state.auth.user?.tier || '').toLowerCase() === 'free';
+export const selectIsPaid = (state) => (state.auth.user?.tier || '').toLowerCase() === 'paid';
 export const selectDummyUsers = (state) => state.auth.dummyUsers;
 
 export default authSlice.reducer;
