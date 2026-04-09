@@ -1,41 +1,67 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-// Simulate API delay
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// In dev: Vite proxy forwards /api/* to localhost:8000
+// In prod: set VITE_API_BASE_URL in .env
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async ({ email, password }, { getState, rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      // Simulate API call
-      await delay(1000);
+      const response = await fetch(`${API_BASE_URL}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const { auth } = getState();
-      const user = auth.dummyUsers[email];
+      const data = await response.json();
 
-      if (!user) {
-        return rejectWithValue('No account found with this email');
+      if (!response.ok) {
+        // Laravel validation errors come as { message, errors: { email: [...], password: [...] } }
+        if (data.errors) {
+          const firstError = Object.values(data.errors).flat()[0];
+          return rejectWithValue(firstError || 'Login failed');
+        }
+        return rejectWithValue(data.message || 'Invalid credentials');
       }
 
-      if (user.password !== password) {
-        return rejectWithValue('Invalid password');
-      }
+      // Save token + user to localStorage
+      localStorage.setItem('bt_token', data.token);
+      localStorage.setItem('bt_user', JSON.stringify(data.user));
 
-      // Don't store password in state/localStorage
-      const { password: _, ...safeUser } = user;
-
-      // Save to localStorage
-      localStorage.setItem('bt_user', JSON.stringify(safeUser));
-
-      return safeUser;
+      return { user: data.user, token: data.token };
     } catch {
-      return rejectWithValue('Login failed. Please try again.');
+      return rejectWithValue('Network error. Please check your connection.');
     }
   }
 );
 
-export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
-  await delay(300);
-  localStorage.removeItem('bt_user');
-  return null;
-});
+export const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async (_, { getState }) => {
+    const { auth } = getState();
+    const token = auth.token;
+
+    // Call logout API (best effort — clear local state regardless)
+    try {
+      if (token) {
+        await fetch(`${API_BASE_URL}/api/logout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          },
+        });
+      }
+    } catch {
+      // ignore — we still want to clear local state
+    }
+
+    localStorage.removeItem('bt_token');
+    localStorage.removeItem('bt_user');
+    return null;
+  }
+);

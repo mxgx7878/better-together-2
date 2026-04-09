@@ -54,13 +54,9 @@ const LoginPage = () => {
     setFormData({ ...formData, [e.target.name]: value });
   };
 
-  // Quick login buttons for demo
+  // Quick login buttons for testing (uses real API credentials)
   const quickLogins = [
-    { label: 'Admin', email: 'admin@bettertogether.com', password: 'admin123' },
-    { label: 'Provider (Free)', email: 'provider.free@test.com', password: 'provider123' },
-    { label: 'Provider (Paid)', email: 'provider.paid@test.com', password: 'provider123' },
-    { label: 'Participant (Free)', email: 'participant.free@test.com', password: 'participant123' },
-    { label: 'Participant (Paid)', email: 'participant.paid@test.com', password: 'participant123' },
+    { label: 'Admin', email: 'admin@together.com', password: 'password' },
   ];
 
   const features = [
