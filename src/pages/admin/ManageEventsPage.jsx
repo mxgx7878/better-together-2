@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { toast } from 'sonner';
 import {
   Calendar,
   Search,
@@ -173,11 +174,15 @@ const ManageEventsPage = () => {
     try {
       if (modalMode === 'create') {
         await adminCreateEvent(payload);
+        toast.success('Event created successfully');
       } else {
         await adminUpdateEvent(formData._id, payload);
+        toast.success('Event updated successfully');
       }
       setShowModal(false);
       loadEvents();
+    } catch {
+      toast.error('Failed to save event');
     } finally {
       setSaving(false);
     }
@@ -189,8 +194,11 @@ const ManageEventsPage = () => {
     setDeleting(true);
     try {
       await adminDeleteEvent(deleteId);
+      toast.success('Event deleted successfully');
       setDeleteId(null);
       loadEvents();
+    } catch {
+      toast.error('Failed to delete event');
     } finally {
       setDeleting(false);
     }
