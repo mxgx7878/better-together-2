@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { toast } from 'sonner';
 import { useAuth } from '../../hooks/useAuth';
 import {
   Sparkles,
@@ -88,10 +89,14 @@ const EventsPage = () => {
       if (rsvps[id]) {
         await cancelRsvp(id);
         setRsvps((prev) => ({ ...prev, [id]: false }));
+        toast.success('RSVP cancelled');
       } else {
         await rsvpEvent(id);
         setRsvps((prev) => ({ ...prev, [id]: true }));
+        toast.success('RSVP confirmed!');
       }
+    } catch {
+      toast.error('Failed to update RSVP');
     } finally {
       setRsvpLoading((prev) => ({ ...prev, [id]: false }));
     }

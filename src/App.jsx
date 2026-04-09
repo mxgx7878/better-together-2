@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import ScrollToTop from './components/ScrollToTop';
 
 // Layouts
@@ -59,6 +60,7 @@ import AdminSupportPage from './pages/shared/AdminSupportPage';
 function App() {
   return (
     <Router>
+      <Toaster position="top-right" richColors closeButton duration={3000} />
       <ScrollToTop />
       <Routes>
         {/* ─── Public Routes (with Header/Footer) ────────────── */}

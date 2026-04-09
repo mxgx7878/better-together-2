@@ -7,10 +7,11 @@ import {
   selectIsAdmin,
   selectIsFree,
   selectIsPaid,
-  selectAuthLoading,
+  selectAuthStatus,
   selectDummyUsers,
   switchProfile,
 } from '../store/slices/authSlice';
+import { ASYNC_STATUS } from '../store/constants';
 import { logoutUser } from '../store/actions/authActions';
 
 // Redux-based useAuth hook — same API as the old Context-based one
@@ -24,9 +25,10 @@ const useAuth = () => {
   const isAdmin = useSelector(selectIsAdmin);
   const isFree = useSelector(selectIsFree);
   const isPaid = useSelector(selectIsPaid);
-  const loading = useSelector(selectAuthLoading);
+  const status = useSelector(selectAuthStatus);
   const dummyUsers = useSelector(selectDummyUsers);
 
+  const loading = status === ASYNC_STATUS.LOADING;
   const currentProfile = user?.email || '';
   const availableProfiles = Object.keys(dummyUsers);
 
@@ -47,6 +49,7 @@ const useAuth = () => {
     isFree,
     isPaid,
     loading,
+    status,
     availableProfiles,
   };
 };

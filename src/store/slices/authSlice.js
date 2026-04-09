@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loginUser, logoutUser } from '../actions/authActions';
+import { ASYNC_STATUS } from '../constants';
 
 // Dummy users kept for demo profile switcher only
 const dummyUsers = {
@@ -30,7 +31,7 @@ const initialState = {
   user: stored.user,
   token: stored.token,
   isAuthenticated: !!stored.token,
-  loading: false,
+  status: ASYNC_STATUS.IDLE,
   error: null,
   dummyUsers,
 };
@@ -42,12 +43,10 @@ const authSlice = createSlice({
     clearError(state) {
       state.error = null;
     },
-    // For demo profile switching (sets user locally, no API call)
     switchProfile(state, action) {
       const email = action.payload;
       const dummy = state.dummyUsers[email];
       if (dummy) {
-        // Build a minimal user object for demo switching
         const user = {
           ...state.user,
           email,
@@ -64,17 +63,17 @@ const authSlice = createSlice({
     builder
       // Login
       .addCase(loginUser.pending, (state) => {
-        state.loading = true;
+        state.status = ASYNC_STATUS.LOADING;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.status = ASYNC_STATUS.SUCCEEDED;
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isAuthenticated = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
+        state.status = ASYNC_STATUS.FAILED;
         state.error = action.payload;
       })
       // Logout
@@ -82,7 +81,7 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
-        state.loading = false;
+        state.status = ASYNC_STATUS.IDLE;
         state.error = null;
       });
   },
@@ -94,7 +93,7 @@ export const { clearError, switchProfile } = authSlice.actions;
 export const selectUser = (state) => state.auth.user;
 export const selectToken = (state) => state.auth.token;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
-export const selectAuthLoading = (state) => state.auth.loading;
+export const selectAuthStatus = (state) => state.auth.status;
 export const selectAuthError = (state) => state.auth.error;
 export const selectIsProvider = (state) => state.auth.user?.role === 'provider';
 export const selectIsParticipant = (state) => state.auth.user?.role === 'participant';
