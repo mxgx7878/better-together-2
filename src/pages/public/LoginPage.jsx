@@ -4,11 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loginUser } from '../../store/actions/authActions';
 import {
   selectIsAuthenticated,
-  selectAuthLoading,
+  selectAuthStatus,
   selectAuthError,
   selectUser,
   clearError,
 } from '../../store/slices/authSlice';
+import { ASYNC_STATUS } from '../../store/constants';
 import { Lock, Zap, Target, User, ArrowRight, Eye, EyeOff, Mail } from 'lucide-react';
 import { InlineLoader } from '../../components/common/Loader';
 
@@ -16,7 +17,8 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const loading = useSelector(selectAuthLoading);
+  const status = useSelector(selectAuthStatus);
+  const loading = status === ASYNC_STATUS.LOADING;
   const error = useSelector(selectAuthError);
   const user = useSelector(selectUser);
 

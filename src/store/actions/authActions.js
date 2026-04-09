@@ -1,60 +1,29 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { API_BASE_URL } from '../../constants';
-
-
+import api from '../../services/api';
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        // Laravel validation errors come as { message, errors: { email: [...], password: [...] } }
-        if (data.errors) {
-          const firstError = Object.values(data.errors).flat()[0];
-          return rejectWithValue(firstError || 'Login failed');
-        }
-        return rejectWithValue(data.message || 'Invalid credentials');
-      }
+      const data = await api.post('/api/login', { email, password });
 
       // Save token + user to localStorage
       localStorage.setItem('bt_token', data.token);
       localStorage.setItem('bt_user', JSON.stringify(data.user));
 
       return { user: data.user, token: data.token };
-    } catch {
-      return rejectWithValue('Network error. Please check your connection.');
+    } catch (err) {
+      return rejectWithValue(err.message || 'Login failed');
     }
   }
 );
 
 export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
-  async (_, { getState }) => {
-    const { auth } = getState();
-    const token = auth.token;
-
+  async () => {
     // Call logout API (best effort — clear local state regardless)
     try {
-      if (token) {
-        await fetch(`${API_BASE_URL}/api/logout`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-          },
-        });
-      }
+      await api.post('/api/logout');
     } catch {
       // ignore — we still want to clear local state
     }
