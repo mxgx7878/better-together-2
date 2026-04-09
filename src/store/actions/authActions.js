@@ -6,6 +6,7 @@ import { API_BASE_URL } from '../../constants';
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
+    console.log('run')
     try {
       const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
