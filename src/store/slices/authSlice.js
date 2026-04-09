@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loginUser, logoutUser } from '../actions/authActions';
-import { ASYNC_STATUS } from '../constants';
+import { ASYNC_STATUS } from '../../constants';
+
 
 // Dummy users kept for demo profile switcher only
 const dummyUsers = {
