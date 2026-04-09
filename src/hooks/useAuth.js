@@ -11,7 +11,7 @@ import {
   selectDummyUsers,
   switchProfile,
 } from '../store/slices/authSlice';
-import { ASYNC_STATUS } from '../store/constants';
+import { ASYNC_STATUS } from '../constants';
 import { logoutUser } from '../store/actions/authActions';
 
 // Redux-based useAuth hook — same API as the old Context-based one

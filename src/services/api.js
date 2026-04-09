@@ -2,7 +2,9 @@
 // Centralized fetch wrapper with base URL, auth headers, error handling.
 // Every service file imports this instead of using raw fetch().
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+import { API_BASE_URL } from "../constants";
+
+const BASE_URL = API_BASE_URL || '';
 
 const api = async (endpoint, options = {}) => {
   const token = localStorage.getItem('bt_token');

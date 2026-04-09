@@ -9,7 +9,7 @@ import {
   selectUser,
   clearError,
 } from '../../store/slices/authSlice';
-import { ASYNC_STATUS } from '../../store/constants';
+import { ASYNC_STATUS } from '../../constants';
 import { Lock, Zap, Target, User, ArrowRight, Eye, EyeOff, Mail } from 'lucide-react';
 import { InlineLoader } from '../../components/common/Loader';
 
