@@ -1,113 +1,160 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import LandingPage from './pages/LandingPage3';
-import LandingPage3 from './pages/LandingPage3';
-import AboutPage from './pages/AboutPage';
-import FeaturesPage from './pages/FeaturesPage';
-import FindSupportPage from './pages/FindSupportPage';
-import ProvideSupportPage from './pages/ProvideSupportPage';
-import SubscriptionPage from './pages/SubscriptionPage';
-import ContactPage from './pages/ContactPage';
-import LoginPage from './pages/LoginPage';
-import WhatWeDoPage from './pages/WhatWeDoPage';
-import CalendarPage from './pages/CalendarPage';
-import BlogPage from './pages/BlogPage';
-import BusinessDirectoryPage from './pages/BusinessDirectoryPage';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Toaster } from 'sonner';
 import ScrollToTop from './components/ScrollToTop';
+import { selectIsAuthenticated, selectUser } from './store/slices/authSlice';
 
-// Dashboard imports
-import { AuthProvider } from './context/AuthContext';
-import DashboardLayout from './components/dashboard/DashboardLayout';
-import DashboardHome from './pages/dashboard/DashboardHome';
+// Layouts
+import PublicLayout from './components/layout/PublicLayout';
+import DashboardLayout from './components/layout/DashboardLayout';
 
-// Dashboard pages
-import ProfilePage from './pages/dashboard/ProfilePage';
-import EventsPage from './pages/dashboard/EventsPage';
-import DirectoryPage from './pages/dashboard/DirectoryPage';
-import ServiceRequestsPage from './pages/dashboard/ServiceRequestsPage';
-import InnovationLabPage from './pages/dashboard/InnovationLabPage';
-import LibraryPage from './pages/dashboard/LibraryPage';
-import QAForumPage from './pages/dashboard/QAForumPage';
-import JobBoardPage from './pages/dashboard/JobBoardPage';
-import MarketingPage from './pages/dashboard/MarketingPage';
-import AISupportPage from './pages/dashboard/AISupportPage';
-import UpgradePage from './pages/dashboard/UpgradePage';
-import AdminSupportPage from './pages/dashboard/AdminSupportPage';
-import LearningHubPage from './pages/dashboard/LearningHubPage';
-import MessageBoardPage from './pages/dashboard/MessageBoardPage';
-import RightsSafetyPage from './pages/dashboard/RightsSafetyPage';
-import PlanBuddyPage from './pages/dashboard/PlanBuddyPage';
-import DocumentUploadPage from './pages/dashboard/DocumentUploadPage';
-import MessagingPage from './pages/dashboard/MessagingPage';
+// Route Guards
+import ProtectedRoute from './routes/ProtectedRoute';
+import PublicRoute from './routes/PublicRoute';
+import RoleRedirect from './routes/RoleRedirect';
+
+// Feature Gate
+import FeatureGate from './components/common/FeatureGate';
+
+// ─── Public Pages ───────────────────────────────────────────
+import LandingPage from './pages/public/LandingPage';
+import WhatWeDoPage from './pages/public/WhatWeDoPage';
+import SubscriptionPage from './pages/public/SubscriptionPage';
+import BusinessDirectoryPage from './pages/public/BusinessDirectoryPage';
+import CalendarPage from './pages/public/CalendarPage';
+import BlogPage from './pages/public/BlogPage';
+import ContactPage from './pages/public/ContactPage';
+import AboutPage from './pages/public/AboutPage';
+import LoginPage from './pages/public/LoginPage';
+import RegisterPage from './pages/public/RegisterPage';
+
+// ─── Admin Pages ────────────────────────────────────────────
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageUsersPage from './pages/admin/ManageUsersPage';
+import ManageEventsPage from './pages/admin/ManageEventsPage';
+import AdminPlaceholder from './pages/admin/AdminPlaceholder';
+
+// ─── Provider Pages ─────────────────────────────────────────
+import ProviderDashboardHome from './pages/provider/ProviderDashboardHome';
+import ServiceRequestsPage from './pages/provider/ServiceRequestsPage';
+import InnovationLabPage from './pages/provider/InnovationLabPage';
+import QAForumPage from './pages/provider/QAForumPage';
+import MarketingPage from './pages/provider/MarketingPage';
+
+// ─── Participant Pages ──────────────────────────────────────
+import ParticipantDashboardHome from './pages/participant/ParticipantDashboardHome';
+import LearningHubPage from './pages/participant/LearningHubPage';
+import MessageBoardPage from './pages/participant/MessageBoardPage';
+import RightsSafetyPage from './pages/participant/RightsSafetyPage';
+import PlanBuddyPage from './pages/participant/PlanBuddyPage';
+
+// ─── Shared Dashboard Pages ────────────────────────────────
+import ProfilePage from './pages/shared/ProfilePage';
+import EventsPage from './pages/shared/EventsPage';
+import DirectoryPage from './pages/shared/DirectoryPage';
+import JobBoardPage from './pages/shared/JobBoardPage';
+import DocumentUploadPage from './pages/shared/DocumentUploadPage';
+import MessagingPage from './pages/shared/MessagingPage';
+import AISupportPage from './pages/shared/AISupportPage';
+import UpgradePage from './pages/shared/UpgradePage';
+import AdminSupportPage from './pages/shared/AdminSupportPage';
+
+// Catch-all: if logged in go to dashboard, otherwise go home
+function CatchAll() {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
+  if (isAuthenticated && user) {
+    const map = { admin: '/admin', provider: '/provider', participant: '/participant' };
+    return <Navigate to={map[(user.role || '').toLowerCase()] || '/'} replace />;
+  }
+  return <Navigate to="/" replace />;
+}
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          {/* ─── Public Routes (with Header/Footer) ──────────────── */}
-          <Route
-            path="/*"
-            element={
-              <div className="flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-grow">
-                  <Routes>
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/what-we-do" element={<WhatWeDoPage />} />
-                    <Route path="/subscription" element={<SubscriptionPage />} />
-                    <Route path="/business-directory" element={<BusinessDirectoryPage />} />
-                    <Route path="/calendar" element={<CalendarPage />} />
-                    <Route path="/blog" element={<BlogPage />} />
-                    <Route path="/contact" element={<ContactPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    {/* Legacy routes - kept for backwards compatibility */}
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/features" element={<FeaturesPage />} />
-                    <Route path="/find-support" element={<FindSupportPage />} />
-                    <Route path="/provide-support" element={<ProvideSupportPage />} />
-                    <Route path="/landing3" element={<LandingPage3 />} />
-                  </Routes>
-                </main>
-                <Footer />
-              </div>
-            }
-          />
+    <Router>
+      <Toaster position="top-right" richColors closeButton duration={3000} />
+      <ScrollToTop />
+      <Routes>
+        {/* ─── Public Routes (with Header/Footer) ────────────── */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/what-we-do" element={<WhatWeDoPage />} />
+          <Route path="/subscription" element={<SubscriptionPage />} />
+          <Route path="/business-directory" element={<BusinessDirectoryPage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/about" element={<AboutPage />} />
+        </Route>
 
-          {/* ─── Dashboard Routes (own layout, no Header/Footer) ─── */}
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardHome />} />
+        {/* ─── Auth pages (restricted: redirect if already logged in) */}
+        <Route element={<PublicRoute restricted />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
 
-            {/* Shared routes (both provider & participant) */}
+        {/* ─── Dashboard redirect (role-based) ────────────────── */}
+        <Route path="/dashboard" element={<RoleRedirect />} />
+
+        {/* ─── Admin Routes ──────────────────────────────────── */}
+        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+          <Route path="/admin" element={<DashboardLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<ManageUsersPage />} />
+            <Route path="events" element={<ManageEventsPage />} />
+            <Route path="analytics" element={<AdminPlaceholder title="Analytics" />} />
+            <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
+            <Route path="ai-support" element={<AISupportPage />} />
+            <Route path="admin-support" element={<AdminSupportPage />} />
+            <Route path="profile" element={<ProfilePage />} />
+          </Route>
+        </Route>
+
+        {/* ─── Provider Routes ────────────────────────────────── */}
+        <Route element={<ProtectedRoute allowedRoles={['provider']} />}>
+          <Route path="/provider" element={<DashboardLayout />}>
+            <Route index element={<ProviderDashboardHome />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="messaging" element={<MessagingPage />} />
+            <Route path="directory" element={<DirectoryPage />} />
+            <Route path="requests" element={<FeatureGate><ServiceRequestsPage /></FeatureGate>} />
             <Route path="events" element={<EventsPage />} />
-            {/* <Route path="library" element={<LibraryPage />} /> */}
-            <Route path="jobs" element={<JobBoardPage />} />
+            <Route path="innovation-lab" element={<InnovationLabPage />} />
+            <Route path="qa" element={<QAForumPage />} />
+            <Route path="jobs" element={<FeatureGate><JobBoardPage /></FeatureGate>} />
+            <Route path="marketing" element={<FeatureGate><MarketingPage /></FeatureGate>} />
+            <Route path="documents" element={<DocumentUploadPage />} />
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="documents" element={<DocumentUploadPage />} />
-            <Route path="messaging" element={<MessagingPage />} />
-
-            {/* Provider-specific routes */}
-            <Route path="directory" element={<DirectoryPage />} />
-            <Route path="requests" element={<ServiceRequestsPage />} />
-            <Route path="innovation-lab" element={<InnovationLabPage />} />
-            <Route path="qa" element={<QAForumPage />} />
-            <Route path="marketing" element={<MarketingPage />} />
-
-            {/* Participant-specific routes */}
-            <Route path="learning" element={<LearningHubPage />} />
-            <Route path="services" element={<DirectoryPage />} />
-            <Route path="messages" element={<MessageBoardPage />} />
-            <Route path="rights-safety" element={<RightsSafetyPage />} />
-            <Route path="plan-buddy" element={<PlanBuddyPage />} />
           </Route>
-        </Routes>
-      </Router>
-    </AuthProvider>
+        </Route>
+
+        {/* ─── Participant Routes ─────────────────────────────── */}
+        <Route element={<ProtectedRoute allowedRoles={['participant']} />}>
+          <Route path="/participant" element={<DashboardLayout />}>
+            <Route index element={<ParticipantDashboardHome />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="services" element={<DirectoryPage />} />
+            <Route path="messaging" element={<MessagingPage />} />
+            <Route path="upgrade" element={<UpgradePage />} />
+            <Route path="documents" element={<DocumentUploadPage />} />
+            <Route path="learning" element={<LearningHubPage />} />
+            <Route path="messages" element={<MessageBoardPage />} />
+            <Route path="jobs" element={<JobBoardPage />} />
+            <Route path="events" element={<EventsPage />} />
+            <Route path="rights-safety" element={<RightsSafetyPage />} />
+            <Route path="plan-buddy" element={<FeatureGate><PlanBuddyPage /></FeatureGate>} />
+            <Route path="ai-support" element={<AISupportPage />} />
+            <Route path="admin-support" element={<AdminSupportPage />} />
+          </Route>
+        </Route>
+
+        {/* ─── Catch-all: unknown routes go home ─────────────── */}
+        <Route path="*" element={<CatchAll />} />
+      </Routes>
+    </Router>
   );
 }
 
