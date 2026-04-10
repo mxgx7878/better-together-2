@@ -38,8 +38,13 @@ import RegisterPage from "./pages/public/RegisterPage";
 // ─── Admin Pages ────────────────────────────────────────────
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsersPage from "./pages/admin/ManageUsersPage";
+import UserDetailPage from "./pages/admin/UserDetailPage";
 import ManageEventsPage from "./pages/admin/ManageEventsPage";
 import ManageCategoriesPage from "./pages/admin/ManageCategoriesPage";
+import ManageLearningHubPage from "./pages/admin/ManageLearningHubPage";
+import LearningModuleFormPage from "./pages/admin/LearningModuleFormPage";
+import AdminLearningModuleDetailPage from "./pages/admin/LearningModuleDetailPage";
+import LearningLessonFormPage from "./pages/admin/LearningLessonFormPage";
 import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
 
 // ─── Provider Pages ─────────────────────────────────────────
@@ -48,6 +53,7 @@ import ServiceRequestsPage from "./pages/provider/ServiceRequestsPage";
 import InnovationLabPage from "./pages/provider/InnovationLabPage";
 import QAForumPage from "./pages/provider/QAForumPage";
 import MarketingPage from "./pages/provider/MarketingPage";
+import ProviderLearningHubPage from "./pages/provider/LearningHubPage";
 
 // ─── Participant Pages ──────────────────────────────────────
 import ParticipantDashboardHome from "./pages/participant/ParticipantDashboardHome";
@@ -66,6 +72,7 @@ import MessagingPage from "./pages/shared/MessagingPage";
 import AISupportPage from "./pages/shared/AISupportPage";
 import UpgradePage from "./pages/shared/UpgradePage";
 import AdminSupportPage from "./pages/shared/AdminSupportPage";
+import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
 import EventFormPage from "./pages/admin/EventFormPage";
 import EventDetailsPage from "./pages/admin/EventDetailPage";
 
@@ -131,8 +138,30 @@ function App() {
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<ManageUsersPage />} />
+            <Route path="users/:id" element={<UserDetailPage />} />
             <Route path="events" element={<ManageEventsPage />} />
             <Route path="categories" element={<ManageCategoriesPage />} />
+            <Route path="learning-hub" element={<ManageLearningHubPage />} />
+            <Route
+              path="learning-hub/create"
+              element={<LearningModuleFormPage />}
+            />
+            <Route
+              path="learning-hub/edit/:id"
+              element={<LearningModuleFormPage />}
+            />
+            <Route
+              path="learning-hub/:id"
+              element={<AdminLearningModuleDetailPage />}
+            />
+            <Route
+              path="learning-hub/:moduleId/lessons/create"
+              element={<LearningLessonFormPage />}
+            />
+            <Route
+              path="learning-hub/:moduleId/lessons/edit/:lessonId"
+              element={<LearningLessonFormPage />}
+            />
             <Route
               path="analytics"
               element={<AdminPlaceholder title="Analytics" />}
@@ -185,6 +214,8 @@ function App() {
               }
             />
             <Route path="documents" element={<DocumentUploadPage />} />
+            <Route path="learning" element={<ProviderLearningHubPage />} />
+            <Route path="learning/:id" element={<LearningModuleDetailPage />} />
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
@@ -201,6 +232,7 @@ function App() {
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="documents" element={<DocumentUploadPage />} />
             <Route path="learning" element={<LearningHubPage />} />
+            <Route path="learning/:id" element={<LearningModuleDetailPage />} />
             <Route path="messages" element={<MessageBoardPage />} />
             <Route path="jobs" element={<JobBoardPage />} />
             <Route path="events" element={<EventsPage />} />
