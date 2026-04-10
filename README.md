@@ -1,7 +1,7 @@
 
 # NDIS Connect Platform
 
-A modern, responsive public-facing website for connecting NDIS participants with service providers. Built with React and Tailwind CSS.
+A modern, responsive public-facing website for  connecting NDIS participants with service providers. Built with React and Tailwind CSS.
  
 ## Features 
  
