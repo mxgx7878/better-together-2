@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Briefcase,
   Heart,
@@ -15,8 +16,15 @@ import {
   FileText,
   Eye,
   EyeOff,
+  Loader2,
 } from 'lucide-react';
 import { InlineLoader } from '../../components/common/Loader';
+import {
+  registerProvider,
+  registerParticipant,
+} from '../../store/actions/authActions';
+import { fetchPublicCategories } from '../../store/actions/categoryActions';
+import { ASYNC_STATUS } from '../../constants';
 
 // ─── Step definitions ──────────────────────────────────────────
 const STEPS = {
@@ -26,24 +34,15 @@ const STEPS = {
   4: 'Complete',
 };
 
-// ─── NDIS service categories ────────────────────────────────────
-const SERVICE_CATEGORIES = [
-  'Assistance with Daily Life',
-  'Transport',
-  'Consumables',
-  'Assistive Technology',
-  'Home Modifications',
-  'Coordination of Supports',
-  'Improved Living Arrangements',
-  'Social & Community Participation',
-  'Employment Support',
-  'Therapeutic Supports',
-  'Early Childhood Supports',
-  'Behaviour Support',
-];
-
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { publicCategories, status: categoryStatus } = useSelector(
+    (state) => state.category,
+  );
+  const categoriesLoading = categoryStatus === ASYNC_STATUS.LOADING;
+
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -66,18 +65,27 @@ const RegisterPage = () => {
     organisationName: '',
     abn: '',
     ndisRegistered: false,
-    serviceCategories: [],
+    serviceCategories: [], // array of category ids
     description: '',
     website: '',
 
     // Participant fields
     ndisNumber: '',
-    planStartDate: '',
-    planEndDate: '',
     supportCoordinator: '',
     primaryDisability: '',
     goals: '',
   });
+
+  // ─── Fetch categories when landing on step 3 as provider ────
+  useEffect(() => {
+    if (
+      role === 'provider' &&
+      currentStep === 3 &&
+      publicCategories.length === 0
+    ) {
+      dispatch(fetchPublicCategories());
+    }
+  }, [role, currentStep, publicCategories.length, dispatch]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -91,12 +99,12 @@ const RegisterPage = () => {
     }
   };
 
-  const toggleServiceCategory = (cat) => {
+  const toggleServiceCategory = (catId) => {
     setFormData((prev) => ({
       ...prev,
-      serviceCategories: prev.serviceCategories.includes(cat)
-        ? prev.serviceCategories.filter((c) => c !== cat)
-        : [...prev.serviceCategories, cat],
+      serviceCategories: prev.serviceCategories.includes(catId)
+        ? prev.serviceCategories.filter((c) => c !== catId)
+        : [...prev.serviceCategories, catId],
     }));
   };
 
@@ -149,40 +157,47 @@ const RegisterPage = () => {
 
     setLoading(true);
 
-    // Build the payload that will go to the API
-    const payload = {
-      role,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      password: formData.password,
-      phone: formData.phone,
-      location: formData.location,
-      ...(role === 'provider'
-        ? {
-            organisationName: formData.organisationName,
-            abn: formData.abn,
-            ndisRegistered: formData.ndisRegistered,
-            serviceCategories: formData.serviceCategories,
-            description: formData.description,
-            website: formData.website,
-          }
-        : {
-            ndisNumber: formData.ndisNumber,
-            planStartDate: formData.planStartDate,
-            planEndDate: formData.planEndDate,
-            supportCoordinator: formData.supportCoordinator,
-            primaryDisability: formData.primaryDisability,
-            goals: formData.goals,
-          }),
-    };
+    try {
+      if (role === 'provider') {
+        const payload = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          password_confirmation: formData.confirmPassword,
+          phone_number: formData.phone,
+          location: formData.location,
+          organisation_name: formData.organisationName,
+          abn: formData.abn,
+          website: formData.website,
+          is_ndis_registered: formData.ndisRegistered,
+          about_services: formData.description,
+          categories: formData.serviceCategories,
+        };
+        await dispatch(registerProvider(payload)).unwrap();
+      } else {
+        const payload = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          password_confirmation: formData.confirmPassword,
+          phone_number: formData.phone,
+          location: formData.location,
+          ndis_number: formData.ndisNumber,
+          support_coordinator_name: formData.supportCoordinator,
+          primary_disability: formData.primaryDisability,
+          ndis_goals: formData.goals,
+        };
+        await dispatch(registerParticipant(payload)).unwrap();
+      }
 
-    // Simulate API call
-    console.log('Registration payload:', payload);
-    await new Promise((r) => setTimeout(r, 1500));
-
-    setLoading(false);
-    setCurrentStep(4);
+      setCurrentStep(4);
+    } catch {
+      // Errors are already toasted via action
+    } finally {
+      setLoading(false);
+    }
   };
 
   // ─── Input component ─────────────────────────────────────────
@@ -407,22 +422,33 @@ const RegisterPage = () => {
         <label className="block text-sm font-semibold text-slate-700 mb-2">
           Service Categories <span className="text-red-500">*</span>
         </label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {SERVICE_CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => toggleServiceCategory(cat)}
-              className={`text-left px-3 py-2.5 rounded-xl text-xs font-medium border-2 transition-all ${
-                formData.serviceCategories.includes(cat)
-                  ? 'border-purple-500 bg-purple-50 text-purple-700'
-                  : 'border-slate-200 text-slate-600 hover:border-purple-300'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        {categoriesLoading && publicCategories.length === 0 ? (
+          <div className="flex items-center justify-center py-8 bg-slate-50 rounded-xl border border-slate-200">
+            <Loader2 className="w-5 h-5 text-purple-500 animate-spin" />
+            <span className="ml-2 text-sm text-slate-500">Loading categories...</span>
+          </div>
+        ) : publicCategories.length === 0 ? (
+          <div className="text-center py-6 bg-slate-50 rounded-xl border border-slate-200">
+            <p className="text-sm text-slate-500">No categories available</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {publicCategories.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => toggleServiceCategory(cat.id)}
+                className={`text-left px-3 py-2.5 rounded-xl text-xs font-medium border-2 transition-all ${
+                  formData.serviceCategories.includes(cat.id)
+                    ? 'border-purple-500 bg-purple-50 text-purple-700'
+                    : 'border-slate-200 text-slate-600 hover:border-purple-300'
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        )}
         {errors.serviceCategories && <p className="text-xs text-red-500 mt-1">{errors.serviceCategories}</p>}
       </div>
 
@@ -451,11 +477,6 @@ const RegisterPage = () => {
       </div>
 
       <InputField label="NDIS Number" name="ndisNumber" icon={FileText} placeholder="XXX XXX XXXX" />
-
-      <div className="grid sm:grid-cols-2 gap-4">
-        <InputField label="Plan Start Date" name="planStartDate" type="date" />
-        <InputField label="Plan End Date" name="planEndDate" type="date" />
-      </div>
 
       <InputField label="Support Coordinator Name" name="supportCoordinator" icon={User} placeholder="Your coordinator's name" />
       <InputField label="Primary Disability" name="primaryDisability" placeholder="e.g. Intellectual, Physical, Psychosocial" />
