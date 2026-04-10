@@ -53,6 +53,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Manage Users', icon: Users, path: '/admin/users', tier: 'all' },
     { label: 'Manage Events', icon: Calendar, path: '/admin/events', tier: 'all' },
     { label: 'Manage Categories', icon: Tags, path: '/admin/categories', tier: 'all' },
+    { label: 'Learning Hub', icon: BookOpen, path: '/admin/learning-hub', tier: 'all' },
     { label: 'Analytics', icon: BarChart3, path: '/admin/analytics', tier: 'all' },
     { label: 'Settings', icon: Settings, path: '/admin/settings', tier: 'all' },
   ];
@@ -66,6 +67,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Service Requests', icon: Inbox, path: `${basePath}/requests`, tier: 'paid', badge: isPaid ? '3' : null },
     { label: 'Events & Networking', icon: Calendar, path: `${basePath}/events`, tier: 'all' },
     { label: 'Innovation Lab', icon: Lightbulb, path: `${basePath}/innovation-lab`, tier: 'all' },
+    { label: 'Learning Hub', icon: BookOpen, path: `${basePath}/learning`, tier: 'all' },
     { label: 'Q&A Forum', icon: MessageCircle, path: `${basePath}/qa`, tier: 'all' },
     { label: 'Job Board', icon: Briefcase, path: `${basePath}/jobs`, tier: 'paid' },
     { label: 'Marketing', icon: Megaphone, path: `${basePath}/marketing`, tier: 'paid' },
