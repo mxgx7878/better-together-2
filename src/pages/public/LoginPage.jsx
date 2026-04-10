@@ -58,7 +58,9 @@ const LoginPage = () => {
 
   // Quick login buttons for testing (uses real API credentials)
   const quickLogins = [
-    { label: 'Admin', email: 'admin@together.com', password: 'password' },
+    { label: 'Admin', email: 'admin@together.com', password: '12345678' },
+    { label: 'provider', email: 'johnprovider@example.com', password: '12345678' },
+    { label: 'participant', email: 'participant@example.com', password: '12345678' },
   ];
 
   const features = [

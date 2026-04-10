@@ -1,71 +1,84 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Toaster } from 'sonner';
-import ScrollToTop from './components/ScrollToTop';
-import { selectIsAuthenticated, selectUser } from './store/slices/authSlice';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Toaster } from "sonner";
+import ScrollToTop from "./components/ScrollToTop";
+import { selectIsAuthenticated, selectUser } from "./store/slices/authSlice";
 
 // Layouts
-import PublicLayout from './components/layout/PublicLayout';
-import DashboardLayout from './components/layout/DashboardLayout';
+import PublicLayout from "./components/layout/PublicLayout";
+import DashboardLayout from "./components/layout/DashboardLayout";
 
 // Route Guards
-import ProtectedRoute from './routes/ProtectedRoute';
-import PublicRoute from './routes/PublicRoute';
-import RoleRedirect from './routes/RoleRedirect';
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
+import RoleRedirect from "./routes/RoleRedirect";
 
 // Feature Gate
-import FeatureGate from './components/common/FeatureGate';
+import FeatureGate from "./components/common/FeatureGate";
 
 // ─── Public Pages ───────────────────────────────────────────
-import LandingPage from './pages/public/LandingPage';
-import WhatWeDoPage from './pages/public/WhatWeDoPage';
-import SubscriptionPage from './pages/public/SubscriptionPage';
-import BusinessDirectoryPage from './pages/public/BusinessDirectoryPage';
-import CalendarPage from './pages/public/CalendarPage';
-import BlogPage from './pages/public/BlogPage';
-import ContactPage from './pages/public/ContactPage';
-import AboutPage from './pages/public/AboutPage';
-import LoginPage from './pages/public/LoginPage';
-import RegisterPage from './pages/public/RegisterPage';
+import LandingPage from "./pages/public/LandingPage";
+import WhatWeDoPage from "./pages/public/WhatWeDoPage";
+import SubscriptionPage from "./pages/public/SubscriptionPage";
+import BusinessDirectoryPage from "./pages/public/BusinessDirectoryPage";
+import CalendarPage from "./pages/public/CalendarPage";
+import BlogPage from "./pages/public/BlogPage";
+import ContactPage from "./pages/public/ContactPage";
+import AboutPage from "./pages/public/AboutPage";
+import LoginPage from "./pages/public/LoginPage";
+import RegisterPage from "./pages/public/RegisterPage";
 
 // ─── Admin Pages ────────────────────────────────────────────
-import AdminDashboard from './pages/admin/AdminDashboard';
-import ManageUsersPage from './pages/admin/ManageUsersPage';
-import ManageEventsPage from './pages/admin/ManageEventsPage';
-import AdminPlaceholder from './pages/admin/AdminPlaceholder';
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ManageUsersPage from "./pages/admin/ManageUsersPage";
+import ManageEventsPage from "./pages/admin/ManageEventsPage";
+import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
 
 // ─── Provider Pages ─────────────────────────────────────────
-import ProviderDashboardHome from './pages/provider/ProviderDashboardHome';
-import ServiceRequestsPage from './pages/provider/ServiceRequestsPage';
-import InnovationLabPage from './pages/provider/InnovationLabPage';
-import QAForumPage from './pages/provider/QAForumPage';
-import MarketingPage from './pages/provider/MarketingPage';
+import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
+import ServiceRequestsPage from "./pages/provider/ServiceRequestsPage";
+import InnovationLabPage from "./pages/provider/InnovationLabPage";
+import QAForumPage from "./pages/provider/QAForumPage";
+import MarketingPage from "./pages/provider/MarketingPage";
 
 // ─── Participant Pages ──────────────────────────────────────
-import ParticipantDashboardHome from './pages/participant/ParticipantDashboardHome';
-import LearningHubPage from './pages/participant/LearningHubPage';
-import MessageBoardPage from './pages/participant/MessageBoardPage';
-import RightsSafetyPage from './pages/participant/RightsSafetyPage';
-import PlanBuddyPage from './pages/participant/PlanBuddyPage';
+import ParticipantDashboardHome from "./pages/participant/ParticipantDashboardHome";
+import LearningHubPage from "./pages/participant/LearningHubPage";
+import MessageBoardPage from "./pages/participant/MessageBoardPage";
+import RightsSafetyPage from "./pages/participant/RightsSafetyPage";
+import PlanBuddyPage from "./pages/participant/PlanBuddyPage";
 
 // ─── Shared Dashboard Pages ────────────────────────────────
-import ProfilePage from './pages/shared/ProfilePage';
-import EventsPage from './pages/shared/EventsPage';
-import DirectoryPage from './pages/shared/DirectoryPage';
-import JobBoardPage from './pages/shared/JobBoardPage';
-import DocumentUploadPage from './pages/shared/DocumentUploadPage';
-import MessagingPage from './pages/shared/MessagingPage';
-import AISupportPage from './pages/shared/AISupportPage';
-import UpgradePage from './pages/shared/UpgradePage';
-import AdminSupportPage from './pages/shared/AdminSupportPage';
+import ProfilePage from "./pages/shared/ProfilePage";
+import EventsPage from "./pages/shared/EventsPage";
+import DirectoryPage from "./pages/shared/DirectoryPage";
+import JobBoardPage from "./pages/shared/JobBoardPage";
+import DocumentUploadPage from "./pages/shared/DocumentUploadPage";
+import MessagingPage from "./pages/shared/MessagingPage";
+import AISupportPage from "./pages/shared/AISupportPage";
+import UpgradePage from "./pages/shared/UpgradePage";
+import AdminSupportPage from "./pages/shared/AdminSupportPage";
+import EventFormPage from "./pages/admin/EventFormPage";
+import EventDetailsPage from "./pages/admin/EventDetailPage";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectUser);
   if (isAuthenticated && user) {
-    const map = { admin: '/admin', provider: '/provider', participant: '/participant' };
-    return <Navigate to={map[(user.role || '').toLowerCase()] || '/'} replace />;
+    const map = {
+      admin: "/admin",
+      provider: "/provider",
+      participant: "/participant",
+    };
+    return (
+      <Navigate to={map[(user.role || "").toLowerCase()] || "/"} replace />
+    );
   }
   return <Navigate to="/" replace />;
 }
@@ -81,7 +94,10 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/what-we-do" element={<WhatWeDoPage />} />
           <Route path="/subscription" element={<SubscriptionPage />} />
-          <Route path="/business-directory" element={<BusinessDirectoryPage />} />
+          <Route
+            path="/business-directory"
+            element={<BusinessDirectoryPage />}
+          />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -98,32 +114,62 @@ function App() {
         <Route path="/dashboard" element={<RoleRedirect />} />
 
         {/* ─── Admin Routes ──────────────────────────────────── */}
-        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<ManageUsersPage />} />
             <Route path="events" element={<ManageEventsPage />} />
-            <Route path="analytics" element={<AdminPlaceholder title="Analytics" />} />
-            <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
+            <Route
+              path="analytics"
+              element={<AdminPlaceholder title="Analytics" />}
+            />
+            <Route
+              path="settings"
+              element={<AdminPlaceholder title="Settings" />}
+            />
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="events/create" element={<EventFormPage />} />
+            <Route path="events/edit/:id" element={<EventFormPage />} />
+            <Route path="events/:id" element={<EventDetailsPage />} />
           </Route>
         </Route>
 
         {/* ─── Provider Routes ────────────────────────────────── */}
-        <Route element={<ProtectedRoute allowedRoles={['provider']} />}>
+        <Route element={<ProtectedRoute allowedRoles={["provider"]} />}>
           <Route path="/provider" element={<DashboardLayout />}>
             <Route index element={<ProviderDashboardHome />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="messaging" element={<MessagingPage />} />
             <Route path="directory" element={<DirectoryPage />} />
-            <Route path="requests" element={<FeatureGate><ServiceRequestsPage /></FeatureGate>} />
+            <Route
+              path="requests"
+              element={
+                <FeatureGate>
+                  <ServiceRequestsPage />
+                </FeatureGate>
+              }
+            />
             <Route path="events" element={<EventsPage />} />
             <Route path="innovation-lab" element={<InnovationLabPage />} />
             <Route path="qa" element={<QAForumPage />} />
-            <Route path="jobs" element={<FeatureGate><JobBoardPage /></FeatureGate>} />
-            <Route path="marketing" element={<FeatureGate><MarketingPage /></FeatureGate>} />
+            <Route
+              path="jobs"
+              element={
+                <FeatureGate>
+                  <JobBoardPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="marketing"
+              element={
+                <FeatureGate>
+                  <MarketingPage />
+                </FeatureGate>
+              }
+            />
             <Route path="documents" element={<DocumentUploadPage />} />
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
@@ -132,7 +178,7 @@ function App() {
         </Route>
 
         {/* ─── Participant Routes ─────────────────────────────── */}
-        <Route element={<ProtectedRoute allowedRoles={['participant']} />}>
+        <Route element={<ProtectedRoute allowedRoles={["participant"]} />}>
           <Route path="/participant" element={<DashboardLayout />}>
             <Route index element={<ParticipantDashboardHome />} />
             <Route path="profile" element={<ProfilePage />} />
@@ -145,7 +191,14 @@ function App() {
             <Route path="jobs" element={<JobBoardPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="rights-safety" element={<RightsSafetyPage />} />
-            <Route path="plan-buddy" element={<FeatureGate><PlanBuddyPage /></FeatureGate>} />
+            <Route
+              path="plan-buddy"
+              element={
+                <FeatureGate>
+                  <PlanBuddyPage />
+                </FeatureGate>
+              }
+            />
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>

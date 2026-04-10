@@ -7,7 +7,7 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     console.log('run')
     try {
-      const data = await api.post('/api/login', { email, password });
+      const data = await api.post('/login', { email, password });
 
       localStorage.setItem('bt_token', data.token);
       localStorage.setItem('bt_user', JSON.stringify(data.user));
@@ -25,7 +25,7 @@ export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
   async () => {
     try {
-      await api.post('/api/logout');
+      await api.post('/logout');
     } catch {
       // ignore
     }

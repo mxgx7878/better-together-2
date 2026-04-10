@@ -53,7 +53,14 @@ const api = async (endpoint, options = {}) => {
 
 // ─── Shorthand methods ──────────────────────────────────────────
 
-api.get = (endpoint) => api(endpoint, { method: 'GET' });
+api.get = (endpoint, params = {}) => {
+  console.log(params);
+  const query = new URLSearchParams(params.params).toString();
+
+  const url = query ? `${endpoint}?${query}` : endpoint;
+
+  return api(url, { method: "GET" });
+};
 
 api.post = (endpoint, body) =>
   api(endpoint, {
