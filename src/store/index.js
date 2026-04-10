@@ -3,6 +3,8 @@ import authReducer from "./slices/authSlice";
 import uiReducer from "./slices/uiSlice";
 import eventReducer from "./slices/eventSlice";
 import categoryReducer from "./slices/categorySlice";
+import userReducer from "./slices/userSlice";
+
 
 const store = configureStore({
   reducer: {
@@ -10,6 +12,7 @@ const store = configureStore({
     ui: uiReducer,
     event: eventReducer,
     category: categoryReducer,
+    user: userReducer,
   },
 });
 
