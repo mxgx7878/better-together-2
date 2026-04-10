@@ -68,9 +68,9 @@ const ManageUsersPage = () => {
   const loadUsers = useCallback(() => {
     dispatch(
       adminFetchUsers({
-        search: searchTerm || undefined,
-        role: activeRole !== "all" ? activeRole : undefined,
-        status: statusFilter !== "all" ? statusFilter : undefined,
+        search: searchTerm,
+        role: activeRole,
+        status: statusFilter,
         page: currentPage,
         per_page: ITEMS_PER_PAGE,
       }),
@@ -130,9 +130,7 @@ const ManageUsersPage = () => {
         </div>
         <select
           value={statusFilter}
-          onChange={(e) =>
-            handleFilterChange(setStatusFilter)(e.target.value)
-          }
+          onChange={(e) => handleFilterChange(setStatusFilter)(e.target.value)}
           className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-600 bg-white focus:ring-2 focus:ring-purple-500 outline-none min-w-[130px]"
         >
           {STATUS_OPTIONS.map((opt) => (
@@ -181,18 +179,23 @@ const ManageUsersPage = () => {
             <table className="w-full">
               <thead className="bg-slate-50">
                 <tr>
-                  {["User", "Role", "Phone", "Location", "Joined", "Actions"].map(
-                    (h) => (
-                      <th
-                        key={h}
-                        className={`px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wide ${
-                          h === "Actions" ? "text-right" : "text-left"
-                        }`}
-                      >
-                        {h}
-                      </th>
-                    ),
-                  )}
+                  {[
+                    "User",
+                    "Role",
+                    "Phone",
+                    "Location",
+                    "Joined",
+                    "Actions",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className={`px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wide ${
+                        h === "Actions" ? "text-right" : "text-left"
+                      }`}
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
