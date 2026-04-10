@@ -32,6 +32,7 @@ import {
   Users,
   Settings,
   BarChart3,
+  Tags,
 } from 'lucide-react';
 
 const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) => {
@@ -51,6 +52,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Dashboard', icon: LayoutDashboard, path: '/admin', end: true, tier: 'all' },
     { label: 'Manage Users', icon: Users, path: '/admin/users', tier: 'all' },
     { label: 'Manage Events', icon: Calendar, path: '/admin/events', tier: 'all' },
+    { label: 'Manage Categories', icon: Tags, path: '/admin/categories', tier: 'all' },
     { label: 'Analytics', icon: BarChart3, path: '/admin/analytics', tier: 'all' },
     { label: 'Settings', icon: Settings, path: '/admin/settings', tier: 'all' },
   ];

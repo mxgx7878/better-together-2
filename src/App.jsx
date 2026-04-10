@@ -1,13 +1,15 @@
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Toaster } from "sonner";
 import ScrollToTop from "./components/ScrollToTop";
 import { selectIsAuthenticated, selectUser } from "./store/slices/authSlice";
+import { checkAuth } from "./store/actions/authActions";
 
 // Layouts
 import PublicLayout from "./components/layout/PublicLayout";
@@ -37,6 +39,7 @@ import RegisterPage from "./pages/public/RegisterPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsersPage from "./pages/admin/ManageUsersPage";
 import ManageEventsPage from "./pages/admin/ManageEventsPage";
+import ManageCategoriesPage from "./pages/admin/ManageCategoriesPage";
 import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
 
 // ─── Provider Pages ─────────────────────────────────────────
@@ -84,6 +87,16 @@ function CatchAll() {
 }
 
 function App() {
+  const dispatch = useDispatch();
+
+  // Verify token on app load by calling /user
+  useEffect(() => {
+    const token = localStorage.getItem("bt_token");
+    if (token) {
+      dispatch(checkAuth());
+    }
+  }, [dispatch]);
+
   return (
     <Router>
       <Toaster position="top-right" richColors closeButton duration={3000} />
@@ -119,6 +132,7 @@ function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<ManageUsersPage />} />
             <Route path="events" element={<ManageEventsPage />} />
+            <Route path="categories" element={<ManageCategoriesPage />} />
             <Route
               path="analytics"
               element={<AdminPlaceholder title="Analytics" />}
