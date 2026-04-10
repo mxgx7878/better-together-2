@@ -47,9 +47,7 @@ const ManageLearningHubPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { modules, status, total, totalPages } = useSelector(
-    (s) => s.learning,
-  );
+  const { modules, status, total, totalPages } = useSelector((s) => s.learning);
   const loading = status === ASYNC_STATUS.LOADING;
 
   const [searchInput, setSearchInput] = useState("");
@@ -73,9 +71,9 @@ const ManageLearningHubPage = () => {
   const loadModules = useCallback(() => {
     dispatch(
       adminFetchLearningModules({
-        search: searchTerm || undefined,
-        difficulty: difficultyFilter !== "all" ? difficultyFilter : undefined,
-        status: statusFilter !== "all" ? statusFilter : undefined,
+        search: searchTerm,
+        difficulty: difficultyFilter,
+        status: statusFilter,
         page: currentPage,
         per_page: ITEMS_PER_PAGE,
       }),
@@ -170,7 +168,9 @@ const ManageLearningHubPage = () => {
       ) : modules.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-slate-100">
           <BookOpen className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-          <p className="text-slate-500 font-medium">No learning modules found</p>
+          <p className="text-slate-500 font-medium">
+            No learning modules found
+          </p>
           <p className="text-sm text-slate-400 mt-1">
             Create your first module to get started
           </p>
@@ -238,7 +238,9 @@ const ManageLearningHubPage = () => {
                 )}
 
                 <div className="flex items-center justify-between text-xs text-slate-400 mb-4">
-                  <span>{mod.lessons_count ?? mod.lessons?.length ?? 0} lessons</span>
+                  <span>
+                    {mod.lessons_count ?? mod.lessons?.length ?? 0} lessons
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-1 pt-3 border-t border-slate-100">
@@ -297,9 +299,7 @@ const ManageLearningHubPage = () => {
               </button>
             ))}
             <button
-              onClick={() =>
-                setCurrentPage((p) => Math.min(totalPages, p + 1))
-              }
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
               className="p-2 rounded-lg hover:bg-slate-100 text-slate-500 disabled:opacity-30 disabled:cursor-not-allowed"
             >
