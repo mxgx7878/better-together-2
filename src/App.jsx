@@ -42,6 +42,7 @@ import UserDetailPage from "./pages/admin/UserDetailPage";
 import ManageEventsPage from "./pages/admin/ManageEventsPage";
 import ManageCategoriesPage from "./pages/admin/ManageCategoriesPage";
 import ManageSubscriptionsPage from "./pages/admin/ManageSubscriptionsPage";
+import ManageDocumentsPage from "./pages/admin/ManageDocumentsPage";
 import ManageLearningHubPage from "./pages/admin/ManageLearningHubPage";
 import LearningModuleFormPage from "./pages/admin/LearningModuleFormPage";
 import AdminLearningModuleDetailPage from "./pages/admin/LearningModuleDetailPage";
@@ -146,6 +147,7 @@ function App() {
               path="subscriptions"
               element={<ManageSubscriptionsPage />}
             />
+            <Route path="documents" element={<ManageDocumentsPage />} />
             <Route path="learning-hub" element={<ManageLearningHubPage />} />
             <Route
               path="learning-hub/create"
