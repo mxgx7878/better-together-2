@@ -33,6 +33,7 @@ import {
   Settings,
   BarChart3,
   Tags,
+  CreditCard,
 } from 'lucide-react';
 
 const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) => {
@@ -53,6 +54,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Manage Users', icon: Users, path: '/admin/users', tier: 'all' },
     { label: 'Manage Events', icon: Calendar, path: '/admin/events', tier: 'all' },
     { label: 'Manage Categories', icon: Tags, path: '/admin/categories', tier: 'all' },
+    { label: 'Subscriptions', icon: CreditCard, path: '/admin/subscriptions', tier: 'all' },
     { label: 'Learning Hub', icon: BookOpen, path: '/admin/learning-hub', tier: 'all' },
     { label: 'Analytics', icon: BarChart3, path: '/admin/analytics', tier: 'all' },
     { label: 'Settings', icon: Settings, path: '/admin/settings', tier: 'all' },

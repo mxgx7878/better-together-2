@@ -41,6 +41,7 @@ import ManageUsersPage from "./pages/admin/ManageUsersPage";
 import UserDetailPage from "./pages/admin/UserDetailPage";
 import ManageEventsPage from "./pages/admin/ManageEventsPage";
 import ManageCategoriesPage from "./pages/admin/ManageCategoriesPage";
+import ManageSubscriptionsPage from "./pages/admin/ManageSubscriptionsPage";
 import ManageLearningHubPage from "./pages/admin/ManageLearningHubPage";
 import LearningModuleFormPage from "./pages/admin/LearningModuleFormPage";
 import AdminLearningModuleDetailPage from "./pages/admin/LearningModuleDetailPage";
@@ -141,6 +142,10 @@ function App() {
             <Route path="users/:id" element={<UserDetailPage />} />
             <Route path="events" element={<ManageEventsPage />} />
             <Route path="categories" element={<ManageCategoriesPage />} />
+            <Route
+              path="subscriptions"
+              element={<ManageSubscriptionsPage />}
+            />
             <Route path="learning-hub" element={<ManageLearningHubPage />} />
             <Route
               path="learning-hub/create"

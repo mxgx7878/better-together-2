@@ -5,6 +5,7 @@ import eventReducer from "./slices/eventSlice";
 import categoryReducer from "./slices/categorySlice";
 import userReducer from "./slices/userSlice";
 import learningReducer from "./slices/learningSlice";
+import subscriptionReducer from "./slices/subscriptionSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     category: categoryReducer,
     user: userReducer,
     learning: learningReducer,
+    subscription: subscriptionReducer,
   },
 });
 
