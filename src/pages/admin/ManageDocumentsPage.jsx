@@ -16,7 +16,6 @@ import {
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import PageHeader from '../../components/common/PageHeader';
-import { InlineLoader } from '../../components/common/Loader';
 import { ASYNC_STATUS } from '../../constants';
 import {
   adminFetchDocuments,
@@ -286,7 +285,9 @@ const ManageDocumentsPage = () => {
 
       {/* Documents List */}
       {loading && documents.length === 0 ? (
-        <InlineLoader />
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="w-7 h-7 text-purple-500 animate-spin" />
+        </div>
       ) : (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           {filteredDocuments.length === 0 ? (
