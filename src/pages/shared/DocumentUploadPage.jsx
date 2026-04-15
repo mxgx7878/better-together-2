@@ -5,11 +5,11 @@ import {
   FolderOpen,
   Image as ImageIcon,
   Search,
+  Loader2,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import { ASYNC_STATUS } from '../../constants';
-import { InlineLoader } from '../../components/common/Loader';
 import { fetchDocuments } from '../../store/actions/documentActions';
 import {
   DOCUMENT_CATEGORIES,
@@ -147,8 +147,8 @@ const DocumentUploadPage = () => {
         </div>
 
         {loading && documents.length === 0 ? (
-          <div className="p-10">
-            <InlineLoader />
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-7 h-7 text-purple-500 animate-spin" />
           </div>
         ) : filteredDocuments.length === 0 ? (
           <div className="p-12 text-center">
