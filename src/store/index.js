@@ -6,6 +6,7 @@ import categoryReducer from "./slices/categorySlice";
 import userReducer from "./slices/userSlice";
 import learningReducer from "./slices/learningSlice";
 import subscriptionReducer from "./slices/subscriptionSlice";
+import documentReducer from "./slices/documentSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     user: userReducer,
     learning: learningReducer,
     subscription: subscriptionReducer,
+    document: documentReducer,
   },
 });
 

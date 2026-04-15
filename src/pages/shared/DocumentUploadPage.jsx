@@ -1,211 +1,212 @@
-import { useState, useRef } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { Upload, FileText, Trash2, Download, FolderOpen, Image, CheckCircle } from 'lucide-react';
-
-const categories = ['NDIS Plan', 'Service Agreements', 'Medical Reports', 'Invoices & Receipts', 'Other'];
-
-const categoryColors = {
-  'NDIS Plan': 'bg-purple-50 text-purple-700',
-  'Service Agreements': 'bg-blue-50 text-blue-700',
-  'Medical Reports': 'bg-emerald-50 text-emerald-700',
-  'Invoices & Receipts': 'bg-amber-50 text-amber-700',
-  'Other': 'bg-slate-100 text-slate-600',
-};
-
-const initialDocuments = [
-  { id: 1, name: 'NDIS_Plan_2026.pdf', category: 'NDIS Plan', type: 'pdf', size: '1.2 MB', date: '2026-02-15' },
-  { id: 2, name: 'Service_Agreement_TherapyPlus.pdf', category: 'Service Agreements', type: 'pdf', size: '340 KB', date: '2026-01-28' },
-  { id: 3, name: 'GP_Report_March2026.docx', category: 'Medical Reports', type: 'doc', size: '89 KB', date: '2026-03-05' },
-  { id: 4, name: 'Invoice_Support_Feb2026.pdf', category: 'Invoices & Receipts', type: 'pdf', size: '156 KB', date: '2026-02-20' },
-  { id: 5, name: 'OT_Assessment_Photo.png', category: 'Medical Reports', type: 'img', size: '2.4 MB', date: '2026-03-12' },
-];
+import { useEffect, useMemo, useState, useCallback } from 'react';
+import {
+  FileText,
+  Download,
+  FolderOpen,
+  Image as ImageIcon,
+  Search,
+  Loader2,
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { useDispatch, useSelector } from 'react-redux';
+import { ASYNC_STATUS } from '../../constants';
+import { fetchDocuments } from '../../store/actions/documentActions';
+import {
+  DOCUMENT_CATEGORIES,
+  normalizeDocuments,
+  resolveFileUrl,
+} from '../../services/documentService';
 
 const typeIconMap = {
   pdf: { Icon: FileText, color: 'text-red-500' },
   doc: { Icon: FolderOpen, color: 'text-blue-500' },
-  img: { Icon: Image, color: 'text-emerald-500' },
+  img: { Icon: ImageIcon, color: 'text-emerald-500' },
+};
+
+const categoryColors = {
+  'NDIS Resources': 'bg-purple-50 text-purple-700',
+  'Guides': 'bg-blue-50 text-blue-700',
+  'Policies': 'bg-emerald-50 text-emerald-700',
+  'Forms': 'bg-amber-50 text-amber-700',
+  'Announcements': 'bg-pink-50 text-pink-700',
+  'Other': 'bg-slate-100 text-slate-600',
 };
 
 const DocumentUploadPage = () => {
-  const { user } = useAuth();
-  const fileInputRef = useRef(null);
-  const [documents, setDocuments] = useState(initialDocuments);
-  const [selectedCategory, setSelectedCategory] = useState('NDIS Plan');
-  const [isDragging, setIsDragging] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
+  const { publicDocuments, status } = useSelector((s) => s.document);
+  const loading = status === ASYNC_STATUS.LOADING;
 
-  const handleDragLeave = () => setIsDragging(false);
+  const documents = useMemo(
+    () => normalizeDocuments(publicDocuments),
+    [publicDocuments],
+  );
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    simulateUpload(e.dataTransfer.files);
-  };
+  const [searchInput, setSearchInput] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
 
-  const handleFileSelect = (e) => {
-    if (e.target.files.length) simulateUpload(e.target.files);
-  };
+  const loadDocuments = useCallback(() => {
+    dispatch(fetchDocuments());
+  }, [dispatch]);
 
-  const simulateUpload = (files) => {
-    const newDocs = Array.from(files).map((file, i) => ({
-      id: Date.now() + i,
-      name: file.name,
-      category: selectedCategory,
-      type: file.name.match(/\.(png|jpg|jpeg)$/i) ? 'img' : file.name.match(/\.docx?$/i) ? 'doc' : 'pdf',
-      size: `${(file.size / 1024).toFixed(0)} KB`,
-      date: new Date().toISOString().split('T')[0],
-    }));
-    setDocuments((prev) => [...newDocs, ...prev]);
-    setUploadSuccess(true);
-    setTimeout(() => setUploadSuccess(false), 3000);
-  };
+  useEffect(() => {
+    loadDocuments();
+  }, [loadDocuments]);
 
-  const handleDelete = (id) => {
-    setDocuments((prev) => prev.filter((d) => d.id !== id));
+  // Debounced search
+  useEffect(() => {
+    const timer = setTimeout(() => setSearchTerm(searchInput), 300);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  const filteredDocuments = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    return documents.filter((d) => {
+      const matchesSearch =
+        !q ||
+        d.name?.toLowerCase().includes(q) ||
+        d.description?.toLowerCase().includes(q) ||
+        d.category?.toLowerCase().includes(q);
+      const matchesCategory =
+        categoryFilter === 'all' || d.category === categoryFilter;
+      return matchesSearch && matchesCategory;
+    });
+  }, [documents, searchTerm, categoryFilter]);
+
+  const handleDownload = (doc) => {
+    const href = resolveFileUrl(doc.file_url);
+    if (!href) {
+      toast.info('No file attached to this document.');
+      return;
+    }
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = doc.original_filename || doc.name || 'document';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.click();
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 text-white shadow-lg">
-        <h1 className="text-2xl font-bold mb-1">My Documents</h1>
-        <p className="text-purple-100">Upload and manage your important documents</p>
+        <h1 className="text-2xl font-bold mb-1">Documents</h1>
+        <p className="text-purple-100">
+          Browse and download documents shared by the admin team
+        </p>
       </div>
 
-      {/* Upload Area */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Upload Documents</h2>
+      {/* Info banner */}
+      {/* <div className="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-2xl px-4 py-3">
+        <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+        <p className="text-sm text-blue-700">
+          These documents are uploaded and maintained by the admin team. As a{' '}
+          {audience}, you have read-only access — you can view and download them,
+          but cannot upload your own.
+        </p>
+      </div> */}
 
-        {/* Category Selection */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-slate-600 mb-2">Document Category</label>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-purple-600 text-white shadow-md'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Drag & Drop Zone */}
-        <div
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all ${
-            isDragging
-              ? 'border-purple-500 bg-purple-50'
-              : 'border-slate-300 hover:border-purple-400 hover:bg-purple-50/50'
-          }`}
-        >
-          <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Upload className="w-7 h-7 text-purple-600" />
-          </div>
-          <p className="text-slate-700 font-medium mb-1">Drag & drop files here or click to browse</p>
-          <p className="text-sm text-slate-400">Accepted file types: PDF, DOC, JPG, PNG</p>
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-            onChange={handleFileSelect}
-            className="hidden"
+            type="text"
+            placeholder="Search documents..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none bg-white"
           />
         </div>
-
-        {/* Upload Success */}
-        {uploadSuccess && (
-          <div className="mt-4 flex items-center gap-2 text-emerald-600 bg-emerald-50 rounded-xl px-4 py-2.5 text-sm font-medium">
-            <CheckCircle className="w-4 h-4" />
-            File uploaded successfully!
-          </div>
-        )}
-      </div>
-
-      {/* Storage Indicator */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
-            <FolderOpen className="w-5 h-5 text-pink-600" />
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-slate-800">{documents.length} of 50 documents uploaded</p>
-            <p className="text-xs text-slate-400">You can store up to 50 documents</p>
-          </div>
-        </div>
-        <div className="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all"
-            style={{ width: `${Math.min((documents.length / 50) * 100, 100)}%` }}
-          />
-        </div>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-600 bg-white outline-none min-w-[180px]"
+        >
+          <option value="all">All Categories</option>
+          {DOCUMENT_CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Documents List */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="p-5 border-b border-slate-100">
-          <h2 className="text-lg font-semibold text-slate-800">Uploaded Documents</h2>
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-slate-800">Available Documents</h2>
+          <span className="text-xs text-slate-400">
+            {loading
+              ? 'Loading…'
+              : `${filteredDocuments.length} document${filteredDocuments.length !== 1 ? 's' : ''}`}
+          </span>
         </div>
 
-        {documents.length === 0 ? (
+        {loading && documents.length === 0 ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-7 h-7 text-purple-500 animate-spin" />
+          </div>
+        ) : filteredDocuments.length === 0 ? (
           <div className="p-12 text-center">
             <FileText className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-500">No documents uploaded yet</p>
+            <p className="text-slate-500 font-medium">No documents available</p>
+            <p className="text-sm text-slate-400 mt-1">
+              Check back later — admins add new documents regularly.
+            </p>
           </div>
         ) : (
           <ul className="divide-y divide-slate-100">
-            {documents.map((doc) => {
+            {filteredDocuments.map((doc) => {
               const { Icon, color } = typeIconMap[doc.type] || typeIconMap.pdf;
               return (
-                <li key={doc.id} className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50 transition-colors">
-                  {/* File Icon */}
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 ${color}`}>
+                <li
+                  key={doc.id}
+                  className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50 transition-colors"
+                >
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 ${color}`}
+                  >
                     <Icon className="w-5 h-5" />
                   </div>
 
-                  {/* File Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{doc.name}</p>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${categoryColors[doc.category]}`}>
+                    <p className="text-sm font-medium text-slate-800 truncate">
+                      {doc.name}
+                    </p>
+                    {doc.description && (
+                      <p className="text-xs text-slate-500 truncate mt-0.5">
+                        {doc.description}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                          categoryColors[doc.category] || categoryColors.Other
+                        }`}
+                      >
                         {doc.category}
                       </span>
-                      <span className="text-xs text-slate-400">{doc.date}</span>
-                      <span className="text-xs text-slate-400">{doc.size}</span>
+                      {doc.date && (
+                        <span className="text-xs text-slate-400">{doc.date}</span>
+                      )}
+                      {doc.size && (
+                        <span className="text-xs text-slate-400">{doc.size}</span>
+                      )}
                     </div>
                   </div>
 
-                  {/* Actions */}
-                  <div className="flex items-center gap-1">
-                    <button
-                      className="p-2 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50 transition-colors"
-                      title="Download"
-                    >
-                      <Download className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(doc.id)}
-                      className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => handleDownload(doc)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-purple-600 hover:text-white hover:bg-purple-600 transition-colors"
+                    title="Download"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span className="hidden sm:inline">Download</span>
+                  </button>
                 </li>
               );
             })}
