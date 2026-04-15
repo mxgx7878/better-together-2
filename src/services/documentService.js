@@ -1,46 +1,12 @@
-// ─── Document Service ─────────────────────────────────────────
-// Client-side document store backed by localStorage. Admins manage
-// (upload / edit / delete) documents here; providers and participants
-// read them. This mirrors the mock-data pattern used elsewhere in the
-// app until a real backend endpoint is wired up.
+// ─── Document Helpers ─────────────────────────────────────────
+// Pure helpers used by document pages. Data now comes from the
+// backend API via documentActions / documentSlice.
 
-const STORAGE_KEY = 'bt_admin_documents';
-
-const seedDocuments = [
-  {
-    id: 'seed-1',
-    name: 'Welcome_Guide_2026.pdf',
-    description: 'A quick-start guide to using the Better Together platform.',
-    category: 'Guides',
-    type: 'pdf',
-    size: '1.1 MB',
-    dataUrl: '',
-    date: '2026-02-10',
-    uploadedBy: 'Admin',
-  },
-  {
-    id: 'seed-2',
-    name: 'NDIS_Provider_Handbook.pdf',
-    description: 'Official NDIS handbook for registered providers.',
-    category: 'NDIS Resources',
-    type: 'pdf',
-    size: '2.3 MB',
-    dataUrl: '',
-    date: '2026-01-22',
-    uploadedBy: 'Admin',
-  },
-  {
-    id: 'seed-3',
-    name: 'Participant_Rights_Overview.docx',
-    description: 'Overview of participant rights and safeguards.',
-    category: 'Policies',
-    type: 'doc',
-    size: '180 KB',
-    dataUrl: '',
-    date: '2026-03-01',
-    uploadedBy: 'Admin',
-  },
-];
+// Public storage path where uploaded documents live on the backend.
+// The API returns `file_url` as a relative path (e.g. "documents/foo.pdf");
+// we prefix it with this when rendering / downloading.
+export const STORAGE_BASE_URL =
+  'https://demowebportals.com/better-backend/storage/app/public/';
 
 export const DOCUMENT_CATEGORIES = [
   'NDIS Resources',
@@ -51,45 +17,66 @@ export const DOCUMENT_CATEGORIES = [
   'Other',
 ];
 
-const safeParse = (raw) => {
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : null;
-  } catch {
-    return null;
-  }
+/**
+ * Resolve a document's `file_url` to an absolute URL.
+ * - Leaves fully-qualified URLs untouched (http/https/data/blob).
+ * - Otherwise prepends STORAGE_BASE_URL and trims a leading slash.
+ */
+export const resolveFileUrl = (fileUrl) => {
+  if (!fileUrl) return '';
+  if (/^(https?:\/\/|data:|blob:)/i.test(fileUrl)) return fileUrl;
+  const trimmed = String(fileUrl).replace(/^\/+/, '');
+  return `${STORAGE_BASE_URL}${trimmed}`;
 };
 
-export const getDocuments = () => {
-  if (typeof window === 'undefined') return [...seedDocuments];
-  const raw = window.localStorage.getItem(STORAGE_KEY);
-  const parsed = raw ? safeParse(raw) : null;
-  if (parsed) return parsed;
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seedDocuments));
-  return [...seedDocuments];
-};
-
-export const saveDocuments = (docs) => {
-  if (typeof window === 'undefined') return;
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
-};
-
-export const detectType = (fileName = '') => {
-  if (/\.(png|jpe?g|gif|webp)$/i.test(fileName)) return 'img';
-  if (/\.docx?$/i.test(fileName)) return 'doc';
+export const detectType = (fileName = '', mime = '') => {
+  const name = String(fileName).toLowerCase();
+  const m = String(mime).toLowerCase();
+  if (m.startsWith('image/') || /\.(png|jpe?g|gif|webp)$/i.test(name)) return 'img';
+  if (m.includes('word') || /\.docx?$/i.test(name)) return 'doc';
   return 'pdf';
 };
 
 export const formatFileSize = (bytes = 0) => {
-  if (!bytes) return '0 KB';
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  const n = Number(bytes);
+  if (!n) return '0 KB';
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-export const readFileAsDataUrl = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
+/**
+ * Normalize a raw document object from the API into the shape the UI expects.
+ * Defensive against missing fields so the UI never crashes on partial data.
+ */
+export const normalizeDocument = (doc = {}) => {
+  const name =
+    doc.name || doc.title || doc.original_filename || 'Untitled document';
+  const type =
+    doc.type || detectType(doc.original_filename || name, doc.mime_type);
+  const size =
+    doc.size ||
+    (doc.size_bytes ? formatFileSize(doc.size_bytes) : '');
+  const uploadedBy =
+    (typeof doc.uploaded_by === 'object' ? doc.uploaded_by?.name : doc.uploaded_by) ||
+    doc.uploader_name ||
+    '';
+  const date =
+    (doc.created_at || doc.updated_at || '').split('T')[0] || doc.date || '';
+
+  return {
+    id: doc.id,
+    name,
+    description: doc.description || '',
+    category: doc.category || 'Other',
+    type,
+    size,
+    file_url: resolveFileUrl(doc.file_url),
+    original_filename: doc.original_filename || name,
+    status: doc.status ?? 1,
+    uploaded_by: uploadedBy,
+    date,
+  };
+};
+
+export const normalizeDocuments = (docs = []) =>
+  (Array.isArray(docs) ? docs : []).map(normalizeDocument);

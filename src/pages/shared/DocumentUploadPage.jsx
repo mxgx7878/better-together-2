@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import {
   FileText,
   Download,
@@ -8,10 +8,15 @@ import {
   Info,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../hooks/useAuth';
+import { ASYNC_STATUS } from '../../constants';
+import { InlineLoader } from '../../components/common/Loader';
+import { fetchDocuments } from '../../store/actions/documentActions';
 import {
   DOCUMENT_CATEGORIES,
-  getDocuments,
+  normalizeDocuments,
+  resolveFileUrl,
 } from '../../services/documentService';
 
 const typeIconMap = {
@@ -30,13 +35,29 @@ const categoryColors = {
 };
 
 const DocumentUploadPage = () => {
+  const dispatch = useDispatch();
   const { isProvider } = useAuth();
   const audience = isProvider ? 'provider' : 'participant';
 
-  const [documents] = useState(() => getDocuments());
+  const { publicDocuments, status } = useSelector((s) => s.document);
+  const loading = status === ASYNC_STATUS.LOADING;
+
+  const documents = useMemo(
+    () => normalizeDocuments(publicDocuments),
+    [publicDocuments],
+  );
+
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+
+  const loadDocuments = useCallback(() => {
+    dispatch(fetchDocuments());
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadDocuments();
+  }, [loadDocuments]);
 
   // Debounced search
   useEffect(() => {
@@ -59,13 +80,16 @@ const DocumentUploadPage = () => {
   }, [documents, searchTerm, categoryFilter]);
 
   const handleDownload = (doc) => {
-    if (!doc.dataUrl) {
-      toast.info('This document is a sample and has no file attached yet.');
+    const href = resolveFileUrl(doc.file_url);
+    if (!href) {
+      toast.info('No file attached to this document.');
       return;
     }
     const link = document.createElement('a');
-    link.href = doc.dataUrl;
-    link.download = doc.name;
+    link.href = href;
+    link.download = doc.original_filename || doc.name || 'document';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
     link.click();
   };
 
@@ -120,12 +144,17 @@ const DocumentUploadPage = () => {
         <div className="p-5 border-b border-slate-100 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-800">Available Documents</h2>
           <span className="text-xs text-slate-400">
-            {filteredDocuments.length} document
-            {filteredDocuments.length !== 1 ? 's' : ''}
+            {loading
+              ? 'Loading…'
+              : `${filteredDocuments.length} document${filteredDocuments.length !== 1 ? 's' : ''}`}
           </span>
         </div>
 
-        {filteredDocuments.length === 0 ? (
+        {loading && documents.length === 0 ? (
+          <div className="p-10">
+            <InlineLoader />
+          </div>
+        ) : filteredDocuments.length === 0 ? (
           <div className="p-12 text-center">
             <FileText className="w-12 h-12 text-slate-300 mx-auto mb-3" />
             <p className="text-slate-500 font-medium">No documents available</p>
@@ -165,8 +194,12 @@ const DocumentUploadPage = () => {
                       >
                         {doc.category}
                       </span>
-                      <span className="text-xs text-slate-400">{doc.date}</span>
-                      <span className="text-xs text-slate-400">{doc.size}</span>
+                      {doc.date && (
+                        <span className="text-xs text-slate-400">{doc.date}</span>
+                      )}
+                      {doc.size && (
+                        <span className="text-xs text-slate-400">{doc.size}</span>
+                      )}
                     </div>
                   </div>
 

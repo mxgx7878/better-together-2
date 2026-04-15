@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import {
   FileText,
   Search,
@@ -14,15 +14,21 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useDispatch, useSelector } from 'react-redux';
 import PageHeader from '../../components/common/PageHeader';
-import { useAuth } from '../../hooks/useAuth';
+import { InlineLoader } from '../../components/common/Loader';
+import { ASYNC_STATUS } from '../../constants';
+import {
+  adminFetchDocuments,
+  adminCreateDocument,
+  adminUpdateDocument,
+  adminDeleteDocument,
+} from '../../store/actions/documentActions';
 import {
   DOCUMENT_CATEGORIES,
-  detectType,
+  normalizeDocuments,
+  resolveFileUrl,
   formatFileSize,
-  getDocuments,
-  readFileAsDataUrl,
-  saveDocuments,
 } from '../../services/documentService';
 
 const typeIconMap = {
@@ -44,17 +50,22 @@ const emptyForm = {
   name: '',
   description: '',
   category: DOCUMENT_CATEGORIES[0],
+  status: 1,
   file: null,
-  type: 'pdf',
-  size: '',
-  dataUrl: '',
 };
 
 const ManageDocumentsPage = () => {
-  const { user } = useAuth();
+  const dispatch = useDispatch();
   const fileInputRef = useRef(null);
 
-  const [documents, setDocuments] = useState(() => getDocuments());
+  const { documents: rawDocuments, status } = useSelector((s) => s.document);
+  const loading = status === ASYNC_STATUS.LOADING;
+
+  const documents = useMemo(
+    () => normalizeDocuments(rawDocuments),
+    [rawDocuments],
+  );
+
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
@@ -66,17 +77,21 @@ const ManageDocumentsPage = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const [deleteId, setDeleteId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   // Debounced search
   useEffect(() => {
-    const timer = setTimeout(() => setSearchTerm(searchInput), 300);
+    const timer = setTimeout(() => setSearchTerm(searchInput), 400);
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  const persist = (next) => {
-    setDocuments(next);
-    saveDocuments(next);
-  };
+  const loadDocuments = useCallback(() => {
+    dispatch(adminFetchDocuments());
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadDocuments();
+  }, [loadDocuments]);
 
   const filteredDocuments = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
@@ -86,7 +101,8 @@ const ManageDocumentsPage = () => {
         d.name?.toLowerCase().includes(q) ||
         d.description?.toLowerCase().includes(q) ||
         d.category?.toLowerCase().includes(q);
-      const matchesCategory = categoryFilter === 'all' || d.category === categoryFilter;
+      const matchesCategory =
+        categoryFilter === 'all' || d.category === categoryFilter;
       return matchesSearch && matchesCategory;
     });
   }, [documents, searchTerm, categoryFilter]);
@@ -102,13 +118,11 @@ const ManageDocumentsPage = () => {
   const openEditModal = (doc) => {
     setEditingId(doc.id);
     setFormData({
-      name: doc.name,
+      name: doc.name || '',
       description: doc.description || '',
       category: doc.category || DOCUMENT_CATEGORIES[0],
+      status: doc.status ?? 1,
       file: null,
-      type: doc.type,
-      size: doc.size,
-      dataUrl: doc.dataUrl || '',
     });
     setFormErrors({});
     setShowModal(true);
@@ -122,21 +136,27 @@ const ManageDocumentsPage = () => {
     setFormErrors({});
   };
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    try {
-      const dataUrl = await readFileAsDataUrl(file);
-      setFormData((prev) => ({
-        ...prev,
-        file,
-        name: prev.name || file.name,
-        type: detectType(file.name),
-        size: formatFileSize(file.size),
-        dataUrl,
-      }));
-    } catch {
-      toast.error('Could not read the selected file.');
+    setFormData((prev) => ({
+      ...prev,
+      file,
+      name: prev.name || file.name,
+    }));
+    if (formErrors.file) {
+      setFormErrors((prev) => ({ ...prev, file: '' }));
+    }
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (checked ? 1 : 0) : value,
+    }));
+    if (formErrors[name]) {
+      setFormErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -144,9 +164,19 @@ const ManageDocumentsPage = () => {
     const errs = {};
     if (!formData.name.trim()) errs.name = 'Document name is required';
     if (!formData.category) errs.category = 'Category is required';
-    if (!editingId && !formData.dataUrl) errs.file = 'Please select a file to upload';
+    if (!editingId && !formData.file) errs.file = 'Please choose a file to upload';
     setFormErrors(errs);
     return Object.keys(errs).length === 0;
+  };
+
+  const buildPayload = () => {
+    const fd = new FormData();
+    fd.append('name', formData.name.trim());
+    fd.append('description', formData.description.trim());
+    fd.append('category', formData.category);
+    fd.append('status', String(Number(formData.status)));
+    if (formData.file) fd.append('file', formData.file);
+    return fd;
   };
 
   const handleSubmit = async (e) => {
@@ -155,66 +185,56 @@ const ManageDocumentsPage = () => {
 
     setSubmitting(true);
     try {
+      const payload = buildPayload();
       if (editingId) {
-        const next = documents.map((d) =>
-          d.id === editingId
-            ? {
-                ...d,
-                name: formData.name.trim(),
-                description: formData.description.trim(),
-                category: formData.category,
-                // If a new file was chosen, replace the file bits
-                ...(formData.file
-                  ? {
-                      type: formData.type,
-                      size: formData.size,
-                      dataUrl: formData.dataUrl,
-                    }
-                  : {}),
-              }
-            : d,
-        );
-        persist(next);
-        toast.success('Document updated');
+        await dispatch(
+          adminUpdateDocument({ id: editingId, documentData: payload }),
+        ).unwrap();
       } else {
-        const newDoc = {
-          id: `doc-${Date.now()}`,
-          name: formData.name.trim(),
-          description: formData.description.trim(),
-          category: formData.category,
-          type: formData.type,
-          size: formData.size,
-          dataUrl: formData.dataUrl,
-          date: new Date().toISOString().split('T')[0],
-          uploadedBy: user?.name || 'Admin',
-        };
-        persist([newDoc, ...documents]);
-        toast.success('Document uploaded');
+        await dispatch(adminCreateDocument(payload)).unwrap();
       }
       closeModal();
+      loadDocuments();
+    } catch {
+      // Errors toasted via action
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deleteId) return;
-    const next = documents.filter((d) => d.id !== deleteId);
-    persist(next);
-    toast.success('Document deleted');
-    setDeleteId(null);
+    setDeleting(true);
+    try {
+      await dispatch(adminDeleteDocument(deleteId)).unwrap();
+      setDeleteId(null);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const handleDownload = (doc) => {
-    if (!doc.dataUrl) {
-      toast.info('This seeded document has no file attached.');
+    const href = resolveFileUrl(doc.file_url);
+    if (!href) {
+      toast.info('No file attached to this document.');
       return;
     }
     const link = document.createElement('a');
-    link.href = doc.dataUrl;
-    link.download = doc.name;
+    link.href = href;
+    link.download = doc.original_filename || doc.name || 'document';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
     link.click();
   };
+
+  const selectedFileLabel = useMemo(() => {
+    if (formData.file) {
+      return `${formData.file.name} (${formatFileSize(formData.file.size)})`;
+    }
+    return editingId
+      ? 'Click to replace the current file (optional)'
+      : 'Click to choose a file (PDF, DOC, Image)';
+  }, [formData.file, editingId]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -259,82 +279,103 @@ const ManageDocumentsPage = () => {
       </div>
 
       <p className="text-sm text-slate-500">
-        {filteredDocuments.length} document{filteredDocuments.length !== 1 ? 's' : ''} found
+        {loading
+          ? 'Loading...'
+          : `${filteredDocuments.length} document${filteredDocuments.length !== 1 ? 's' : ''} found`}
       </p>
 
       {/* Documents List */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        {filteredDocuments.length === 0 ? (
-          <div className="p-12 text-center">
-            <FileText className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-500 font-medium">No documents found</p>
-            <p className="text-sm text-slate-400 mt-1">
-              Click "Upload Document" to add one.
-            </p>
-          </div>
-        ) : (
-          <ul className="divide-y divide-slate-100">
-            {filteredDocuments.map((doc) => {
-              const { Icon, color } = typeIconMap[doc.type] || typeIconMap.pdf;
-              return (
-                <li
-                  key={doc.id}
-                  className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50 transition-colors"
-                >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 ${color}`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{doc.name}</p>
-                    {doc.description && (
-                      <p className="text-xs text-slate-500 truncate mt-0.5">{doc.description}</p>
-                    )}
-                    <div className="flex items-center gap-3 mt-1 flex-wrap">
-                      <span
-                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                          categoryColors[doc.category] || categoryColors.Other
-                        }`}
-                      >
-                        {doc.category}
-                      </span>
-                      <span className="text-xs text-slate-400">{doc.date}</span>
-                      <span className="text-xs text-slate-400">{doc.size}</span>
-                      {doc.uploadedBy && (
-                        <span className="text-xs text-slate-400">by {doc.uploadedBy}</span>
-                      )}
+      {loading && documents.length === 0 ? (
+        <InlineLoader />
+      ) : (
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          {filteredDocuments.length === 0 ? (
+            <div className="p-12 text-center">
+              <FileText className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <p className="text-slate-500 font-medium">No documents found</p>
+              <p className="text-sm text-slate-400 mt-1">
+                Click "Upload Document" to add one.
+              </p>
+            </div>
+          ) : (
+            <ul className="divide-y divide-slate-100">
+              {filteredDocuments.map((doc) => {
+                const { Icon, color } = typeIconMap[doc.type] || typeIconMap.pdf;
+                return (
+                  <li
+                    key={doc.id}
+                    className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50 transition-colors"
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 ${color}`}>
+                      <Icon className="w-5 h-5" />
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => handleDownload(doc)}
-                      className="p-2 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50 transition-colors"
-                      title="Download"
-                    >
-                      <Download className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => openEditModal(doc)}
-                      className="p-2 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                      title="Edit"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setDeleteId(doc.id)}
-                      className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-800 truncate">
+                        {doc.name}
+                      </p>
+                      {doc.description && (
+                        <p className="text-xs text-slate-500 truncate mt-0.5">
+                          {doc.description}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-3 mt-1 flex-wrap">
+                        <span
+                          className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                            categoryColors[doc.category] || categoryColors.Other
+                          }`}
+                        >
+                          {doc.category}
+                        </span>
+                        {doc.date && (
+                          <span className="text-xs text-slate-400">{doc.date}</span>
+                        )}
+                        {doc.size && (
+                          <span className="text-xs text-slate-400">{doc.size}</span>
+                        )}
+                        {doc.uploaded_by && (
+                          <span className="text-xs text-slate-400">
+                            by {doc.uploaded_by}
+                          </span>
+                        )}
+                        {Number(doc.status) === 0 && (
+                          <span className="text-[10px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">
+                            HIDDEN
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleDownload(doc)}
+                        className="p-2 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+                        title="Download"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => openEditModal(doc)}
+                        className="p-2 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                        title="Edit"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setDeleteId(doc.id)}
+                        className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      )}
 
       {/* Create / Edit Modal */}
       {showModal && (
@@ -369,14 +410,7 @@ const ManageDocumentsPage = () => {
                   className="border-2 border-dashed border-slate-300 hover:border-purple-400 rounded-xl p-5 text-center cursor-pointer transition-colors"
                 >
                   <Upload className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-                  <p className="text-sm text-slate-600">
-                    {formData.file
-                      ? formData.file.name
-                      : 'Click to choose a file (PDF, DOC, Image)'}
-                  </p>
-                  {formData.size && (
-                    <p className="text-xs text-slate-400 mt-1">{formData.size}</p>
-                  )}
+                  <p className="text-sm text-slate-600">{selectedFileLabel}</p>
                 </div>
                 <input
                   ref={fileInputRef}
@@ -397,8 +431,9 @@ const ManageDocumentsPage = () => {
                 </label>
                 <input
                   type="text"
+                  name="name"
                   value={formData.name}
-                  onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
+                  onChange={handleFormChange}
                   className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
                   placeholder="e.g. NDIS Handbook 2026"
                 />
@@ -413,8 +448,9 @@ const ManageDocumentsPage = () => {
                   Category
                 </label>
                 <select
+                  name="category"
                   value={formData.category}
-                  onChange={(e) => setFormData((p) => ({ ...p, category: e.target.value }))}
+                  onChange={handleFormChange}
                   className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none bg-white"
                 >
                   {DOCUMENT_CATEGORIES.map((c) => (
@@ -434,12 +470,33 @@ const ManageDocumentsPage = () => {
                   Description
                 </label>
                 <textarea
+                  name="description"
                   value={formData.description}
-                  onChange={(e) => setFormData((p) => ({ ...p, description: e.target.value }))}
+                  onChange={handleFormChange}
                   rows={3}
                   className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
                   placeholder="Short description (optional)"
                 />
+              </div>
+
+              {/* Status */}
+              <div className="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-3">
+                <div>
+                  <p className="text-sm font-medium text-slate-700">Visible to users</p>
+                  <p className="text-xs text-slate-500">
+                    When off, providers and participants won't see this document.
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="status"
+                    checked={Number(formData.status) === 1}
+                    onChange={handleFormChange}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-purple-600 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all" />
+                </label>
               </div>
 
               <div className="flex gap-3 pt-2">
@@ -472,7 +529,7 @@ const ManageDocumentsPage = () => {
       {deleteId && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setDeleteId(null)}
+          onClick={() => !deleting && setDeleteId(null)}
         >
           <div
             className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6"
@@ -490,14 +547,17 @@ const ManageDocumentsPage = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => setDeleteId(null)}
-                  className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+                  disabled={deleting}
+                  className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition-colors"
+                  disabled={deleting}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
                 >
+                  {deleting && <Loader2 className="w-4 h-4 animate-spin" />}
                   Delete
                 </button>
               </div>
