@@ -5,11 +5,9 @@ import {
   FolderOpen,
   Image as ImageIcon,
   Search,
-  Info,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth } from '../../hooks/useAuth';
 import { ASYNC_STATUS } from '../../constants';
 import { InlineLoader } from '../../components/common/Loader';
 import { fetchDocuments } from '../../store/actions/documentActions';
@@ -36,8 +34,6 @@ const categoryColors = {
 
 const DocumentUploadPage = () => {
   const dispatch = useDispatch();
-  const { isProvider } = useAuth();
-  const audience = isProvider ? 'provider' : 'participant';
 
   const { publicDocuments, status } = useSelector((s) => s.document);
   const loading = status === ASYNC_STATUS.LOADING;
