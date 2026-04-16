@@ -12,10 +12,20 @@ import {
   Heart,
   Loader2,
   Shield,
+  CheckCircle,
+  XCircle,
+  Ban,
+  Power,
 } from "lucide-react";
 import PageHeader from "../../components/common/PageHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { adminFetchUsers } from "../../store/actions/userActions";
+import {
+  adminFetchUsers,
+  adminApproveUser,
+  adminRejectUser,
+  adminSuspendUser,
+  adminActivateUser,
+} from "../../store/actions/userActions";
 import { ASYNC_STATUS } from "../../constants";
 
 const ITEMS_PER_PAGE = 10;
@@ -29,6 +39,9 @@ const ROLE_TABS = [
 const STATUS_OPTIONS = [
   { key: "all", label: "All Status" },
   { key: "active", label: "Active" },
+  { key: "pending", label: "Pending" },
+  { key: "suspended", label: "Suspended" },
+  { key: "rejected", label: "Rejected" },
   { key: "inactive", label: "Inactive" },
 ];
 
@@ -45,6 +58,29 @@ const roleIcon = (role) => {
   return Shield;
 };
 
+const statusBadge = (status) => {
+  switch (status) {
+    case "active":
+      return "bg-emerald-50 text-emerald-700 border-emerald-200";
+    case "pending":
+      return "bg-amber-50 text-amber-700 border-amber-200";
+    case "suspended":
+      return "bg-red-50 text-red-600 border-red-200";
+    case "rejected":
+      return "bg-rose-50 text-rose-600 border-rose-200";
+    case "inactive":
+      return "bg-slate-50 text-slate-500 border-slate-200";
+    default:
+      return "bg-slate-50 text-slate-500 border-slate-200";
+  }
+};
+
+const getStatusLabel = (user) => {
+  if (user.status) return user.status;
+  if (user.is_active === false) return "inactive";
+  return "active";
+};
+
 const ManageUsersPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,6 +90,10 @@ const ManageUsersPage = () => {
   const [activeRole, setActiveRole] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [actionLoadingId, setActionLoadingId] = useState(null);
+  const [rejectModal, setRejectModal] = useState(null); // { userId }
+  const [suspendModal, setSuspendModal] = useState(null); // { userId }
+  const [reason, setReason] = useState("");
 
   const { users, total, totalPages, status } = useSelector((s) => s.user);
   const loading = status === ASYNC_STATUS.LOADING;
@@ -90,6 +130,45 @@ const ManageUsersPage = () => {
 
   const handleViewUser = (userId) => {
     navigate(`/admin/users/${userId}`);
+  };
+
+  // ─── Quick actions ────────────────────────────────────────────
+  const handleApprove = async (userId) => {
+    setActionLoadingId(userId);
+    await dispatch(adminApproveUser(userId));
+    setActionLoadingId(null);
+    loadUsers();
+  };
+
+  const handleActivate = async (userId) => {
+    setActionLoadingId(userId);
+    await dispatch(adminActivateUser(userId));
+    setActionLoadingId(null);
+    loadUsers();
+  };
+
+  const handleRejectSubmit = async () => {
+    if (!rejectModal) return;
+    setActionLoadingId(rejectModal.userId);
+    await dispatch(
+      adminRejectUser({ userId: rejectModal.userId, reason }),
+    );
+    setActionLoadingId(null);
+    setRejectModal(null);
+    setReason("");
+    loadUsers();
+  };
+
+  const handleSuspendSubmit = async () => {
+    if (!suspendModal) return;
+    setActionLoadingId(suspendModal.userId);
+    await dispatch(
+      adminSuspendUser({ userId: suspendModal.userId, reason }),
+    );
+    setActionLoadingId(null);
+    setSuspendModal(null);
+    setReason("");
+    loadUsers();
   };
 
   return (
@@ -142,7 +221,7 @@ const ManageUsersPage = () => {
         <select
           value={statusFilter}
           onChange={(e) => handleFilterChange(setStatusFilter)(e.target.value)}
-          className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-600 bg-white focus:ring-2 focus:ring-purple-500 outline-none min-w-[130px]"
+          className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-600 bg-white focus:ring-2 focus:ring-purple-500 outline-none min-w-[150px]"
         >
           {STATUS_OPTIONS.map((opt) => (
             <option key={opt.key} value={opt.key}>
@@ -193,6 +272,7 @@ const ManageUsersPage = () => {
                   {[
                     "User",
                     "Role",
+                    "Status",
                     "Phone",
                     "Location",
                     "Joined",
@@ -212,6 +292,9 @@ const ManageUsersPage = () => {
               <tbody className="divide-y divide-slate-100">
                 {users.map((u) => {
                   const RoleIcon = roleIcon(u.role);
+                  const userStatus = getStatusLabel(u);
+                  const isActioning = actionLoadingId === u.id;
+
                   return (
                     <tr
                       key={u.id}
@@ -251,6 +334,16 @@ const ManageUsersPage = () => {
                             : "—"}
                         </span>
                       </td>
+                      {/* Status */}
+                      <td className="px-5 py-4">
+                        <span
+                          className={`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border capitalize ${statusBadge(
+                            userStatus,
+                          )}`}
+                        >
+                          {userStatus}
+                        </span>
+                      </td>
                       {/* Phone */}
                       <td className="px-5 py-4">
                         <p className="text-sm text-slate-600">
@@ -280,25 +373,81 @@ const ManageUsersPage = () => {
                       </td>
                       {/* Actions */}
                       <td className="px-5 py-4 text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <button
-                            onClick={() => handleViewUser(u.id)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-purple-600 hover:bg-purple-50 transition-colors"
-                            title="View details"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                            View
-                          </button>
-                          <button
-                            onClick={() =>
-                              navigate(`/admin/users/${u.id}/edit`)
-                            }
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition-colors"
-                            title="Edit user"
-                          >
-                            <Pencil className="w-3.5 h-3.5" />
-                            Edit
-                          </button>
+                        <div className="flex items-center justify-end gap-1 flex-wrap">
+                          {isActioning ? (
+                            <Loader2 className="w-4 h-4 text-purple-500 animate-spin" />
+                          ) : (
+                            <>
+                              {/* Approve — only show for pending */}
+                              {userStatus === "pending" && (
+                                <button
+                                  onClick={() => handleApprove(u.id)}
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-emerald-600 hover:bg-emerald-50 transition-colors"
+                                  title="Approve"
+                                >
+                                  <CheckCircle className="w-3.5 h-3.5" />
+                                  Approve
+                                </button>
+                              )}
+                              {/* Reject — only show for pending */}
+                              {userStatus === "pending" && (
+                                <button
+                                  onClick={() =>
+                                    setRejectModal({ userId: u.id })
+                                  }
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 transition-colors"
+                                  title="Reject"
+                                >
+                                  <XCircle className="w-3.5 h-3.5" />
+                                  Reject
+                                </button>
+                              )}
+                              {/* Suspend — show for active */}
+                              {userStatus === "active" && (
+                                <button
+                                  onClick={() =>
+                                    setSuspendModal({ userId: u.id })
+                                  }
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-amber-600 hover:bg-amber-50 transition-colors"
+                                  title="Suspend"
+                                >
+                                  <Ban className="w-3.5 h-3.5" />
+                                  Suspend
+                                </button>
+                              )}
+                              {/* Activate — show for suspended / rejected / inactive */}
+                              {(userStatus === "suspended" ||
+                                userStatus === "rejected" ||
+                                userStatus === "inactive") && (
+                                <button
+                                  onClick={() => handleActivate(u.id)}
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-emerald-600 hover:bg-emerald-50 transition-colors"
+                                  title="Activate"
+                                >
+                                  <Power className="w-3.5 h-3.5" />
+                                  Activate
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleViewUser(u.id)}
+                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-purple-600 hover:bg-purple-50 transition-colors"
+                                title="View details"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                View
+                              </button>
+                              <button
+                                onClick={() =>
+                                  navigate(`/admin/users/${u.id}/edit`)
+                                }
+                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition-colors"
+                                title="Edit user"
+                              >
+                                <Pencil className="w-3.5 h-3.5" />
+                                Edit
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -351,6 +500,88 @@ const ManageUsersPage = () => {
           </div>
         )}
       </div>
+
+      {/* ─── Reject Modal ────────────────────────────────────────── */}
+      {rejectModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+            <h3 className="text-lg font-bold text-slate-800">Reject User</h3>
+            <p className="text-sm text-slate-500">
+              Are you sure you want to reject this user? You can optionally
+              provide a reason.
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder="Reason for rejection (optional)..."
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setRejectModal(null);
+                  setReason("");
+                }}
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRejectSubmit}
+                disabled={actionLoadingId === rejectModal.userId}
+                className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {actionLoadingId === rejectModal.userId && (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                )}
+                Reject User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Suspend Modal ───────────────────────────────────────── */}
+      {suspendModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+            <h3 className="text-lg font-bold text-slate-800">Suspend User</h3>
+            <p className="text-sm text-slate-500">
+              This user will be suspended and will not be able to access the
+              platform. You can optionally provide a reason.
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder="Reason for suspension (optional)..."
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setSuspendModal(null);
+                  setReason("");
+                }}
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSuspendSubmit}
+                disabled={actionLoadingId === suspendModal.userId}
+                className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {actionLoadingId === suspendModal.userId && (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                )}
+                Suspend User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

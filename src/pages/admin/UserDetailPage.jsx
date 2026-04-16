@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,8 +20,17 @@ import {
   Users as UsersIcon,
   BadgeCheck,
   Pencil,
+  CheckCircle,
+  Ban,
+  Power,
 } from "lucide-react";
-import { adminFetchUser } from "../../store/actions/userActions";
+import {
+  adminFetchUser,
+  adminApproveUser,
+  adminRejectUser,
+  adminSuspendUser,
+  adminActivateUser,
+} from "../../store/actions/userActions";
 import { clearSelectedUser } from "../../store/slices/userSlice";
 import { ASYNC_STATUS } from "../../constants";
 
@@ -65,6 +74,60 @@ const roleMeta = {
   },
 };
 
+const statusColors = {
+  active: {
+    bg: "bg-emerald-400/20",
+    text: "text-emerald-50",
+    border: "border-emerald-300/30",
+    dot: "bg-emerald-400",
+    cardBg: "bg-emerald-50",
+    cardText: "text-emerald-700",
+    cardBorder: "border-emerald-200",
+  },
+  pending: {
+    bg: "bg-amber-400/20",
+    text: "text-amber-50",
+    border: "border-amber-300/30",
+    dot: "bg-amber-400",
+    cardBg: "bg-amber-50",
+    cardText: "text-amber-700",
+    cardBorder: "border-amber-200",
+  },
+  suspended: {
+    bg: "bg-red-400/20",
+    text: "text-red-50",
+    border: "border-red-300/30",
+    dot: "bg-red-400",
+    cardBg: "bg-red-50",
+    cardText: "text-red-700",
+    cardBorder: "border-red-200",
+  },
+  rejected: {
+    bg: "bg-rose-400/20",
+    text: "text-rose-50",
+    border: "border-rose-300/30",
+    dot: "bg-rose-400",
+    cardBg: "bg-rose-50",
+    cardText: "text-rose-700",
+    cardBorder: "border-rose-200",
+  },
+  inactive: {
+    bg: "bg-slate-400/20",
+    text: "text-slate-200",
+    border: "border-slate-300/30",
+    dot: "bg-slate-400",
+    cardBg: "bg-slate-50",
+    cardText: "text-slate-600",
+    cardBorder: "border-slate-200",
+  },
+};
+
+const getStatusLabel = (user) => {
+  if (user.status) return user.status;
+  if (user.is_active === false) return "inactive";
+  return "active";
+};
+
 const UserDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -75,12 +138,50 @@ const UserDetailPage = () => {
   );
   const loading = selectedUserStatus === ASYNC_STATUS.LOADING;
 
+  const [actionLoading, setActionLoading] = useState(false);
+  const [rejectModal, setRejectModal] = useState(false);
+  const [suspendModal, setSuspendModal] = useState(false);
+  const [reason, setReason] = useState("");
+
   useEffect(() => {
     if (id) dispatch(adminFetchUser(id));
     return () => {
       dispatch(clearSelectedUser());
     };
   }, [id, dispatch]);
+
+  // ─── Action handlers ──────────────────────────────────────────
+  const handleApprove = async () => {
+    setActionLoading(true);
+    await dispatch(adminApproveUser(id));
+    dispatch(adminFetchUser(id));
+    setActionLoading(false);
+  };
+
+  const handleActivate = async () => {
+    setActionLoading(true);
+    await dispatch(adminActivateUser(id));
+    dispatch(adminFetchUser(id));
+    setActionLoading(false);
+  };
+
+  const handleRejectSubmit = async () => {
+    setActionLoading(true);
+    await dispatch(adminRejectUser({ userId: id, reason }));
+    dispatch(adminFetchUser(id));
+    setActionLoading(false);
+    setRejectModal(false);
+    setReason("");
+  };
+
+  const handleSuspendSubmit = async () => {
+    setActionLoading(true);
+    await dispatch(adminSuspendUser({ userId: id, reason }));
+    dispatch(adminFetchUser(id));
+    setActionLoading(false);
+    setSuspendModal(false);
+    setReason("");
+  };
 
   if (loading) {
     return (
@@ -115,6 +216,9 @@ const UserDetailPage = () => {
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+  const userStatus = getStatusLabel(user);
+  const sc = statusColors[userStatus] || statusColors.active;
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
@@ -153,6 +257,13 @@ const UserDetailPage = () => {
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-white/20 backdrop-blur text-white border border-white/30">
                 <RoleIcon className="w-3 h-3" />
                 {meta.label}
+              </span>
+              {/* Status badge */}
+              <span
+                className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${sc.bg} ${sc.text} ${sc.border}`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
+                {userStatus}
               </span>
               {user.email_verified_at ? (
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-400/20 text-emerald-50 border border-emerald-300/30">
@@ -226,7 +337,11 @@ const UserDetailPage = () => {
                 />
               )}
               <InfoRow
-                icon={user.provider_profile.is_ndis_registered ? CheckCircle2 : XCircle}
+                icon={
+                  user.provider_profile.is_ndis_registered
+                    ? CheckCircle2
+                    : XCircle
+                }
                 label="NDIS Registered"
                 value={
                   user.provider_profile.is_ndis_registered ? "Yes" : "No"
@@ -267,7 +382,7 @@ const UserDetailPage = () => {
 
         {/* Participant profile */}
         {user.participant_profile && (
-          <div className="p-6">
+          <div className="p-6 border-b border-slate-100">
             <h2 className="text-sm font-bold text-slate-800 mb-5 flex items-center gap-2">
               <Heart className="w-4 h-4 text-blue-500" /> Participant Profile
             </h2>
@@ -312,6 +427,183 @@ const UserDetailPage = () => {
           </div>
         )}
       </div>
+
+      {/* ─── Status Management Panel ─────────────────────────────── */}
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+        <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+          <Shield className="w-4 h-4 text-slate-500" /> Account Status
+          Management
+        </h2>
+
+        {/* Current status card */}
+        <div
+          className={`flex items-center justify-between p-4 rounded-xl border mb-5 ${sc.cardBg} ${sc.cardBorder}`}
+        >
+          <div className="flex items-center gap-3">
+            <span
+              className={`w-3 h-3 rounded-full ${sc.dot} flex-shrink-0`}
+            />
+            <div>
+              <p className={`text-sm font-semibold capitalize ${sc.cardText}`}>
+                {userStatus}
+              </p>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {userStatus === "active" &&
+                  "This user has full access to the platform."}
+                {userStatus === "pending" &&
+                  "This user is awaiting approval to access the platform."}
+                {userStatus === "suspended" &&
+                  "This user is suspended and cannot access the platform."}
+                {userStatus === "rejected" &&
+                  "This user's registration was rejected."}
+                {userStatus === "inactive" &&
+                  "This user's account is inactive."}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex flex-wrap gap-3">
+          {actionLoading ? (
+            <div className="flex items-center gap-2 text-sm text-slate-500">
+              <Loader2 className="w-4 h-4 animate-spin text-purple-500" />
+              Processing...
+            </div>
+          ) : (
+            <>
+              {/* Approve — for pending users */}
+              {userStatus === "pending" && (
+                <button
+                  onClick={handleApprove}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  Approve User
+                </button>
+              )}
+
+              {/* Reject — for pending users */}
+              {userStatus === "pending" && (
+                <button
+                  onClick={() => setRejectModal(true)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
+                >
+                  <XCircle className="w-4 h-4" />
+                  Reject User
+                </button>
+              )}
+
+              {/* Suspend — for active users */}
+              {userStatus === "active" && (
+                <button
+                  onClick={() => setSuspendModal(true)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
+                >
+                  <Ban className="w-4 h-4" />
+                  Suspend User
+                </button>
+              )}
+
+              {/* Activate — for suspended / rejected / inactive */}
+              {(userStatus === "suspended" ||
+                userStatus === "rejected" ||
+                userStatus === "inactive") && (
+                <button
+                  onClick={handleActivate}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
+                >
+                  <Power className="w-4 h-4" />
+                  Activate User
+                </button>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* ─── Reject Modal ────────────────────────────────────────── */}
+      {rejectModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+            <h3 className="text-lg font-bold text-slate-800">Reject User</h3>
+            <p className="text-sm text-slate-500">
+              Are you sure you want to reject{" "}
+              <span className="font-semibold text-slate-700">{user.name}</span>?
+              You can optionally provide a reason.
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder="Reason for rejection (optional)..."
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setRejectModal(false);
+                  setReason("");
+                }}
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRejectSubmit}
+                disabled={actionLoading}
+                className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {actionLoading && (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                )}
+                Reject User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Suspend Modal ───────────────────────────────────────── */}
+      {suspendModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+            <h3 className="text-lg font-bold text-slate-800">Suspend User</h3>
+            <p className="text-sm text-slate-500">
+              <span className="font-semibold text-slate-700">{user.name}</span>{" "}
+              will be suspended and will not be able to access the platform.
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder="Reason for suspension (optional)..."
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setSuspendModal(false);
+                  setReason("");
+                }}
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSuspendSubmit}
+                disabled={actionLoading}
+                className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {actionLoading && (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                )}
+                Suspend User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
