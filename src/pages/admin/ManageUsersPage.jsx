@@ -276,16 +276,12 @@ const ManageUsersPage = () => {
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
-                            {(u.name || "U")
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")
-                              .toUpperCase()
-                              .slice(0, 2)}
+                            {(u.first_name || "U")}
+                              
                           </div>
                           <div className="min-w-0">
                             <p className="text-sm font-medium text-slate-800 truncate">
-                              {u.name}
+                              {u.first_name} {u.last_name}
                             </p>
                             <p className="text-xs text-slate-500 truncate">
                               {u.email}

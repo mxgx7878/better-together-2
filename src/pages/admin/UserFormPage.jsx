@@ -108,8 +108,8 @@ const UserFormPage = () => {
 
       setForm({
         role: u.role || "participant",
-        first_name: nameParts[0] || "",
-        last_name: nameParts.slice(1).join(" ") || "",
+        first_name: u.first_name || "",
+        last_name: u.last_name || "",
         email: u.email || "",
         password: "",
         password_confirmation: "",

@@ -205,7 +205,7 @@ const UserDetailPage = () => {
             {initials}
           </div>
           <div className="min-w-0 flex-1 text-white">
-            <h1 className="text-2xl font-bold truncate">{user.name}</h1>
+            <h1 className="text-2xl font-bold truncate">{user.first_name} {user.last_name}</h1>
             <p className="text-white/80 text-sm truncate flex items-center gap-1.5 mt-1">
               <Mail className="w-3.5 h-3.5" /> {user.email}
             </p>
