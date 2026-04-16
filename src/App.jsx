@@ -48,6 +48,7 @@ import LearningModuleFormPage from "./pages/admin/LearningModuleFormPage";
 import AdminLearningModuleDetailPage from "./pages/admin/LearningModuleDetailPage";
 import LearningLessonFormPage from "./pages/admin/LearningLessonFormPage";
 import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
+import UserFormPage from "./pages/admin/UserFormPage";
 
 // ─── Provider Pages ─────────────────────────────────────────
 import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
@@ -140,6 +141,8 @@ function App() {
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<ManageUsersPage />} />
+            <Route path="users/create" element={<UserFormPage />} />
+            <Route path="users/:id/edit" element={<UserFormPage />} />
             <Route path="users/:id" element={<UserDetailPage />} />
             <Route path="events" element={<ManageEventsPage />} />
             <Route path="categories" element={<ManageCategoriesPage />} />

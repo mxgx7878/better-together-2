@@ -7,6 +7,7 @@ import {
   selectIsAdmin,
   selectIsFree,
   selectIsPaid,
+  selectIsPending,
   selectAuthStatus,
   selectDummyUsers,
   switchProfile,
@@ -25,6 +26,7 @@ const useAuth = () => {
   const isAdmin = useSelector(selectIsAdmin);
   const isFree = useSelector(selectIsFree);
   const isPaid = useSelector(selectIsPaid);
+  const isPending = useSelector(selectIsPending);
   const status = useSelector(selectAuthStatus);
   const dummyUsers = useSelector(selectDummyUsers);
 
@@ -48,6 +50,7 @@ const useAuth = () => {
     isAdmin,
     isFree,
     isPaid,
+    isPending,
     loading,
     status,
     availableProfiles,
