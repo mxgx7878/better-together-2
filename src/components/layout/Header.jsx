@@ -12,7 +12,7 @@ const Header = () => {
     { name: 'Business Directory', path: '/business-directory' },
     { name: 'Calendar', path: '/calendar' },
     { name: 'Blog', path: '/blog' },
-    { name: 'About', path: '/about' },
+    { name: 'Who We are', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
 

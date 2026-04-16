@@ -52,7 +52,7 @@ const Footer = () => {
                 { to: '/business-directory', label: 'Business Directory' },
                 { to: '/calendar', label: 'Calendar' },
                 { to: '/blog', label: 'Blog' },
-                { to: '/about', label: 'About' },
+                { to: '/about', label: 'Who We are' },
                 { to: '/contact', label: 'Contact' },
               ].map((link) => (
                 <li key={link.to}>

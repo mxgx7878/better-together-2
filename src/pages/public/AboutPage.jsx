@@ -359,7 +359,7 @@ Karen Burgess remains a respected and influential voice in the disability commun
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">About Us</span>
+            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider">Who We Are</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               Strengthen and Drive the Disability Sector
             </h2>

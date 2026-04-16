@@ -223,7 +223,7 @@ function App() {
             <Route path="documents" element={<DocumentUploadPage />} />
             <Route path="learning" element={<ProviderLearningHubPage />} />
             <Route path="learning/:id" element={<LearningModuleDetailPage />} />
-            <Route path="ai-support" element={<AISupportPage />} />
+            {/* <Route path="ai-support" element={<AISupportPage />} /> */}
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>

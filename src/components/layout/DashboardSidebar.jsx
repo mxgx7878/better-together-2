@@ -94,8 +94,8 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   ];
 
   const bottomNavItems = [
-    { label: isProvider ? 'AI Support' : isAdmin ? 'AI Assistant' : 'Ask AI', icon: Bot, path: `${basePath}/ai-support`, tier: 'all' },
-    ...(!isAdmin && !isPaid ? [{ label: 'Upgrade Plan', icon: Star, path: `${basePath}/upgrade`, tier: 'all' }] : []),
+    // { label: isProvider ? 'AI Support' : isAdmin ? 'AI Assistant' : 'Ask AI', icon: Bot, path: `${basePath}/ai-support`, tier: 'all' },
+    // ...(!isAdmin && !isPaid ? [{ label: 'Upgrade Plan', icon: Star, path: `${basePath}/upgrade`, tier: 'all' }] : []),
     { label: 'Connect with Admin', icon: Headphones, path: `${basePath}/admin-support`, tier: 'all' },
   ];
 
