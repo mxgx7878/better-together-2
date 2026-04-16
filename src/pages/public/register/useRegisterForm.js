@@ -4,6 +4,7 @@
 
 import { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import {
   registerProvider,
   registerParticipant,
@@ -147,6 +148,10 @@ const useRegisterForm = () => {
         };
         await dispatch(registerParticipant(payload)).unwrap();
       }
+      toast.info(
+        "Your account is pending admin approval. Once approved you can use all features.",
+        { duration: 6000 },
+      );
       return true;
     } catch {
       return false;

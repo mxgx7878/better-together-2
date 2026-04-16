@@ -120,6 +120,7 @@ export const selectIsParticipant = (state) => selectUserRole(state) === 'partici
 export const selectIsAdmin = (state) => selectUserRole(state) === 'admin';
 export const selectIsFree = (state) => (state.auth.user?.tier || '').toLowerCase() === 'free';
 export const selectIsPaid = (state) => (state.auth.user?.tier || '').toLowerCase() === 'paid';
+export const selectIsPending = (state) => (state.auth.user?.status || '').toLowerCase() === 'pending';
 export const selectDummyUsers = (state) => state.auth.dummyUsers;
 
 export default authSlice.reducer;

@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import DashboardSidebar from './DashboardSidebar';
 import DashboardTopbar from './DashboardTopbar';
+import PendingBanner from '../common/PendingBanner';
 import { PageLoader, GlobalLoader } from '../common/Loader';
 import {
   selectSidebarCollapsed,
@@ -93,6 +94,7 @@ const DashboardLayout = () => {
           sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
         } ml-0`}
       >
+        <PendingBanner />
         <DashboardTopbar
           sidebarCollapsed={sidebarCollapsed}
           onMobileMenuToggle={handleMobileMenuToggle}

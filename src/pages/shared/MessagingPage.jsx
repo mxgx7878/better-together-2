@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import usePendingGuard from '../../hooks/usePendingGuard';
 import { Search, Send, MessageCircle, Clock, ChevronLeft } from 'lucide-react';
 
 const mockConversations = [
@@ -86,6 +87,7 @@ const mockMessages = {
 
 const MessagingPage = () => {
   const { user } = useAuth();
+  const { guardAction } = usePendingGuard();
   const isProvider = user?.role === 'provider';
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -261,7 +263,7 @@ const MessagingPage = () => {
                       className="flex-1 resize-none px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all"
                     />
                     <button
-                      onClick={handleSend}
+                      onClick={guardAction(handleSend)}
                       disabled={!newMessage.trim()}
                       className="flex-shrink-0 p-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-slate-300 disabled:to-slate-300 text-white rounded-xl shadow-md transition-all"
                     >
