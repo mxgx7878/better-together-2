@@ -6,6 +6,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Eye,
+  Pencil,
+  Plus,
   Briefcase,
   Heart,
   Loader2,
@@ -92,11 +94,20 @@ const ManageUsersPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      <PageHeader
-        title="Manage Users"
-        description="View and manage all platform users"
-        icon={Users}
-      />
+      <div className="flex items-center justify-between">
+        <PageHeader
+          title="Manage Users"
+          description="View and manage all platform users"
+          icon={Users}
+        />
+        <button
+          onClick={() => navigate("/admin/users/create")}
+          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-xl transition-all shadow-md"
+        >
+          <Plus className="w-4 h-4" />
+          Create User
+        </button>
+      </div>
 
       {/* Role Tabs */}
       <div className="flex gap-2 border-b border-slate-200 pb-0 overflow-x-auto">
@@ -277,6 +288,16 @@ const ManageUsersPage = () => {
                           >
                             <Eye className="w-3.5 h-3.5" />
                             View
+                          </button>
+                          <button
+                            onClick={() =>
+                              navigate(`/admin/users/${u.id}/edit`)
+                            }
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition-colors"
+                            title="Edit user"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                            Edit
                           </button>
                         </div>
                       </td>

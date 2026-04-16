@@ -19,6 +19,7 @@ import {
   Target,
   Users as UsersIcon,
   BadgeCheck,
+  Pencil,
 } from "lucide-react";
 import { adminFetchUser } from "../../store/actions/userActions";
 import { clearSelectedUser } from "../../store/slices/userSlice";
@@ -117,14 +118,23 @@ const UserDetailPage = () => {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      {/* Back */}
-      <button
-        onClick={() => navigate("/admin/users")}
-        className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 px-3 py-2 rounded-xl transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Users
-      </button>
+      {/* Back + Edit */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => navigate("/admin/users")}
+          className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 px-3 py-2 rounded-xl transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Users
+        </button>
+        <button
+          onClick={() => navigate(`/admin/users/${id}/edit`)}
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-xl transition-all shadow-md"
+        >
+          <Pencil className="w-4 h-4" />
+          Edit User
+        </button>
+      </div>
 
       {/* Hero card */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
