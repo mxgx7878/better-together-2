@@ -11,7 +11,6 @@ export const adminFetchUsers = createAsyncThunk(
   async (params = {}, { rejectWithValue }) => {
     try {
       const data = await api.get("/admin/users", { params });
-      // Returns Laravel paginator: { current_page, data: [...users], total, last_page, ... }
       return data.data;
     } catch (err) {
       return rejectWithValue(err.message || "Failed to fetch users");
@@ -24,7 +23,6 @@ export const adminFetchUser = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const data = await api.get(`/admin/users/${userId}`);
-      // Returns user object (unwrapped from { status, message, data })
       return data.data;
     } catch (err) {
       return rejectWithValue(err.message || "Failed to fetch user");
@@ -32,27 +30,13 @@ export const adminFetchUser = createAsyncThunk(
   },
 );
 
-export const adminToggleUserStatus = createAsyncThunk(
-  "admin/toggleUserStatus",
-  async (userId, { rejectWithValue }) => {
-    try {
-      const data = await api.post(`/admin/users/${userId}/toggle-status`);
-      toast.success(data?.message || "User status updated successfully");
-      return data.data;
-    } catch (err) {
-      toast.error(err.message || "Failed to update user status");
-      return rejectWithValue(err.message || "Failed to update user status");
-    }
-  },
-);
-
 // ═══════════════════════════════════════════════════════════════════
-// ADMIN — Approve / Reject / Suspend / Activate user
+// ADMIN — Status management (4 statuses: pending, approved, rejected, suspended)
 // ═══════════════════════════════════════════════════════════════════
 
 /**
  * POST /api/admin/users/:id/approve
- * Approve a pending user profile
+ * Approve a pending user → status becomes "approved"
  */
 export const adminApproveUser = createAsyncThunk(
   "admin/approveUser",
@@ -71,7 +55,7 @@ export const adminApproveUser = createAsyncThunk(
 /**
  * POST /api/admin/users/:id/reject
  * Body: { reason?: string }
- * Reject a pending user profile
+ * Reject a pending user → status becomes "rejected"
  */
 export const adminRejectUser = createAsyncThunk(
   "admin/rejectUser",
@@ -90,7 +74,7 @@ export const adminRejectUser = createAsyncThunk(
 /**
  * POST /api/admin/users/:id/suspend
  * Body: { reason?: string }
- * Suspend an active user
+ * Suspend an approved user → status becomes "suspended"
  */
 export const adminSuspendUser = createAsyncThunk(
   "admin/suspendUser",
@@ -107,38 +91,19 @@ export const adminSuspendUser = createAsyncThunk(
 );
 
 /**
- * POST /api/admin/users/:id/deactivate
- * Body: { reason?: string }
- * Temporarily deactivate an active user (can be re-activated later)
+ * POST /api/admin/users/:id/pending
+ * Set user back to pending (from rejected/suspended → re-review)
  */
-export const adminDeactivateUser = createAsyncThunk(
-  "admin/deactivateUser",
-  async ({ userId, reason }, { rejectWithValue }) => {
-    try {
-      const data = await api.post(`/admin/users/${userId}/deactivate`, { reason });
-      toast.success(data?.message || "User deactivated");
-      return data.data;
-    } catch (err) {
-      toast.error(err.message || "Failed to deactivate user");
-      return rejectWithValue(err.message || "Failed to deactivate user");
-    }
-  },
-);
-
-/**
- * POST /api/admin/users/:id/activate
- * Re-activate a deactivated / suspended / rejected user
- */
-export const adminActivateUser = createAsyncThunk(
-  "admin/activateUser",
+export const adminSetPendingUser = createAsyncThunk(
+  "admin/setPendingUser",
   async (userId, { rejectWithValue }) => {
     try {
-      const data = await api.post(`/admin/users/${userId}/activate`);
-      toast.success(data?.message || "User activated successfully");
+      const data = await api.post(`/admin/users/${userId}/pending`);
+      toast.success(data?.message || "User set to pending");
       return data.data;
     } catch (err) {
-      toast.error(err.message || "Failed to activate user");
-      return rejectWithValue(err.message || "Failed to activate user");
+      toast.error(err.message || "Failed to update user status");
+      return rejectWithValue(err.message || "Failed to update user status");
     }
   },
 );
