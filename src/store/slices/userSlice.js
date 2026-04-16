@@ -6,6 +6,7 @@ import {
   adminApproveUser,
   adminRejectUser,
   adminSuspendUser,
+  adminDeactivateUser,
   adminActivateUser,
 } from "../actions/userActions";
 import { ASYNC_STATUS } from "../../constants";
@@ -119,6 +120,20 @@ const userSlice = createSlice({
         patchUser(state, payload);
       })
       .addCase(adminSuspendUser.rejected, (state, { payload }) => {
+        state.actionStatus = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      });
+
+    // ─── Deactivate user ───────────────────────────────────────────
+    builder
+      .addCase(adminDeactivateUser.pending, (state) => {
+        state.actionStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminDeactivateUser.fulfilled, (state, { payload }) => {
+        state.actionStatus = ASYNC_STATUS.SUCCEEDED;
+        patchUser(state, payload);
+      })
+      .addCase(adminDeactivateUser.rejected, (state, { payload }) => {
         state.actionStatus = ASYNC_STATUS.FAILED;
         state.error = payload;
       });

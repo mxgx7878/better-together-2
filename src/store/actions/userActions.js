@@ -107,8 +107,27 @@ export const adminSuspendUser = createAsyncThunk(
 );
 
 /**
+ * POST /api/admin/users/:id/deactivate
+ * Body: { reason?: string }
+ * Temporarily deactivate an active user (can be re-activated later)
+ */
+export const adminDeactivateUser = createAsyncThunk(
+  "admin/deactivateUser",
+  async ({ userId, reason }, { rejectWithValue }) => {
+    try {
+      const data = await api.post(`/admin/users/${userId}/deactivate`, { reason });
+      toast.success(data?.message || "User deactivated");
+      return data.data;
+    } catch (err) {
+      toast.error(err.message || "Failed to deactivate user");
+      return rejectWithValue(err.message || "Failed to deactivate user");
+    }
+  },
+);
+
+/**
  * POST /api/admin/users/:id/activate
- * Re-activate a suspended / rejected / inactive user
+ * Re-activate a deactivated / suspended / rejected user
  */
 export const adminActivateUser = createAsyncThunk(
   "admin/activateUser",

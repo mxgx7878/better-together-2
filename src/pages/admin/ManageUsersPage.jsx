@@ -16,6 +16,7 @@ import {
   XCircle,
   Ban,
   Power,
+  PowerOff,
 } from "lucide-react";
 import PageHeader from "../../components/common/PageHeader";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +25,7 @@ import {
   adminApproveUser,
   adminRejectUser,
   adminSuspendUser,
+  adminDeactivateUser,
   adminActivateUser,
 } from "../../store/actions/userActions";
 import { ASYNC_STATUS } from "../../constants";
@@ -93,6 +95,7 @@ const ManageUsersPage = () => {
   const [actionLoadingId, setActionLoadingId] = useState(null);
   const [rejectModal, setRejectModal] = useState(null); // { userId }
   const [suspendModal, setSuspendModal] = useState(null); // { userId }
+  const [deactivateModal, setDeactivateModal] = useState(null); // { userId }
   const [reason, setReason] = useState("");
 
   const { users, total, totalPages, status } = useSelector((s) => s.user);
@@ -167,6 +170,18 @@ const ManageUsersPage = () => {
     );
     setActionLoadingId(null);
     setSuspendModal(null);
+    setReason("");
+    loadUsers();
+  };
+
+  const handleDeactivateSubmit = async () => {
+    if (!deactivateModal) return;
+    setActionLoadingId(deactivateModal.userId);
+    await dispatch(
+      adminDeactivateUser({ userId: deactivateModal.userId, reason }),
+    );
+    setActionLoadingId(null);
+    setDeactivateModal(null);
     setReason("");
     loadUsers();
   };
@@ -402,6 +417,19 @@ const ManageUsersPage = () => {
                                   Reject
                                 </button>
                               )}
+                              {/* Deactivate — show for active */}
+                              {userStatus === "active" && (
+                                <button
+                                  onClick={() =>
+                                    setDeactivateModal({ userId: u.id })
+                                  }
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-100 transition-colors"
+                                  title="Deactivate"
+                                >
+                                  <PowerOff className="w-3.5 h-3.5" />
+                                  Deactivate
+                                </button>
+                              )}
                               {/* Suspend — show for active */}
                               {userStatus === "active" && (
                                 <button
@@ -548,8 +576,8 @@ const ManageUsersPage = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
             <h3 className="text-lg font-bold text-slate-800">Suspend User</h3>
             <p className="text-sm text-slate-500">
-              This user will be suspended and will not be able to access the
-              platform. You can optionally provide a reason.
+              This user will be suspended due to policy violation or bad
+              behaviour and will not be able to access the platform.
             </p>
             <textarea
               value={reason}
@@ -577,6 +605,49 @@ const ManageUsersPage = () => {
                   <Loader2 className="w-4 h-4 animate-spin" />
                 )}
                 Suspend User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Deactivate Modal ────────────────────────────────────── */}
+      {deactivateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+            <h3 className="text-lg font-bold text-slate-800">
+              Deactivate User
+            </h3>
+            <p className="text-sm text-slate-500">
+              This user will be temporarily deactivated. They will not be able
+              to access the platform until re-activated by an admin.
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder="Reason for deactivation (optional)..."
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setDeactivateModal(null);
+                  setReason("");
+                }}
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeactivateSubmit}
+                disabled={actionLoadingId === deactivateModal.userId}
+                className="px-5 py-2 bg-slate-700 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {actionLoadingId === deactivateModal.userId && (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                )}
+                Deactivate User
               </button>
             </div>
           </div>

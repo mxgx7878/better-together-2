@@ -23,12 +23,14 @@ import {
   CheckCircle,
   Ban,
   Power,
+  PowerOff,
 } from "lucide-react";
 import {
   adminFetchUser,
   adminApproveUser,
   adminRejectUser,
   adminSuspendUser,
+  adminDeactivateUser,
   adminActivateUser,
 } from "../../store/actions/userActions";
 import { clearSelectedUser } from "../../store/slices/userSlice";
@@ -141,6 +143,7 @@ const UserDetailPage = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const [rejectModal, setRejectModal] = useState(false);
   const [suspendModal, setSuspendModal] = useState(false);
+  const [deactivateModal, setDeactivateModal] = useState(false);
   const [reason, setReason] = useState("");
 
   useEffect(() => {
@@ -180,6 +183,15 @@ const UserDetailPage = () => {
     dispatch(adminFetchUser(id));
     setActionLoading(false);
     setSuspendModal(false);
+    setReason("");
+  };
+
+  const handleDeactivateSubmit = async () => {
+    setActionLoading(true);
+    await dispatch(adminDeactivateUser({ userId: id, reason }));
+    dispatch(adminFetchUser(id));
+    setActionLoading(false);
+    setDeactivateModal(false);
     setReason("");
   };
 
@@ -449,15 +461,15 @@ const UserDetailPage = () => {
               </p>
               <p className="text-xs text-slate-500 mt-0.5">
                 {userStatus === "active" &&
-                  "This user has full access to the platform."}
+                  "This user has full access to the platform. You can deactivate or suspend them."}
                 {userStatus === "pending" &&
-                  "This user is awaiting approval to access the platform."}
+                  "New registration — awaiting your approval before this user can access the platform."}
                 {userStatus === "suspended" &&
-                  "This user is suspended and cannot access the platform."}
+                  "This user was suspended due to a policy violation or bad behaviour. You can re-activate them."}
                 {userStatus === "rejected" &&
-                  "This user's registration was rejected."}
+                  "This user's registration was rejected. You can still activate them if needed."}
                 {userStatus === "inactive" &&
-                  "This user's account is inactive."}
+                  "This user's account has been temporarily deactivated. You can re-activate them."}
               </p>
             </div>
           </div>
@@ -494,7 +506,18 @@ const UserDetailPage = () => {
                 </button>
               )}
 
-              {/* Suspend — for active users */}
+              {/* Deactivate — for active users (temporary disable) */}
+              {userStatus === "active" && (
+                <button
+                  onClick={() => setDeactivateModal(true)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-slate-600 hover:bg-slate-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
+                >
+                  <PowerOff className="w-4 h-4" />
+                  Deactivate
+                </button>
+              )}
+
+              {/* Suspend — for active users (bad behaviour / violation) */}
               {userStatus === "active" && (
                 <button
                   onClick={() => setSuspendModal(true)}
@@ -571,7 +594,8 @@ const UserDetailPage = () => {
             <h3 className="text-lg font-bold text-slate-800">Suspend User</h3>
             <p className="text-sm text-slate-500">
               <span className="font-semibold text-slate-700">{user.name}</span>{" "}
-              will be suspended and will not be able to access the platform.
+              will be suspended due to policy violation or bad behaviour and will
+              not be able to access the platform.
             </p>
             <textarea
               value={reason}
@@ -599,6 +623,50 @@ const UserDetailPage = () => {
                   <Loader2 className="w-4 h-4 animate-spin" />
                 )}
                 Suspend User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Deactivate Modal ────────────────────────────────────── */}
+      {deactivateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+            <h3 className="text-lg font-bold text-slate-800">
+              Deactivate User
+            </h3>
+            <p className="text-sm text-slate-500">
+              <span className="font-semibold text-slate-700">{user.name}</span>{" "}
+              will be temporarily deactivated. They will not be able to access
+              the platform until re-activated by an admin.
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder="Reason for deactivation (optional)..."
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setDeactivateModal(false);
+                  setReason("");
+                }}
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeactivateSubmit}
+                disabled={actionLoading}
+                className="px-5 py-2 bg-slate-700 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+              >
+                {actionLoading && (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                )}
+                Deactivate User
               </button>
             </div>
           </div>
