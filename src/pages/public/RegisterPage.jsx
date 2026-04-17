@@ -12,7 +12,6 @@ import StepIndicator from "./register/StepIndicator";
 import RoleSelectStep from "./register/RoleSelectStep";
 import PersonalDetailsStep from "./register/PersonalDetailsStep";
 import ProviderDetailsStep from "./register/ProviderDetailsStep";
-import ParticipantDetailsStep from "./register/ParticipantDetailsStep";
 import SuccessStep from "./register/SuccessStep";
 
 const STEP_LABELS = {
@@ -47,6 +46,10 @@ const RegisterPage = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
 
+  // Participants only have 2 form steps (role, personal). Providers have 3.
+  const totalSteps = role === "provider" ? 3 : 2;
+  const submitStep = totalSteps;
+
   // Fetch categories when the provider lands on step 3
   useEffect(() => {
     if (
@@ -67,8 +70,9 @@ const RegisterPage = () => {
   const prevStep = () => setCurrentStep((s) => Math.max(1, s - 1));
 
   const handleSubmit = async () => {
+    if (!validateStep(currentStep)) return;
     const ok = await submit();
-    if (ok) setCurrentStep(4);
+    if (ok) setCurrentStep(submitStep + 1);
   };
 
   const renderStep = () => {
@@ -101,17 +105,9 @@ const RegisterPage = () => {
             categoriesLoading={categoriesLoading}
             onToggleCategory={toggleServiceCategory}
           />
-        ) : (
-          <ParticipantDetailsStep
-            formData={formData}
-            errors={errors}
-            onChange={handleChange}
-          />
-        );
-      case 4:
-        return <SuccessStep role={role} onGoToLogin={() => navigate("/login")} />;
+        ) : null;
       default:
-        return null;
+        return <SuccessStep role={role} onGoToLogin={() => navigate("/login")} />;
     }
   };
 
@@ -126,9 +122,10 @@ const RegisterPage = () => {
         </div>
 
         {/* Progress Steps */}
-        {currentStep < 4 && (
+        {currentStep <= submitStep && (
           <StepIndicator
             currentStep={currentStep}
+            totalSteps={totalSteps}
             stepLabel={STEP_LABELS[currentStep]}
           />
         )}
@@ -138,7 +135,7 @@ const RegisterPage = () => {
           {renderStep()}
 
           {/* Navigation Buttons */}
-          {currentStep < 4 && (
+          {currentStep <= submitStep && (
             <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
               {currentStep > 1 ? (
                 <button
@@ -151,7 +148,7 @@ const RegisterPage = () => {
                 <div />
               )}
 
-              {currentStep < 3 ? (
+              {currentStep < submitStep ? (
                 <button
                   onClick={nextStep}
                   className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg text-sm"
@@ -180,7 +177,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Login Link */}
-        {currentStep < 4 && (
+        {currentStep <= submitStep && (
           <p className="text-center text-sm text-slate-500 mt-6">
             Already have an account?{" "}
             <Link

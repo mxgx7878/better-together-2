@@ -17,11 +17,11 @@ import {
   Heart,
   Shield,
 } from "lucide-react";
-import { adminFetchUser } from "../../store/actions/userActions";
 import {
+  adminFetchUser,
   adminCreateUser,
   adminUpdateUser,
-} from "../../store/actions/profileActions";
+} from "../../store/actions/userActions";
 import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { clearSelectedUser } from "../../store/slices/userSlice";
 import { ASYNC_STATUS } from "../../constants";

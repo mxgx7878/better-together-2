@@ -160,8 +160,8 @@ const ManageCategoriesPage = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader
-        title="Manage Categories"
-        description="Create, edit, and manage service categories"
+        title="Services & Categories"
+        description="Create, edit, and manage the services and categories providers can offer"
         icon={Tags}
         actions={
           <button

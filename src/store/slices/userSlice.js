@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  updateMyProfile,
+  uploadAvatar,
   adminFetchUsers,
   adminFetchUser,
+  adminCreateUser,
+  adminUpdateUser,
   adminApproveUser,
   adminRejectUser,
   adminSuspendUser,
@@ -30,14 +34,38 @@ const userSlice = createSlice({
     selectedUser: null,
     selectedUserStatus: ASYNC_STATUS.IDLE,
     actionStatus: ASYNC_STATUS.IDLE,
+    saveStatus: ASYNC_STATUS.IDLE,
   },
   reducers: {
     clearSelectedUser(state) {
       state.selectedUser = null;
       state.selectedUserStatus = ASYNC_STATUS.IDLE;
     },
+    clearSaveStatus(state) {
+      state.saveStatus = ASYNC_STATUS.IDLE;
+    },
   },
   extraReducers: (builder) => {
+    // ─── Update my profile ──────────────────────────────────────
+    builder
+      .addCase(updateMyProfile.pending, (state) => {
+        state.saveStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(updateMyProfile.fulfilled, (state) => {
+        state.saveStatus = ASYNC_STATUS.SUCCEEDED;
+      })
+      .addCase(updateMyProfile.rejected, (state, { payload }) => {
+        state.saveStatus = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      });
+
+    // ─── Upload avatar ──────────────────────────────────────────
+    builder.addCase(uploadAvatar.fulfilled, (state, { payload }) => {
+      if (state.selectedUser && payload?.avatar_url) {
+        state.selectedUser.avatar_url = payload.avatar_url;
+      }
+    });
+
     // ─── Fetch all users (paginated) ─────────────────────────────
     builder
       .addCase(adminFetchUsers.pending, (state) => {
@@ -70,6 +98,32 @@ const userSlice = createSlice({
         state.error = payload;
       });
 
+    // ─── Admin create user ──────────────────────────────────────
+    builder
+      .addCase(adminCreateUser.pending, (state) => {
+        state.saveStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminCreateUser.fulfilled, (state) => {
+        state.saveStatus = ASYNC_STATUS.SUCCEEDED;
+      })
+      .addCase(adminCreateUser.rejected, (state, { payload }) => {
+        state.saveStatus = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      });
+
+    // ─── Admin update user ──────────────────────────────────────
+    builder
+      .addCase(adminUpdateUser.pending, (state) => {
+        state.saveStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminUpdateUser.fulfilled, (state) => {
+        state.saveStatus = ASYNC_STATUS.SUCCEEDED;
+      })
+      .addCase(adminUpdateUser.rejected, (state, { payload }) => {
+        state.saveStatus = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      });
+
     // ─── Approve ─────────────────────────────────────────────────
     builder
       .addCase(adminApproveUser.pending, (s) => { s.actionStatus = ASYNC_STATUS.LOADING; })
@@ -96,5 +150,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearSelectedUser } = userSlice.actions;
+export const { clearSelectedUser, clearSaveStatus } = userSlice.actions;
 export default userSlice.reducer;

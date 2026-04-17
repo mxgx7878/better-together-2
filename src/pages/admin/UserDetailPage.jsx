@@ -122,8 +122,9 @@ const UserDetailPage = () => {
   };
 
   const handleRejectSubmit = async () => {
+    if (!reason.trim()) return;
     setActionLoading(true);
-    await dispatch(adminRejectUser({ userId: id, reason }));
+    await dispatch(adminRejectUser({ userId: id, reason: reason.trim() }));
     refetch();
     setActionLoading(false);
     setRejectModal(false);
@@ -131,8 +132,9 @@ const UserDetailPage = () => {
   };
 
   const handleSuspendSubmit = async () => {
+    if (!reason.trim()) return;
     setActionLoading(true);
-    await dispatch(adminSuspendUser({ userId: id, reason }));
+    await dispatch(adminSuspendUser({ userId: id, reason: reason.trim() }));
     refetch();
     setActionLoading(false);
     setSuspendModal(false);
@@ -412,14 +414,21 @@ const UserDetailPage = () => {
             <p className="text-sm text-slate-500">
               Are you sure you want to reject{" "}
               <span className="font-semibold text-slate-700">{user.name}</span>?
+              A reason is required and will be recorded.
             </p>
-            <textarea
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              rows={3}
-              placeholder="Reason for rejection (optional)..."
-              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
-            />
+            <div>
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+                Reason <span className="text-rose-500">*</span>
+              </label>
+              <textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                rows={3}
+                required
+                placeholder="Reason for rejection..."
+                className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+              />
+            </div>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => { setRejectModal(false); setReason(""); }}
@@ -429,8 +438,8 @@ const UserDetailPage = () => {
               </button>
               <button
                 onClick={handleRejectSubmit}
-                disabled={actionLoading}
-                className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+                disabled={actionLoading || !reason.trim()}
+                className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {actionLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                 Reject User
@@ -448,14 +457,21 @@ const UserDetailPage = () => {
             <p className="text-sm text-slate-500">
               <span className="font-semibold text-slate-700">{user.name}</span>{" "}
               will be suspended and will not be able to access the platform.
+              A reason is required.
             </p>
-            <textarea
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              rows={3}
-              placeholder="Reason for suspension (optional)..."
-              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
-            />
+            <div>
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+                Reason <span className="text-rose-500">*</span>
+              </label>
+              <textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                rows={3}
+                required
+                placeholder="Reason for suspension..."
+                className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:border-purple-400 outline-none resize-none"
+              />
+            </div>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => { setSuspendModal(false); setReason(""); }}
@@ -465,8 +481,8 @@ const UserDetailPage = () => {
               </button>
               <button
                 onClick={handleSuspendSubmit}
-                disabled={actionLoading}
-                className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 flex items-center gap-2"
+                disabled={actionLoading || !reason.trim()}
+                className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {actionLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                 Suspend User

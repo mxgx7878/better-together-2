@@ -2,10 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import {
-  fetchMyProfile,
-  updateMyProfile,
-} from "../../store/actions/profileActions";
+import { updateMyProfile } from "../../store/actions/userActions";
 import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { ASYNC_STATUS } from "../../constants";
 import { checkAuth } from "../../store/actions/authActions";
@@ -13,23 +10,22 @@ import PendingGuardButton from "../../components/common/PendingGuardButton";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { user, isProvider } = useAuth();
+  const { user, isProvider, isPaid } = useAuth();
 
-  const { profile, status, saveStatus } = useSelector((s) => s.profile);
+  const profile = user;
+  const { saveStatus } = useSelector((s) => s.user);
   const { publicCategories } = useSelector((s) => s.category);
   const categoriesLoading =
     useSelector((s) => s.category.status) === ASYNC_STATUS.LOADING;
 
-  const loading = status === ASYNC_STATUS.LOADING;
   const saving = saveStatus === ASYNC_STATUS.LOADING;
   const saved = saveStatus === ASYNC_STATUS.SUCCEEDED;
 
   const [activeTab, setActiveTab] = useState("details");
   const [formData, setFormData] = useState(null);
 
-  // Fetch profile + categories on mount
+  // Fetch categories on mount (profile already loaded via checkAuth)
   useEffect(() => {
-    dispatch(fetchMyProfile());
     if (isProvider) dispatch(fetchPublicCategories());
   }, [dispatch, isProvider]);
 
@@ -51,6 +47,7 @@ const ProfilePage = () => {
       abn: pp?.abn || "",
       website: pp?.website || "",
       is_ndis_registered: pp?.is_ndis_registered || false,
+      open_to_collab: pp?.open_to_collab || false,
       about_services: pp?.about_services || "",
       categories: pp?.categories?.map((c) => c.id) || [],
       // Participant
@@ -71,7 +68,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (saved) {
       const t = setTimeout(
-        () => dispatch({ type: "profile/clearSaveStatus" }),
+        () => dispatch({ type: "user/clearSaveStatus" }),
         2000,
       );
       return () => clearTimeout(t);
@@ -113,6 +110,7 @@ const ProfilePage = () => {
       payload.abn = formData.abn;
       payload.website = formData.website;
       payload.is_ndis_registered = formData.is_ndis_registered;
+      payload.open_to_collab = formData.open_to_collab;
       payload.about_services = formData.about_services;
       payload.categories = formData.categories;
     } else {
@@ -133,24 +131,21 @@ const ProfilePage = () => {
     ? [
         { key: "details", label: "Business Details" },
         { key: "services", label: "Services & Categories" },
+        ...(isPaid ? [{ key: "reviews", label: "Written Reviews" }] : []),
         { key: "notifications", label: "Notifications" },
       ]
     : [
         { key: "details", label: "My Details" },
-        { key: "preferences", label: "Support Preferences" },
         { key: "notifications", label: "Notifications" },
       ];
 
-  // Show loader while initial fetch
-  if (loading && !formData) {
+  if (!formData) {
     return (
       <div className="flex justify-center py-20">
         <Loader2 className="w-7 h-7 text-purple-500 animate-spin" />
       </div>
     );
   }
-
-  if (!formData) return null;
 
   const displayName =
     `${formData.first_name} ${formData.last_name}`.trim() || user?.name || "";
@@ -387,6 +382,32 @@ const ProfilePage = () => {
         {/* ─── Services Tab — Provider only ───────────────────── */}
         {activeTab === "services" && isProvider && (
           <div className="space-y-4">
+            {/* Open to Collaboration toggle */}
+            <div className="p-4 rounded-xl border-2 border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-sm font-semibold text-slate-800">
+                  Open to Collaboration
+                </p>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Highlight on your profile that you&apos;re open to working
+                  with other providers.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => set("open_to_collab", !formData.open_to_collab)}
+                className={`relative w-12 h-7 rounded-full transition-colors flex-shrink-0 ${
+                  formData.open_to_collab ? "bg-purple-600" : "bg-slate-300"
+                }`}
+                aria-pressed={formData.open_to_collab}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${
+                    formData.open_to_collab ? "translate-x-5" : ""
+                  }`}
+                />
+              </button>
+            </div>
             <p className="text-sm text-slate-600">
               Select the service categories your organisation offers. These will
               be displayed on your profile and used for matching.
@@ -425,81 +446,9 @@ const ProfilePage = () => {
           </div>
         )}
 
-        {/* ─── Support Preferences — Participant only ─────────── */}
-        {activeTab === "preferences" && !isProvider && (
-          <div className="space-y-6">
-            <p className="text-sm text-slate-600">
-              Tell us what kind of support you&apos;re looking for. This helps
-              providers understand your needs.
-            </p>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                What types of support are you looking for?
-              </label>
-              <div className="grid sm:grid-cols-2 gap-2">
-                {[
-                  "Daily Living Support",
-                  "Therapy (OT, Speech, Physio)",
-                  "Support Coordination",
-                  "Community Participation",
-                  "Employment Support",
-                  "Personal Care",
-                  "Transport",
-                  "Home Modifications",
-                  "Mental Health Support",
-                  "Peer Support",
-                ].map((item) => (
-                  <label
-                    key={item}
-                    className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 hover:border-purple-300 cursor-pointer transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className="text-sm text-slate-700">{item}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Preferred provider distance
-              </label>
-              <select className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm outline-none bg-white">
-                <option>Within 10 km</option>
-                <option>Within 25 km</option>
-                <option>Within 50 km</option>
-                <option>Any distance</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Accessibility requirements
-              </label>
-              <div className="grid sm:grid-cols-2 gap-2">
-                {[
-                  "Wheelchair accessible",
-                  "Auslan / sign language",
-                  "Easy read materials",
-                  "Home visits available",
-                  "Telehealth / online",
-                  "CALD language support",
-                ].map((item) => (
-                  <label
-                    key={item}
-                    className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 hover:border-purple-300 cursor-pointer transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className="text-sm text-slate-700">{item}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
+        {/* ─── Reviews Tab — Paid provider only ──────────────── */}
+        {activeTab === "reviews" && isProvider && isPaid && (
+          <ReviewsTab />
         )}
 
         {/* ─── Notifications Tab ──────────────────────────────── */}
@@ -584,6 +533,165 @@ function InputField({ label, value, onChange, type = "text", disabled }) {
           disabled ? "bg-slate-50 text-slate-400 cursor-not-allowed" : ""
         }`}
       />
+    </div>
+  );
+}
+
+const MAX_REVIEWS = 5;
+const demoReviews = [
+  {
+    id: 1,
+    author: "Rebecca M.",
+    rating: 5,
+    date: "2026-03-02",
+    content:
+      "Absolute game-changer. The team helped me navigate my plan review without stress and we got every goal funded.",
+  },
+  {
+    id: 2,
+    author: "Alex K.",
+    rating: 5,
+    date: "2026-02-10",
+    content:
+      "Communicates clearly, follows up on everything, and genuinely cares. Would recommend to anyone.",
+  },
+];
+
+function ReviewsTab() {
+  const [reviews, setReviews] = useState(demoReviews);
+  const [newReview, setNewReview] = useState({ author: "", rating: 5, content: "" });
+
+  const canAdd = reviews.length < MAX_REVIEWS;
+
+  const handleAdd = () => {
+    if (!newReview.author.trim() || !newReview.content.trim() || !canAdd) return;
+    setReviews([
+      {
+        id: Date.now(),
+        author: newReview.author,
+        rating: Number(newReview.rating),
+        date: new Date().toISOString().slice(0, 10),
+        content: newReview.content,
+      },
+      ...reviews,
+    ]);
+    setNewReview({ author: "", rating: 5, content: "" });
+  };
+
+  const handleRemove = (id) => setReviews(reviews.filter((r) => r.id !== id));
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <p className="text-sm text-slate-600">
+            Written reviews appear on your public profile. Premium providers can
+            feature up to {MAX_REVIEWS} written reviews.
+          </p>
+          <p className="text-xs text-slate-500 mt-1">
+            {reviews.length} of {MAX_REVIEWS} slots used
+          </p>
+        </div>
+      </div>
+
+      {/* Existing reviews */}
+      <div className="space-y-3">
+        {reviews.map((r) => (
+          <div
+            key={r.id}
+            className="p-4 rounded-xl border border-slate-200 bg-slate-50/50"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-slate-800">{r.author}</p>
+                <div className="flex items-center gap-1 mt-0.5">
+                  {Array.from({ length: r.rating }).map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-3.5 h-3.5 text-amber-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                  <span className="text-xs text-slate-400 ml-2">
+                    {new Date(r.date).toLocaleDateString("en-AU", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => handleRemove(r.id)}
+                className="text-xs text-red-500 hover:underline"
+              >
+                Remove
+              </button>
+            </div>
+            <p className="text-sm text-slate-700 mt-2">{r.content}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Add review */}
+      <div className="p-4 rounded-xl border-2 border-dashed border-purple-200 bg-purple-50/30 space-y-3">
+        <p className="text-sm font-semibold text-slate-700">
+          Add a written review
+        </p>
+        {!canAdd && (
+          <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-2">
+            Limit reached. Remove one to add a new review.
+          </p>
+        )}
+        <div className="grid sm:grid-cols-2 gap-3">
+          <input
+            type="text"
+            placeholder="Reviewer name"
+            value={newReview.author}
+            disabled={!canAdd}
+            onChange={(e) =>
+              setNewReview({ ...newReview, author: e.target.value })
+            }
+            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400 disabled:bg-slate-100"
+          />
+          <select
+            value={newReview.rating}
+            disabled={!canAdd}
+            onChange={(e) =>
+              setNewReview({ ...newReview, rating: e.target.value })
+            }
+            className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none bg-white disabled:bg-slate-100"
+          >
+            {[5, 4, 3, 2, 1].map((n) => (
+              <option key={n} value={n}>
+                {n} stars
+              </option>
+            ))}
+          </select>
+        </div>
+        <textarea
+          rows={3}
+          placeholder="Review content..."
+          value={newReview.content}
+          disabled={!canAdd}
+          onChange={(e) =>
+            setNewReview({ ...newReview, content: e.target.value })
+          }
+          className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400 resize-none disabled:bg-slate-100"
+        />
+        <button
+          onClick={handleAdd}
+          disabled={
+            !canAdd || !newReview.author.trim() || !newReview.content.trim()
+          }
+          className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-xl shadow-md disabled:opacity-50"
+        >
+          Add Review
+        </button>
+      </div>
     </div>
   );
 }
