@@ -2,10 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import {
-  fetchMyProfile,
-  updateMyProfile,
-} from "../../store/actions/profileActions";
+import { updateMyProfile } from "../../store/actions/userActions";
 import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { ASYNC_STATUS } from "../../constants";
 import { checkAuth } from "../../store/actions/authActions";
@@ -15,21 +12,20 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user, isProvider } = useAuth();
 
-  const { profile, status, saveStatus } = useSelector((s) => s.profile);
+  const profile = user;
+  const { saveStatus } = useSelector((s) => s.user);
   const { publicCategories } = useSelector((s) => s.category);
   const categoriesLoading =
     useSelector((s) => s.category.status) === ASYNC_STATUS.LOADING;
 
-  const loading = status === ASYNC_STATUS.LOADING;
   const saving = saveStatus === ASYNC_STATUS.LOADING;
   const saved = saveStatus === ASYNC_STATUS.SUCCEEDED;
 
   const [activeTab, setActiveTab] = useState("details");
   const [formData, setFormData] = useState(null);
 
-  // Fetch profile + categories on mount
+  // Fetch categories on mount (profile already loaded via checkAuth)
   useEffect(() => {
-    dispatch(fetchMyProfile());
     if (isProvider) dispatch(fetchPublicCategories());
   }, [dispatch, isProvider]);
 
@@ -71,7 +67,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (saved) {
       const t = setTimeout(
-        () => dispatch({ type: "profile/clearSaveStatus" }),
+        () => dispatch({ type: "user/clearSaveStatus" }),
         2000,
       );
       return () => clearTimeout(t);
@@ -141,16 +137,13 @@ const ProfilePage = () => {
         { key: "notifications", label: "Notifications" },
       ];
 
-  // Show loader while initial fetch
-  if (loading && !formData) {
+  if (!formData) {
     return (
       <div className="flex justify-center py-20">
         <Loader2 className="w-7 h-7 text-purple-500 animate-spin" />
       </div>
     );
   }
-
-  if (!formData) return null;
 
   const displayName =
     `${formData.first_name} ${formData.last_name}`.trim() || user?.name || "";
