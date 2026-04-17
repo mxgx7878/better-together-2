@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Briefcase,
   MapPin,
@@ -9,108 +9,71 @@ import {
   Info,
   Plus,
   X,
+  Loader2,
+  Trash2,
+  Lock,
 } from "lucide-react";
-
-// ─── Mock data ──────────────────────────────────────────────────
-const mockPosts = [
-  {
-    id: 1,
-    author: "Rebecca M.",
-    authorId: 101,
-    date: "2026-04-12",
-    serviceType: "Occupational Therapist",
-    location: "Berwick, Melbourne",
-    neededFrom: "May 2026",
-    summary:
-      "Looking for an Occupational Therapist in Berwick, Melbourne who can do Functional Assessments and provide ongoing support. Dates needed are after May 2026.",
-    replies: [
-      {
-        id: 1,
-        provider: "Sunrise Allied Health",
-        message:
-          "Hi Rebecca, we have OTs available in Berwick from May onwards and we do Functional Assessments for NDIS participants.",
-        email: "info@sunrisealliedhealth.com.au",
-        phone: "03 9000 1234",
-      },
-      {
-        id: 2,
-        provider: "StepUp Therapy Co.",
-        message:
-          "Happy to help — we travel to Berwick weekly and offer ongoing OT support.",
-        email: "hello@stepuptherapy.com.au",
-        phone: "0412 345 678",
-      },
-    ],
-  },
-  {
-    id: 2,
-    author: "Chris D.",
-    authorId: 102,
-    date: "2026-04-10",
-    serviceType: "Support Coordinator",
-    location: "Melbourne CBD",
-    neededFrom: "ASAP",
-    summary:
-      "Looking for a Support Coordinator with experience in psychosocial supports. CBD or willing to travel.",
-    replies: [
-      {
-        id: 1,
-        provider: "InReach Support Coordination",
-        message:
-          "We specialise in psychosocial recovery coaching across inner Melbourne, happy to connect.",
-        email: "team@inreachsc.com.au",
-        phone: "03 9111 2222",
-      },
-    ],
-  },
-  {
-    id: 3,
-    author: "Tina W.",
-    authorId: 103,
-    date: "2026-04-09",
-    serviceType: "Employment Support",
-    location: "Geelong, VIC",
-    neededFrom: "June 2026",
-    summary:
-      "Need help with resume writing and interview prep. Looking for a DES / employment-focused provider in Geelong.",
-    replies: [],
-  },
-];
+import { useAuth } from "../../hooks/useAuth";
+import {
+  fetchServiceRequests,
+  createServiceRequest,
+  deleteServiceRequest,
+  closeServiceRequest,
+} from "../../store/actions/serviceRequestActions";
+import { clearSaveStatus } from "../../store/slices/serviceRequestSlice";
+import { ASYNC_STATUS } from "../../constants";
 
 const LookingForServicesPage = () => {
+  const dispatch = useDispatch();
   const { user } = useAuth();
-  const [posts, setPosts] = useState(mockPosts);
+  const { list, status, saveStatus } = useSelector((s) => s.serviceRequest);
+  const loading = status === ASYNC_STATUS.LOADING;
+  const saving = saveStatus === ASYNC_STATUS.LOADING;
+
   const [expanded, setExpanded] = useState(null);
   const [showNewPost, setShowNewPost] = useState(false);
   const [form, setForm] = useState({
-    serviceType: "",
+    service_type: "",
     location: "",
-    neededFrom: "",
+    needed_from: "",
     summary: "",
   });
 
-  const myPostsIds = posts.filter((p) => p.authorId === user?.id).map((p) => p.id);
+  useEffect(() => {
+    dispatch(fetchServiceRequests());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (saveStatus === ASYNC_STATUS.SUCCEEDED) {
+      setShowNewPost(false);
+      setForm({ service_type: "", location: "", needed_from: "", summary: "" });
+      dispatch(clearSaveStatus());
+    }
+  }, [saveStatus, dispatch]);
+
+  const myPostsIds = list
+    .filter((p) => p.user_id === user?.id)
+    .map((p) => p.id);
   const ordered = [
-    ...posts.filter((p) => myPostsIds.includes(p.id)),
-    ...posts.filter((p) => !myPostsIds.includes(p.id)),
+    ...list.filter((p) => myPostsIds.includes(p.id)),
+    ...list.filter((p) => !myPostsIds.includes(p.id)),
   ];
 
   const handleSubmit = () => {
-    if (!form.serviceType.trim() || !form.summary.trim()) return;
-    const newPost = {
-      id: Date.now(),
-      author: user?.name || "You",
-      authorId: user?.id,
-      date: new Date().toISOString().slice(0, 10),
-      serviceType: form.serviceType,
-      location: form.location,
-      neededFrom: form.neededFrom,
-      summary: form.summary,
-      replies: [],
-    };
-    setPosts([newPost, ...posts]);
-    setForm({ serviceType: "", location: "", neededFrom: "", summary: "" });
-    setShowNewPost(false);
+    if (!form.service_type.trim() || !form.summary.trim() || saving) return;
+    dispatch(createServiceRequest(form));
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Delete this request?")) {
+      dispatch(deleteServiceRequest(id));
+    }
+  };
+
+  const handleClose = (id) => {
+    if (window.confirm("Close this request to new replies?")) {
+      dispatch(closeServiceRequest(id));
+    }
   };
 
   return (
@@ -149,113 +112,160 @@ const LookingForServicesPage = () => {
       </div>
 
       {/* Posts */}
-      <div className="space-y-4">
-        {ordered.map((post) => {
-          const isMine = myPostsIds.includes(post.id);
-          const isOpen = expanded === post.id;
-          return (
-            <div
-              key={post.id}
-              className={`bg-white rounded-2xl shadow-sm border p-5 transition-all ${
-                isMine
-                  ? "border-purple-300 ring-1 ring-purple-200"
-                  : "border-slate-100 hover:shadow-md"
-              }`}
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                  {post.author
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap mb-1">
-                    {isMine && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
-                        YOUR POST
-                      </span>
-                    )}
-                    <span className="text-xs text-slate-500">{post.author}</span>
-                    <span className="text-xs text-slate-400">
-                      ·{" "}
-                      {new Date(post.date).toLocaleDateString("en-AU", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
+      {loading && list.length === 0 ? (
+        <div className="flex justify-center py-16">
+          <Loader2 className="w-6 h-6 text-purple-500 animate-spin" />
+        </div>
+      ) : ordered.length === 0 ? (
+        <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
+          <p className="text-slate-500 text-sm">
+            No requests yet. Be the first to post.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {ordered.map((post) => {
+            const isMine = myPostsIds.includes(post.id);
+            const isOpen = expanded === post.id;
+            const isClosed = post.status === "closed";
+            const replies = post.replies || [];
+            return (
+              <div
+                key={post.id}
+                className={`bg-white rounded-2xl shadow-sm border p-5 transition-all ${
+                  isMine
+                    ? "border-purple-300 ring-1 ring-purple-200"
+                    : "border-slate-100 hover:shadow-md"
+                }`}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                    {(post.author_name || "U")
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </div>
-                  <h3 className="text-base font-semibold text-slate-800">
-                    Looking for a {post.serviceType}
-                  </h3>
-                  <p className="text-sm text-slate-600 mt-1.5">
-                    {post.summary}
-                  </p>
-                  <div className="flex flex-wrap gap-3 mt-3 text-xs text-slate-500">
-                    {post.location && (
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      {isMine && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+                          YOUR POST
+                        </span>
+                      )}
+                      {isClosed && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 inline-flex items-center gap-1">
+                          <Lock className="w-3 h-3" /> CLOSED
+                        </span>
+                      )}
+                      <span className="text-xs text-slate-500">
+                        {post.author_name}
+                      </span>
+                      <span className="text-xs text-slate-400">
+                        ·{" "}
+                        {post.created_at
+                          ? new Date(post.created_at).toLocaleDateString(
+                              "en-AU",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              },
+                            )
+                          : ""}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-semibold text-slate-800">
+                      Looking for a {post.service_type}
+                    </h3>
+                    <p className="text-sm text-slate-600 mt-1.5">
+                      {post.summary}
+                    </p>
+                    <div className="flex flex-wrap gap-3 mt-3 text-xs text-slate-500">
+                      {post.location && (
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5" /> {post.location}
+                        </span>
+                      )}
+                      {post.needed_from && (
+                        <span className="inline-flex items-center gap-1">
+                          <CalendarIcon className="w-3.5 h-3.5" /> Needed:{" "}
+                          {post.needed_from}
+                        </span>
+                      )}
                       <span className="inline-flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5" /> {post.location}
+                        <Briefcase className="w-3.5 h-3.5" /> {replies.length}{" "}
+                        provider {replies.length === 1 ? "reply" : "replies"}
                       </span>
-                    )}
-                    {post.neededFrom && (
-                      <span className="inline-flex items-center gap-1">
-                        <CalendarIcon className="w-3.5 h-3.5" /> Needed:{" "}
-                        {post.neededFrom}
-                      </span>
-                    )}
-                    <span className="inline-flex items-center gap-1">
-                      <Briefcase className="w-3.5 h-3.5" /> {post.replies.length}{" "}
-                      provider{" "}
-                      {post.replies.length === 1 ? "reply" : "replies"}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-4 mt-4">
-                    <button
-                      onClick={() => setExpanded(isOpen ? null : post.id)}
-                      className="text-sm font-medium text-purple-600 hover:text-purple-700"
-                    >
-                      {isOpen ? "Hide replies" : "View provider replies"}
-                    </button>
-                  </div>
-
-                  {isOpen && (
-                    <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
-                      {post.replies.length === 0 ? (
-                        <p className="text-sm text-slate-500">
-                          No replies yet. Check back soon.
-                        </p>
-                      ) : (
-                        post.replies.map((r) => (
-                          <div
-                            key={r.id}
-                            className="rounded-xl border border-slate-100 bg-slate-50/60 p-4"
-                          >
-                            <p className="text-sm font-semibold text-slate-800">
-                              {r.provider}
-                            </p>
-                            <p className="text-sm text-slate-600 mt-1">
-                              {r.message}
-                            </p>
-                            <div className="flex flex-wrap gap-4 mt-3 text-xs text-slate-600">
-                              <span className="inline-flex items-center gap-1">
-                                <Mail className="w-3.5 h-3.5" /> {r.email}
-                              </span>
-                              <span className="inline-flex items-center gap-1">
-                                <Phone className="w-3.5 h-3.5" /> {r.phone}
-                              </span>
-                            </div>
-                          </div>
-                        ))
+                    </div>
+                    <div className="flex items-center gap-4 mt-4 flex-wrap">
+                      <button
+                        onClick={() => setExpanded(isOpen ? null : post.id)}
+                        className="text-sm font-medium text-purple-600 hover:text-purple-700"
+                      >
+                        {isOpen ? "Hide replies" : "View provider replies"}
+                      </button>
+                      {isMine && !isClosed && (
+                        <button
+                          onClick={() => handleClose(post.id)}
+                          className="text-xs text-slate-500 hover:text-slate-700"
+                        >
+                          Close request
+                        </button>
+                      )}
+                      {isMine && (
+                        <button
+                          onClick={() => handleDelete(post.id)}
+                          className="inline-flex items-center gap-1 text-xs text-red-500 hover:text-red-700"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> Delete
+                        </button>
                       )}
                     </div>
-                  )}
+
+                    {isOpen && (
+                      <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
+                        {replies.length === 0 ? (
+                          <p className="text-sm text-slate-500">
+                            No replies yet. Check back soon.
+                          </p>
+                        ) : (
+                          replies.map((r) => (
+                            <div
+                              key={r.id}
+                              className="rounded-xl border border-slate-100 bg-slate-50/60 p-4"
+                            >
+                              <p className="text-sm font-semibold text-slate-800">
+                                {r.provider_name}
+                              </p>
+                              <p className="text-sm text-slate-600 mt-1">
+                                {r.message}
+                              </p>
+                              <div className="flex flex-wrap gap-4 mt-3 text-xs text-slate-600">
+                                {r.contact_email && (
+                                  <span className="inline-flex items-center gap-1">
+                                    <Mail className="w-3.5 h-3.5" />{" "}
+                                    {r.contact_email}
+                                  </span>
+                                )}
+                                {r.contact_phone && (
+                                  <span className="inline-flex items-center gap-1">
+                                    <Phone className="w-3.5 h-3.5" />{" "}
+                                    {r.contact_phone}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* New Post Modal */}
       {showNewPost && (
@@ -281,13 +291,14 @@ const LookingForServicesPage = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                  What service are you looking for?
+                  What service are you looking for?{" "}
+                  <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
-                  value={form.serviceType}
+                  value={form.service_type}
                   onChange={(e) =>
-                    setForm({ ...form, serviceType: e.target.value })
+                    setForm({ ...form, service_type: e.target.value })
                   }
                   placeholder="e.g. Occupational Therapist"
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400"
@@ -314,9 +325,9 @@ const LookingForServicesPage = () => {
                   </label>
                   <input
                     type="text"
-                    value={form.neededFrom}
+                    value={form.needed_from}
                     onChange={(e) =>
-                      setForm({ ...form, neededFrom: e.target.value })
+                      setForm({ ...form, needed_from: e.target.value })
                     }
                     placeholder="e.g. After May 2026"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400"
@@ -325,7 +336,8 @@ const LookingForServicesPage = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                  Describe what you need
+                  Describe what you need{" "}
+                  <span className="text-rose-500">*</span>
                 </label>
                 <textarea
                   rows={4}
@@ -344,9 +356,14 @@ const LookingForServicesPage = () => {
               </p>
               <button
                 onClick={handleSubmit}
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md disabled:opacity-60"
-                disabled={!form.serviceType.trim() || !form.summary.trim()}
+                disabled={
+                  saving ||
+                  !form.service_type.trim() ||
+                  !form.summary.trim()
+                }
+                className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md disabled:opacity-60 inline-flex items-center justify-center gap-2"
               >
+                {saving && <Loader2 className="w-4 h-4 animate-spin" />}
                 Post Request
               </button>
             </div>

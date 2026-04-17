@@ -30,6 +30,7 @@ import {
   Tags,
   CreditCard,
   HeartHandshake,
+  Inbox,
 } from 'lucide-react';
 
 const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) => {
@@ -49,7 +50,8 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Dashboard', icon: LayoutDashboard, path: '/admin', end: true, tier: 'all' },
     { label: 'Manage Users', icon: Users, path: '/admin/users', tier: 'all' },
     { label: 'Manage Events', icon: Calendar, path: '/admin/events', tier: 'all' },
-    { label: 'Manage Categories', icon: Tags, path: '/admin/categories', tier: 'all' },
+    { label: 'Services & Categories', icon: Tags, path: '/admin/categories', tier: 'all' },
+    { label: 'Service Requests', icon: Inbox, path: '/admin/service-requests', tier: 'all' },
     { label: 'Subscriptions', icon: CreditCard, path: '/admin/subscriptions', tier: 'all' },
     { label: 'Manage Documents', icon: FileText, path: '/admin/documents', tier: 'all' },
     { label: 'Learning Hub', icon: BookOpen, path: '/admin/learning-hub', tier: 'all' },
@@ -62,6 +64,7 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Home', icon: Home, path: `${basePath}`, end: true, tier: 'all' },
     { label: 'Profile & Services', icon: User, path: `${basePath}/profile`, tier: 'all' },
     { label: 'Business Directory', icon: Search, path: `${basePath}/directory`, tier: 'all' },
+    { label: 'Service Requests', icon: Inbox, path: `${basePath}/service-requests`, tier: 'all' },
     { label: 'Job Board', icon: Briefcase, path: `${basePath}/jobs`, tier: 'all' },
     { label: 'Events & Networking', icon: Calendar, path: `${basePath}/events`, tier: 'all' },
     { label: 'Innovation Lab', icon: Lightbulb, path: `${basePath}/innovation-lab`, tier: 'all' },

@@ -46,12 +46,14 @@ import AdminLearningModuleDetailPage from "./pages/admin/LearningModuleDetailPag
 import LearningLessonFormPage from "./pages/admin/LearningLessonFormPage";
 import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
 import UserFormPage from "./pages/admin/UserFormPage";
+import ManageServiceRequestsPage from "./pages/admin/ManageServiceRequestsPage";
 
 // ─── Provider Pages ─────────────────────────────────────────
 import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
 import InnovationLabPage from "./pages/provider/InnovationLabPage";
 import QAForumPage from "./pages/provider/QAForumPage";
 import ProviderLearningHubPage from "./pages/provider/LearningHubPage";
+import ServiceRequestsPage from "./pages/provider/ServiceRequestsPage";
 
 // ─── Participant Pages ──────────────────────────────────────
 import ParticipantDashboardHome from "./pages/participant/ParticipantDashboardHome";
@@ -141,6 +143,10 @@ function App() {
             <Route path="events" element={<ManageEventsPage />} />
             <Route path="categories" element={<ManageCategoriesPage />} />
             <Route
+              path="service-requests"
+              element={<ManageServiceRequestsPage />}
+            />
+            <Route
               path="subscriptions"
               element={<ManageSubscriptionsPage />}
             />
@@ -189,6 +195,7 @@ function App() {
             <Route index element={<ProviderDashboardHome />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="directory" element={<DirectoryPage />} />
+            <Route path="service-requests" element={<ServiceRequestsPage />} />
             <Route path="jobs" element={<JobBoardPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="innovation-lab" element={<InnovationLabPage />} />
