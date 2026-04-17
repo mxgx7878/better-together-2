@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useAuth } from '../../hooks/useAuth';
+import { updateProfile } from '../../store/actions/authActions';
 import { CheckCircle, Handshake } from 'lucide-react';
 
 const serviceCategories = [
@@ -15,25 +17,24 @@ const serviceCategories = [
 ];
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
   const { user, isProvider, isPaid } = useAuth();
 
   const [activeTab, setActiveTab] = useState('details');
   const [formData, setFormData] = useState({
-    name: user.name,
-    email: user.email,
-    phone: '0412 345 678',
-    location: user.location,
-    organisation: user.organisation || '',
-    bio: isProvider
-      ? 'We are a trusted local provider dedicated to delivering high-quality, person-centred supports across Melbourne.'
-      : 'I am looking for reliable support services to help me achieve my goals and live independently.',
-    website: isProvider ? 'https://communitycaresolutions.com.au' : '',
-    abn: isProvider ? '12 345 678 901' : '',
-    registrationStatus: 'registered',
-    serviceRadius: '25',
-    selectedCategories: ['ndis'],
-    selectedSubs: ['Core Supports', 'Support Coordination'],
-    openToCollab: true,
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone_number || user?.phone || '',
+    location: user?.location || '',
+    organisation: user?.organisation_name || user?.organisation || '',
+    bio: user?.about_services || user?.bio || '',
+    website: user?.website || '',
+    abn: user?.abn || '',
+    registrationStatus: user?.is_ndis_registered ? 'registered' : 'unregistered',
+    serviceRadius: user?.service_radius || '25',
+    selectedCategories: user?.categories || [],
+    selectedSubs: user?.sub_categories || [],
+    openToCollab: user?.open_to_collab ?? true,
     notifyEmail: true,
     notifyPush: true,
     notifySMS: false,
@@ -42,12 +43,36 @@ const ProfilePage = () => {
   const [expandedCategory, setExpandedCategory] = useState(null);
   const [saveStatus, setSaveStatus] = useState(null);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setSaveStatus('saving');
-    setTimeout(() => {
+    const payload = isProvider
+      ? {
+          name: formData.name,
+          email: formData.email,
+          phone_number: formData.phone,
+          location: formData.location,
+          organisation_name: formData.organisation,
+          abn: formData.abn,
+          website: formData.website,
+          is_ndis_registered: formData.registrationStatus === 'registered',
+          about_services: formData.bio,
+          service_radius: formData.serviceRadius,
+          open_to_collab: formData.openToCollab,
+        }
+      : {
+          name: formData.name,
+          email: formData.email,
+          phone_number: formData.phone,
+          location: formData.location,
+          bio: formData.bio,
+        };
+    try {
+      await dispatch(updateProfile(payload)).unwrap();
       setSaveStatus('saved');
       setTimeout(() => setSaveStatus(null), 2000);
-    }, 800);
+    } catch {
+      setSaveStatus(null);
+    }
   };
 
   const toggleSub = (sub) => {

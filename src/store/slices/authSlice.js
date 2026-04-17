@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, logoutUser, checkAuth } from '../actions/authActions';
+import { loginUser, logoutUser, checkAuth, updateProfile } from '../actions/authActions';
 import { ASYNC_STATUS } from '../../constants';
 
 
@@ -102,6 +102,20 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
+      })
+      // Update Profile
+      .addCase(updateProfile.pending, (state) => {
+        state.status = ASYNC_STATUS.LOADING;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.status = ASYNC_STATUS.SUCCEEDED;
+        if (action.payload) {
+          state.user = { ...state.user, ...action.payload };
+        }
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.status = ASYNC_STATUS.FAILED;
+        state.error = action.payload;
       });
   },
 });

@@ -64,6 +64,24 @@ export const registerParticipant = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const data = await api.put('/user/profile', payload);
+      const user = data?.user || data?.data || data;
+      if (user) {
+        localStorage.setItem('bt_user', JSON.stringify(user));
+      }
+      toast.success('Profile updated successfully!');
+      return user;
+    } catch (err) {
+      toast.error(err.message || 'Failed to update profile');
+      return rejectWithValue(err.message || 'Failed to update profile');
+    }
+  }
+);
+
 export const checkAuth = createAsyncThunk(
   'auth/checkAuth',
   async (_, { rejectWithValue }) => {
