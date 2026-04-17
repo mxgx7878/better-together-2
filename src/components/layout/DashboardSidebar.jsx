@@ -65,37 +65,32 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
   const providerNavItems = [
     { label: 'Home', icon: Home, path: `${basePath}`, end: true, tier: 'all' },
     { label: 'Profile & Services', icon: User, path: `${basePath}/profile`, tier: 'all' },
-    { label: 'Messages', icon: MessageSquare, path: `${basePath}/messaging`, tier: 'all' },
     { label: 'Business Directory', icon: Search, path: `${basePath}/directory`, tier: 'all' },
-    { label: 'Service Requests', icon: Inbox, path: `${basePath}/requests`, tier: 'paid', badge: isPaid ? '3' : null },
+    { label: 'Job Board', icon: Briefcase, path: `${basePath}/jobs`, tier: 'all' },
     { label: 'Events & Networking', icon: Calendar, path: `${basePath}/events`, tier: 'all' },
     { label: 'Innovation Lab', icon: Lightbulb, path: `${basePath}/innovation-lab`, tier: 'all' },
     { label: 'Learning Hub', icon: BookOpen, path: `${basePath}/learning`, tier: 'all' },
     { label: 'Q&A Forum', icon: MessageCircle, path: `${basePath}/qa`, tier: 'all' },
-    { label: 'Job Board', icon: Briefcase, path: `${basePath}/jobs`, tier: 'paid' },
-    { label: 'Marketing', icon: Megaphone, path: `${basePath}/marketing`, tier: 'paid' },
     { label: 'Documents', icon: FileText, path: `${basePath}/documents`, tier: 'all' },
+    { label: 'Upgrade Your Subscription', icon: Star, path: `${basePath}/upgrade`, tier: 'all' },
   ];
 
   // Participant navigation
   const participantNavItems = [
     { label: 'Home', icon: Home, path: `${basePath}`, end: true, tier: 'all' },
     { label: 'My Profile', icon: User, path: `${basePath}/profile`, tier: 'all' },
-    { label: 'Connect with Services', icon: Search, path: `${basePath}/services`, tier: 'all' },
-    { label: 'Messages', icon: MessageSquare, path: `${basePath}/messaging`, tier: 'all' },
-    { label: 'Subscription', icon: Star, path: `${basePath}/upgrade`, tier: 'all' },
-    { label: 'Documents', icon: FileText, path: `${basePath}/documents`, tier: 'all' },
+    { label: 'Provider Directory', icon: Search, path: `${basePath}/services`, tier: 'all' },
     { label: 'Learning Hub', icon: BookOpen, path: `${basePath}/learning`, tier: 'all' },
-    { label: 'Message Board', icon: MessageCircle, path: `${basePath}/messages`, tier: 'all' },
-    { label: 'Job Board', icon: Briefcase, path: `${basePath}/jobs`, tier: 'all' },
+    { label: 'Q & A', icon: MessageCircle, path: `${basePath}/qa`, tier: 'all' },
+    { label: 'Documents', icon: FileText, path: `${basePath}/documents`, tier: 'all' },
+    { label: 'Looking for Services', icon: Inbox, path: `${basePath}/messages`, tier: 'all' },
     { label: 'Events', icon: Calendar, path: `${basePath}/events`, tier: 'all' },
     { label: 'Rights & Safety', icon: Shield, path: `${basePath}/rights-safety`, tier: 'all' },
-    { label: 'My Plan Buddy', icon: Heart, path: `${basePath}/plan-buddy`, tier: 'paid' },
+    { label: 'Your Buddy', icon: Star, path: `${basePath}/upgrade`, tier: 'all' },
+    { label: "Your Buddy's Profile", icon: Heart, path: `${basePath}/my-buddy`, tier: 'all' },
   ];
 
   const bottomNavItems = [
-    // { label: isProvider ? 'AI Support' : isAdmin ? 'AI Assistant' : 'Ask AI', icon: Bot, path: `${basePath}/ai-support`, tier: 'all' },
-    // ...(!isAdmin && !isPaid ? [{ label: 'Upgrade Plan', icon: Star, path: `${basePath}/upgrade`, tier: 'all' }] : []),
     { label: 'Connect with Admin', icon: Headphones, path: `${basePath}/admin-support`, tier: 'all' },
   ];
 
@@ -229,14 +224,14 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
       </nav>
 
       {/* Logout */}
-      <div className="border-t border-white/10 p-3 flex-shrink-0">
+      <div className="border-t border-white/10 p-4 flex-shrink-0">
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
+          className={`w-full flex items-center gap-3 px-4 py-4 rounded-xl bg-red-500/20 hover:bg-red-500 text-white hover:text-white border-2 border-red-400/50 hover:border-red-500 font-bold text-base transition-all duration-200 shadow-lg hover:shadow-red-500/30 hover:scale-[1.02] ${collapsed ? 'justify-center px-0' : 'justify-center'}`}
           title="Logout"
         >
-          <LogOut className="w-5 h-5 flex-shrink-0" />
-          {!collapsed && <span>Logout</span>}
+          <LogOut className="w-6 h-6 flex-shrink-0" />
+          {!collapsed && <span className="tracking-wide">LOG OUT</span>}
         </button>
       </div>
     </aside>

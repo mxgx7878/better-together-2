@@ -1,23 +1,200 @@
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { Star } from 'lucide-react';
+import { Star, Lock, Handshake, Globe, Users, Crown } from 'lucide-react';
 
 const mockProviders = [
-  { id: 1, name: 'Allied Health Plus', type: 'Therapy Services', services: ['OT', 'Speech Pathology', 'Physiotherapy'], location: 'Melbourne CBD', distance: 5, rating: 4.8, reviews: 23, registered: true, openToCollab: true, featured: true, desc: 'Comprehensive allied health services with a person-centred approach.', tags: ['NDIS Registered', 'Telehealth', 'Home Visits'] },
-  { id: 2, name: 'InReach Support Coordination', type: 'Support Coordination', services: ['Support Coordination', 'Psychosocial Recovery'], location: 'Richmond, VIC', distance: 8, rating: 4.9, reviews: 41, registered: true, openToCollab: true, featured: false, desc: 'Specialist support coordination helping participants navigate the NDIS.', tags: ['NDIS Registered', 'CALD Experience'] },
-  { id: 3, name: 'Sunshine Community Supports', type: 'Daily Living', services: ['Core Supports', 'Community Participation', 'Personal Care'], location: 'Footscray, VIC', distance: 12, rating: 4.6, reviews: 18, registered: true, openToCollab: false, featured: false, desc: 'Supporting daily living and community inclusion across Melbourne\'s west.', tags: ['NDIS Registered', 'Wheelchair Accessible'] },
-  { id: 4, name: 'MindBridge Psychology', type: 'Mental Health', services: ['Counselling', 'Psychology', 'Behaviour Support'], location: 'South Yarra, VIC', distance: 6, rating: 4.7, reviews: 35, registered: true, openToCollab: true, featured: true, desc: 'Trauma-informed mental health services for all ages.', tags: ['Trauma-Informed', 'NDIS Registered'] },
-  { id: 5, name: 'Able Employment Solutions', type: 'Employment', services: ['Employment Supports', 'Job Coaching', 'Resume Building'], location: 'Docklands, VIC', distance: 3, rating: 4.5, reviews: 12, registered: false, openToCollab: true, featured: false, desc: 'Helping participants find meaningful work and build career skills.', tags: ['Employment Focus', 'Supported Employment'] },
-  { id: 6, name: 'HomeFirst Modifications', type: 'Equipment & Home Mods', services: ['Home Modifications', 'Assistive Technology', 'Vehicle Mods'], location: 'Dandenong, VIC', distance: 28, rating: 4.4, reviews: 9, registered: true, openToCollab: false, featured: false, desc: 'Making homes and vehicles accessible for independent living.', tags: ['NDIS Registered', 'Capital Supports'] },
-  { id: 7, name: 'First Peoples Inclusion', type: 'Community & Inclusion', services: ['First Nations Services', 'Cultural Programs', 'Advocacy'], location: 'Fitzroy, VIC', distance: 7, rating: 4.9, reviews: 28, registered: true, openToCollab: true, featured: false, desc: 'Culturally safe, community-led supports for First Nations people.', tags: ['First Nations-led', 'Cultural Safety'] },
-  { id: 8, name: 'TechAssist Pro', type: 'Assistive Technology', services: ['Communication Devices', 'Smart Home', 'AT Assessments'], location: 'CBD, VIC', distance: 4, rating: 4.6, reviews: 15, registered: true, openToCollab: true, featured: false, desc: 'Specialist assistive technology assessments and device setup.', tags: ['AT Specialists', 'NDIS Registered'] },
+  {
+    id: 1,
+    name: 'Allied Health Plus',
+    type: 'Therapy Services',
+    services: ['OT', 'Speech Pathology', 'Physiotherapy'],
+    location: 'Melbourne CBD',
+    distance: 5,
+    rating: 4.8,
+    reviews: 23,
+    registered: true,
+    openToCollab: true,
+    featured: true,
+    paid: true,
+    premium: true,
+    website: 'www.alliedhealthplus.com.au',
+    team: [
+      { name: 'Dr. Emma Chen', role: 'Senior OT' },
+      { name: 'James Patel', role: 'Speech Pathologist' },
+      { name: 'Sarah Wu', role: 'Physiotherapist' },
+    ],
+    writtenReviews: [
+      { author: 'Participant J.', rating: 5, text: 'Emma was incredible with my daughter. Patient, kind, and professional.' },
+      { author: 'Parent M.', rating: 5, text: 'The team at Allied Health Plus made our plan review so much easier with their thorough reports.' },
+      { author: 'Client R.', rating: 4, text: 'Great service, responsive team and good outcomes for my therapy goals.' },
+      { author: 'Support Coordinator K.', rating: 5, text: 'I refer many clients here — they deliver every time.' },
+      { author: 'Parent L.', rating: 5, text: 'Highly recommend their speech pathology team for paediatric work.' },
+    ],
+    desc: 'Comprehensive allied health services with a person-centred approach.',
+    tags: ['NDIS Registered', 'Telehealth', 'Home Visits'],
+  },
+  {
+    id: 2,
+    name: 'InReach Support Coordination',
+    type: 'Support Coordination',
+    services: ['Support Coordination', 'Psychosocial Recovery'],
+    location: 'Richmond, VIC',
+    distance: 8,
+    rating: 4.9,
+    reviews: 41,
+    registered: true,
+    openToCollab: true,
+    featured: false,
+    paid: true,
+    premium: false,
+    website: 'www.inreachsc.com.au',
+    team: [
+      { name: 'Linh Tran', role: 'Lead Support Coordinator' },
+      { name: 'Marcus Brown', role: 'Support Coordinator' },
+    ],
+    writtenReviews: [],
+    desc: 'Specialist support coordination helping participants navigate the NDIS.',
+    tags: ['NDIS Registered', 'CALD Experience'],
+  },
+  {
+    id: 3,
+    name: 'Sunshine Community Supports',
+    type: 'Daily Living',
+    services: ['Core Supports', 'Community Participation', 'Personal Care'],
+    location: 'Footscray, VIC',
+    distance: 12,
+    rating: 4.6,
+    reviews: 18,
+    registered: true,
+    openToCollab: false,
+    featured: false,
+    paid: false,
+    premium: false,
+    website: 'www.sunshinecs.com.au',
+    team: [],
+    writtenReviews: [],
+    desc: 'Supporting daily living and community inclusion across Melbourne\'s west.',
+    tags: ['NDIS Registered', 'Wheelchair Accessible'],
+  },
+  {
+    id: 4,
+    name: 'MindBridge Psychology',
+    type: 'Mental Health',
+    services: ['Counselling', 'Psychology', 'Behaviour Support'],
+    location: 'South Yarra, VIC',
+    distance: 6,
+    rating: 4.7,
+    reviews: 35,
+    registered: true,
+    openToCollab: true,
+    featured: true,
+    paid: true,
+    premium: true,
+    website: 'www.mindbridge.com.au',
+    team: [
+      { name: 'Dr. Alicia Ng', role: 'Clinical Psychologist' },
+      { name: 'Peter Ross', role: 'Behaviour Support Practitioner' },
+    ],
+    writtenReviews: [
+      { author: 'Client A.', rating: 5, text: 'Alicia helped me through some very difficult times — deeply grateful.' },
+      { author: 'Parent T.', rating: 5, text: 'Peter\'s behaviour support plan for our son has been transformative.' },
+      { author: 'Participant D.', rating: 4, text: 'Professional and empathetic team, highly recommend.' },
+    ],
+    desc: 'Trauma-informed mental health services for all ages.',
+    tags: ['Trauma-Informed', 'NDIS Registered'],
+  },
+  {
+    id: 5,
+    name: 'Able Employment Solutions',
+    type: 'Employment',
+    services: ['Employment Supports', 'Job Coaching', 'Resume Building'],
+    location: 'Docklands, VIC',
+    distance: 3,
+    rating: 4.5,
+    reviews: 12,
+    registered: false,
+    openToCollab: true,
+    featured: false,
+    paid: false,
+    premium: false,
+    website: 'www.ableemployment.com.au',
+    team: [],
+    writtenReviews: [],
+    desc: 'Helping participants find meaningful work and build career skills.',
+    tags: ['Employment Focus', 'Supported Employment'],
+  },
+  {
+    id: 6,
+    name: 'HomeFirst Modifications',
+    type: 'Equipment & Home Mods',
+    services: ['Home Modifications', 'Assistive Technology', 'Vehicle Mods'],
+    location: 'Dandenong, VIC',
+    distance: 28,
+    rating: 4.4,
+    reviews: 9,
+    registered: true,
+    openToCollab: false,
+    featured: false,
+    paid: true,
+    premium: false,
+    website: 'www.homefirst.com.au',
+    team: [
+      { name: 'Dave McKenzie', role: 'Builder' },
+    ],
+    writtenReviews: [],
+    desc: 'Making homes and vehicles accessible for independent living.',
+    tags: ['NDIS Registered', 'Capital Supports'],
+  },
+  {
+    id: 7,
+    name: 'First Peoples Inclusion',
+    type: 'Community & Inclusion',
+    services: ['First Nations Services', 'Cultural Programs', 'Advocacy'],
+    location: 'Fitzroy, VIC',
+    distance: 7,
+    rating: 4.9,
+    reviews: 28,
+    registered: true,
+    openToCollab: true,
+    featured: false,
+    paid: true,
+    premium: false,
+    website: 'www.firstpeoples.org.au',
+    team: [
+      { name: 'Aunty Rose', role: 'Cultural Advisor' },
+      { name: 'Jarrah Williams', role: 'Community Coordinator' },
+    ],
+    writtenReviews: [],
+    desc: 'Culturally safe, community-led supports for First Nations people.',
+    tags: ['First Nations-led', 'Cultural Safety'],
+  },
+  {
+    id: 8,
+    name: 'TechAssist Pro',
+    type: 'Assistive Technology',
+    services: ['Communication Devices', 'Smart Home', 'AT Assessments'],
+    location: 'CBD, VIC',
+    distance: 4,
+    rating: 4.6,
+    reviews: 15,
+    registered: true,
+    openToCollab: true,
+    featured: false,
+    paid: false,
+    premium: false,
+    website: 'www.techassist.com.au',
+    team: [],
+    writtenReviews: [],
+    desc: 'Specialist assistive technology assessments and device setup.',
+    tags: ['AT Specialists', 'NDIS Registered'],
+  },
 ];
 
 const serviceFilters = ['All Services', 'Therapy Services', 'Support Coordination', 'Daily Living', 'Mental Health', 'Employment', 'Equipment & Home Mods', 'Community & Inclusion', 'Assistive Technology'];
 const radiusOptions = [10, 25, 50, 100];
 
 const DirectoryPage = () => {
-  const { isProvider, isPaid } = useAuth();
+  const { isProvider, isParticipant, isPaid } = useAuth();
   const [search, setSearch] = useState('');
   const [serviceFilter, setServiceFilter] = useState('All Services');
   const [radius, setRadius] = useState(50);
@@ -25,7 +202,13 @@ const DirectoryPage = () => {
   const [bookmarks, setBookmarks] = useState([1, 4]);
   const [selectedProvider, setSelectedProvider] = useState(null);
 
-  const filtered = mockProviders.filter(p => {
+  // Participants ONLY see paid providers
+  // Providers see everyone but get limited info unless they're paid
+  const visibleProviders = isParticipant
+    ? mockProviders.filter(p => p.paid)
+    : mockProviders;
+
+  const filtered = visibleProviders.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.services.some(s => s.toLowerCase().includes(search.toLowerCase()));
     const matchesService = serviceFilter === 'All Services' || p.type === serviceFilter;
     const matchesRadius = p.distance <= radius;
@@ -37,22 +220,39 @@ const DirectoryPage = () => {
     setBookmarks(prev => prev.includes(id) ? prev.filter(b => b !== id) : [...prev, id]);
   };
 
+  // Providers see limited info unless they're paid (for viewing other providers)
+  // Participants must be paid to see full details too (but only paid providers are shown anyway)
+  const canSeeFullDetails = isPaid;
+
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-800">
-          {isProvider ? 'Provider Directory' : 'Connect with Services'}
+          {isProvider ? 'Business Directory' : 'Provider Directory'}
         </h1>
         <p className="text-sm text-slate-500 mt-1">
-          {isProvider ? 'Find providers to collaborate with and build referral pathways' : 'Browse verified providers by location and service type'}
+          {isProvider
+            ? 'Find providers to collaborate with and build referral pathways'
+            : 'Browse verified paid providers by location and service type'}
         </p>
       </div>
+
+      {/* Upgrade Notice for Free Providers */}
+      {isProvider && !isPaid && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+          <Lock className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-amber-900">You're on the Free tier</p>
+            <p className="text-xs text-amber-800 mt-0.5">You can see provider names and locations only. Upgrade to Growth & Referral to unlock websites, team members, full profiles and collaboration tools.</p>
+          </div>
+          <a href="/provider/upgrade" className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg whitespace-nowrap">Upgrade</a>
+        </div>
+      )}
 
       {/* Search & Filters Bar */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search */}
           <div className="flex-1 relative">
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -66,7 +266,6 @@ const DirectoryPage = () => {
             />
           </div>
 
-          {/* Service Type */}
           <select
             value={serviceFilter}
             onChange={e => setServiceFilter(e.target.value)}
@@ -75,7 +274,6 @@ const DirectoryPage = () => {
             {serviceFilters.map(s => <option key={s}>{s}</option>)}
           </select>
 
-          {/* Radius */}
           <div className="flex items-center gap-2 bg-slate-50 rounded-xl px-4 py-2">
             <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -97,7 +295,6 @@ const DirectoryPage = () => {
           </div>
         </div>
 
-        {/* Secondary Filters */}
         <div className="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100">
           {isProvider && (
             <label className="flex items-center gap-2 cursor-pointer">
@@ -134,16 +331,21 @@ const DirectoryPage = () => {
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-base font-semibold text-slate-800">{provider.name}</h3>
+                    {provider.premium && (
+                      <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-0.5"><Crown className="w-3 h-3" /> PREMIUM</span>
+                    )}
                     {provider.featured && (
                       <span className="text-[10px] font-bold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">FEATURED</span>
                     )}
-                    {provider.registered && (
+                    {canSeeFullDetails && provider.registered && (
                       <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                     )}
                   </div>
-                  <p className="text-xs text-slate-500 mt-0.5">{provider.type} · {provider.location}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {canSeeFullDetails ? `${provider.type} · ${provider.location}` : provider.location}
+                  </p>
                 </div>
               </div>
               <button
@@ -156,39 +358,38 @@ const DirectoryPage = () => {
               </button>
             </div>
 
-            <p className="text-sm text-slate-600 mt-3">{provider.desc}</p>
-
-            <div className="flex flex-wrap gap-1.5 mt-3">
-              {provider.tags.map(tag => (
-                <span key={tag} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">{tag}</span>
-              ))}
-              {provider.openToCollab && (
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Open to Collaboration</span>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100">
-              <div className="flex items-center gap-4 text-xs text-slate-500">
-                <span className="flex items-center gap-1">
-                  <svg className="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  {provider.rating} ({provider.reviews})
-                </span>
-                <span className="flex items-center gap-1">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg>
-                  {provider.distance} km away
-                </span>
+            {canSeeFullDetails ? (
+              <>
+                <p className="text-sm text-slate-600 mt-3">{provider.desc}</p>
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {provider.tags.map(tag => (
+                    <span key={tag} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">{tag}</span>
+                  ))}
+                  {provider.openToCollab && (
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 flex items-center gap-1"><Handshake className="w-3 h-3" /> Open to Collaboration</span>
+                  )}
+                </div>
+                <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100">
+                  <div className="flex items-center gap-4 text-xs text-slate-500">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      {provider.rating} ({provider.reviews})
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg>
+                      {provider.distance} km away
+                    </span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-2">
+                <Lock className="w-3.5 h-3.5" />
+                Upgrade to see full profile, website, team members and contact details.
               </div>
-              {isPaid && (
-                <button
-                  onClick={e => e.stopPropagation()}
-                  className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold rounded-lg transition-colors"
-                >
-                  Message
-                </button>
-              )}
-            </div>
+            )}
           </div>
         ))}
       </div>
@@ -196,7 +397,7 @@ const DirectoryPage = () => {
       {/* Provider Detail Modal */}
       {selectedProvider && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedProvider(null)}>
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-5">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl">
@@ -204,51 +405,119 @@ const DirectoryPage = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-slate-800">{selectedProvider.name}</h2>
-                  <p className="text-sm text-slate-500">{selectedProvider.type} · {selectedProvider.location}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    {selectedProvider.registered && <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-medium">NDIS Registered</span>}
-                    {selectedProvider.openToCollab && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">Open to Collaboration</span>}
-                  </div>
+                  <p className="text-sm text-slate-500">{selectedProvider.location}</p>
+                  {canSeeFullDetails && (
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      {selectedProvider.registered && <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-medium">NDIS Registered</span>}
+                      {selectedProvider.openToCollab && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1"><Handshake className="w-3 h-3" /> Open to Collaboration</span>}
+                      {selectedProvider.premium && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1"><Crown className="w-3 h-3" /> Premium</span>}
+                    </div>
+                  )}
                 </div>
               </div>
               <button onClick={() => setSelectedProvider(null)} className="p-2 hover:bg-slate-100 rounded-lg">
                 <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <p className="text-sm text-slate-600 mb-4">{selectedProvider.desc}</p>
-            <div className="space-y-4">
-              <div>
-                <h4 className="text-sm font-semibold text-slate-700 mb-2">Services Offered</h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProvider.services.map(s => (
-                    <span key={s} className="text-sm bg-purple-50 text-purple-700 px-3 py-1 rounded-lg font-medium">{s}</span>
-                  ))}
-                </div>
+
+            {!canSeeFullDetails ? (
+              <div className="text-center py-8">
+                <Lock className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-slate-700 mb-2">Full profile available for paid subscribers</h3>
+                <p className="text-sm text-slate-500 mb-4">You can see the name and location above. Upgrade to access website, team members, services, and contact details.</p>
+                <a href={isProvider ? '/provider/upgrade' : '/participant/upgrade'} className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md">
+                  Upgrade Now
+                </a>
               </div>
-              <div className="grid grid-cols-3 gap-4 py-4 border-y border-slate-100">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-slate-800">{selectedProvider.rating}</p>
-                  <p className="text-xs text-slate-500">Rating</p>
+            ) : (
+              <>
+                <p className="text-sm text-slate-600 mb-4">{selectedProvider.desc}</p>
+
+                {selectedProvider.website && (
+                  <div className="mb-4 flex items-center gap-2 text-sm">
+                    <Globe className="w-4 h-4 text-slate-400" />
+                    <a href={`https://${selectedProvider.website}`} target="_blank" rel="noreferrer" className="text-purple-600 hover:underline">{selectedProvider.website}</a>
+                  </div>
+                )}
+
+                <div className="space-y-5">
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-700 mb-2">Services Offered</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProvider.services.map(s => (
+                        <span key={s} className="text-sm bg-purple-50 text-purple-700 px-3 py-1 rounded-lg font-medium">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {selectedProvider.team && selectedProvider.team.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                        <Users className="w-4 h-4" /> Team Members
+                      </h4>
+                      <div className="space-y-2">
+                        {selectedProvider.team.map((member, i) => (
+                          <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-xs font-bold">
+                              {member.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-slate-800">{member.name}</p>
+                              <p className="text-xs text-slate-500">{member.role}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Premium-only written reviews */}
+                  {selectedProvider.premium && selectedProvider.writtenReviews && selectedProvider.writtenReviews.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                        <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> Reviews ({selectedProvider.writtenReviews.length})
+                        <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Premium</span>
+                      </h4>
+                      <div className="space-y-2">
+                        {selectedProvider.writtenReviews.slice(0, 5).map((rev, i) => (
+                          <div key={i} className="p-3 bg-amber-50/60 border border-amber-100 rounded-xl">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-xs font-semibold text-slate-700">{rev.author}</span>
+                              <span className="flex items-center text-amber-500">
+                                {Array.from({ length: rev.rating }).map((_, j) => (
+                                  <Star key={j} className="w-3 h-3 fill-current" />
+                                ))}
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-600">{rev.text}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-3 gap-4 py-4 border-y border-slate-100">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-slate-800">{selectedProvider.rating}</p>
+                      <p className="text-xs text-slate-500">Rating</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-slate-800">{selectedProvider.reviews}</p>
+                      <p className="text-xs text-slate-500">Reviews</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-slate-800">{selectedProvider.distance}km</p>
+                      <p className="text-xs text-slate-500">Away</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-slate-800">{selectedProvider.reviews}</p>
-                  <p className="text-xs text-slate-500">Reviews</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-slate-800">{selectedProvider.distance}km</p>
-                  <p className="text-xs text-slate-500">Away</p>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
+
             <div className="flex gap-3 mt-5">
-              {isPaid && (
-                <button className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all">
-                  Send Message
-                </button>
-              )}
               <button
                 onClick={() => toggleBookmark(selectedProvider.id)}
-                className={`px-5 py-3 rounded-xl font-semibold transition-all ${
+                className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
                   bookmarks.includes(selectedProvider.id) ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >

@@ -20,9 +20,6 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import RoleRedirect from "./routes/RoleRedirect";
 
-// Feature Gate
-import FeatureGate from "./components/common/FeatureGate";
-
 // ─── Public Pages ───────────────────────────────────────────
 import LandingPage from "./pages/public/LandingPage";
 import WhatWeDoPage from "./pages/public/WhatWeDoPage";
@@ -51,10 +48,8 @@ import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
 
 // ─── Provider Pages ─────────────────────────────────────────
 import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
-import ServiceRequestsPage from "./pages/provider/ServiceRequestsPage";
 import InnovationLabPage from "./pages/provider/InnovationLabPage";
 import QAForumPage from "./pages/provider/QAForumPage";
-import MarketingPage from "./pages/provider/MarketingPage";
 import ProviderLearningHubPage from "./pages/provider/LearningHubPage";
 
 // ─── Participant Pages ──────────────────────────────────────
@@ -62,7 +57,7 @@ import ParticipantDashboardHome from "./pages/participant/ParticipantDashboardHo
 import LearningHubPage from "./pages/participant/LearningHubPage";
 import MessageBoardPage from "./pages/participant/MessageBoardPage";
 import RightsSafetyPage from "./pages/participant/RightsSafetyPage";
-import PlanBuddyPage from "./pages/participant/PlanBuddyPage";
+import MyBuddyPage from "./pages/participant/MyBuddyPage";
 
 // ─── Shared Dashboard Pages ────────────────────────────────
 import ProfilePage from "./pages/shared/ProfilePage";
@@ -70,7 +65,6 @@ import EventsPage from "./pages/shared/EventsPage";
 import DirectoryPage from "./pages/shared/DirectoryPage";
 import JobBoardPage from "./pages/shared/JobBoardPage";
 import DocumentUploadPage from "./pages/shared/DocumentUploadPage";
-import MessagingPage from "./pages/shared/MessagingPage";
 import AISupportPage from "./pages/shared/AISupportPage";
 import UpgradePage from "./pages/shared/UpgradePage";
 import AdminSupportPage from "./pages/shared/AdminSupportPage";
@@ -191,39 +185,14 @@ function App() {
           <Route path="/provider" element={<DashboardLayout />}>
             <Route index element={<ProviderDashboardHome />} />
             <Route path="profile" element={<ProfilePage />} />
-            <Route path="messaging" element={<MessagingPage />} />
             <Route path="directory" element={<DirectoryPage />} />
-            <Route
-              path="requests"
-              element={
-                <FeatureGate>
-                  <ServiceRequestsPage />
-                </FeatureGate>
-              }
-            />
             <Route path="events" element={<EventsPage />} />
             <Route path="innovation-lab" element={<InnovationLabPage />} />
             <Route path="qa" element={<QAForumPage />} />
-            <Route
-              path="jobs"
-              element={
-                <FeatureGate>
-                  <JobBoardPage />
-                </FeatureGate>
-              }
-            />
-            <Route
-              path="marketing"
-              element={
-                <FeatureGate>
-                  <MarketingPage />
-                </FeatureGate>
-              }
-            />
+            <Route path="jobs" element={<JobBoardPage />} />
             <Route path="documents" element={<DocumentUploadPage />} />
             <Route path="learning" element={<ProviderLearningHubPage />} />
             <Route path="learning/:id" element={<LearningModuleDetailPage />} />
-            {/* <Route path="ai-support" element={<AISupportPage />} /> */}
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>
@@ -235,24 +204,15 @@ function App() {
             <Route index element={<ParticipantDashboardHome />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="services" element={<DirectoryPage />} />
-            <Route path="messaging" element={<MessagingPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="documents" element={<DocumentUploadPage />} />
             <Route path="learning" element={<LearningHubPage />} />
             <Route path="learning/:id" element={<LearningModuleDetailPage />} />
             <Route path="messages" element={<MessageBoardPage />} />
-            <Route path="jobs" element={<JobBoardPage />} />
             <Route path="events" element={<EventsPage />} />
+            <Route path="qa" element={<QAForumPage />} />
             <Route path="rights-safety" element={<RightsSafetyPage />} />
-            <Route
-              path="plan-buddy"
-              element={
-                <FeatureGate>
-                  <PlanBuddyPage />
-                </FeatureGate>
-              }
-            />
-            <Route path="ai-support" element={<AISupportPage />} />
+            <Route path="my-buddy" element={<MyBuddyPage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>
         </Route>

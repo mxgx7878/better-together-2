@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { BookOpen, Link2, Briefcase, MessageCircle, Calendar, Shield, Mic, Star, Heart, Search, Send, ClipboardList, Scale, Edit, Phone, Settings, Sparkles } from 'lucide-react';
+import { BookOpen, Link2, MessageCircle, Calendar, Shield, Mic, Star, Heart, Send, ClipboardList, Scale, Edit, Phone, Settings, Sparkles, FileText, Inbox } from 'lucide-react';
 
 const ParticipantDashboardHome = () => {
   const { user, isPaid } = useAuth();
@@ -8,25 +8,26 @@ const ParticipantDashboardHome = () => {
   // Free participant tiles
   const freeTiles = [
     { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Connect with Services', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Find local providers', color: 'from-violet-500 to-purple-600' },
-    { label: 'Job Board', icon: <Briefcase className="w-6 h-6 text-white" />, path: '/participant/jobs', desc: 'Employment opportunities', color: 'from-amber-500 to-orange-600' },
-    { label: 'Message Board', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/messages', desc: 'Community discussions', color: 'from-emerald-500 to-teal-600' },
+    { label: 'Provider Directory', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Find paid providers', color: 'from-violet-500 to-purple-600' },
+    { label: 'Looking for Services', icon: <Inbox className="w-6 h-6 text-white" />, path: '/participant/messages', desc: 'Post service requests', color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Ask the community', color: 'from-teal-500 to-cyan-600' },
     { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
-    { label: 'Library', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/library', desc: 'Resources & documents', color: 'from-cyan-500 to-blue-600' },
+    { label: 'Documents', icon: <FileText className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & files', color: 'from-cyan-500 to-blue-600' },
     { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
+    { label: 'Your Buddy', icon: <Star className="w-6 h-6 text-white" />, path: '/participant/upgrade', desc: 'Get a Buddy to help', color: 'from-yellow-500 to-amber-600' },
+    { label: "Your Buddy's Profile", icon: <Heart className="w-6 h-6 text-white" />, path: '/participant/my-buddy', desc: 'Meet your buddy', color: 'from-rose-500 to-pink-600' },
     { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & support', color: 'from-slate-500 to-slate-700' },
-    { label: 'Upgrade Subscription', icon: <Star className="w-6 h-6 text-white" />, path: '/participant/upgrade', desc: 'Get a Plan Buddy', color: 'from-yellow-500 to-amber-600' },
   ];
 
   // Paid participant tiles
   const paidTiles = [
-    { label: 'My Plan Buddy', icon: <Heart className="w-6 h-6 text-white" />, path: '/participant/plan-buddy', desc: 'Your personal support', color: 'from-rose-500 to-pink-600', highlight: true },
+    { label: "Your Buddy's Profile", icon: <Heart className="w-6 h-6 text-white" />, path: '/participant/my-buddy', desc: 'Your personal support', color: 'from-rose-500 to-pink-600', highlight: true },
     { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Connect with Services', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Find & bookmark providers', color: 'from-violet-500 to-purple-600' },
-    { label: 'Message Board', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/messages', desc: 'Community discussions', color: 'from-emerald-500 to-teal-600' },
-    { label: 'Job Board', icon: <Briefcase className="w-6 h-6 text-white" />, path: '/participant/jobs', desc: 'Employment opportunities', color: 'from-amber-500 to-orange-600' },
+    { label: 'Provider Directory', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Find & bookmark providers', color: 'from-violet-500 to-purple-600' },
+    { label: 'Looking for Services', icon: <Inbox className="w-6 h-6 text-white" />, path: '/participant/messages', desc: 'Post service requests', color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Ask the community', color: 'from-teal-500 to-cyan-600' },
     { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
-    { label: 'Library', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/library', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
+    { label: 'Documents', icon: <FileText className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
     { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
     { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & feedback', color: 'from-slate-500 to-slate-700' },
   ];
@@ -52,7 +53,7 @@ const ParticipantDashboardHome = () => {
           </div>
         </div>
       </div>
-     {/* Plan Buddy Card — Paid Only */}
+     {/* Your Buddy Card — Paid Only */}
       {isPaid && user.planBuddy && (
         <div className="bg-white rounded-2xl shadow-sm border border-purple-100 p-4 sm:p-6">
           <div className="flex flex-col min-[400px]:flex-row items-start min-[400px]:justify-between gap-3">
@@ -61,16 +62,16 @@ const ParticipantDashboardHome = () => {
                 {user.planBuddy.name.split(' ').map(n => n[0]).join('')}
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] sm:text-xs text-purple-600 font-semibold uppercase tracking-wide">Your Plan Buddy</p>
+                <p className="text-[10px] sm:text-xs text-purple-600 font-semibold uppercase tracking-wide">Your Buddy</p>
                 <h3 className="text-base sm:text-lg font-semibold text-slate-800 truncate">{user.planBuddy.name}</h3>
                 <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">Next check-in: {new Date(user.planBuddy.nextCheckIn).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
             </div>
             <Link
-              to="/participant/plan-buddy"
+              to="/participant/my-buddy"
               className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-medium rounded-xl transition-colors flex-shrink-0"
             >
-              Message
+              View Profile
             </Link>
           </div>
 
@@ -228,9 +229,9 @@ const ParticipantDashboardHome = () => {
           </div>
           <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold">Get a Personal Plan Buddy</h3>
+              <h3 className="text-lg sm:text-xl font-bold">Get Your Buddy</h3>
               <p className="text-purple-100 mt-1 text-sm max-w-xl">
-                Upgrade to Personal Support Plus for $200/year and get guided help from real people — personalised inbox support, monthly check-ins, advocate and lawyer connections, and AAT preparation help.
+                Upgrade to Guidance & Advocacy Plus for $350/year and get your own Buddy — check-ins, help with emails & letters, understanding NDIS, peer matching, advocate & lawyer connections, and AAT preparation support.
               </p>
             </div>
             <Link

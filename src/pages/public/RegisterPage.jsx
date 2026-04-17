@@ -12,7 +12,6 @@ import StepIndicator from "./register/StepIndicator";
 import RoleSelectStep from "./register/RoleSelectStep";
 import PersonalDetailsStep from "./register/PersonalDetailsStep";
 import ProviderDetailsStep from "./register/ProviderDetailsStep";
-import ParticipantDetailsStep from "./register/ParticipantDetailsStep";
 import SuccessStep from "./register/SuccessStep";
 
 const STEP_LABELS = {
@@ -58,6 +57,10 @@ const RegisterPage = () => {
     }
   }, [role, currentStep, publicCategories.length, dispatch]);
 
+  const isParticipantFlow = role === "participant";
+  const finalStep = isParticipantFlow ? 2 : 3;
+  const successStep = isParticipantFlow ? 3 : 4;
+
   const nextStep = () => {
     if (validateStep(currentStep)) {
       setCurrentStep((s) => s + 1);
@@ -68,10 +71,13 @@ const RegisterPage = () => {
 
   const handleSubmit = async () => {
     const ok = await submit();
-    if (ok) setCurrentStep(4);
+    if (ok) setCurrentStep(successStep);
   };
 
   const renderStep = () => {
+    if (currentStep === successStep) {
+      return <SuccessStep role={role} onGoToLogin={() => navigate("/login")} />;
+    }
     switch (currentStep) {
       case 1:
         return (
@@ -92,7 +98,7 @@ const RegisterPage = () => {
           />
         );
       case 3:
-        return role === "provider" ? (
+        return (
           <ProviderDetailsStep
             formData={formData}
             errors={errors}
@@ -101,15 +107,7 @@ const RegisterPage = () => {
             categoriesLoading={categoriesLoading}
             onToggleCategory={toggleServiceCategory}
           />
-        ) : (
-          <ParticipantDetailsStep
-            formData={formData}
-            errors={errors}
-            onChange={handleChange}
-          />
         );
-      case 4:
-        return <SuccessStep role={role} onGoToLogin={() => navigate("/login")} />;
       default:
         return null;
     }
@@ -126,7 +124,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Progress Steps */}
-        {currentStep < 4 && (
+        {currentStep < successStep && (
           <StepIndicator
             currentStep={currentStep}
             stepLabel={STEP_LABELS[currentStep]}
@@ -138,7 +136,7 @@ const RegisterPage = () => {
           {renderStep()}
 
           {/* Navigation Buttons */}
-          {currentStep < 4 && (
+          {currentStep < successStep && (
             <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
               {currentStep > 1 ? (
                 <button
@@ -151,7 +149,7 @@ const RegisterPage = () => {
                 <div />
               )}
 
-              {currentStep < 3 ? (
+              {currentStep < finalStep ? (
                 <button
                   onClick={nextStep}
                   className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg text-sm"
@@ -180,7 +178,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Login Link */}
-        {currentStep < 4 && (
+        {currentStep < successStep && (
           <p className="text-center text-sm text-slate-500 mt-6">
             Already have an account?{" "}
             <Link

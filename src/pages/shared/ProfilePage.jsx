@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Handshake } from 'lucide-react';
 
 const serviceCategories = [
   { id: 'ndis', label: 'NDIS Supports', subs: ['Core Supports', 'Capacity Building', 'Capital Supports', 'SIL / STA / MTA', 'Support Coordination', 'Therapy Services', 'Early Childhood', 'Community Participation', 'Employment Supports'] },
@@ -33,6 +33,7 @@ const ProfilePage = () => {
     serviceRadius: '25',
     selectedCategories: ['ndis'],
     selectedSubs: ['Core Supports', 'Support Coordination'],
+    openToCollab: true,
     notifyEmail: true,
     notifyPush: true,
     notifySMS: false,
@@ -67,7 +68,6 @@ const ProfilePage = () => {
       ]
     : [
         { key: 'details', label: 'My Details' },
-        { key: 'preferences', label: 'Support Preferences' },
         { key: 'notifications', label: 'Notifications' },
       ];
 
@@ -199,6 +199,38 @@ const ProfilePage = () => {
                 </div>
               </div>
             )}
+
+            {/* Collaboration Toggle - Provider only */}
+            {isProvider && (
+              <div className={`rounded-2xl border-2 p-5 transition-all ${formData.openToCollab ? 'border-blue-300 bg-blue-50/50' : 'border-slate-200 bg-slate-50'}`}>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${formData.openToCollab ? 'bg-blue-100 text-blue-700' : 'bg-slate-200 text-slate-500'}`}>
+                      <Handshake className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-800">Open to Collaboration</h3>
+                      <p className="text-xs text-slate-600 mt-0.5 max-w-md">
+                        Show other providers that you're open to working together, sharing referrals, or joint projects. This displays a collaboration badge on your profile.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFormData(p => ({ ...p, openToCollab: !p.openToCollab }))}
+                    className={`relative inline-flex h-7 w-12 flex-shrink-0 items-center rounded-full transition-colors ${formData.openToCollab ? 'bg-blue-600' : 'bg-slate-300'}`}
+                  >
+                    <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${formData.openToCollab ? 'translate-x-6' : 'translate-x-1'}`} />
+                  </button>
+                </div>
+                {formData.openToCollab && (
+                  <div className="mt-3 pt-3 border-t border-blue-100 flex items-center gap-2 text-xs text-blue-700">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>A "Will collab" badge will appear on your profile and in search results.</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -252,44 +284,6 @@ const ProfilePage = () => {
                 )}
               </div>
             ))}
-          </div>
-        )}
-
-        {/* Support Preferences - Participant only */}
-        {activeTab === 'preferences' && !isProvider && (
-          <div className="space-y-6">
-            <p className="text-sm text-slate-600">Tell us what kind of support you're looking for. This helps providers understand your needs.</p>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">What types of support are you looking for?</label>
-              <div className="grid sm:grid-cols-2 gap-2">
-                {['Daily Living Support', 'Therapy (OT, Speech, Physio)', 'Support Coordination', 'Community Participation', 'Employment Support', 'Personal Care', 'Transport', 'Home Modifications', 'Mental Health Support', 'Peer Support'].map(item => (
-                  <label key={item} className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 hover:border-purple-300 cursor-pointer transition-colors">
-                    <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500" />
-                    <span className="text-sm text-slate-700">{item}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Preferred provider distance</label>
-              <select className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm outline-none bg-white">
-                <option>Within 10 km</option>
-                <option>Within 25 km</option>
-                <option>Within 50 km</option>
-                <option>Any distance</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Accessibility requirements</label>
-              <div className="grid sm:grid-cols-2 gap-2">
-                {['Wheelchair accessible', 'Auslan / sign language', 'Easy read materials', 'Home visits available', 'Telehealth / online', 'CALD language support'].map(item => (
-                  <label key={item} className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 hover:border-purple-300 cursor-pointer transition-colors">
-                    <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500" />
-                    <span className="text-sm text-slate-700">{item}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
           </div>
         )}
 
