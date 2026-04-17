@@ -53,7 +53,6 @@ import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
 import InnovationLabPage from "./pages/provider/InnovationLabPage";
 import QAForumPage from "./pages/provider/QAForumPage";
 import ProviderLearningHubPage from "./pages/provider/LearningHubPage";
-import ServiceRequestsPage from "./pages/provider/ServiceRequestsPage";
 
 // ─── Participant Pages ──────────────────────────────────────
 import ParticipantDashboardHome from "./pages/participant/ParticipantDashboardHome";
@@ -195,7 +194,6 @@ function App() {
             <Route index element={<ProviderDashboardHome />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="directory" element={<DirectoryPage />} />
-            <Route path="service-requests" element={<ServiceRequestsPage />} />
             <Route path="jobs" element={<JobBoardPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="innovation-lab" element={<InnovationLabPage />} />

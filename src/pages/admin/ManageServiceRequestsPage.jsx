@@ -12,10 +12,15 @@ import {
   Lock,
   Eye,
   X,
+  MessageSquare,
+  CheckCircle2,
+  TrendingUp,
+  BarChart3,
 } from "lucide-react";
 import PageHeader from "../../components/common/PageHeader";
 import {
   adminFetchServiceRequests,
+  adminFetchServiceRequestStats,
   adminDeleteServiceRequest,
   adminDeleteServiceRequestReply,
 } from "../../store/actions/serviceRequestActions";
@@ -23,8 +28,11 @@ import { ASYNC_STATUS } from "../../constants";
 
 const ManageServiceRequestsPage = () => {
   const dispatch = useDispatch();
-  const { list, status, total } = useSelector((s) => s.serviceRequest);
+  const { list, status, total, stats, statsStatus } = useSelector(
+    (s) => s.serviceRequest,
+  );
   const loading = status === ASYNC_STATUS.LOADING;
+  const statsLoading = statsStatus === ASYNC_STATUS.LOADING;
 
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,6 +45,10 @@ const ManageServiceRequestsPage = () => {
     const t = setTimeout(() => setSearchTerm(searchInput), 400);
     return () => clearTimeout(t);
   }, [searchInput]);
+
+  useEffect(() => {
+    dispatch(adminFetchServiceRequestStats());
+  }, [dispatch]);
 
   useEffect(() => {
     const params = {};
@@ -66,6 +78,102 @@ const ManageServiceRequestsPage = () => {
         description="Moderate participant posts and provider replies from Looking for Services"
         icon={Inbox}
       />
+
+      {/* Analytics cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          icon={Inbox}
+          color="purple"
+          label="Total Requests"
+          value={stats?.total_requests ?? 0}
+          loading={statsLoading}
+        />
+        <StatCard
+          icon={TrendingUp}
+          color="emerald"
+          label="Open"
+          value={stats?.open_requests ?? 0}
+          loading={statsLoading}
+        />
+        <StatCard
+          icon={CheckCircle2}
+          color="slate"
+          label="Closed"
+          value={stats?.closed_requests ?? 0}
+          loading={statsLoading}
+        />
+        <StatCard
+          icon={MessageSquare}
+          color="blue"
+          label="Provider Replies"
+          value={stats?.total_replies ?? 0}
+          loading={statsLoading}
+        />
+      </div>
+
+      {/* Breakdown panels */}
+      {(stats?.by_service_type?.length || stats?.top_providers?.length) && (
+        <div className="grid lg:grid-cols-2 gap-4">
+          {stats?.by_service_type?.length ? (
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <BarChart3 className="w-4 h-4 text-purple-500" />
+                <h3 className="text-sm font-semibold text-slate-700">
+                  Most requested services
+                </h3>
+              </div>
+              <ul className="space-y-2">
+                {stats.by_service_type.slice(0, 6).map((row) => {
+                  const max = stats.by_service_type[0]?.count || 1;
+                  const pct = Math.round((row.count / max) * 100);
+                  return (
+                    <li key={row.service_type}>
+                      <div className="flex items-center justify-between text-sm mb-1">
+                        <span className="text-slate-700">
+                          {row.service_type}
+                        </span>
+                        <span className="text-slate-500">{row.count}</span>
+                      </div>
+                      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ) : null}
+
+          {stats?.top_providers?.length ? (
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <TrendingUp className="w-4 h-4 text-emerald-500" />
+                <h3 className="text-sm font-semibold text-slate-700">
+                  Top replying providers
+                </h3>
+              </div>
+              <ul className="space-y-2">
+                {stats.top_providers.slice(0, 6).map((p) => (
+                  <li
+                    key={p.provider_user_id}
+                    className="flex items-center justify-between text-sm"
+                  >
+                    <span className="text-slate-700 truncate">
+                      {p.provider_name}
+                    </span>
+                    <span className="text-xs font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">
+                      {p.reply_count} {p.reply_count === 1 ? "reply" : "replies"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
+      )}
 
       {/* Filters */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex flex-col sm:flex-row gap-3">
@@ -300,5 +408,31 @@ const ManageServiceRequestsPage = () => {
     </div>
   );
 };
+
+const COLOR_CLASSES = {
+  purple: "bg-purple-50 text-purple-600",
+  emerald: "bg-emerald-50 text-emerald-600",
+  slate: "bg-slate-100 text-slate-600",
+  blue: "bg-blue-50 text-blue-600",
+};
+
+function StatCard({ icon: Icon, color, label, value, loading }) {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 sm:p-5">
+      <div className="flex items-center justify-between mb-3">
+        <div
+          className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center ${
+            COLOR_CLASSES[color] || COLOR_CLASSES.purple
+          }`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
+        {loading && <Loader2 className="w-4 h-4 animate-spin text-slate-400" />}
+      </div>
+      <p className="text-xl sm:text-2xl font-bold text-slate-800">{value}</p>
+      <p className="text-xs text-slate-500 mt-1">{label}</p>
+    </div>
+  );
+}
 
 export default ManageServiceRequestsPage;

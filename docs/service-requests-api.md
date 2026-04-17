@@ -1,17 +1,26 @@
 # Service Requests — Backend API Spec
 
 Module: **Looking for Services** (participant side) /
-**Service Requests** (provider + admin side).
+**Job Board** (provider side) / **Service Requests** (admin side).
 
-Frontend is already wired to all of these endpoints through Redux thunks
-in `src/store/actions/serviceRequestActions.js`. This doc is the contract
+One underlying data source (`service_requests` + `service_request_replies`)
+drives all three surfaces:
+
+| Portal          | Surface                     | What the user does                                      |
+| --------------- | --------------------------- | ------------------------------------------------------- |
+| Participant     | **Looking for Services**    | Posts a request; views public provider replies          |
+| Provider (paid) | **Job Board**               | Sees participant requests filtered by their services;   |
+|                 |                             | "applies" by posting a public reply with contact info   |
+| Provider (free) | **Job Board** (read-only)   | Sees the feed but is blocked from applying              |
+| Admin           | **Service Requests**        | Moderates (delete post / reply), sees analytics         |
+
+Frontend is already wired to all endpoints below via Redux thunks in
+`src/store/actions/serviceRequestActions.js`. This doc is the contract
 the backend needs to implement so the UI works end-to-end.
 
 All endpoints are authenticated (Bearer token, same as the rest of the
-API). The base URL is whatever `API_BASE_URL` resolves to in the client.
-
-Validation errors should follow the existing Laravel format the client
-already handles:
+API). Validation errors should follow the existing Laravel format the
+client already handles:
 
 ```json
 { "message": "Validation failed", "errors": { "field": ["..."] } }
@@ -28,7 +37,7 @@ already handles:
 | `id`           | bigint PK                                 |                                                   |
 | `user_id`      | FK → `users.id` (participant)             | author                                            |
 | `service_type` | string (120)                              | e.g. "Occupational Therapist"                     |
-| `category_id`  | FK → `categories.id`, nullable            | optional link to Services & Categories            |
+| `category_id`  | FK → `categories.id`, nullable            | used to match providers on the Job Board          |
 | `location`     | string (160), nullable                    | free text                                         |
 | `needed_from`  | string (80), nullable                     | free text (e.g. "After May 2026"), not a date col |
 | `summary`      | text                                      | the full request description                      |
@@ -60,7 +69,7 @@ already handles:
   The UI intentionally does not allow a provider to DM the poster; the
   only contact is through the public reply.
 - Author of a request can `close` or `delete` it.
-- Admin can delete any request or reply.
+- Admin can delete any request or reply and view platform-wide analytics.
 
 ---
 
@@ -127,15 +136,17 @@ unless noted.
 
 Query params (all optional):
 
-| Param          | Type   | Notes                                    |
-| -------------- | ------ | ---------------------------------------- |
-| `page`         | int    | pagination                               |
-| `search`       | string | matches `service_type`, `summary`        |
-| `service_type` | string | exact match                              |
-| `location`     | string | partial match                            |
-| `status`       | enum   | `open` \| `closed`, default `open`       |
+| Param                     | Type    | Notes                                                                                                                        |
+| ------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `page`                    | int     | pagination                                                                                                                   |
+| `search`                  | string  | matches `service_type`, `summary`                                                                                            |
+| `service_type`            | string  | exact match                                                                                                                  |
+| `location`                | string  | partial match                                                                                                                |
+| `status`                  | enum    | `open` \| `closed`, default `open`                                                                                           |
+| `matches_my_categories`   | 0 \| 1  | **Used by the provider Job Board.** When `1`, restrict to requests whose `category_id` is in the authenticated provider's profile categories. |
 
-Returns paginated list as above.
+Returns paginated list as above. Replies must be eager-loaded and
+included on every request in the list.
 
 #### `GET /service-requests/{id}`
 
@@ -186,7 +197,7 @@ Role: author only. Cascade-deletes replies.
 
 ---
 
-### 3.3 Provider replies
+### 3.3 Provider replies ("apply" on the Job Board)
 
 #### `POST /service-requests/{id}/replies`
 
@@ -221,7 +232,7 @@ Role: author of the reply only.
 
 ---
 
-### 3.4 Admin moderation
+### 3.4 Admin moderation + analytics
 
 All routes here require role `admin`.
 
@@ -239,15 +250,52 @@ Hard-deletes the request and all its replies.
 
 Hard-deletes a single reply.
 
+#### `GET /admin/service-requests/stats`
+
+Returns aggregate analytics consumed by the admin Service Requests page
+(stat cards + top-lists panels).
+
+Response:
+
+```json
+{
+  "data": {
+    "total_requests": 128,
+    "open_requests": 94,
+    "closed_requests": 34,
+    "total_replies": 312,
+    "requests_this_week": 18,
+    "replies_this_week": 54,
+    "by_service_type": [
+      { "service_type": "Occupational Therapist", "count": 24 },
+      { "service_type": "Support Coordinator",    "count": 19 },
+      { "service_type": "Physiotherapist",        "count": 13 }
+    ],
+    "top_providers": [
+      { "provider_user_id": 83, "provider_name": "Sunrise Allied Health", "reply_count": 41 },
+      { "provider_user_id": 91, "provider_name": "InReach Support",        "reply_count": 33 }
+    ],
+    "replies_per_week": [
+      { "week_start": "2026-02-23", "count": 42 },
+      { "week_start": "2026-03-02", "count": 51 }
+    ]
+  }
+}
+```
+
+The UI currently consumes `total_requests`, `open_requests`,
+`closed_requests`, `total_replies`, `by_service_type`, and
+`top_providers`. The other fields are reserved for later charts.
+
 ---
 
 ## 4. Frontend integration summary
 
-| UI page                                             | Route                                   | Thunks used                                                                                                       |
-| --------------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Participant — Looking for Services                  | `/participant/looking-for-services`     | `fetchServiceRequests`, `createServiceRequest`, `closeServiceRequest`, `deleteServiceRequest`                      |
-| Provider — Service Requests                         | `/provider/service-requests`            | `fetchServiceRequests`, `createServiceRequestReply`, `deleteServiceRequestReply`                                   |
-| Admin — Service Requests                            | `/admin/service-requests`               | `adminFetchServiceRequests`, `adminDeleteServiceRequest`, `adminDeleteServiceRequestReply`                         |
+| UI page                                             | Route                                   | Thunks used                                                                                                              |
+| --------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Participant — Looking for Services                  | `/participant/looking-for-services`     | `fetchServiceRequests`, `createServiceRequest`, `closeServiceRequest`, `deleteServiceRequest`                             |
+| Provider — Job Board                                | `/provider/jobs`                        | `fetchServiceRequests` (with `matches_my_categories=1`), `createServiceRequestReply`, `deleteServiceRequestReply`        |
+| Admin — Service Requests                            | `/admin/service-requests`               | `adminFetchServiceRequestStats`, `adminFetchServiceRequests`, `adminDeleteServiceRequest`, `adminDeleteServiceRequestReply` |
 
 Redux slice: `state.serviceRequest` (see `src/store/slices/serviceRequestSlice.js`).
 
@@ -257,6 +305,8 @@ Selectors used in components:
 - `state.serviceRequest.status` — list loading status
 - `state.serviceRequest.saveStatus` — create-request status
 - `state.serviceRequest.replyStatus` — reply status
+- `state.serviceRequest.stats` — admin analytics payload
+- `state.serviceRequest.statsStatus` — analytics loading status
 - `state.serviceRequest.total`, `totalPages`, `page` — pagination
 
 ---
@@ -286,6 +336,40 @@ Schema::create('service_request_replies', function (Blueprint $table) {
     $table->string('contact_phone', 40)->nullable();
     $table->timestamps();
     $table->unique(['service_request_id', 'provider_user_id']);
+});
+```
+
+### Laravel route stubs
+
+```php
+// routes/api.php
+Route::middleware('auth:sanctum')->group(function () {
+
+    // Public list/detail (any authenticated user)
+    Route::get('service-requests', [ServiceRequestController::class, 'index']);
+    Route::get('service-requests/{serviceRequest}', [ServiceRequestController::class, 'show']);
+
+    // Participant
+    Route::post('service-requests', [ServiceRequestController::class, 'store'])
+        ->middleware('role:participant');
+    Route::patch('service-requests/{serviceRequest}/close', [ServiceRequestController::class, 'close'])
+        ->middleware('can:update,serviceRequest');
+    Route::delete('service-requests/{serviceRequest}', [ServiceRequestController::class, 'destroy'])
+        ->middleware('can:delete,serviceRequest');
+
+    // Provider (paid) — replies
+    Route::post('service-requests/{serviceRequest}/replies', [ServiceRequestReplyController::class, 'store'])
+        ->middleware(['role:provider', 'tier:paid']);
+    Route::delete('service-requests/{serviceRequest}/replies/{reply}', [ServiceRequestReplyController::class, 'destroy'])
+        ->middleware('can:delete,reply');
+
+    // Admin
+    Route::prefix('admin')->middleware('role:admin')->group(function () {
+        Route::get('service-requests/stats', [AdminServiceRequestController::class, 'stats']);
+        Route::get('service-requests', [AdminServiceRequestController::class, 'index']);
+        Route::delete('service-requests/{serviceRequest}', [AdminServiceRequestController::class, 'destroy']);
+        Route::delete('service-requests/{serviceRequest}/replies/{reply}', [AdminServiceRequestController::class, 'destroyReply']);
+    });
 });
 ```
 

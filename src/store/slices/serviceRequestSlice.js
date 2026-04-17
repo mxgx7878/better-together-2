@@ -8,6 +8,7 @@ import {
   createServiceRequestReply,
   deleteServiceRequestReply,
   adminFetchServiceRequests,
+  adminFetchServiceRequestStats,
   adminDeleteServiceRequest,
   adminDeleteServiceRequestReply,
 } from "../actions/serviceRequestActions";
@@ -23,6 +24,8 @@ const initialState = {
   selectedStatus: ASYNC_STATUS.IDLE,
   saveStatus: ASYNC_STATUS.IDLE,
   replyStatus: ASYNC_STATUS.IDLE,
+  stats: null,
+  statsStatus: ASYNC_STATUS.IDLE,
   error: null,
 };
 
@@ -145,6 +148,20 @@ const serviceRequestSlice = createSlice({
         }
       },
     );
+
+    // ─── Admin stats ────────────────────────────────────────
+    builder
+      .addCase(adminFetchServiceRequestStats.pending, (s) => {
+        s.statsStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminFetchServiceRequestStats.fulfilled, (s, { payload }) => {
+        s.statsStatus = ASYNC_STATUS.SUCCEEDED;
+        s.stats = payload;
+      })
+      .addCase(adminFetchServiceRequestStats.rejected, (s, { payload }) => {
+        s.statsStatus = ASYNC_STATUS.FAILED;
+        s.error = payload;
+      });
 
     // ─── Admin list ────────────────────────────────────────
     builder

@@ -146,8 +146,28 @@ export const deleteServiceRequestReply = createAsyncThunk(
 );
 
 // ═══════════════════════════════════════════════════════════════════
-// ADMIN — moderation
+// ADMIN — moderation + analytics
 // ═══════════════════════════════════════════════════════════════════
+
+/**
+ * GET /api/admin/service-requests/stats
+ * Returns aggregate analytics for admin dashboards:
+ *   - total requests, open, closed, total replies
+ *   - breakdown by service_type (top N)
+ *   - replies per week for the last 8 weeks
+ *   - top replying providers (paid) with reply counts
+ */
+export const adminFetchServiceRequestStats = createAsyncThunk(
+  "serviceRequests/adminFetchStats",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.get("/admin/service-requests/stats");
+      return data.data || data;
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to load analytics");
+    }
+  },
+);
 
 /**
  * GET /api/admin/service-requests

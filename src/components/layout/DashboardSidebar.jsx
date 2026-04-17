@@ -64,7 +64,6 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
     { label: 'Home', icon: Home, path: `${basePath}`, end: true, tier: 'all' },
     { label: 'Profile & Services', icon: User, path: `${basePath}/profile`, tier: 'all' },
     { label: 'Business Directory', icon: Search, path: `${basePath}/directory`, tier: 'all' },
-    { label: 'Service Requests', icon: Inbox, path: `${basePath}/service-requests`, tier: 'all' },
     { label: 'Job Board', icon: Briefcase, path: `${basePath}/jobs`, tier: 'all' },
     { label: 'Events & Networking', icon: Calendar, path: `${basePath}/events`, tier: 'all' },
     { label: 'Innovation Lab', icon: Lightbulb, path: `${basePath}/innovation-lab`, tier: 'all' },
