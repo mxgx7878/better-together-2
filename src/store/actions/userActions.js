@@ -3,6 +3,28 @@ import { toast } from "sonner";
 import api from "../../services/api";
 
 // ═══════════════════════════════════════════════════════════════════
+// PROFILE UPDATE (logged-in user)
+// ═══════════════════════════════════════════════════════════════════
+
+export const updateProfile = createAsyncThunk(
+  "user/updateProfile",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const data = await api.put("/user/profile", payload);
+      const user = data?.user || data?.data || data;
+      if (user) {
+        localStorage.setItem("bt_user", JSON.stringify(user));
+      }
+      toast.success("Profile updated successfully!");
+      return user;
+    } catch (err) {
+      toast.error(err.message || "Failed to update profile");
+      return rejectWithValue(err.message || "Failed to update profile");
+    }
+  },
+);
+
+// ═══════════════════════════════════════════════════════════════════
 // ADMIN USER APIs
 // ═══════════════════════════════════════════════════════════════════
 
