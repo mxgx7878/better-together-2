@@ -27,12 +27,6 @@ const INITIAL_FORM = {
   serviceCategories: [],
   description: "",
   website: "",
-
-  // Participant
-  ndisNumber: "",
-  supportCoordinator: "",
-  primaryDisability: "",
-  goals: "",
 };
 
 const useRegisterForm = () => {
@@ -111,7 +105,8 @@ const useRegisterForm = () => {
   );
 
   const submit = useCallback(async () => {
-    if (!validateStep(3)) return false;
+    const finalStep = role === "provider" ? 3 : 2;
+    if (!validateStep(finalStep)) return false;
 
     setSubmitting(true);
     try {
@@ -141,10 +136,6 @@ const useRegisterForm = () => {
           password_confirmation: formData.confirmPassword,
           phone_number: formData.phone,
           location: formData.location,
-          ndis_number: formData.ndisNumber,
-          support_coordinator_name: formData.supportCoordinator,
-          primary_disability: formData.primaryDisability,
-          ndis_goals: formData.goals,
         };
         await dispatch(registerParticipant(payload)).unwrap();
       }

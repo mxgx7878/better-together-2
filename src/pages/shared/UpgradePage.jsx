@@ -67,37 +67,36 @@ const UpgradePage = () => {
 
   const participantPlans = [
     {
-      name: 'Explore & Connect',
+      name: 'Community Connection',
       price: 0,
       period: '',
       current: !isPaid,
       features: [
         'Home dashboard & Learning Hub',
-        'Connect with Services directory',
-        'Community Message Board',
+        'Provider Directory',
+        '"Looking for Services" board',
         'Events calendar',
-        'Library resources',
+        'Documents & resources',
         'Rights & Safety info',
-        'AI "Ask a Question"',
       ],
       color: 'slate',
     },
     {
-      name: 'Personal Support Plus',
-      price: 200,
+      name: 'Guidance & Advocacy Plus',
+      tagline: '1:1 Coaching, Guidance & Advocacy',
+      price: 350,
       period: '/year',
       current: isPaid,
       popular: true,
       features: [
         'Everything in Free',
-        'Personal Plan Buddy (PPB)',
-        'Personal support inbox',
-        'Optional monthly check-ins',
-        'Draft help for emails & letters',
+        'Check-ins, Planning and Individualised Support',
+        'Help with emails & letters',
+        'Help with understanding NDIS',
         'Peer matching & groups',
         'Advocate & lawyer connections',
         'AAT preparation support',
-        'Priority help requests',
+        'Priority support requests',
         'Extra templates & checklists',
       ],
       color: 'purple',
@@ -161,6 +160,9 @@ const UpgradePage = () => {
             )}
             <div className="text-center mb-5 pt-2">
               <h3 className="text-lg font-bold text-slate-800">{plan.name}</h3>
+              {plan.tagline && (
+                <p className="text-xs text-purple-600 font-medium mt-1">{plan.tagline}</p>
+              )}
               <div className="mt-2">
                 <span className="text-4xl font-extrabold text-slate-900">
                   {plan.price === 0 ? 'Free' : `$${plan.price}`}

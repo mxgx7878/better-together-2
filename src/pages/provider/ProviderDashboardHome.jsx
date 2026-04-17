@@ -21,28 +21,27 @@ const ProviderDashboardHome = () => {
   const { user, isPaid } = useAuth();
 
   const freeTiles = [
+    { label: 'Business Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/provider/directory',    desc: 'Name & location preview',     color: 'from-blue-500 to-cyan-600' },
+    { label: 'Job Board',           icon: <Briefcase className="w-6 h-6 text-white" />, path: '/provider/jobs',         desc: 'Post free job ads',           color: 'from-amber-500 to-orange-600' },
     { label: 'Events & Networking', icon: <Calendar className="w-6 h-6 text-white" />, path: '/provider/events',       desc: 'Discover events & connect',  color: 'from-violet-500 to-purple-600' },
-    { label: 'Provider Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/provider/directory',    desc: 'Find local providers',        color: 'from-blue-500 to-cyan-600' },
     { label: 'Innovation Lab',      icon: <Lightbulb className="w-6 h-6 text-white" />, path: '/provider/innovation-lab',desc: 'Training & resources',       color: 'from-amber-500 to-orange-600' },
-    { label: 'Library',             icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/library',      desc: 'Documents & guides',          color: 'from-emerald-500 to-teal-600' },
-    { label: 'Q&A Forum',           icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/provider/qa',           desc: 'Ask & learn',                 color: 'from-pink-500 to-rose-600' },
-    { label: 'AI Support',          icon: <Bot className="w-6 h-6 text-white" />, path: '/provider/ai-support',   desc: 'Instant NDIS help',           color: 'from-indigo-500 to-blue-600' },
-    { label: 'Update Subscription', icon: <Star className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Unlock premium tools',        color: 'from-yellow-500 to-amber-600' },
+    { label: 'Learning Hub',        icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/learning',     desc: 'Guides & modules',            color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q & A',               icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/provider/qa',           desc: 'Ask & learn',                 color: 'from-pink-500 to-rose-600' },
+    { label: 'Documents',           icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/documents',    desc: 'Resources & templates',       color: 'from-cyan-500 to-blue-600' },
+    { label: 'Upgrade Subscription',icon: <Star className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Unlock premium tools',        color: 'from-yellow-500 to-amber-600' },
     { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/provider/admin-support',desc: 'Get help & support',         color: 'from-slate-500 to-slate-700' },
   ];
 
   const paidTiles = [
-    { label: 'Service Requests',    icon: <Inbox className="w-6 h-6 text-white" />, path: '/provider/requests',     desc: 'Referrals & enquiries',      color: 'from-violet-500 to-purple-600', badge: '3' },
-    { label: 'Events & Networking', icon: <Calendar className="w-6 h-6 text-white" />, path: '/provider/events',       desc: 'Events & sponsorship',       color: 'from-blue-500 to-cyan-600' },
-    { label: 'Provider Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/provider/directory',    desc: 'Find & collaborate',         color: 'from-teal-500 to-emerald-600' },
+    { label: 'Business Directory',  icon: <Search className="w-6 h-6 text-white" />, path: '/provider/directory',    desc: 'Full details & team',         color: 'from-teal-500 to-emerald-600' },
     { label: 'Job Board',           icon: <Briefcase className="w-6 h-6 text-white" />, path: '/provider/jobs',         desc: 'Post & manage jobs',         color: 'from-amber-500 to-orange-600' },
+    { label: 'Events & Networking', icon: <Calendar className="w-6 h-6 text-white" />, path: '/provider/events',       desc: 'Events & sponsorship',       color: 'from-blue-500 to-cyan-600' },
     { label: 'Innovation Lab',      icon: <Lightbulb className="w-6 h-6 text-white" />, path: '/provider/innovation-lab',desc: 'Training & development',    color: 'from-pink-500 to-rose-600' },
-    { label: 'Library',             icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/library',      desc: 'Documents & templates',      color: 'from-emerald-500 to-teal-600' },
-    { label: 'Q&A Forum',           icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/provider/qa',           desc: 'Provider discussions',       color: 'from-indigo-500 to-blue-600' },
-    { label: 'Marketing',           icon: <Megaphone className="w-6 h-6 text-white" />, path: '/provider/marketing',    desc: 'Boost your visibility',      color: 'from-red-500 to-pink-600' },
-    { label: 'AI Support',          icon: <Bot className="w-6 h-6 text-white" />, path: '/provider/ai-support',   desc: 'AI-powered assistant',       color: 'from-purple-500 to-indigo-600' },
-    { label: 'Update Subscription', icon: <Settings className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Manage your plan',           color: 'from-slate-500 to-slate-700' },
-    { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/provider/admin-support',desc: 'Support & feedback',        color: 'from-gray-600 to-gray-800' },
+    { label: 'Learning Hub',        icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/learning',     desc: 'Courses & modules',           color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q & A',               icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/provider/qa',           desc: 'Provider discussions',       color: 'from-indigo-500 to-blue-600' },
+    { label: 'Documents',           icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/documents',    desc: 'Resources & templates',       color: 'from-cyan-500 to-blue-600' },
+    { label: 'Upgrade Subscription',icon: <Star className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Manage your plan',            color: 'from-yellow-500 to-amber-600' },
+    { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/provider/admin-support',desc: 'Support & feedback',          color: 'from-gray-600 to-gray-800' },
   ];
 
   const tiles = isPaid ? paidTiles : freeTiles;
@@ -352,17 +351,6 @@ function FeaturedPartnersRibbon() {
             </div>
           </div>
         </div>
-      </div>
- 
-      {/* Footer CTA */}
-      <div className="flex items-center justify-center gap-2 mt-2.5">
-        <span className="text-[11px] text-slate-400">Want your logo here?</span>
-        <Link
-          to="/provider/marketing"
-          className="text-[11px] font-semibold text-purple-600 hover:text-purple-800 transition-colors"
-        >
-          Add Marketing add-on →
-        </Link>
       </div>
  
     </div>

@@ -7,26 +7,26 @@ const ParticipantDashboardHome = () => {
 
   // Free participant tiles
   const freeTiles = [
+    { label: 'Provider Directory', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Browse paid providers', color: 'from-violet-500 to-purple-600' },
+    { label: 'Looking for Services', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/looking-for-services', desc: 'Post what you need', color: 'from-emerald-500 to-teal-600' },
     { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Connect with Services', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Find local providers', color: 'from-violet-500 to-purple-600' },
-    { label: 'Job Board', icon: <Briefcase className="w-6 h-6 text-white" />, path: '/participant/jobs', desc: 'Employment opportunities', color: 'from-amber-500 to-orange-600' },
-    { label: 'Message Board', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/messages', desc: 'Community discussions', color: 'from-emerald-500 to-teal-600' },
+    { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Community questions', color: 'from-indigo-500 to-blue-600' },
+    { label: 'Documents', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
     { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
-    { label: 'Library', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/library', desc: 'Resources & documents', color: 'from-cyan-500 to-blue-600' },
     { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
+    { label: 'Upgrade Plan', icon: <Star className="w-6 h-6 text-white" />, path: '/participant/upgrade', desc: 'Get a Buddy', color: 'from-yellow-500 to-amber-600' },
     { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & support', color: 'from-slate-500 to-slate-700' },
-    { label: 'Upgrade Subscription', icon: <Star className="w-6 h-6 text-white" />, path: '/participant/upgrade', desc: 'Get a Plan Buddy', color: 'from-yellow-500 to-amber-600' },
   ];
 
   // Paid participant tiles
   const paidTiles = [
-    { label: 'My Plan Buddy', icon: <Heart className="w-6 h-6 text-white" />, path: '/participant/plan-buddy', desc: 'Your personal support', color: 'from-rose-500 to-pink-600', highlight: true },
+    { label: "Your Buddy's Profile", icon: <Heart className="w-6 h-6 text-white" />, path: '/participant/plan-buddy', desc: 'Your personal support', color: 'from-rose-500 to-pink-600', highlight: true },
+    { label: 'Provider Directory', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Browse paid providers', color: 'from-violet-500 to-purple-600' },
+    { label: 'Looking for Services', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/looking-for-services', desc: 'Post what you need', color: 'from-emerald-500 to-teal-600' },
     { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Connect with Services', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Find & bookmark providers', color: 'from-violet-500 to-purple-600' },
-    { label: 'Message Board', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/messages', desc: 'Community discussions', color: 'from-emerald-500 to-teal-600' },
-    { label: 'Job Board', icon: <Briefcase className="w-6 h-6 text-white" />, path: '/participant/jobs', desc: 'Employment opportunities', color: 'from-amber-500 to-orange-600' },
+    { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Community questions', color: 'from-indigo-500 to-blue-600' },
+    { label: 'Documents', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
     { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
-    { label: 'Library', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/library', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
     { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
     { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & feedback', color: 'from-slate-500 to-slate-700' },
   ];

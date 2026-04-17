@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Sprout, TrendingUp, Star, Handshake, Compass, Shield, Sparkles, Building2, Users } from 'lucide-react';
+import { Sprout, TrendingUp, Star, Handshake, Shield, Sparkles, Building2, Users } from 'lucide-react';
 
 const SubscriptionPage = () => {
   const navigate = useNavigate();
@@ -79,9 +79,10 @@ const SubscriptionPage = () => {
       name: 'Community Connection',
       tagline: 'Free Tier',
       price: 0,
+      priceLabel: '/month',
       description: 'Stay connected with your local disability community and access trusted providers when you need them',
       features: [
-        { text: 'Access to message board to connect with local providers', included: true },
+        { text: 'Access to "Looking for Services" to connect with local providers', included: true },
         { text: 'Ability to post support needs or service requests', included: true },
         { text: 'Updates on community events, workshops, and opportunities', included: true },
         { text: 'A safe space to ask questions and learn from others', included: true },
@@ -97,10 +98,11 @@ const SubscriptionPage = () => {
       color: 'green',
     },
     {
-      name: 'Guidance & Support',
-      tagline: 'Personalized Help',
-      price: 29,
-      description: 'For people who want more personalised help navigating the disability services and understanding their rights, options, and pathways',
+      name: 'Guidance & Advocacy Plus',
+      tagline: 'Complete Support',
+      price: 350,
+      priceLabel: '/year',
+      description: 'For participants and families who want deeper support, especially when things become complex or overwhelming',
       features: [
         { text: 'Everything in Community Connection', included: true, bold: true },
         { text: 'Direct connection with disability services-experienced advocates', included: true },
@@ -108,36 +110,18 @@ const SubscriptionPage = () => {
         { text: 'Access to experts who can explain disability services rules clearly', included: true },
         { text: 'Practical advice for plan meetings and reviews', included: true },
         { text: 'Priority access to providers matching your needs', included: true },
-        { text: 'Access to legal teams', included: false },
-        { text: 'AAT training and workshops', included: false },
-      ],
-      buttonText: 'Get Guidance',
-      buttonStyle: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700',
-      highlight: true,
-      icon: <Compass className="w-10 h-10 text-blue-600" />,
-      color: 'blue',
-      badge: 'RECOMMENDED',
-    },
-    {
-      name: 'Empowerment & Advocacy Plus',
-      tagline: 'Complete Support',
-      price: 49,
-      description: 'For participants and families who want deeper support, especially when things become complex or overwhelming',
-      features: [
-        { text: 'Everything in Guidance & Support', included: true, bold: true },
         { text: 'Connection with legal teams who understand disability services matters', included: true },
         { text: 'Access to AAT training, workshops, and resources', included: true },
         { text: 'Guidance from advocates on your rights and options', included: true },
         { text: 'Support to make complex processes less intimidating', included: true },
         { text: 'Priority matching with trusted, reputable providers', included: true },
-        { text: 'Quarterly check-ins with support coordinators', included: true },
-        { text: 'Emergency support line access', included: true },
       ],
       buttonText: 'Get Full Support',
       buttonStyle: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
-      highlight: false,
+      highlight: true,
       icon: <Shield className="w-10 h-10 text-purple-600" />,
       color: 'purple',
+      badge: 'RECOMMENDED',
     },
   ];
 
@@ -155,15 +139,15 @@ const SubscriptionPage = () => {
   ];
 
   const participantComparison = [
-    { feature: 'Access to message & job board', tier1: '✓', tier2: '✓', tier3: '✓' },
-    { feature: 'Connect with local providers', tier1: '✓', tier2: '✓', tier3: '✓ (priority)' },
-    { feature: 'Community updates & events', tier1: '✓', tier2: '✓', tier3: '✓' },
-    { feature: 'Help understanding your disability services plan', tier1: '—', tier2: '✓', tier3: '✓' },
-    { feature: 'Guidance through reviews & processes', tier1: '—', tier2: '✓', tier3: '✓' },
-    { feature: 'Access to advocates & disability services support', tier1: '—', tier2: '✓', tier3: '✓' },
-    { feature: 'Access to legal teams (AAT support)', tier1: '—', tier2: '—', tier3: '✓' },
-    { feature: 'Training & resources for complex processes', tier1: '—', tier2: '—', tier3: '✓' },
-    { feature: 'Enhanced support & guidance', tier1: '—', tier2: '✓', tier3: '✓ (highest)' },
+    { feature: 'Access to "Looking for Services"', tier1: '✓', tier2: '✓' },
+    { feature: 'Connect with local providers', tier1: '✓', tier2: '✓ (priority)' },
+    { feature: 'Community updates & events', tier1: '✓', tier2: '✓' },
+    { feature: 'Help understanding your disability services plan', tier1: '—', tier2: '✓' },
+    { feature: 'Guidance through reviews & processes', tier1: '—', tier2: '✓' },
+    { feature: 'Access to advocates & disability services support', tier1: '—', tier2: '✓' },
+    { feature: 'Access to legal teams (AAT support)', tier1: '—', tier2: '✓' },
+    { feature: 'Training & resources for complex processes', tier1: '—', tier2: '✓' },
+    { feature: 'Your Buddy — a personal plan coach', tier1: '—', tier2: '✓' },
   ];
 
   const faqs = [
@@ -256,7 +240,7 @@ const SubscriptionPage = () => {
       {/* Pricing Cards */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className={`grid gap-8 ${activeTab === 'provider' ? 'lg:grid-cols-3' : 'md:grid-cols-2 max-w-4xl mx-auto'}`}>
             {(activeTab === 'provider' ? providerPlans : participantPlans).map((plan, index) => (
               <div
                 key={index}
@@ -288,7 +272,7 @@ const SubscriptionPage = () => {
                     <span className="text-5xl font-extrabold text-gray-900">
                       ${plan.price}
                     </span>
-                    <span className="text-xl text-gray-600 ml-2">/month</span>
+                    <span className="text-xl text-gray-600 ml-2">{plan.priceLabel || '/month'}</span>
                   </div>
                   
                   <p className="text-gray-600">{plan.description}</p>
@@ -346,11 +330,11 @@ const SubscriptionPage = () => {
                       <div className="text-xs font-normal mt-1">(Free)</div>
                     </th>
                     <th className="px-6 py-4 text-center font-bold">
-                      {activeTab === 'provider' ? 'Growth & Referral' : 'Guidance & Support'}
+                      {activeTab === 'provider' ? 'Growth & Referral' : 'Guidance & Advocacy Plus'}
                     </th>
-                    <th className="px-6 py-4 text-center font-bold">
-                      {activeTab === 'provider' ? 'Premium Visibility' : 'Empowerment & Advocacy'}
-                    </th>
+                    {activeTab === 'provider' && (
+                      <th className="px-6 py-4 text-center font-bold">Premium Visibility</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -359,7 +343,9 @@ const SubscriptionPage = () => {
                       <td className="px-6 py-4 font-medium text-gray-900">{item.feature}</td>
                       <td className="px-6 py-4 text-center text-gray-600">{item.tier1}</td>
                       <td className="px-6 py-4 text-center text-purple-600 font-semibold">{item.tier2}</td>
-                      <td className="px-6 py-4 text-center text-orange-600 font-semibold">{item.tier3}</td>
+                      {activeTab === 'provider' && (
+                        <td className="px-6 py-4 text-center text-orange-600 font-semibold">{item.tier3}</td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
