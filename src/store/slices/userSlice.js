@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  updateProfile,
   adminFetchUsers,
   adminFetchUser,
   adminToggleUserStatus,
@@ -17,6 +18,7 @@ const userSlice = createSlice({
     error: null,
     selectedUser: null,
     selectedUserStatus: ASYNC_STATUS.IDLE,
+    profileUpdateStatus: ASYNC_STATUS.IDLE,
   },
   reducers: {
     clearSelectedUser(state) {
@@ -67,6 +69,18 @@ const userSlice = createSlice({
         state.selectedUser = { ...state.selectedUser, ...payload };
       }
     });
+
+    // ─── Update own profile ─────────────────────────────────────
+    builder
+      .addCase(updateProfile.pending, (state) => {
+        state.profileUpdateStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(updateProfile.fulfilled, (state) => {
+        state.profileUpdateStatus = ASYNC_STATUS.SUCCEEDED;
+      })
+      .addCase(updateProfile.rejected, (state) => {
+        state.profileUpdateStatus = ASYNC_STATUS.FAILED;
+      });
   },
 });
 

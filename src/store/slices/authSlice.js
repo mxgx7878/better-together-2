@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, logoutUser, checkAuth, updateProfile } from '../actions/authActions';
+import { loginUser, logoutUser, checkAuth } from '../actions/authActions';
+import { updateProfile } from '../actions/userActions';
 import { ASYNC_STATUS } from '../../constants';
 
 

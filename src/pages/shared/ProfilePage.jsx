@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAuth } from '../../hooks/useAuth';
-import { updateProfile } from '../../store/actions/authActions';
+import { updateProfile } from '../../store/actions/userActions';
 import { CheckCircle, Handshake } from 'lucide-react';
 
 const serviceCategories = [
@@ -22,7 +22,8 @@ const ProfilePage = () => {
 
   const [activeTab, setActiveTab] = useState('details');
   const [formData, setFormData] = useState({
-    name: user?.name || '',
+    firstName: user?.first_name || (user?.name ? user.name.split(' ')[0] : ''),
+    lastName: user?.last_name || (user?.name ? user.name.split(' ').slice(1).join(' ') : ''),
     email: user?.email || '',
     phone: user?.phone_number || user?.phone || '',
     location: user?.location || '',
@@ -47,7 +48,8 @@ const ProfilePage = () => {
     setSaveStatus('saving');
     const payload = isProvider
       ? {
-          name: formData.name,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
           email: formData.email,
           phone_number: formData.phone,
           location: formData.location,
@@ -60,7 +62,8 @@ const ProfilePage = () => {
           open_to_collab: formData.openToCollab,
         }
       : {
-          name: formData.name,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
           email: formData.email,
           phone_number: formData.phone,
           location: formData.location,
@@ -169,7 +172,8 @@ const ProfilePage = () => {
         {activeTab === 'details' && (
           <div className="space-y-6">
             <div className="grid sm:grid-cols-2 gap-5">
-              <InputField label={isProvider ? 'Contact Name' : 'Full Name'} value={formData.name} onChange={v => setFormData(p => ({ ...p, name: v }))} />
+              <InputField label="First Name" value={formData.firstName} onChange={v => setFormData(p => ({ ...p, firstName: v }))} />
+              <InputField label="Last Name" value={formData.lastName} onChange={v => setFormData(p => ({ ...p, lastName: v }))} />
               <InputField label="Email" type="email" value={formData.email} onChange={v => setFormData(p => ({ ...p, email: v }))} />
               <InputField label="Phone" value={formData.phone} onChange={v => setFormData(p => ({ ...p, phone: v }))} />
               <InputField label="Location" value={formData.location} onChange={v => setFormData(p => ({ ...p, location: v }))} />
