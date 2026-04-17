@@ -2,7 +2,7 @@
 
 A modern, responsive public-facing website for  conn ecting NDIS participants with service providers. Built with React and Tailwind CSS.
  
-## Features 
+## Features  
  
 ### Pages Implemented  
 
