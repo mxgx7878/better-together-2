@@ -232,11 +232,11 @@ const DashboardSidebar = ({ isCollapsed, isMobile, onToggle, onMobileClose }) =>
       <div className="border-t border-white/10 p-3 flex-shrink-0">
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors text-sm ${collapsed ? 'justify-center px-0' : ''}`}
+          className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors  ${collapsed ? 'justify-center px-0' : ''}`}
           title="Logout"
         >
           <LogOut className="w-5 h-5 flex-shrink-0" />
-          {!collapsed && <span>Logout</span>}
+          {!collapsed && <span className='text-xl'>Logout</span>}
         </button>
       </div>
     </aside>

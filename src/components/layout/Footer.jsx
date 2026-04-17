@@ -47,12 +47,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { to: '/', label: 'Home' },
+                { to: '/about', label: 'About Us' },
                 { to: '/what-we-do', label: 'What We Do' },
                 { to: '/subscription', label: 'Subscription Plans' },
                 { to: '/business-directory', label: 'Business Directory' },
                 { to: '/calendar', label: 'Calendar' },
                 { to: '/blog', label: 'Blog' },
-                { to: '/about', label: 'Who We are' },
                 { to: '/contact', label: 'Contact' },
               ].map((link) => (
                 <li key={link.to}>
