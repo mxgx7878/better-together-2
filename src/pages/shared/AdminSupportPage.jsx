@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import usePendingGuard from '../../hooks/usePendingGuard';
 import { CheckCircle } from 'lucide-react';
 
 const faqItems = [
@@ -13,6 +14,7 @@ const faqItems = [
 
 const AdminSupportPage = () => {
   const { user, isProvider } = useAuth();
+  const { guardAction } = usePendingGuard();
   const [expandedFaq, setExpandedFaq] = useState(null);
   const [contactType, setContactType] = useState('general');
   const [submitted, setSubmitted] = useState(false);
@@ -124,7 +126,7 @@ const AdminSupportPage = () => {
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Message</label>
               <textarea rows={4} placeholder="Tell us how we can help..." className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-purple-400 resize-none" />
             </div>
-            <button onClick={handleSubmit} className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl shadow-md transition-all">
+            <button onClick={guardAction(handleSubmit)} className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl shadow-md transition-all">
               Send Message
             </button>
           </div>

@@ -9,6 +9,7 @@ import {
 import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { ASYNC_STATUS } from "../../constants";
 import { checkAuth } from "../../store/actions/authActions";
+import PendingGuardButton from "../../components/common/PendingGuardButton";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -164,7 +165,7 @@ const ProfilePage = () => {
             Manage your account details and preferences
           </p>
         </div>
-        <button
+        <PendingGuardButton
           onClick={handleSave}
           disabled={saving}
           className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-60 flex items-center gap-2"
@@ -199,7 +200,7 @@ const ProfilePage = () => {
           ) : (
             "Save Changes"
           )}
-        </button>
+        </PendingGuardButton>
       </div>
 
       {/* Avatar & Completion */}

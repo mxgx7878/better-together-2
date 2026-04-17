@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { useAuth } from "../../hooks/useAuth";
+import usePendingGuard from "../../hooks/usePendingGuard";
 import { Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -32,6 +33,7 @@ const ITEMS_PER_PAGE = 6;
 
 const EventsPage = () => {
   const { isProvider, isPaid } = useAuth();
+  const { guardAction } = usePendingGuard();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -335,7 +337,7 @@ const EventsPage = () => {
                           </h3>
                         </div>
                         <button
-                          onClick={() => toggleRsvp(event.id)}
+                          onClick={guardAction(() => toggleRsvp(event.id))}
                           disabled={rsvpLoading[event.id]}
                           className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50 ${
                             rsvps[event.id]
