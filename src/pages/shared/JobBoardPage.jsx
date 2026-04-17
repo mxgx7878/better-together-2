@@ -58,7 +58,8 @@ const JobBoardPage = () => {
     contact_phone: user?.phone_number || "",
   });
 
-  // Ask the server to pre-filter when possible.
+  // Ask the server to pre-filter. Filtering happens server-side only;
+  // we render whatever the backend returns.
   useEffect(() => {
     const params = {};
     if (tab === "matching" && hasCategories) {
@@ -66,16 +67,6 @@ const JobBoardPage = () => {
     }
     dispatch(fetchServiceRequests(params));
   }, [dispatch, tab, hasCategories]);
-
-  // Client-side fallback filter (if server ignores matches_my_categories).
-  const visible = useMemo(() => {
-    if (tab !== "matching" || !hasCategories) return list;
-    return list.filter((r) =>
-      r.category_id
-        ? providerCategoryIds.includes(r.category_id)
-        : false,
-    );
-  }, [list, tab, providerCategoryIds, hasCategories]);
 
   const openReply = (requestId) => {
     setReplyingTo(requestId);
@@ -202,11 +193,11 @@ const JobBoardPage = () => {
       )}
 
       {/* Requests list */}
-      {loading && visible.length === 0 ? (
+      {loading && list.length === 0 ? (
         <div className="flex justify-center py-16">
           <Loader2 className="w-6 h-6 text-purple-500 animate-spin" />
         </div>
-      ) : visible.length === 0 ? (
+      ) : list.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
           <p className="text-slate-500 text-sm">
             {tab === "matching"
@@ -216,7 +207,7 @@ const JobBoardPage = () => {
         </div>
       ) : (
         <div className="space-y-4">
-          {visible.map((post) => {
+          {list.map((post) => {
             const isOpen = expanded === post.id;
             const isClosed = post.status === "closed";
             const replies = post.replies || [];
