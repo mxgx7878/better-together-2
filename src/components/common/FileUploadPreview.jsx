@@ -49,10 +49,10 @@ const FileUploadPreview = ({
   const handleFile = async (file) => {
     if (!file || disabled) return;
 
-    if (file.size > maxSizeMb * 1024 * 1024) {
-      toast.error(`File too large. Max ${maxSizeMb}MB.`);
-      return;
-    }
+    // if (file.size > maxSizeMb * 1024 * 1024) {
+    //   toast.error(`File too large. Max ${maxSizeMb}MB.`);
+    //   return;
+    // }
 
     // Show local preview immediately for snappy UX
     const blobUrl = URL.createObjectURL(file);
@@ -62,8 +62,12 @@ const FileUploadPreview = ({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("filename", file.name);
+      formData.append("content_type", file.type || "application/octet-stream");
+      formData.append("size", file.size);
+
       const res = await api.post(uploadPath, formData);
-      const url = res?.data?.url || res?.url;
+      const url = res?.data?.url || res?.public_url;
       if (!url) throw new Error("No URL returned from upload");
       onChange?.(url);
       toast.success("File uploaded");
@@ -102,11 +106,17 @@ const FileUploadPreview = ({
             <div
               onClick={() => !disabled && inputRef.current?.click()}
               className={`w-20 h-20 rounded-full overflow-hidden bg-slate-100 border-2 border-slate-200 flex items-center justify-center ${
-                disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer hover:border-purple-400"
+                disabled
+                  ? "opacity-60 cursor-not-allowed"
+                  : "cursor-pointer hover:border-purple-400"
               }`}
             >
               {previewUrl ? (
-                <img src={previewUrl} alt="" className="w-full h-full object-cover" />
+                <img
+                  src={previewUrl}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <ImageIcon className="w-7 h-7 text-slate-400" />
               )}
@@ -206,7 +216,8 @@ const FileUploadPreview = ({
             <Upload className="w-7 h-7 text-slate-400 mx-auto mb-2" />
             <p className="text-sm font-medium text-slate-600">{placeholder}</p>
             <p className="text-xs text-slate-400 mt-1">
-              {accept === "image/*" ? "PNG, JPG, GIF" : "Any file"} · Max {maxSizeMb}MB
+              {accept === "image/*" ? "PNG, JPG, GIF" : "Any file"} · Max{" "}
+              {maxSizeMb}MB
             </p>
           </div>
         )}

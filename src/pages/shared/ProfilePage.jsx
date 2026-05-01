@@ -415,7 +415,7 @@ const ProfilePage = () => {
                   value={formData.organization_logo}
                   onChange={(url) => set("organization_logo", url)}
                   placeholder="Upload organisation logo"
-                  maxSizeMb={2}
+                  // maxSizeMb={2}
                 />
               </div>
             )}

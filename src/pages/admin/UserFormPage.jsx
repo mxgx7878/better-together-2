@@ -469,7 +469,7 @@ const UserFormPage = () => {
                     setForm((prev) => ({ ...prev, organization_logo: url }))
                   }
                   placeholder="Upload organisation logo"
-                  maxSizeMb={2}
+                  // maxSizeMb={2}
                 />
 
                 <Checkbox
