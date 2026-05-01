@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Trophy, Target, ClipboardList, Heart, TrendingUp, Laptop, FileText, Video, FolderOpen, Mic } from 'lucide-react';
+import FeatureGate from "../../components/common/FeatureGate";
 
 const categories = [
   { id: 'practice', label: 'Practice Excellence', icon: Trophy, color: 'from-purple-500 to-indigo-600', items: [
@@ -50,6 +51,7 @@ const InnovationLabPage = () => {
   const searchResults = search.length > 1 ? allItems.filter(i => i.title.toLowerCase().includes(search.toLowerCase())) : [];
 
   return (
+     <FeatureGate featureName="Innovation Lab">
     <div className="max-w-5xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-slate-800">Innovation Lab</h1>
@@ -138,6 +140,7 @@ const InnovationLabPage = () => {
         })}
       </div>
     </div>
+    </FeatureGate>
   );
 };
 

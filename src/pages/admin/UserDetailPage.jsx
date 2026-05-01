@@ -31,6 +31,8 @@ import {
 } from "../../store/actions/userActions";
 import { clearSelectedUser } from "../../store/slices/userSlice";
 import { ASYNC_STATUS } from "../../constants";
+import Checkbox from "../../components/common/Checkbox";
+import ProviderBadges from "../../components/common/ProviderBadges";
 
 const InfoRow = ({ icon: Icon, label, value }) => {
   if (!value && value !== 0) return null;
@@ -71,24 +73,47 @@ const roleMeta = {
 
 const statusConfig = {
   approved: {
-    heroBg: "bg-emerald-400/20", heroText: "text-emerald-50", heroBorder: "border-emerald-300/30", dot: "bg-emerald-400",
-    cardBg: "bg-emerald-50", cardText: "text-emerald-700", cardBorder: "border-emerald-200",
+    heroBg: "bg-emerald-400/20",
+    heroText: "text-emerald-50",
+    heroBorder: "border-emerald-300/30",
+    dot: "bg-emerald-400",
+    cardBg: "bg-emerald-50",
+    cardText: "text-emerald-700",
+    cardBorder: "border-emerald-200",
     description: "This user is approved and has full access to the platform.",
   },
   pending: {
-    heroBg: "bg-amber-400/20", heroText: "text-amber-50", heroBorder: "border-amber-300/30", dot: "bg-amber-400",
-    cardBg: "bg-amber-50", cardText: "text-amber-700", cardBorder: "border-amber-200",
-    description: "New registration — waiting for admin approval before this user can access the platform.",
+    heroBg: "bg-amber-400/20",
+    heroText: "text-amber-50",
+    heroBorder: "border-amber-300/30",
+    dot: "bg-amber-400",
+    cardBg: "bg-amber-50",
+    cardText: "text-amber-700",
+    cardBorder: "border-amber-200",
+    description:
+      "New registration — waiting for admin approval before this user can access the platform.",
   },
   rejected: {
-    heroBg: "bg-rose-400/20", heroText: "text-rose-50", heroBorder: "border-rose-300/30", dot: "bg-rose-400",
-    cardBg: "bg-rose-50", cardText: "text-rose-700", cardBorder: "border-rose-200",
-    description: "This user's registration was rejected. You can still approve them if needed.",
+    heroBg: "bg-rose-400/20",
+    heroText: "text-rose-50",
+    heroBorder: "border-rose-300/30",
+    dot: "bg-rose-400",
+    cardBg: "bg-rose-50",
+    cardText: "text-rose-700",
+    cardBorder: "border-rose-200",
+    description:
+      "This user's registration was rejected. You can still approve them if needed.",
   },
   suspended: {
-    heroBg: "bg-red-400/20", heroText: "text-red-50", heroBorder: "border-red-300/30", dot: "bg-red-400",
-    cardBg: "bg-red-50", cardText: "text-red-700", cardBorder: "border-red-200",
-    description: "This user is suspended and cannot access the platform. You can re-approve them.",
+    heroBg: "bg-red-400/20",
+    heroText: "text-red-50",
+    heroBorder: "border-red-300/30",
+    dot: "bg-red-400",
+    cardBg: "bg-red-50",
+    cardText: "text-red-700",
+    cardBorder: "border-red-200",
+    description:
+      "This user is suspended and cannot access the platform. You can re-approve them.",
   },
 };
 
@@ -97,9 +122,7 @@ const UserDetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { selectedUser: user, selectedUserStatus } = useSelector(
-    (s) => s.user,
-  );
+  const { selectedUser: user, selectedUserStatus } = useSelector((s) => s.user);
   const loading = selectedUserStatus === ASYNC_STATUS.LOADING;
 
   const [actionLoading, setActionLoading] = useState(false);
@@ -245,7 +268,11 @@ const UserDetailPage = () => {
             label="Joined"
             value={
               user.created_at
-                ? new Date(user.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })
+                ? new Date(user.created_at).toLocaleDateString("en-AU", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
                 : null
             }
           />
@@ -254,7 +281,11 @@ const UserDetailPage = () => {
             label="Last Updated"
             value={
               user.updated_at
-                ? new Date(user.updated_at).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })
+                ? new Date(user.updated_at).toLocaleDateString("en-AU", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
                 : null
             }
           />
@@ -268,29 +299,78 @@ const UserDetailPage = () => {
               <Briefcase className="w-4 h-4 text-purple-500" /> Provider Profile
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
-              <InfoRow icon={Building2} label="Organisation Name" value={user.provider_profile.organisation_name} />
-              <InfoRow icon={Hash} label="ABN" value={user.provider_profile.abn} />
+              <InfoRow
+                icon={Building2}
+                label="Organisation Name"
+                value={user.provider_profile.organisation_name}
+              />
+              <InfoRow
+                icon={Hash}
+                label="ABN"
+                value={user.provider_profile.abn}
+              />
               {user.provider_profile.website && (
-                <InfoRow icon={Globe} label="Website" value={user.provider_profile.website} />
+                <InfoRow
+                  icon={Globe}
+                  label="Website"
+                  value={user.provider_profile.website}
+                />
               )}
               <InfoRow
-                icon={user.provider_profile.is_ndis_registered ? CheckCircle2 : XCircle}
+                icon={
+                  user.provider_profile.is_ndis_registered
+                    ? CheckCircle2
+                    : XCircle
+                }
                 label="NDIS Registered"
                 value={user.provider_profile.is_ndis_registered ? "Yes" : "No"}
               />
             </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+              <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <BadgeCheck className="w-4 h-4 text-purple-500" /> Trust Badges
+              </h3>
+
+              <ProviderBadges
+                provider={{
+                  ...user.provider_profile,
+                  is_paid: user.provider_profile?.subscription_tier !== "free",
+                }}
+                size="md"
+                showLabels
+                showInactive
+                className="mb-4"
+              />
+
+              <button
+                onClick={() => navigate(`/admin/users/${user.id}/edit`)}
+                className="text-xs font-semibold text-purple-600 hover:underline inline-flex items-center gap-1"
+              >
+                <Pencil className="w-3 h-3" /> Edit badges
+              </button>
+            </div>
             {user.provider_profile.about_services && (
               <div className="mb-5">
-                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">About Services</p>
-                <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{user.provider_profile.about_services}</p>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                  About Services
+                </p>
+                <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
+                  {user.provider_profile.about_services}
+                </p>
               </div>
             )}
             {user.provider_profile.categories?.length > 0 && (
               <div>
-                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Service Categories</p>
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  Service Categories
+                </p>
                 <div className="flex flex-wrap gap-1.5">
                   {user.provider_profile.categories.map((cat) => (
-                    <span key={cat.id} className="text-xs bg-purple-50 text-purple-700 px-3 py-1 rounded-full font-medium border border-purple-100">
+                    <span
+                      key={cat.id}
+                      className="text-xs bg-purple-50 text-purple-700 px-3 py-1 rounded-full font-medium border border-purple-100"
+                    >
                       {cat.name}
                     </span>
                   ))}
@@ -307,18 +387,40 @@ const UserDetailPage = () => {
               <Heart className="w-4 h-4 text-blue-500" /> Participant Profile
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
-              <InfoRow icon={Hash} label="NDIS Number" value={user.participant_profile.ndis_number} />
-              <InfoRow icon={Heart} label="Primary Disability" value={user.participant_profile.primary_disability} />
-              <InfoRow icon={UsersIcon} label="Support Coordinator" value={user.participant_profile.support_coordinator_name} />
-              <InfoRow icon={Phone} label="Coordinator Phone" value={user.participant_profile.support_coordinator_phone} />
-              <InfoRow icon={Mail} label="Coordinator Email" value={user.participant_profile.support_coordinator_email} />
+              <InfoRow
+                icon={Hash}
+                label="NDIS Number"
+                value={user.participant_profile.ndis_number}
+              />
+              <InfoRow
+                icon={Heart}
+                label="Primary Disability"
+                value={user.participant_profile.primary_disability}
+              />
+              <InfoRow
+                icon={UsersIcon}
+                label="Support Coordinator"
+                value={user.participant_profile.support_coordinator_name}
+              />
+              <InfoRow
+                icon={Phone}
+                label="Coordinator Phone"
+                value={user.participant_profile.support_coordinator_phone}
+              />
+              <InfoRow
+                icon={Mail}
+                label="Coordinator Email"
+                value={user.participant_profile.support_coordinator_email}
+              />
             </div>
             {user.participant_profile.ndis_goals && (
               <div>
                 <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <Target className="w-3 h-3" /> NDIS Goals
                 </p>
-                <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{user.participant_profile.ndis_goals}</p>
+                <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
+                  {user.participant_profile.ndis_goals}
+                </p>
               </div>
             )}
           </div>
@@ -328,14 +430,19 @@ const UserDetailPage = () => {
       {/* ─── Account Status Management ───────────────────────────── */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
         <h2 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <Shield className="w-4 h-4 text-slate-500" /> Account Status Management
+          <Shield className="w-4 h-4 text-slate-500" /> Account Status
+          Management
         </h2>
 
-        <div className={`flex items-center p-4 rounded-xl border mb-5 ${sc.cardBg} ${sc.cardBorder}`}>
+        <div
+          className={`flex items-center p-4 rounded-xl border mb-5 ${sc.cardBg} ${sc.cardBorder}`}
+        >
           <div className="flex items-center gap-3">
             <span className={`w-3 h-3 rounded-full ${sc.dot} flex-shrink-0`} />
             <div>
-              <p className={`text-sm font-semibold capitalize ${sc.cardText}`}>{userStatus}</p>
+              <p className={`text-sm font-semibold capitalize ${sc.cardText}`}>
+                {userStatus}
+              </p>
               <p className="text-xs text-slate-500 mt-0.5">{sc.description}</p>
             </div>
           </div>
@@ -431,7 +538,10 @@ const UserDetailPage = () => {
             </div>
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => { setRejectModal(false); setReason(""); }}
+                onClick={() => {
+                  setRejectModal(false);
+                  setReason("");
+                }}
                 className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
               >
                 Cancel
@@ -456,8 +566,8 @@ const UserDetailPage = () => {
             <h3 className="text-lg font-bold text-slate-800">Suspend User</h3>
             <p className="text-sm text-slate-500">
               <span className="font-semibold text-slate-700">{user.name}</span>{" "}
-              will be suspended and will not be able to access the platform.
-              A reason is required.
+              will be suspended and will not be able to access the platform. A
+              reason is required.
             </p>
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">
@@ -474,7 +584,10 @@ const UserDetailPage = () => {
             </div>
             <div className="flex justify-end gap-3">
               <button
-                onClick={() => { setSuspendModal(false); setReason(""); }}
+                onClick={() => {
+                  setSuspendModal(false);
+                  setReason("");
+                }}
                 className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
               >
                 Cancel

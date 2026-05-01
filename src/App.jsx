@@ -73,6 +73,7 @@ import AdminSupportPage from "./pages/shared/AdminSupportPage";
 import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
 import EventFormPage from "./pages/admin/EventFormPage";
 import EventDetailsPage from "./pages/admin/EventDetailPage";
+import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -149,6 +150,7 @@ function App() {
               path="subscriptions"
               element={<ManageSubscriptionsPage />}
             />
+            <Route path="marketing-ribbon" element={<ManageMarketingRibbonPage />} />
             <Route path="documents" element={<ManageDocumentsPage />} />
             <Route path="learning-hub" element={<ManageLearningHubPage />} />
             <Route

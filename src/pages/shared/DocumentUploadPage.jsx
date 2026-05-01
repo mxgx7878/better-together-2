@@ -90,6 +90,7 @@ const DocumentUploadPage = () => {
   };
 
   return (
+    <FeatureGate featureName="Documents">
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 text-white shadow-lg">
@@ -214,6 +215,7 @@ const DocumentUploadPage = () => {
         )}
       </div>
     </div>
+    </FeatureGate>
   );
 };
 

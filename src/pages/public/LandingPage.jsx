@@ -1,9 +1,18 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import FeaturedPartnersRibbon from "../../components/common/FeaturedPartnersRibbon";
+import { fetchMarketingRibbon } from "../../store/actions/marketingRibbonActions";
 
 const LandingPage3 = () => {
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const dispatch = useDispatch();
+  const sponsors = useSelector((s) => s.marketingRibbon.entries);
+
+  useEffect(() => {
+    dispatch(fetchMarketingRibbon());
+  }, [dispatch]);
 
   // Primary color: Indigo (used consistently throughout)
   const primaryColor = {
@@ -1282,6 +1291,17 @@ const LandingPage3 = () => {
           </div>
         </div>
       </section>
+      {sponsors?.length > 0 && (
+        <section className="bg-white py-10 border-t border-slate-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <FeaturedPartnersRibbon
+              sponsors={sponsors}
+              title="Our Marketing Partners"
+              note="Sponsored providers"
+            />
+          </div>
+        </section>
+      )}
     </div>
   );
 };

@@ -7,10 +7,18 @@ import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { ASYNC_STATUS } from "../../constants";
 import { checkAuth } from "../../store/actions/authActions";
 import PendingGuardButton from "../../components/common/PendingGuardButton";
+import ProviderBadges from "../../components/common/ProviderBadges";
+import InputField from "../../components/common/InputField";
+import Checkbox from "../../components/common/Checkbox";
+import FileUploadPreview from "../../components/common/FileUploadPreview";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user, isProvider, isPaid } = useAuth();
+
+  const isPremium =
+    user?.subscriptionPlan === "Premium Visibility" ||
+    user?.provider_profile?.subscription_tier === "premium";
 
   const profile = user;
   const { saveStatus } = useSelector((s) => s.user);
@@ -44,6 +52,7 @@ const ProfilePage = () => {
       location: profile.location || "",
       // Provider
       organisation_name: pp?.organisation_name || "",
+      organization_logo: pp?.organization_logo || "",
       abn: pp?.abn || "",
       website: pp?.website || "",
       is_ndis_registered: pp?.is_ndis_registered || false,
@@ -83,8 +92,7 @@ const ProfilePage = () => {
     }));
   }, []);
 
-  const set = (key, val) =>
-    setFormData((prev) => ({ ...prev, [key]: val }));
+  const set = (key, val) => setFormData((prev) => ({ ...prev, [key]: val }));
 
   const toggleCategory = useCallback((catId) => {
     setFormData((prev) => ({
@@ -107,6 +115,7 @@ const ProfilePage = () => {
 
     if (isProvider) {
       payload.organisation_name = formData.organisation_name;
+      payload.organization_logo = formData.organization_logo;
       payload.abn = formData.abn;
       payload.website = formData.website;
       payload.is_ndis_registered = formData.is_ndis_registered;
@@ -131,7 +140,7 @@ const ProfilePage = () => {
     ? [
         { key: "details", label: "Business Details" },
         { key: "services", label: "Services & Categories" },
-        ...(isPaid ? [{ key: "reviews", label: "Written Reviews" }] : []),
+        ...(isPremium ? [{ key: "reviews", label: "Written Reviews" }] : []),
         { key: "notifications", label: "Notifications" },
       ]
     : [
@@ -216,6 +225,21 @@ const ProfilePage = () => {
                 ? formData.organisation_name || user?.organisation
                 : formData.location || user?.location}
             </p>
+            {isProvider && (
+              <div className="mt-3">
+                <ProviderBadges
+                  provider={{ ...user.provider_profile, is_paid: isPaid }}
+                  size="md"
+                  showLabels
+                  showInactive={!isPaid}
+                />
+                {!isPaid && (
+                  <p className="text-xs text-slate-400 mt-2">
+                    Upgrade to make these badges visible on your public profile.
+                  </p>
+                )}
+              </div>
+            )}
             <div className="mt-3 flex items-center gap-3">
               <div className="flex-1 max-w-xs h-2 bg-slate-100 rounded-full overflow-hidden">
                 <div
@@ -255,60 +279,67 @@ const ProfilePage = () => {
           <div className="space-y-6">
             <div className="grid sm:grid-cols-2 gap-5">
               <InputField
+                name={"first_name"}
                 label={isProvider ? "Contact First Name" : "First Name"}
                 value={formData.first_name}
-                onChange={(v) => set("first_name", v)}
+                onChange={handleChange}
               />
               <InputField
+                name="last_name"
                 label="Last Name"
                 value={formData.last_name}
-                onChange={(v) => set("last_name", v)}
+                onChange={handleChange}
               />
               <InputField
                 label="Email"
+                name="email"
                 type="email"
                 value={formData.email}
-                onChange={(v) => set("email", v)}
+                onChange={handleChange}
                 disabled
               />
               <InputField
                 label="Phone"
+                name="phone_number"
                 value={formData.phone_number}
-                onChange={(v) => set("phone_number", v)}
+                onChange={handleChange}
               />
               <InputField
                 label="Location"
+                name="location"
                 value={formData.location}
-                onChange={(v) => set("location", v)}
+                onChange={handleChange}
               />
               {isProvider && (
                 <>
                   <InputField
                     label="Organisation Name"
+                    name="organisation_name"
                     value={formData.organisation_name}
-                    onChange={(v) => set("organisation_name", v)}
+                    onChange={handleChange}
                   />
                   <InputField
                     label="ABN"
+                    name="abn"
                     value={formData.abn}
-                    onChange={(v) => set("abn", v)}
+                    onChange={handleChange}
                   />
                   <InputField
                     label="Website"
+                    name="website"
                     value={formData.website}
-                    onChange={(v) => set("website", v)}
+                    onChange={handleChange}
                   />
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1.5">
                       NDIS Registration
                     </label>
                     <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200">
-                      <input
-                        type="checkbox"
+                      <Checkbox
+                        label="NDIS Registered Provider"
                         name="is_ndis_registered"
                         checked={formData.is_ndis_registered}
                         onChange={handleChange}
-                        className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-slate-300 rounded"
                       />
                       <span className="text-sm text-slate-700">
                         NDIS Registered Provider
@@ -321,28 +352,33 @@ const ProfilePage = () => {
                 <>
                   <InputField
                     label="NDIS Number"
+                    name="ndis_number"
                     value={formData.ndis_number}
-                    onChange={(v) => set("ndis_number", v)}
+                    onChange={handleChange}
                   />
                   <InputField
                     label="Primary Disability"
+                    name="primary_disability"
                     value={formData.primary_disability}
-                    onChange={(v) => set("primary_disability", v)}
+                    onChange={handleChange}
                   />
                   <InputField
                     label="Support Coordinator Name"
+                    name="support_coordinator_name"
                     value={formData.support_coordinator_name}
-                    onChange={(v) => set("support_coordinator_name", v)}
+                    onChange={handleChange}
                   />
                   <InputField
                     label="Coordinator Phone"
+                    name="support_coordinator_phone"
                     value={formData.support_coordinator_phone}
-                    onChange={(v) => set("support_coordinator_phone", v)}
+                    onChange={handleChange}
                   />
                   <InputField
                     label="Coordinator Email"
+                    name="support_coordinator_email"
                     value={formData.support_coordinator_email}
-                    onChange={(v) => set("support_coordinator_email", v)}
+                    onChange={handleChange}
                   />
                 </>
               )}
@@ -358,6 +394,14 @@ const ProfilePage = () => {
                   onChange={handleChange}
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm transition-all outline-none resize-none"
+                />
+
+                <FileUploadPreview
+                  label="Organisation Logo"
+                  value={formData.organization_logo}
+                  onChange={(url) => set("organization_logo", url)}
+                  placeholder="Upload organisation logo"
+                  maxSizeMb={2}
                 />
               </div>
             )}
@@ -447,9 +491,7 @@ const ProfilePage = () => {
         )}
 
         {/* ─── Reviews Tab — Paid provider only ──────────────── */}
-        {activeTab === "reviews" && isProvider && isPaid && (
-          <ReviewsTab />
-        )}
+        {activeTab === "reviews" && isProvider && isPaid && <ReviewsTab />}
 
         {/* ─── Notifications Tab ──────────────────────────────── */}
         {activeTab === "notifications" && (
@@ -497,17 +539,14 @@ const ProfilePage = () => {
                       "Platform updates",
                     ]
                 ).map((item) => (
-                  <label
+                  <Checkbox
                     key={item}
-                    className="flex items-center gap-3 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500"
-                    />
-                    <span className="text-sm text-slate-700">{item}</span>
-                  </label>
+                    label={item}
+                    checked={formData.notifyAbout?.[item] ?? true}
+                    onChange={(v) =>
+                      set("notifyAbout", { ...formData.notifyAbout, [item]: v })
+                    }
+                  />
                 ))}
               </div>
             </div>
@@ -518,26 +557,7 @@ const ProfilePage = () => {
   );
 };
 
-function InputField({ label, value, onChange, type = "text", disabled }) {
-  return (
-    <div>
-      <label className="block text-sm font-medium text-slate-700 mb-1.5">
-        {label}
-      </label>
-      <input
-        type={type}
-        value={value || ""}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        className={`w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm transition-all outline-none ${
-          disabled ? "bg-slate-50 text-slate-400 cursor-not-allowed" : ""
-        }`}
-      />
-    </div>
-  );
-}
-
-const MAX_REVIEWS = 5;
+const MAX_REVIEWS = 3;
 const demoReviews = [
   {
     id: 1,
@@ -559,12 +579,17 @@ const demoReviews = [
 
 function ReviewsTab() {
   const [reviews, setReviews] = useState(demoReviews);
-  const [newReview, setNewReview] = useState({ author: "", rating: 5, content: "" });
+  const [newReview, setNewReview] = useState({
+    author: "",
+    rating: 5,
+    content: "",
+  });
 
   const canAdd = reviews.length < MAX_REVIEWS;
 
   const handleAdd = () => {
-    if (!newReview.author.trim() || !newReview.content.trim() || !canAdd) return;
+    if (!newReview.author.trim() || !newReview.content.trim() || !canAdd)
+      return;
     setReviews([
       {
         id: Date.now(),
@@ -585,8 +610,8 @@ function ReviewsTab() {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <p className="text-sm text-slate-600">
-            Written reviews appear on your public profile. Premium providers can
-            feature up to {MAX_REVIEWS} written reviews.
+            Premium Visibility providers can feature up to {MAX_REVIEWS} written
+            reviews on their public profile.
           </p>
           <p className="text-xs text-slate-500 mt-1">
             {reviews.length} of {MAX_REVIEWS} slots used
@@ -603,7 +628,9 @@ function ReviewsTab() {
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-sm font-semibold text-slate-800">{r.author}</p>
+                <p className="text-sm font-semibold text-slate-800">
+                  {r.author}
+                </p>
                 <div className="flex items-center gap-1 mt-0.5">
                   {Array.from({ length: r.rating }).map((_, i) => (
                     <svg

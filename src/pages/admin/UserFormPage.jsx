@@ -16,6 +16,7 @@ import {
   FileText,
   Heart,
   Shield,
+  BadgeCheck,
 } from "lucide-react";
 import {
   adminFetchUser,
@@ -26,6 +27,8 @@ import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { clearSelectedUser } from "../../store/slices/userSlice";
 import { ASYNC_STATUS } from "../../constants";
 import InputField from "../../components/common/InputField";
+import Checkbox from "../../components/common/Checkbox";
+import FileUploadPreview from "../../components/common/FileUploadPreview";
 
 // ─── Form field wrapper ─────────────────────────────────────────
 const Field = ({ label, required, error, children }) => (
@@ -57,11 +60,18 @@ const EMPTY_FORM = {
   location: "",
   // Provider fields
   organisation_name: "",
+  organization_logo: "",
   abn: "",
   website: "",
   is_ndis_registered: false,
   about_services: "",
   categories: [],
+
+  recommended_by_admin: false,
+  checked_by_admin: false,
+  paid_for_marketing: false, // read-only, backend-controlled
+  on_marketing_ribbon: false,
+
   // Participant fields
   ndis_number: "",
   primary_disability: "",
@@ -117,11 +127,16 @@ const UserFormPage = () => {
         location: u.location || "",
         // Provider
         organisation_name: pp?.organisation_name || "",
+        organization_logo: pp?.organization_logo || "",
         abn: pp?.abn || "",
         website: pp?.website || "",
         is_ndis_registered: pp?.is_ndis_registered || false,
         about_services: pp?.about_services || "",
         categories: pp?.categories?.map((c) => c.id) || [],
+        recommended_by_admin: pp?.recommended_by_admin || false,
+        checked_by_admin: pp?.checked_by_admin || false,
+        paid_for_marketing: pp?.paid_for_marketing || false,
+        on_marketing_ribbon: pp?.on_marketing_ribbon || false,
         // Participant
         ndis_number: pa?.ndis_number || "",
         primary_disability: pa?.primary_disability || "",
@@ -207,6 +222,8 @@ const UserFormPage = () => {
       payload.is_ndis_registered = form.is_ndis_registered;
       payload.about_services = form.about_services;
       payload.categories = form.categories;
+      payload.recommended_by_admin = form.recommended_by_admin;
+      payload.checked_by_admin = form.checked_by_admin;
     } else {
       payload.ndis_number = form.ndis_number;
       payload.primary_disability = form.primary_disability;
@@ -437,6 +454,31 @@ const UserFormPage = () => {
                 error={errors.organisation_name}
               />
 
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-5">
+                <h2 className="text-sm font-bold text-slate-700 border-b border-slate-100 pb-3">
+                  Organisation Branding
+                </h2>
+
+                <FileUploadPreview
+                  label="Organisation Logo"
+                  value={form.organization_logo}
+                  onChange={(url) =>
+                    setForm((prev) => ({ ...prev, organization_logo: url }))
+                  }
+                  placeholder="Upload organisation logo"
+                  maxSizeMb={2}
+                />
+
+                <Checkbox
+                  label="Show on Marketing Ribbon"
+                  description="Adds this provider to the scrolling ribbon shown across the platform."
+                  checked={form.on_marketing_ribbon}
+                  onChange={(v) =>
+                    setForm((prev) => ({ ...prev, on_marketing_ribbon: v }))
+                  }
+                />
+              </div>
+
               <div className="grid sm:grid-cols-2 gap-4">
                 <InputField
                   label="ABN"
@@ -457,6 +499,44 @@ const UserFormPage = () => {
                   onChange={handleChange}
                   error={errors.website}
                 />
+              </div>
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-5">
+                <h2 className="text-sm font-bold text-slate-700 border-b border-slate-100 pb-3 flex items-center gap-2">
+                  <BadgeCheck className="w-4 h-4 text-purple-500" /> Trust
+                  Badges
+                </h2>
+                <p className="text-xs text-slate-500 -mt-2">
+                  Manual badges below are toggled by admin. The Marketing tick
+                  is set automatically when the Marketing add-on is active.
+                </p>
+
+                <div className="space-y-3">
+                  <Checkbox
+                    label="Recommended by Admin"
+                    description="Adds the Gold Star badge to this provider's profile."
+                    checked={form.recommended_by_admin}
+                    onChange={(v) =>
+                      setForm((prev) => ({ ...prev, recommended_by_admin: v }))
+                    }
+                  />
+
+                  <Checkbox
+                    label="Checked by Admin"
+                    description="Adds the Smiley badge confirming the business has been reviewed."
+                    checked={form.checked_by_admin}
+                    onChange={(v) =>
+                      setForm((prev) => ({ ...prev, checked_by_admin: v }))
+                    }
+                  />
+
+                  <Checkbox
+                    label="Paid for Marketing (Blue Tick)"
+                    description="Auto-applied when the Marketing add-on is active. Read-only."
+                    checked={form.paid_for_marketing}
+                    onChange={() => {}}
+                    readOnly
+                  />
+                </div>
               </div>
 
               <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200">

@@ -1,7 +1,4 @@
-// Reusable input field with label, icon, and inline error.
-// Kept outside page components so React does not unmount it on every render
-// (which was causing focus loss after each keystroke).
-
+// src/components/common/InputField.jsx
 const InputField = ({
   label,
   name,
@@ -12,6 +9,7 @@ const InputField = ({
   value,
   onChange,
   error,
+  disabled = false,
   className = "",
   ...rest
 }) => {
@@ -38,8 +36,11 @@ const InputField = ({
           value={value ?? ""}
           onChange={onChange}
           placeholder={placeholder}
+          disabled={disabled}
           className={`w-full ${Icon ? "pl-10" : "pl-4"} pr-4 py-3 border-2 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all ${
             error ? "border-red-300 bg-red-50/50" : "border-slate-200"
+          } ${
+            disabled ? "bg-slate-50 text-slate-400 cursor-not-allowed" : ""
           }`}
           {...rest}
         />

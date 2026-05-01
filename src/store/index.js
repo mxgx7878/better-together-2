@@ -8,6 +8,7 @@ import learningReducer from "./slices/learningSlice";
 import subscriptionReducer from "./slices/subscriptionSlice";
 import documentReducer from "./slices/documentSlice";
 import serviceRequestReducer from "./slices/serviceRequestSlice";
+import marketingRibbonReducer from "./slices/marketingRibbonSlice";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     subscription: subscriptionReducer,
     document: documentReducer,
     serviceRequest: serviceRequestReducer,
+    marketingRibbon: marketingRibbonReducer,
   },
 });
 
