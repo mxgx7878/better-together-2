@@ -1,5 +1,6 @@
 import { Building2, Loader2 } from "lucide-react";
 import InputField from "../../../components/common/InputField";
+import SocialLinksField from "../../../components/common/SocialLinksField";
 
 const ProviderDetailsStep = ({
   formData,
@@ -35,14 +36,13 @@ const ProviderDetailsStep = ({
         onChange={onChange}
         error={errors.abn}
       />
-      <InputField
-        label="Website"
-        name="website"
-        type="url"
-        placeholder="https://yoursite.com.au"
-        value={formData.website}
-        onChange={onChange}
-        error={errors.website}
+      <SocialLinksField
+        value={formData.links || []}
+        onChange={(links) =>
+          onChange({ target: { name: "links", value: links, type: "value" } })
+        }
+        label="Website & Social Links"
+        max={6}
       />
     </div>
 

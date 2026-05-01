@@ -214,12 +214,12 @@ const DashboardSidebar = ({
       path: `${basePath}/looking-for-services`,
       tier: "all",
     },
-    {
-      label: "Events",
-      icon: Calendar,
-      path: `${basePath}/events`,
-      tier: "all",
-    },
+    // {
+    //   label: "Events",
+    //   icon: Calendar,
+    //   path: `${basePath}/events`,
+    //   tier: "all",
+    // },
     {
       label: "Rights & Safety",
       icon: Shield,

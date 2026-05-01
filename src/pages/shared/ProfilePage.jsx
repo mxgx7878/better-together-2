@@ -11,6 +11,7 @@ import ProviderBadges from "../../components/common/ProviderBadges";
 import InputField from "../../components/common/InputField";
 import Checkbox from "../../components/common/Checkbox";
 import FileUploadPreview from "../../components/common/FileUploadPreview";
+import SocialLinksField from "../../components/common/SocialLinksField";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,9 @@ const ProfilePage = () => {
       organisation_name: pp?.organisation_name || "",
       organization_logo: pp?.organization_logo || "",
       abn: pp?.abn || "",
-      website: pp?.website || "",
+      links:
+        pp?.links ||
+        (pp?.website ? [{ type: "website", url: pp.website }] : []),
       is_ndis_registered: pp?.is_ndis_registered || false,
       open_to_collab: pp?.open_to_collab || false,
       about_services: pp?.about_services || "",
@@ -117,7 +120,7 @@ const ProfilePage = () => {
       payload.organisation_name = formData.organisation_name;
       payload.organization_logo = formData.organization_logo;
       payload.abn = formData.abn;
-      payload.website = formData.website;
+      payload.links = formData.links;
       payload.is_ndis_registered = formData.is_ndis_registered;
       payload.open_to_collab = formData.open_to_collab;
       payload.about_services = formData.about_services;
@@ -324,12 +327,12 @@ const ProfilePage = () => {
                     value={formData.abn}
                     onChange={handleChange}
                   />
-                  <InputField
+                  {/* <InputField
                     label="Website"
                     name="website"
                     value={formData.website}
                     onChange={handleChange}
-                  />
+                  /> */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1.5">
                       NDIS Registration
@@ -383,6 +386,17 @@ const ProfilePage = () => {
                 </>
               )}
             </div>
+
+            {isProvider && (
+              <div className="border-t border-slate-100 pt-6">
+                <SocialLinksField
+                  value={formData.links}
+                  onChange={(links) => set("links", links)}
+                  label="Website & Social Links"
+                  max={6}
+                />
+              </div>
+            )}
             {isProvider && (
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">

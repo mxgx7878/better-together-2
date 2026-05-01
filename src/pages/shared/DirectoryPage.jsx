@@ -589,19 +589,27 @@ const DirectoryPage = () => {
               {/* Website + team only visible to paid providers */}
               {isProvider && isPaid && (
                 <>
-                  {selectedProvider.website && (
-                    <div>
-                      <h4 className="text-sm font-semibold text-slate-700 mb-2">
-                        Website
-                      </h4>
-                      <a
-                        href={selectedProvider.website}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm text-purple-600 hover:underline"
-                      >
-                        {selectedProvider.website}
-                      </a>
+                  {provider.links?.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {provider.links.map((link, i) => {
+                        const meta =
+                          LINK_TYPES.find((t) => t.value === link.type) ||
+                          LINK_TYPES[0];
+                        const Icon = meta.icon;
+                        return (
+                          <a
+                            key={i}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-purple-50 text-slate-700 hover:text-purple-700 rounded-lg text-xs font-medium transition-colors"
+                            title={meta.label}
+                          >
+                            <Icon className="w-3.5 h-3.5" />
+                            {meta.label}
+                          </a>
+                        );
+                      })}
                     </div>
                   )}
                   {selectedProvider.team &&

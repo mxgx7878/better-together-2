@@ -29,6 +29,7 @@ import { ASYNC_STATUS } from "../../constants";
 import InputField from "../../components/common/InputField";
 import Checkbox from "../../components/common/Checkbox";
 import FileUploadPreview from "../../components/common/FileUploadPreview";
+import SocialLinksField from "../../components/common/SocialLinksField";
 
 // ─── Form field wrapper ─────────────────────────────────────────
 const Field = ({ label, required, error, children }) => (
@@ -62,7 +63,7 @@ const EMPTY_FORM = {
   organisation_name: "",
   organization_logo: "",
   abn: "",
-  website: "",
+  links: [],
   is_ndis_registered: false,
   about_services: "",
   categories: [],
@@ -129,7 +130,9 @@ const UserFormPage = () => {
         organisation_name: pp?.organisation_name || "",
         organization_logo: pp?.organization_logo || "",
         abn: pp?.abn || "",
-        website: pp?.website || "",
+        links:
+          pp?.links ||
+          (pp?.website ? [{ type: "website", url: pp.website }] : []),
         is_ndis_registered: pp?.is_ndis_registered || false,
         about_services: pp?.about_services || "",
         categories: pp?.categories?.map((c) => c.id) || [],
@@ -218,7 +221,7 @@ const UserFormPage = () => {
     if (form.role === "provider") {
       payload.organisation_name = form.organisation_name;
       payload.abn = form.abn;
-      payload.website = form.website;
+      payload.links = form.links;
       payload.is_ndis_registered = form.is_ndis_registered;
       payload.about_services = form.about_services;
       payload.categories = form.categories;
@@ -489,7 +492,13 @@ const UserFormPage = () => {
                   onChange={handleChange}
                   error={errors.abn}
                 />
-                <InputField
+                <SocialLinksField
+                  value={form.links}
+                  onChange={(links) => setForm((prev) => ({ ...prev, links }))}
+                  label="Website & Social Links"
+                  max={6}
+                />
+                {/* <InputField
                   label="Website"
                   name="website"
                   type="url"
@@ -498,7 +507,7 @@ const UserFormPage = () => {
                   value={form.website}
                   onChange={handleChange}
                   error={errors.website}
-                />
+                /> */}
               </div>
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-5">
                 <h2 className="text-sm font-bold text-slate-700 border-b border-slate-100 pb-3 flex items-center gap-2">

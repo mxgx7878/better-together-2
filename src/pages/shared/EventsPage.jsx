@@ -186,7 +186,7 @@ const EventsPage = () => {
             { key: "networking", label: "Networking" },
             { key: "workshop", label: "Workshops" },
             { key: "webinar", label: "Webinars" },
-            { key: "expo", label: "Expos" },
+            // { key: "expo", label: "Expos" },
           ].map((f) => (
             <button
               key={f.key}

@@ -12,7 +12,7 @@ const ParticipantDashboardHome = () => {
     { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
     { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Community questions', color: 'from-indigo-500 to-blue-600' },
     { label: 'Documents', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
-    { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
+    // { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
     { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
     { label: 'Upgrade Plan', icon: <Star className="w-6 h-6 text-white" />, path: '/participant/upgrade', desc: 'Get a Buddy', color: 'from-yellow-500 to-amber-600' },
     { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & support', color: 'from-slate-500 to-slate-700' },
@@ -26,7 +26,7 @@ const ParticipantDashboardHome = () => {
     { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
     { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Community questions', color: 'from-indigo-500 to-blue-600' },
     { label: 'Documents', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
-    { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
+    // { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
     { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
     { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & feedback', color: 'from-slate-500 to-slate-700' },
   ];

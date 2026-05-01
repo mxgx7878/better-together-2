@@ -222,7 +222,7 @@ function App() {
               path="looking-for-services"
               element={<LookingForServicesPage />}
             />
-            <Route path="events" element={<EventsPage />} />
+            {/* <Route path="events" element={<EventsPage />} /> */}
             <Route path="rights-safety" element={<RightsSafetyPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="plan-buddy" element={<PlanBuddyPage />} />
