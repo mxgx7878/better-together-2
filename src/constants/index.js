@@ -8,3 +8,5 @@ export const ASYNC_STATUS = {
   SUCCEEDED: 'succeeded',
   FAILED: 'failed',
 };
+
+export const EVENT_TYPES = ["networking", "workshop", "webinar"];

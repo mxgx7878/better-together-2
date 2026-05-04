@@ -23,10 +23,9 @@ import {
   adminUpdateEvent,
   adminDeleteEvent,
 } from "../../store/actions/eventActions";
-import { ASYNC_STATUS } from "../../constants";
+import { ASYNC_STATUS, EVENT_TYPES } from "../../constants";
 import { useNavigate } from "react-router-dom";
 
-const EVENT_TYPES = ["networking", "workshop", "webinar", "expo"];
 const STATUS_OPTIONS = ["all", "published", "draft"];
 const ITEMS_PER_PAGE = 6;
 

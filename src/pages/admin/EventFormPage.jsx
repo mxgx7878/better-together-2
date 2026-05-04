@@ -13,8 +13,8 @@ import {
   adminUpdateEvent,
   fetchAdminEventById,
 } from "../../store/actions/eventActions";
+import { EVENT_TYPES } from "../../constants";
 
-const EVENT_TYPES = ["networking", "workshop", "webinar", "expo"];
 
 const emptyForm = {
   title: "",

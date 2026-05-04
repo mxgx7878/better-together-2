@@ -16,6 +16,7 @@ import {
   normalizeDocuments,
   resolveFileUrl,
 } from '../../services/documentService';
+import FeatureGate from '../../components/common/FeatureGate';
 
 const typeIconMap = {
   pdf: { Icon: FileText, color: 'text-red-500' },

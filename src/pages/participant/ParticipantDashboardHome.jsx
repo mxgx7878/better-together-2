@@ -1,34 +1,150 @@
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import { BookOpen, Link2, Briefcase, MessageCircle, Calendar, Shield, Mic, Star, Heart, Search, Send, ClipboardList, Scale, Edit, Phone, Settings, Sparkles } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import {
+  BookOpen,
+  Link2,
+  Briefcase,
+  MessageCircle,
+  Calendar,
+  Shield,
+  Mic,
+  Star,
+  Heart,
+  Search,
+  Send,
+  ClipboardList,
+  Scale,
+  Edit,
+  Phone,
+  Settings,
+  Sparkles,
+} from "lucide-react";
 
 const ParticipantDashboardHome = () => {
   const { user, isPaid } = useAuth();
 
   // Free participant tiles
   const freeTiles = [
-    { label: 'Provider Directory', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Browse paid providers', color: 'from-violet-500 to-purple-600' },
-    { label: 'Looking for Services', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/looking-for-services', desc: 'Post what you need', color: 'from-emerald-500 to-teal-600' },
-    { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Community questions', color: 'from-indigo-500 to-blue-600' },
-    { label: 'Documents', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
+    {
+      label: "Provider Directory",
+      icon: <Link2 className="w-6 h-6 text-white" />,
+      path: "/participant/services",
+      desc: "Browse paid providers",
+      color: "from-violet-500 to-purple-600",
+    },
+    {
+      label: "Looking for Services",
+      icon: <MessageCircle className="w-6 h-6 text-white" />,
+      path: "/participant/looking-for-services",
+      desc: "Post what you need",
+      color: "from-emerald-500 to-teal-600",
+    },
+    {
+      label: "Learning Hub",
+      icon: <BookOpen className="w-6 h-6 text-white" />,
+      path: "/participant/learning",
+      desc: "Guides, videos & tips",
+      color: "from-blue-500 to-indigo-600",
+    },
+    {
+      label: "Q & A",
+      icon: <MessageCircle className="w-6 h-6 text-white" />,
+      path: "/participant/qa",
+      desc: "Community questions",
+      color: "from-indigo-500 to-blue-600",
+    },
+    {
+      label: "Documents",
+      icon: <BookOpen className="w-6 h-6 text-white" />,
+      path: "/participant/documents",
+      desc: "Resources & templates",
+      color: "from-cyan-500 to-blue-600",
+    },
     // { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
-    { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
-    { label: 'Upgrade Plan', icon: <Star className="w-6 h-6 text-white" />, path: '/participant/upgrade', desc: 'Get a Buddy', color: 'from-yellow-500 to-amber-600' },
-    { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & support', color: 'from-slate-500 to-slate-700' },
+    {
+      label: "Rights & Safety",
+      icon: <Shield className="w-6 h-6 text-white" />,
+      path: "/participant/rights-safety",
+      desc: "Know your rights",
+      color: "from-red-500 to-rose-600",
+    },
+    {
+      label: "Upgrade Your Subscription",
+      icon: <Star className="w-6 h-6 text-white" />,
+      path: "/participant/upgrade",
+      desc: "Get a Buddy",
+      color: "from-yellow-500 to-amber-600",
+    },
+    {
+      label: "Connect with Admin",
+      icon: <Mic className="w-6 h-6 text-white" />,
+      path: "/participant/admin-support",
+      desc: "Help & support",
+      color: "from-slate-500 to-slate-700",
+    },
   ];
 
   // Paid participant tiles
   const paidTiles = [
-    { label: "Your Buddy's Profile", icon: <Heart className="w-6 h-6 text-white" />, path: '/participant/plan-buddy', desc: 'Your personal support', color: 'from-rose-500 to-pink-600', highlight: true },
-    { label: 'Provider Directory', icon: <Link2 className="w-6 h-6 text-white" />, path: '/participant/services', desc: 'Browse paid providers', color: 'from-violet-500 to-purple-600' },
-    { label: 'Looking for Services', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/looking-for-services', desc: 'Post what you need', color: 'from-emerald-500 to-teal-600' },
-    { label: 'Learning Hub', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/learning', desc: 'Guides, videos & tips', color: 'from-blue-500 to-indigo-600' },
-    { label: 'Q & A', icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/participant/qa', desc: 'Community questions', color: 'from-indigo-500 to-blue-600' },
-    { label: 'Documents', icon: <BookOpen className="w-6 h-6 text-white" />, path: '/participant/documents', desc: 'Resources & templates', color: 'from-cyan-500 to-blue-600' },
+    {
+      label: "Your Buddy's Profile",
+      icon: <Heart className="w-6 h-6 text-white" />,
+      path: "/participant/plan-buddy",
+      desc: "Your personal support",
+      color: "from-rose-500 to-pink-600",
+      highlight: true,
+    },
+    {
+      label: "Provider Directory",
+      icon: <Link2 className="w-6 h-6 text-white" />,
+      path: "/participant/services",
+      desc: "Browse paid providers",
+      color: "from-violet-500 to-purple-600",
+    },
+    {
+      label: "Looking for Services",
+      icon: <MessageCircle className="w-6 h-6 text-white" />,
+      path: "/participant/looking-for-services",
+      desc: "Post what you need",
+      color: "from-emerald-500 to-teal-600",
+    },
+    {
+      label: "Learning Hub",
+      icon: <BookOpen className="w-6 h-6 text-white" />,
+      path: "/participant/learning",
+      desc: "Guides, videos & tips",
+      color: "from-blue-500 to-indigo-600",
+    },
+    {
+      label: "Q & A",
+      icon: <MessageCircle className="w-6 h-6 text-white" />,
+      path: "/participant/qa",
+      desc: "Community questions",
+      color: "from-indigo-500 to-blue-600",
+    },
+    {
+      label: "Documents",
+      icon: <BookOpen className="w-6 h-6 text-white" />,
+      path: "/participant/documents",
+      desc: "Resources & templates",
+      color: "from-cyan-500 to-blue-600",
+    },
     // { label: 'Events', icon: <Calendar className="w-6 h-6 text-white" />, path: '/participant/events', desc: 'Workshops & gatherings', color: 'from-pink-500 to-rose-600' },
-    { label: 'Rights & Safety', icon: <Shield className="w-6 h-6 text-white" />, path: '/participant/rights-safety', desc: 'Know your rights', color: 'from-red-500 to-rose-600' },
-    { label: 'Connect with Admin', icon: <Mic className="w-6 h-6 text-white" />, path: '/participant/admin-support', desc: 'Help & feedback', color: 'from-slate-500 to-slate-700' },
+
+    {
+      label: "Rights & Safety",
+      icon: <Shield className="w-6 h-6 text-white" />,
+      path: "/participant/rights-safety",
+      desc: "Know your rights",
+      color: "from-red-500 to-rose-600",
+    },
+    {
+      label: "Connect with Admin",
+      icon: <Mic className="w-6 h-6 text-white" />,
+      path: "/participant/admin-support",
+      desc: "Help & feedback",
+      color: "from-slate-500 to-slate-700",
+    },
   ];
 
   const tiles = isPaid ? paidTiles : freeTiles;
@@ -42,28 +158,42 @@ const ParticipantDashboardHome = () => {
             <Sparkles className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-slate-800">Welcome to your portal, {user.name.split(' ')[0]}!</h2>
+            <h2 className="text-lg font-semibold text-slate-800">
+              Welcome to your portal, {user.name.split(" ")[0]}!
+            </h2>
             <p className="text-sm text-slate-600 mt-0.5">
               {isPaid
-                ? 'You have full access to all features including your Personal Plan Buddy.'
-                : 'Explore community tools, find services, and connect with others on your NDIS journey.'
-              }
+                ? "You have full access to all features including your Personal Plan Buddy."
+                : "Explore community tools, find services, and connect with others on your NDIS journey."}
             </p>
           </div>
         </div>
       </div>
-     {/* Plan Buddy Card — Paid Only */}
+      {/* Plan Buddy Card — Paid Only */}
       {isPaid && user.planBuddy && (
         <div className="bg-white rounded-2xl shadow-sm border border-purple-100 p-4 sm:p-6">
           <div className="flex flex-col min-[400px]:flex-row items-start min-[400px]:justify-between gap-3">
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
               <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white text-base sm:text-xl font-bold flex-shrink-0">
-                {user.planBuddy.name.split(' ').map(n => n[0]).join('')}
+                {user.planBuddy.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] sm:text-xs text-purple-600 font-semibold uppercase tracking-wide">Your Plan Buddy</p>
-                <h3 className="text-base sm:text-lg font-semibold text-slate-800 truncate">{user.planBuddy.name}</h3>
-                <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">Next check-in: {new Date(user.planBuddy.nextCheckIn).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p className="text-[10px] sm:text-xs text-purple-600 font-semibold uppercase tracking-wide">
+                  Your Plan Buddy
+                </p>
+                <h3 className="text-base sm:text-lg font-semibold text-slate-800 truncate">
+                  {user.planBuddy.name}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">
+                  Next check-in:{" "}
+                  {new Date(user.planBuddy.nextCheckIn).toLocaleDateString(
+                    "en-AU",
+                    { day: "numeric", month: "long", year: "numeric" },
+                  )}
+                </p>
               </div>
             </div>
             <Link
@@ -75,26 +205,44 @@ const ParticipantDashboardHome = () => {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100">
-            <QuickAction icon={<Send className="w-5 h-5 text-purple-600" />} label="Send a question" />
-            <QuickAction icon={<ClipboardList className="w-5 h-5 text-purple-600" />} label="View my checklist" />
-            <QuickAction icon={<Calendar className="w-5 h-5 text-purple-600" />} label="Schedule check-in" />
-            <QuickAction icon={<Scale className="w-5 h-5 text-purple-600" />} label="Advocate help" />
+            <QuickAction
+              icon={<Send className="w-5 h-5 text-purple-600" />}
+              label="Send a question"
+            />
+            <QuickAction
+              icon={<ClipboardList className="w-5 h-5 text-purple-600" />}
+              label="View my checklist"
+            />
+            <QuickAction
+              icon={<Calendar className="w-5 h-5 text-purple-600" />}
+              label="Schedule check-in"
+            />
+            <QuickAction
+              icon={<Scale className="w-5 h-5 text-purple-600" />}
+              label="Advocate help"
+            />
           </div>
         </div>
       )}
       {/* Quick Navigation Grid */}
       <div>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Your Portal</h2>
+        <h2 className="text-lg font-semibold text-slate-800 mb-4">
+          Your Portal
+        </h2>
         <div className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
           {tiles.map((tile) => (
             <Link
               key={tile.label}
               to={tile.path}
               className={`group relative bg-white rounded-2xl p-5 shadow-sm border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
-                tile.highlight ? 'border-purple-200 hover:border-purple-300' : 'border-slate-100 hover:border-purple-200'
+                tile.highlight
+                  ? "border-purple-200 hover:border-purple-300"
+                  : "border-slate-100 hover:border-purple-200"
               }`}
             >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tile.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+              <div
+                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tile.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}
+              >
                 {tile.icon}
               </div>
               <h3 className="text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors">
@@ -110,7 +258,9 @@ const ParticipantDashboardHome = () => {
       <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Activity Feed */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
-          <h3 className="text-base font-semibold text-slate-800 mb-4">What's Happening</h3>
+          <h3 className="text-base font-semibold text-slate-800 mb-4">
+            What's Happening
+          </h3>
           <div className="space-y-4">
             <ActivityItem
               icon={<Calendar className="w-5 h-5 text-pink-600" />}
@@ -144,11 +294,16 @@ const ParticipantDashboardHome = () => {
 
         {/* Profile Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6">
-          <h3 className="text-base font-semibold text-slate-800 mb-4">Your Profile</h3>
+          <h3 className="text-base font-semibold text-slate-800 mb-4">
+            Your Profile
+          </h3>
 
           <div className="text-center mb-5">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xl font-bold text-white mx-auto mb-3">
-              {user.name.split(' ').map(n => n[0]).join('')}
+              {user.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
             </div>
             <p className="font-semibold text-slate-800">{user.name}</p>
             <p className="text-sm text-slate-500">{user.location}</p>
@@ -163,7 +318,9 @@ const ParticipantDashboardHome = () => {
           <div className="mb-5">
             <div className="flex items-center justify-between text-sm mb-2">
               <span className="text-slate-600">Profile</span>
-              <span className="font-semibold text-slate-800">{user.profileComplete}%</span>
+              <span className="font-semibold text-slate-800">
+                {user.profileComplete}%
+              </span>
             </div>
             <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
               <div
@@ -175,9 +332,18 @@ const ParticipantDashboardHome = () => {
 
           {/* Quick Links */}
           <div className="space-y-2 pt-4 border-t border-slate-100">
-            <ProfileLink icon={<Phone className="w-4 h-4 text-slate-500" />} label="Update contact details" />
-            <ProfileLink icon={<Settings className="w-4 h-4 text-slate-500" />} label="Preferences & needs" />
-            <ProfileLink icon={<Star className="w-4 h-4 text-slate-500" />} label="Saved providers" />
+            <ProfileLink
+              icon={<Phone className="w-4 h-4 text-slate-500" />}
+              label="Update contact details"
+            />
+            <ProfileLink
+              icon={<Settings className="w-4 h-4 text-slate-500" />}
+              label="Preferences & needs"
+            />
+            <ProfileLink
+              icon={<Star className="w-4 h-4 text-slate-500" />}
+              label="Saved providers"
+            />
           </div>
 
           <Link
@@ -197,9 +363,12 @@ const ParticipantDashboardHome = () => {
               <Edit className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-800">Complete your profile</h3>
+              <h3 className="text-sm font-semibold text-slate-800">
+                Complete your profile
+              </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Add your details so providers can understand your needs ({user.profileComplete}% done)
+                Add your details so providers can understand your needs (
+                {user.profileComplete}% done)
               </p>
             </div>
           </div>
@@ -228,9 +397,14 @@ const ParticipantDashboardHome = () => {
           </div>
           <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold">Get a Personal Plan Buddy</h3>
+              <h3 className="text-lg sm:text-xl font-bold">
+                Get a Personal Plan Buddy
+              </h3>
               <p className="text-purple-100 mt-1 text-sm max-w-xl">
-                Upgrade to Personal Support Plus for $200/year and get guided help from real people — personalised inbox support, monthly check-ins, advocate and lawyer connections, and AAT preparation help.
+                Upgrade to Guidance & Advocacy Plus for $350/year — or split it
+                into 3 monthly payments of $116.67. Get personalised inbox
+                support, monthly check-ins, advocate and lawyer connections, and
+                AAT preparation help.
               </p>
             </div>
             <Link
@@ -243,28 +417,50 @@ const ParticipantDashboardHome = () => {
         </div>
       )}
 
- 
-
       {/* Provider Spotlight Ribbon - Paid participants see marketing */}
       {isPaid && (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
-          <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-3">Featured Providers</p>
+          <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-3">
+            Featured Providers
+          </p>
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
             {[
-              { name: 'Community Care Solutions', tagline: 'Local support workers — taking clients now', color: 'from-purple-500 to-pink-500' },
-              { name: 'Allied Health Plus', tagline: 'OT & physio in your home', color: 'from-blue-500 to-cyan-500' },
-              { name: 'InReach Therapy', tagline: 'Teletherapy for all ages', color: 'from-emerald-500 to-teal-500' },
+              {
+                name: "Community Care Solutions",
+                tagline: "Local support workers — taking clients now",
+                color: "from-purple-500 to-pink-500",
+              },
+              {
+                name: "Allied Health Plus",
+                tagline: "OT & physio in your home",
+                color: "from-blue-500 to-cyan-500",
+              },
+              {
+                name: "InReach Therapy",
+                tagline: "Teletherapy for all ages",
+                color: "from-emerald-500 to-teal-500",
+              },
             ].map((provider) => (
               <div
                 key={provider.name}
                 className="flex-shrink-0 flex items-center gap-3 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 min-w-[260px]"
               >
-                <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${provider.color} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
-                  {provider.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                <div
+                  className={`w-10 h-10 rounded-lg bg-gradient-to-br ${provider.color} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
+                >
+                  {provider.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .slice(0, 2)}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-slate-800 truncate">{provider.name}</p>
-                  <p className="text-xs text-slate-500 truncate">{provider.tagline}</p>
+                  <p className="text-sm font-semibold text-slate-800 truncate">
+                    {provider.name}
+                  </p>
+                  <p className="text-xs text-slate-500 truncate">
+                    {provider.tagline}
+                  </p>
                 </div>
               </div>
             ))}
@@ -279,16 +475,24 @@ const ParticipantDashboardHome = () => {
 
 function ActivityItem({ icon, title, desc, time, highlight }) {
   return (
-    <div className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl transition-colors ${highlight ? 'bg-purple-50/50 border border-purple-100' : 'hover:bg-slate-50'}`}>
+    <div
+      className={`flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl transition-colors ${highlight ? "bg-purple-50/50 border border-purple-100" : "hover:bg-slate-50"}`}
+    >
       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">
         {icon}
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-xs sm:text-sm font-medium text-slate-800">{title}</p>
-        <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 truncate">{desc}</p>
-        <span className="text-[10px] sm:hidden text-slate-400 mt-0.5 block">{time}</span>
+        <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 truncate">
+          {desc}
+        </p>
+        <span className="text-[10px] sm:hidden text-slate-400 mt-0.5 block">
+          {time}
+        </span>
       </div>
-      <span className="text-[11px] text-slate-400 flex-shrink-0 whitespace-nowrap hidden sm:block">{time}</span>
+      <span className="text-[11px] text-slate-400 flex-shrink-0 whitespace-nowrap hidden sm:block">
+        {time}
+      </span>
     </div>
   );
 }
@@ -297,7 +501,9 @@ function QuickAction({ icon, label }) {
   return (
     <button className="flex flex-col items-center gap-2 p-3 rounded-xl bg-purple-50/50 hover:bg-purple-50 text-slate-700 transition-colors">
       <span>{icon}</span>
-      <span className="text-[11px] font-medium text-center leading-tight">{label}</span>
+      <span className="text-[11px] font-medium text-center leading-tight">
+        {label}
+      </span>
     </button>
   );
 }

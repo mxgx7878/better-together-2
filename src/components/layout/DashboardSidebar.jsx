@@ -227,7 +227,7 @@ const DashboardSidebar = ({
       tier: "all",
     },
     {
-      label: "Upgrade Plan",
+      label: "Upgrade Your Subscription",
       icon: Star,
       path: `${basePath}/upgrade`,
       tier: "all",

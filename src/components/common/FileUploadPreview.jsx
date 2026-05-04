@@ -6,18 +6,23 @@ import { toast } from "sonner";
 /**
  * Reusable file upload with live preview.
  *
- * Uploads to backend's image-upload endpoint, returns the S3 URL via onChange.
- * Use this everywhere the user picks an image/file.
+ * Uses a two-step S3 presigned URL flow:
+ *   1. POST to backend → receive { presigned_url, public_url, key, expires_in }
+ *   2. PUT the file directly to S3 using the presigned_url
+ *   3. Save the public_url via onChange()
  *
- * @param {string}   value         Current file URL (controlled)
- * @param {function} onChange      Receives the new URL string (or "" when cleared)
- * @param {string}   label         Field label
- * @param {string}   accept        File types (default: "image/*")
- * @param {string}   uploadPath    API endpoint (default: "/upload")
- * @param {number}   maxSizeMb     Max file size in MB (default: 5)
- * @param {string}   variant       "avatar" (round) | "card" (rectangular, default)
- * @param {string}   placeholder   Helper text inside the dropzone
- * @param {string}   error         Error message to display
+ * @param {string}   value           Current file URL (controlled)
+ * @param {function} onChange        Receives the new public S3 URL (or "" when cleared)
+ * @param {string}   label           Field label
+ * @param {string}   accept          File types (default: "image/*")
+ * @param {string}   uploadPath      Backend endpoint that returns presigned URL
+ *                                   (default: "/s3/presigned-url" — adjust to your route)
+ * @param {string}   folder          S3 sub-folder under "better-together/"
+ *                                   e.g. "avatars", "logos", "documents/policies"
+ * @param {number}   maxSizeMb       Max file size in MB (default: 5)
+ * @param {string}   variant         "avatar" (round) | "card" (rectangular, default)
+ * @param {string}   placeholder     Helper text inside the dropzone
+ * @param {string}   error           Error message to display
  * @param {boolean}  disabled
  */
 const FileUploadPreview = ({
@@ -25,7 +30,8 @@ const FileUploadPreview = ({
   onChange,
   label,
   accept = "image/*",
-  uploadPath = "/upload",
+  uploadPath = "/s3/presigned-url",
+  folder = "misc",
   maxSizeMb = 5,
   variant = "card",
   placeholder = "Click to upload or drag a file here",
@@ -49,10 +55,11 @@ const FileUploadPreview = ({
   const handleFile = async (file) => {
     if (!file || disabled) return;
 
-    // if (file.size > maxSizeMb * 1024 * 1024) {
-    //   toast.error(`File too large. Max ${maxSizeMb}MB.`);
-    //   return;
-    // }
+    // Optional size check
+    if (maxSizeMb && file.size > maxSizeMb * 1024 * 1024) {
+      toast.error(`File too large. Max ${maxSizeMb}MB.`);
+      return;
+    }
 
     // Show local preview immediately for snappy UX
     const blobUrl = URL.createObjectURL(file);
@@ -60,16 +67,42 @@ const FileUploadPreview = ({
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("filename", file.name);
-      formData.append("content_type", file.type || "application/octet-stream");
-      formData.append("size", file.size);
+      const contentType = file.type || "application/octet-stream";
 
-      const res = await api.post(uploadPath, formData);
-      const url = res?.data?.url || res?.public_url;
-      if (!url) throw new Error("No URL returned from upload");
-      onChange?.(url);
+      // ─── Step 1: Ask backend for a presigned PUT URL ──────────────
+      const presignRes = await api.post(uploadPath, {
+        filename: file.name,
+        content_type: contentType,
+        folder,
+      });
+
+      // Backend returns: { presigned_url, public_url, key, expires_in }
+      // (some Laravel setups wrap it under `data` — handle both)
+      const payload = presignRes?.data ?? presignRes;
+      const presignedUrl = payload?.presigned_url;
+      const publicUrl = payload?.public_url;
+
+      if (!presignedUrl || !publicUrl) {
+        throw new Error("Server did not return a valid presigned URL");
+      }
+
+      // ─── Step 2: PUT the raw file to S3 ───────────────────────────
+      // IMPORTANT: bypass the `api` wrapper here so:
+      //   - no Authorization header is sent to S3
+      //   - the body is the raw file binary, not FormData/JSON
+      //   - Content-Type matches exactly what we signed for
+      const s3Res = await fetch(presignedUrl, {
+        method: "PUT",
+        headers: { "Content-Type": contentType },
+        body: file,
+      });
+
+      if (!s3Res.ok) {
+        throw new Error(`S3 upload failed (${s3Res.status})`);
+      }
+
+      // ─── Step 3: Save the public URL via onChange ─────────────────
+      onChange?.(publicUrl);
       toast.success("File uploaded");
     } catch (err) {
       toast.error(err.message || "Upload failed");

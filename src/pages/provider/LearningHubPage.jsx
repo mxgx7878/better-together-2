@@ -13,6 +13,7 @@ import PageHeader from "../../components/common/PageHeader";
 import { fetchLearningModules } from "../../store/actions/learningActions";
 import { ASYNC_STATUS } from "../../constants";
 import { selectIsPaid } from "../../store/slices/authSlice";
+import FeatureGate from "../../components/common/FeatureGate";
 
 const difficultyColors = {
   beginner: "bg-emerald-50 text-emerald-700",
@@ -54,6 +55,7 @@ const LearningHubPage = () => {
   const categories = ["All", ...new Set(modules.map((m) => m.category).filter(Boolean))];
 
   return (
+    <FeatureGate featureName="Learning Hub">
     <div className="max-w-6xl mx-auto space-y-6">
       <PageHeader
         title="Learning Hub"
@@ -184,6 +186,7 @@ const LearningHubPage = () => {
         </div>
       )}
     </div>
+    </FeatureGate>
   );
 };
 

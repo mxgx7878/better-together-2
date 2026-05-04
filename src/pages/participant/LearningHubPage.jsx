@@ -18,6 +18,7 @@ import {
 } from "../../store/actions/learningActions";
 import { ASYNC_STATUS } from "../../constants";
 import { selectIsPaid } from "../../store/slices/authSlice";
+import FeatureGate from "../../components/common/FeatureGate";
 
 const difficultyColors = {
   beginner: "bg-emerald-50 text-emerald-700",
@@ -103,6 +104,7 @@ const LearningHubPage = () => {
   }).length;
 
   return (
+    <FeatureGate featureName="Learning Hub">
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-slate-800">Learning Hub</h1>
@@ -300,6 +302,7 @@ const LearningHubPage = () => {
         </div>
       )}
     </div>
+    </FeatureGate>
   );
 };
 

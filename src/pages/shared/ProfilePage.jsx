@@ -42,6 +42,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!profile) return;
     const pp = profile.provider_profile;
+    console.log(pp, "checking logo");
     const pa = profile.participant_profile;
     const nameParts = (profile.name || "").split(" ");
 
@@ -409,10 +410,10 @@ const ProfilePage = () => {
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm transition-all outline-none resize-none"
                 />
-
+{console.log(formData?.organization_logo, "logo")}
                 <FileUploadPreview
                   label="Organisation Logo"
-                  value={formData.organization_logo}
+                  value={formData?.organization_logo}
                   onChange={(url) => set("organization_logo", url)}
                   placeholder="Upload organisation logo"
                   // maxSizeMb={2}

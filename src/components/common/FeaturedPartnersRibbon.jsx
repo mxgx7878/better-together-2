@@ -28,7 +28,9 @@ const FeaturedPartnersRibbon = ({
         </span>
         <div className="flex-1 h-px bg-slate-200" />
         {note && (
-          <span className="text-[11px] text-slate-400 whitespace-nowrap">{note}</span>
+          <span className="text-[11px] text-slate-400 whitespace-nowrap">
+            {note}
+          </span>
         )}
       </div>
 
@@ -59,7 +61,7 @@ const FeaturedPartnersRibbon = ({
                 display: flex;
                 align-items: center;
                 width: max-content;
-                animation: ribbon-scroll 32s linear infinite;
+                animation: ribbon-scroll 5s linear infinite;
               }
               .ribbon-track:hover { animation-play-state: paused; }
             `}</style>
@@ -73,9 +75,9 @@ const FeaturedPartnersRibbon = ({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 mx-4 flex-shrink-0 px-3 py-1.5 rounded-lg bg-white/90 hover:bg-white transition-colors shadow-sm"
                 >
-                  {sponsor.logo_url ? (
+                  {sponsor.provider_profile.organization_logo ? (
                     <img
-                      src={sponsor.logo_url}
+                      src={sponsor.provider_profile.organization_logo}
                       alt={sponsor.name}
                       className="w-6 h-6 rounded object-cover"
                     />
@@ -88,7 +90,7 @@ const FeaturedPartnersRibbon = ({
                     </span>
                   )}
                   <span className="text-xs font-semibold text-slate-700 whitespace-nowrap">
-                    {sponsor.name}
+                    {sponsor.first_name} {sponsor.last_name}
                   </span>
                 </a>
               ))}

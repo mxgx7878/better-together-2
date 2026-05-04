@@ -28,7 +28,7 @@ const ProviderDashboardHome = () => {
     { label: 'Learning Hub',        icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/learning',     desc: 'Guides & modules',            color: 'from-emerald-500 to-teal-600' },
     { label: 'Q & A',               icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/provider/qa',           desc: 'Ask & learn',                 color: 'from-pink-500 to-rose-600' },
     { label: 'Documents',           icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/documents',    desc: 'Resources & templates',       color: 'from-cyan-500 to-blue-600' },
-    { label: 'Upgrade Subscription',icon: <Star className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Unlock premium tools',        color: 'from-yellow-500 to-amber-600' },
+    { label: 'Upgrade Your Subscription',icon: <Star className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Unlock premium tools',        color: 'from-yellow-500 to-amber-600' },
     { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/provider/admin-support',desc: 'Get help & support',         color: 'from-slate-500 to-slate-700' },
   ];
 
@@ -40,7 +40,7 @@ const ProviderDashboardHome = () => {
     { label: 'Learning Hub',        icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/learning',     desc: 'Courses & modules',           color: 'from-emerald-500 to-teal-600' },
     { label: 'Q & A',               icon: <MessageCircle className="w-6 h-6 text-white" />, path: '/provider/qa',           desc: 'Provider discussions',       color: 'from-indigo-500 to-blue-600' },
     { label: 'Documents',           icon: <BookOpen className="w-6 h-6 text-white" />, path: '/provider/documents',    desc: 'Resources & templates',       color: 'from-cyan-500 to-blue-600' },
-    { label: 'Upgrade Subscription',icon: <Star className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Manage your plan',            color: 'from-yellow-500 to-amber-600' },
+    { label: 'Upgrade Your Subscription',icon: <Star className="w-6 h-6 text-white" />, path: '/provider/upgrade',      desc: 'Manage your plan',            color: 'from-yellow-500 to-amber-600' },
     { label: 'Connect with Admin',  icon: <Mic className="w-6 h-6 text-white" />, path: '/provider/admin-support',desc: 'Support & feedback',          color: 'from-gray-600 to-gray-800' },
   ];
 

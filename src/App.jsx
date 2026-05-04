@@ -74,6 +74,7 @@ import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
 import EventFormPage from "./pages/admin/EventFormPage";
 import EventDetailsPage from "./pages/admin/EventDetailPage";
 import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
+import TermsAndConditionsPage from "./pages/public/TermsAndConditionsPage";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -121,6 +122,7 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="terms" element={<TermsAndConditionsPage />} />
         </Route>
 
         {/* ─── Auth pages (restricted: redirect if already logged in) */}
