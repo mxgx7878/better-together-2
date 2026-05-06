@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ASYNC_STATUS } from "../../constants";
 import {
+  fetchPublicSubscriptions,
   adminFetchSubscriptions,
   adminFetchSubscriptionById,
   adminCreateSubscription,
@@ -11,9 +12,13 @@ import {
 const subscriptionSlice = createSlice({
   name: "subscription",
   initialState: {
+    // Admin list
     subscriptions: [],
     selectedSubscription: null,
     status: ASYNC_STATUS.IDLE,
+    // Public list (separate state to avoid clobbering admin paginated list)
+    publicSubscriptions: [],
+    publicStatus: ASYNC_STATUS.IDLE,
     error: null,
   },
   reducers: {
@@ -22,6 +27,25 @@ const subscriptionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // ─── Public Fetch ───────────────────────────────────────────
+    builder.addCase(fetchPublicSubscriptions.pending, (state) => {
+      state.publicStatus = ASYNC_STATUS.LOADING;
+    });
+    builder.addCase(
+      fetchPublicSubscriptions.fulfilled,
+      (state, { payload }) => {
+        state.publicStatus = ASYNC_STATUS.SUCCEEDED;
+        state.publicSubscriptions = payload?.data || [];
+      },
+    );
+    builder.addCase(
+      fetchPublicSubscriptions.rejected,
+      (state, { payload }) => {
+        state.publicStatus = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      },
+    );
+
     // ─── Admin Fetch All ────────────────────────────────────────
     builder.addCase(adminFetchSubscriptions.pending, (state) => {
       state.status = ASYNC_STATUS.LOADING;

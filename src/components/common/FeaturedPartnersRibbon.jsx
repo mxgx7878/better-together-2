@@ -51,17 +51,18 @@ const FeaturedPartnersRibbon = ({
           <RibbonSvg />
 
           {/* Scrolling logos */}
-          <div className="absolute inset-0 overflow-hidden flex items-center px-12">
+          <div className="absolute inset-0 overflow-hidden flex items-center w-full  justify-start">
             <style>{`
               @keyframes ribbon-scroll {
-                0%   { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
+                0%   { transform: translateX(20%); }
+                100% { transform: translateX(-100%); }
               }
               .ribbon-track {
                 display: flex;
                 align-items: center;
-                width: max-content;
-                animation: ribbon-scroll 5s linear infinite;
+                width: 100%;
+                animation: ribbon-scroll 20s linear infinite;
+                justify-content: flex-end;
               }
               .ribbon-track:hover { animation-play-state: paused; }
             `}</style>
@@ -75,9 +76,9 @@ const FeaturedPartnersRibbon = ({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 mx-4 flex-shrink-0 px-3 py-1.5 rounded-lg bg-white/90 hover:bg-white transition-colors shadow-sm"
                 >
-                  {sponsor.provider_profile.organization_logo ? (
+                  {sponsor.provider_profile?.organization_logo ? (
                     <img
-                      src={sponsor.provider_profile.organization_logo}
+                      src={sponsor.provider_profile?.organization_logo}
                       alt={sponsor.name}
                       className="w-6 h-6 rounded object-cover"
                     />

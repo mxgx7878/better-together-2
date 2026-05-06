@@ -3,6 +3,33 @@ import { toast } from "sonner";
 import api from "../../services/api";
 
 // ═══════════════════════════════════════════════════════════════════
+// PUBLIC SUBSCRIPTION API
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * GET /api/subscriptions
+ * No auth required. Only returns active plans (status = 1).
+ * Optional filters:
+ *   - role: 'participant' | 'provider' | 'both' | 'all'
+ *   - billing_cycle: 'monthly' | 'yearly' | 'lifetime'
+ *
+ * Response shape: { success: true, data: [ { ...plan, features: [...] } ] }
+ */
+export const fetchPublicSubscriptions = createAsyncThunk(
+  "subscriptions/fetchPublicSubscriptions",
+  async (params = {}, { rejectWithValue }) => {
+    try {
+      const data = await api.get("/subscriptions", { params });
+      return data;
+    } catch (err) {
+      return rejectWithValue(
+        err.message || "Failed to load subscription plans",
+      );
+    }
+  },
+);
+
+// ═══════════════════════════════════════════════════════════════════
 // ADMIN SUBSCRIPTION APIs
 // ═══════════════════════════════════════════════════════════════════
 
@@ -40,12 +67,18 @@ export const adminCreateSubscription = createAsyncThunk(
       toast.success("Subscription created successfully!");
       return data;
     } catch (err) {
+      // Surface feature/role mismatch details if backend returned them
       toast.error(err.message || "Failed to create subscription");
       return rejectWithValue(err.message || "Failed to create subscription");
     }
   },
 );
 
+/**
+ * Note: backend uses POST (not PUT) for update, per the existing
+ * API convention. Sending `features` (even as []) replaces the
+ * entire feature set; omit it to leave features untouched.
+ */
 export const adminUpdateSubscription = createAsyncThunk(
   "subscriptions/adminUpdateSubscription",
   async ({ id, subscriptionData }, { rejectWithValue }) => {

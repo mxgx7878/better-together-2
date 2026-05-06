@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   CreditCard,
   Search,
@@ -12,6 +12,8 @@ import {
   Users,
   Building2,
   UserRound,
+  Sparkles,
+  AlertCircle,
 } from "lucide-react";
 import PageHeader from "../../components/common/PageHeader";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +23,8 @@ import {
   adminUpdateSubscription,
   adminDeleteSubscription,
 } from "../../store/actions/subscriptionActions";
+import { adminFetchFeatures } from "../../store/actions/featuresActions";
 import { ASYNC_STATUS } from "../../constants";
-import { InlineLoader } from "../../components/common/Loader";
 
 const ROLE_OPTIONS = [
   {
@@ -60,7 +62,8 @@ const emptyForm = {
   price: "",
   billing_cycle: "monthly",
   role: "both",
-  features: "",
+  // Map of { [featureId]: { selected: bool, value: string } }
+  features: {},
   status: 1,
 };
 
@@ -91,7 +94,11 @@ const roleBadge = (role) => {
 const ManageSubscriptionsPage = () => {
   const dispatch = useDispatch();
   const { subscriptions, status } = useSelector((state) => state.subscription);
+  const { features: allFeatures, status: featuresStatus } = useSelector(
+    (state) => state.feature,
+  );
   const loading = status === ASYNC_STATUS.LOADING;
+  const featuresLoading = featuresStatus === ASYNC_STATUS.LOADING;
 
   // List state
   const [searchInput, setSearchInput] = useState("");
@@ -121,7 +128,9 @@ const ManageSubscriptionsPage = () => {
 
   useEffect(() => {
     loadSubscriptions();
-  }, [loadSubscriptions]);
+    // Pre-load active features for the picker
+    dispatch(adminFetchFeatures({ status: 1 }));
+  }, [loadSubscriptions, dispatch]);
 
   // Filter client-side
   const filteredSubs = subscriptions.filter((sub) => {
@@ -134,6 +143,19 @@ const ManageSubscriptionsPage = () => {
     );
   });
 
+  // ─── Compatible features for the currently-selected role ────────
+  // Backend rejects feature/role mismatches, so filter client-side too
+  // for a cleaner UX (matching + 'both' features only).
+  const compatibleFeatures = useMemo(() => {
+    if (!Array.isArray(allFeatures)) return [];
+    if (formData.role === "both") {
+      return allFeatures;
+    }
+    return allFeatures.filter(
+      (f) => f.type === formData.role || f.type === "both",
+    );
+  }, [allFeatures, formData.role]);
+
   // ─── Modal handlers ─────────────────────────────────────────────
   const openCreateModal = () => {
     setEditingId(null);
@@ -144,16 +166,26 @@ const ManageSubscriptionsPage = () => {
 
   const openEditModal = (sub) => {
     setEditingId(sub.id);
-    const featuresStr = Array.isArray(sub.features)
-      ? sub.features.join("\n")
-      : sub.features || "";
+    // Build features map from sub.features (array of {id, value, ...})
+    const featuresMap = {};
+    if (Array.isArray(sub.features)) {
+      sub.features.forEach((f) => {
+        // Skip legacy string features (from old textarea schema)
+        if (typeof f === "object" && f.id) {
+          featuresMap[f.id] = {
+            selected: true,
+            value: f.value ?? "",
+          };
+        }
+      });
+    }
     setFormData({
       name: sub.name || "",
       description: sub.description || "",
       price: sub.price ?? "",
       billing_cycle: sub.billing_cycle || "monthly",
       role: sub.role || "both",
-      features: featuresStr,
+      features: featuresMap,
       status: sub.status ?? 1,
     });
     setFormErrors({});
@@ -178,6 +210,48 @@ const ManageSubscriptionsPage = () => {
     }
   };
 
+  // ─── Feature picker handlers ────────────────────────────────────
+  const toggleFeature = (featureId) => {
+    setFormData((prev) => {
+      const next = { ...prev.features };
+      if (next[featureId]) {
+        delete next[featureId];
+      } else {
+        next[featureId] = { selected: true, value: "" };
+      }
+      return { ...prev, features: next };
+    });
+  };
+
+  const updateFeatureValue = (featureId, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      features: {
+        ...prev.features,
+        [featureId]: { ...prev.features[featureId], value },
+      },
+    }));
+  };
+
+  // When the role changes, drop incompatible feature selections
+  const handleRoleChange = (newRole) => {
+    setFormData((prev) => {
+      // Compute which existing selections are still valid
+      const stillValid = {};
+      Object.keys(prev.features).forEach((id) => {
+        const f = allFeatures.find((x) => x.id === Number(id));
+        if (!f) return; // unknown — drop
+        if (newRole === "both" || f.type === newRole || f.type === "both") {
+          stillValid[id] = prev.features[id];
+        }
+      });
+      return { ...prev, role: newRole, features: stillValid };
+    });
+    if (formErrors.role) {
+      setFormErrors((prev) => ({ ...prev, role: "" }));
+    }
+  };
+
   const validateForm = () => {
     const errors = {};
     if (!formData.name.trim()) {
@@ -185,7 +259,10 @@ const ManageSubscriptionsPage = () => {
     }
     if (formData.price === "" || formData.price === null) {
       errors.price = "Price is required";
-    } else if (Number.isNaN(Number(formData.price)) || Number(formData.price) < 0) {
+    } else if (
+      Number.isNaN(Number(formData.price)) ||
+      Number(formData.price) < 0
+    ) {
       errors.price = "Price must be a positive number";
     }
     if (!formData.role) {
@@ -201,10 +278,17 @@ const ManageSubscriptionsPage = () => {
 
     setSubmitting(true);
     try {
-      const featuresArr = formData.features
-        .split("\n")
-        .map((f) => f.trim())
-        .filter(Boolean);
+      // Build features array in the shape the API expects:
+      //   [{ id: 1, value: "10" }, { id: 4 }]
+      const featuresArr = Object.entries(formData.features).map(
+        ([id, meta]) => {
+          const out = { id: Number(id) };
+          if (meta.value && meta.value.trim()) {
+            out.value = meta.value.trim();
+          }
+          return out;
+        },
+      );
 
       const payload = {
         name: formData.name.trim(),
@@ -244,6 +328,8 @@ const ManageSubscriptionsPage = () => {
       setDeleting(false);
     }
   };
+
+  const selectedFeatureCount = Object.keys(formData.features).length;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -331,6 +417,9 @@ const ManageSubscriptionsPage = () => {
                     Eligible Role
                   </th>
                   <th className="text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">
+                    Features
+                  </th>
+                  <th className="text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">
                     Status
                   </th>
                   <th className="text-right text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">
@@ -365,6 +454,12 @@ const ManageSubscriptionsPage = () => {
                     </td>
                     <td className="px-6 py-4">{roleBadge(sub.role)}</td>
                     <td className="px-6 py-4">
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-1 rounded-full">
+                        <Sparkles className="w-3 h-3" />
+                        {Array.isArray(sub.features) ? sub.features.length : 0}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
                       {Number(sub.status) === 1 ? (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700">
                           <CheckCircle className="w-3 h-3" /> Active
@@ -375,18 +470,18 @@ const ManageSubscriptionsPage = () => {
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-1">
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => openEditModal(sub)}
-                          className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                          className="p-2 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
                           title="Edit"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => setDeleteId(sub.id)}
-                          className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -401,17 +496,11 @@ const ManageSubscriptionsPage = () => {
         </div>
       )}
 
-      {/* ─── Create / Edit Modal ─────────────────────────────── */}
+      {/* ─── Create / Edit Modal ──────────────────────────────── */}
       {showModal && (
-        <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={closeModal}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 sticky top-0 bg-white z-10">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
               <h3 className="text-lg font-bold text-slate-800">
                 {editingId ? "Edit Subscription" : "Create Subscription"}
               </h3>
@@ -423,7 +512,10 @@ const ManageSubscriptionsPage = () => {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+            <form
+              onSubmit={handleSubmit}
+              className="p-6 space-y-5 overflow-y-auto flex-1"
+            >
               {/* Name */}
               <div>
                 <label
@@ -438,7 +530,7 @@ const ManageSubscriptionsPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleFormChange}
-                  placeholder="e.g. Growth & Referral"
+                  placeholder="e.g. Provider Portal — Mid-Level"
                   className={`w-full px-4 py-3 border-2 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all ${
                     formErrors.name
                       ? "border-red-300 bg-red-50/50"
@@ -506,7 +598,6 @@ const ManageSubscriptionsPage = () => {
                     </p>
                   )}
                 </div>
-
                 <div>
                   <label
                     htmlFor="billing_cycle"
@@ -521,22 +612,21 @@ const ManageSubscriptionsPage = () => {
                     onChange={handleFormChange}
                     className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all bg-white"
                   >
-                    {BILLING_OPTIONS.map((b) => (
-                      <option key={b.value} value={b.value}>
-                        {b.label}
+                    {BILLING_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
 
-              {/* Role Selector */}
+              {/* Role */}
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Who can purchase this plan?{" "}
-                  <span className="text-red-500">*</span>
+                  Eligible Role <span className="text-red-500">*</span>
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {ROLE_OPTIONS.map((opt) => {
                     const Icon = opt.icon;
                     const active = formData.role === opt.value;
@@ -544,10 +634,8 @@ const ManageSubscriptionsPage = () => {
                       <button
                         type="button"
                         key={opt.value}
-                        onClick={() =>
-                          setFormData((prev) => ({ ...prev, role: opt.value }))
-                        }
-                        className={`flex flex-col items-start gap-2 p-4 rounded-xl border-2 text-left transition-all ${
+                        onClick={() => handleRoleChange(opt.value)}
+                        className={`flex items-center gap-3 p-3 rounded-xl border-2 text-left transition-all ${
                           active
                             ? "border-purple-500 bg-purple-50 shadow-sm"
                             : "border-slate-200 hover:border-slate-300 bg-white"
@@ -583,26 +671,110 @@ const ManageSubscriptionsPage = () => {
                 )}
               </div>
 
-              {/* Features */}
+              {/* ─── Feature Picker ─────────────────────────────── */}
               <div>
-                <label
-                  htmlFor="features"
-                  className="block text-sm font-semibold text-slate-700 mb-1.5"
-                >
-                  Features
-                  <span className="text-xs font-normal text-slate-500 ml-2">
-                    (one per line)
-                  </span>
-                </label>
-                <textarea
-                  id="features"
-                  name="features"
-                  rows={5}
-                  value={formData.features}
-                  onChange={handleFormChange}
-                  placeholder={"Access to events calendar\nProvider message board\nPriority advertising"}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all resize-none font-mono"
-                />
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-sm font-semibold text-slate-700">
+                    Features
+                    <span className="text-xs font-normal text-slate-500 ml-2">
+                      ({selectedFeatureCount} selected)
+                    </span>
+                  </label>
+                  {formData.role !== "both" && (
+                    <span className="text-[11px] text-slate-500">
+                      Showing features compatible with{" "}
+                      <span className="font-semibold capitalize">
+                        {formData.role}
+                      </span>
+                    </span>
+                  )}
+                </div>
+
+                {featuresLoading ? (
+                  <div className="border-2 border-slate-200 rounded-xl p-6 flex items-center justify-center text-slate-400">
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Loading
+                    features...
+                  </div>
+                ) : compatibleFeatures.length === 0 ? (
+                  <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center">
+                    <AlertCircle className="w-6 h-6 text-amber-500 mx-auto mb-2" />
+                    <p className="text-sm text-slate-600 font-medium">
+                      No features available for this role.
+                    </p>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Create features first under <em>Manage Features</em>.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="border-2 border-slate-200 rounded-xl divide-y divide-slate-100 max-h-[280px] overflow-y-auto">
+                    {compatibleFeatures.map((feature) => {
+                      const sel = formData.features[feature.id];
+                      const isSelected = !!sel;
+                      return (
+                        <div
+                          key={feature.id}
+                          className={`flex items-start gap-3 p-3 transition-colors ${
+                            isSelected ? "bg-purple-50/40" : "hover:bg-slate-50"
+                          }`}
+                        >
+                          <input
+                            type="checkbox"
+                            id={`feature-${feature.id}`}
+                            checked={isSelected}
+                            onChange={() => toggleFeature(feature.id)}
+                            className="mt-1 w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500 cursor-pointer flex-shrink-0"
+                          />
+                          <label
+                            htmlFor={`feature-${feature.id}`}
+                            className="flex-1 cursor-pointer min-w-0"
+                          >
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-sm font-semibold text-slate-800">
+                                {feature.name}
+                              </span>
+                              <span className="text-[10px] font-mono text-slate-400">
+                                {feature.feature_key}
+                              </span>
+                              <span
+                                className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
+                                  feature.type === "both"
+                                    ? "bg-purple-100 text-purple-700"
+                                    : feature.type === "provider"
+                                      ? "bg-orange-100 text-orange-700"
+                                      : "bg-blue-100 text-blue-700"
+                                }`}
+                              >
+                                {feature.type}
+                              </span>
+                            </div>
+                            {feature.description && (
+                              <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                                {feature.description}
+                              </p>
+                            )}
+                          </label>
+                          {/* {isSelected && (
+                            <input
+                              type="text"
+                              value={sel.value || ""}
+                              onChange={(e) =>
+                                updateFeatureValue(feature.id, e.target.value)
+                              }
+                              placeholder='e.g. "10", "unlimited"'
+                              className="w-32 px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none flex-shrink-0"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          )} */}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <p className="text-[11px] text-slate-400 mt-1.5">
+                  Tick a feature to include it. The optional value field is
+                  freeform — use <code>10</code>, <code>unlimited</code>,{" "}
+                  <code>50 GB</code>, etc.
+                </p>
               </div>
 
               {/* Status */}
@@ -625,29 +797,24 @@ const ManageSubscriptionsPage = () => {
                 </select>
               </div>
 
+              {/* Actions */}
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-5 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+                  className="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-semibold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {submitting ? (
-                    <>
-                      <InlineLoader className="text-white" />{" "}
-                      {editingId ? "Updating..." : "Creating..."}
-                    </>
-                  ) : (
-                    <>
-                      {editingId ? "Update Subscription" : "Create Subscription"}
-                    </>
+                  {submitting && (
+                    <Loader2 className="w-4 h-4 animate-spin" />
                   )}
+                  {editingId ? "Save Changes" : "Create Subscription"}
                 </button>
               </div>
             </form>
@@ -655,43 +822,41 @@ const ManageSubscriptionsPage = () => {
         </div>
       )}
 
-      {/* ─── Delete Confirmation ─────────────────────────────── */}
+      {/* ─── Delete Confirmation Modal ────────────────────────── */}
       {deleteId && (
-        <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setDeleteId(null)}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="text-center">
-              <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-                <Trash2 className="w-7 h-7 text-red-500" />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <Trash2 className="w-5 h-5 text-red-600" />
               </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-2">
-                Delete Subscription?
-              </h3>
-              <p className="text-sm text-slate-500 mb-6">
-                This action cannot be undone. The subscription plan will be
-                permanently removed.
-              </p>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setDeleteId(null)}
-                  className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleDelete}
-                  disabled={deleting}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
-                >
-                  {deleting && <Loader2 className="w-4 h-4 animate-spin" />}{" "}
-                  Delete
-                </button>
+              <div>
+                <h3 className="text-lg font-bold text-slate-800">
+                  Delete Subscription?
+                </h3>
+                <p className="text-sm text-slate-500 mt-1">
+                  This will permanently remove the subscription plan. This
+                  action cannot be undone.
+                </p>
               </div>
+            </div>
+            <div className="flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setDeleteId(null)}
+                className="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={deleting}
+                className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {deleting && <Loader2 className="w-4 h-4 animate-spin" />}
+                Delete
+              </button>
             </div>
           </div>
         </div>

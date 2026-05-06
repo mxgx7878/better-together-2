@@ -1,176 +1,169 @@
-import { useAuth } from "../../hooks/useAuth";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Megaphone } from "lucide-react";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Megaphone,
+  Check,
+  Crown,
+  Sparkles,
+  ArrowRight,
+  Loader2,
+  Info,
+  CheckCircle2,
+} from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
+import { fetchPublicSubscriptions } from "../../store/actions/subscriptionActions";
+import { ASYNC_STATUS } from "../../constants";
 
+// ─── Helpers ────────────────────────────────────────────────────────
+// Locate the user's current plan in whichever shape the backend returns.
+const getUserPlan = (user) => {
+  if (!user) return null;
+  if (user.subscription && typeof user.subscription === "object") return user.subscription;
+  if (user.current_subscription && typeof user.current_subscription === "object") return user.current_subscription;
+  if (user.plan && typeof user.plan === "object") return user.plan;
+  if (user.subscriptionPlan && typeof user.subscriptionPlan === "object") return user.subscriptionPlan;
+  return null;
+};
+
+const getUserPlanName = (user) => {
+  const plan = getUserPlan(user);
+  if (plan?.name) return plan.name;
+  if (typeof user?.subscriptionPlan === "string") return user.subscriptionPlan;
+  return null;
+};
+
+const isCurrentPlan = (user, isPaid, plan) => {
+  if (!plan) return false;
+  // Free plan ↔ unpaid user
+  if (Number(plan.price) === 0) return !isPaid;
+  // Match by id when we have it (from API)
+  const userPlan = getUserPlan(user);
+  if (userPlan?.id && plan.id) return userPlan.id === plan.id;
+  // Fallback — match by name (legacy string)
+  const userPlanName = getUserPlanName(user);
+  if (userPlanName && plan.name) {
+    return userPlanName.toLowerCase() === plan.name.toLowerCase();
+  }
+  return false;
+};
+
+const formatPriceDisplay = (plan, billingCycle) => {
+  const price = Number(plan.price);
+  if (price === 0) return { main: "Free", sub: "" };
+  if (billingCycle === "yearly") {
+    return { main: `$${price.toFixed(0)}`, sub: "/year" };
+  }
+  return { main: `$${price.toFixed(0)}`, sub: "/month" };
+};
+
+// ─── Page ───────────────────────────────────────────────────────────
 const UpgradePage = () => {
-  const { user, isProvider, isPaid } = useAuth();
+  const dispatch = useDispatch();
+  const { user, isProvider, isParticipant, isPaid } = useAuth();
+  const { publicSubscriptions, publicStatus } = useSelector(
+    (state) => state.subscription,
+  );
+  const loading = publicStatus === ASYNC_STATUS.LOADING;
 
-  const [selectedPaymentIdx, setSelectedPaymentIdx] = useState({});
+  const [billingCycle, setBillingCycle] = useState("monthly");
 
-  // Check if user has Growth & Referral or higher (marketing add-on eligibility)
-  const hasGrowthOrAbove =
-    isPaid &&
-    (user.subscriptionPlan === "Growth & Referral" ||
-      user.subscriptionPlan === "Premium Visibility");
+  const role = isProvider ? "provider" : isParticipant ? "participant" : "all";
 
-  const providerPlans = [
-    {
-      name: "Free Starter",
-      price: 0,
-      period: "",
-      current: !isPaid,
-      features: [
-        "Basic directory listing (providers only)",
-        "View & register for events",
-        "Access to Learning Hub",
-        "Read Q&A discussions",
-        "Basic library resources",
-      ],
-      color: "slate",
-    },
-    {
-      name: "Growth & Referral",
-      price: 65,
-      period: "/month",
-      yearlyPrice: 650,
-      yearlyNote: "equivalent to 2 months free",
-      current: isPaid && user.subscriptionPlan === "Growth & Referral",
-      popular: true,
-      features: [
-        "Everything in Free Starter",
-        "See & respond to service requests",
-        "Direct messaging with participants",
-        "Enhanced profile with tags",
-        "Priority in search results",
-        "Job board posting",
-        "Central inbox & message tally",
-        "Eligible for Marketing add-on",
-      ],
-      color: "purple",
-    },
-    {
-      name: "Premium Visibility",
-      price: 95,
-      period: "/month",
-      yearlyPrice: 960,
-      yearlyNote: "save $180/year vs monthly",
-      current: isPaid && user.subscriptionPlan === "Premium Visibility",
-      features: [
-        "Everything in Growth & Referral",
-        '"Featured Provider" status',
-        "Visual badges on profile",
-        "Boosted in participant views",
-        "Monthly analytics report",
-        "Profile views & enquiry data",
-        "Priority support",
-        "Eligible for Marketing add-on",
-      ],
-      color: "pink",
-    },
-  ];
+  // Fetch plans matching this user's role
+  useEffect(() => {
+    dispatch(
+      fetchPublicSubscriptions({
+        role,
+        billing_cycle: billingCycle,
+      }),
+    );
+  }, [dispatch, role, billingCycle]);
 
-  const participantPlans = [
-    {
-      name: "Community Connection",
-      price: 0,
-      period: "",
-      current: !isPaid,
-      features: [
-        "Home dashboard & Learning Hub",
-        "Provider Directory",
-        '"Looking for Services" board',
-        "Events calendar",
-        "Documents & resources",
-        "Rights & Safety info",
-      ],
-      color: "slate",
-    },
-    {
-      name: "Guidance & Advocacy Plus",
-      tagline: "1:1 Coaching, Guidance & Advocacy",
-      price: 350,
-      period: "/year",
-      paymentOptions: [
-        {
-          label: "Pay yearly",
-          amount: 350,
-          frequency: "one-time",
-          note: "Best value",
-        },
-        {
-          label: "3-month plan",
-          amount: 116.67,
-          frequency: "per month for 3 months",
-          note: "Total $350",
-        },
-      ],
-      current: isPaid,
-      popular: true,
-      features: [
-        "Everything in Free",
-        "Check-ins, Planning and Individualised Support",
-        "Help with emails & letters",
-        "Help with understanding NDIS",
-        "Peer matching & groups",
-        "Advocate & lawyer connections",
-        "AAT preparation support",
-        "Priority support requests",
-        "Extra templates & checklists",
-      ],
-      color: "purple",
-    },
-  ];
+  // Filter + sort plans for display
+  const plans = useMemo(() => {
+    const apiPlans = (publicSubscriptions || []).filter(
+      (p) =>
+        (p.role === role || p.role === "both") &&
+        (p.billing_cycle === billingCycle || !p.billing_cycle),
+    );
+    return [...apiPlans].sort((a, b) => Number(a.price) - Number(b.price));
+  }, [publicSubscriptions, role, billingCycle]);
 
-  const getSelectedOption = (plan) => {
-    if (!plan.paymentOptions?.length) return null;
-    const idx = selectedPaymentIdx[plan.name] ?? 0;
+  // What plan is the user currently on?
+  const userPlanName = getUserPlanName(user) || (isPaid ? "Paid Plan" : "Free Plan");
+  const currentPlan = plans.find((p) => isCurrentPlan(user, isPaid, p));
 
-    console.log(idx)
-    return plan.paymentOptions[idx];
-  };
-
-  const plans = isProvider ? providerPlans : participantPlans;
-
-  console.log(plans, "plans");
+  // Marketing add-on eligibility — any paid plan
+  const hasGrowthOrAbove = isPaid;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
+      {/* ─── Header ───────────────────────────────────────────── */}
       <div>
         <h1 className="text-2xl font-bold text-slate-800">
           Manage Subscription
         </h1>
         <p className="text-sm text-slate-500 mt-1">
           {isPaid
-            ? "View and manage your current plan"
-            : "Upgrade to unlock more features"}
+            ? "View your current plan or switch to a different one"
+            : "Choose a plan to unlock more features"}
         </p>
       </div>
 
-      {/* Current Plan Banner */}
+      {/* ─── Current Plan Banner ─────────────────────────────── */}
       <div
-        className={`rounded-2xl p-6 ${isPaid ? "bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200" : "bg-slate-50 border border-slate-200"}`}
+        className={`relative overflow-hidden rounded-2xl p-6 ${
+          isPaid
+            ? "bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 text-white"
+            : "bg-slate-50 border border-slate-200"
+        }`}
       >
-        <div className="flex items-center justify-between">
+        {isPaid && (
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute -top-10 -right-10 w-48 h-48 bg-white rounded-full blur-3xl" />
+          </div>
+        )}
+        <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Current Plan
-            </p>
-            <h2 className="text-xl font-bold text-slate-800 mt-1">
-              {isPaid ? user.subscriptionPlan : "Free Plan"}
+            <div className="flex items-center gap-2 mb-1">
+              {isPaid ? (
+                <Crown className="w-4 h-4 text-yellow-300" />
+              ) : (
+                <Info className="w-4 h-4 text-slate-500" />
+              )}
+              <p
+                className={`text-xs font-bold uppercase tracking-widest ${
+                  isPaid ? "text-purple-100" : "text-slate-500"
+                }`}
+              >
+                Current Plan
+              </p>
+            </div>
+            <h2
+              className={`text-xl md:text-2xl font-bold ${
+                isPaid ? "text-white" : "text-slate-800"
+              }`}
+            >
+              {currentPlan?.name || userPlanName}
             </h2>
-            {isPaid && (
-              <p className="text-sm text-slate-600 mt-1">
-                Renews on March 15, 2026
+            {currentPlan && Number(currentPlan.price) > 0 && (
+              <p
+                className={`text-sm mt-1 ${
+                  isPaid ? "text-purple-100" : "text-slate-600"
+                }`}
+              >
+                ${Number(currentPlan.price).toFixed(0)}/
+                {currentPlan.billing_cycle || billingCycle}
               </p>
             )}
           </div>
           {isPaid && (
-            <div className="flex gap-2">
-              <button className="px-4 py-2 bg-white text-slate-600 text-sm font-medium rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
+            <div className="flex flex-wrap gap-2">
+              <button className="px-4 py-2 bg-white/15 backdrop-blur-sm text-white text-sm font-medium rounded-xl border border-white/20 hover:bg-white/25 transition-colors">
                 Manage Billing
               </button>
-              <button className="px-4 py-2 bg-white text-red-600 text-sm font-medium rounded-xl border border-red-200 hover:bg-red-50 transition-colors">
+              <button className="px-4 py-2 bg-white text-rose-600 text-sm font-semibold rounded-xl hover:bg-rose-50 transition-colors">
                 Cancel Plan
               </button>
             </div>
@@ -178,188 +171,202 @@ const UpgradePage = () => {
         </div>
       </div>
 
-      {/* Plans Grid */}
-      <div
-        className={`grid gap-6 ${plans.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2 max-w-3xl mx-auto"}`}
-      >
-        {plans.map((plan) => (
-          <div
-            key={plan.name}
-            className={`bg-white rounded-2xl shadow-sm border-2 p-6 relative ${
-              plan.current
-                ? "border-purple-400 ring-2 ring-purple-100"
-                : plan.popular
-                  ? "border-purple-200"
-                  : "border-slate-100"
+      {/* ─── Billing toggle ──────────────────────────────────── */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h2 className="text-lg font-bold text-slate-800">Available Plans</h2>
+        <div className="inline-flex items-center bg-slate-100 rounded-xl p-1">
+          <button
+            onClick={() => setBillingCycle("monthly")}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              billingCycle === "monthly"
+                ? "bg-white text-purple-700 shadow-sm"
+                : "text-slate-600 hover:text-slate-800"
             }`}
           >
-            {plan.popular && !plan.current && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-bold px-4 py-1 rounded-full">
-                RECOMMENDED
-              </span>
-            )}
-            {plan.current && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold px-4 py-1 rounded-full">
-                CURRENT PLAN
-              </span>
-            )}
-            <div className="text-center mb-5 pt-2">
-              <h3 className="text-lg font-bold text-slate-800">{plan.name}</h3>
-              {plan.tagline && (
-                <p className="text-xs text-purple-600 font-medium mt-1">
-                  {plan.tagline}
-                </p>
-              )}
-              {(() => {
-                const selectedOpt = getSelectedOption(plan);
-                const displayAmount = selectedOpt
-                  ? selectedOpt.amount
-                  : plan.price;
-                const displayPeriod = selectedOpt
-                  ? selectedOpt.frequency
-                  : plan.period;
-                return (
-                  <div>
-                    <span className="text-3xl font-extrabold text-slate-900">
-                      ${displayAmount}
-                    </span>
-                    <span className="text-sm text-slate-500 ml-1">
-                      {displayPeriod}
-                    </span>
-                  </div>
-                );
-              })()}
-
-              {plan.paymentOptions && (
-                <div className="mt-4 space-y-2">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                    Payment options
-                  </p>
-                  {plan.paymentOptions.map((opt, i) => {
-                    const isSelected =
-                      (selectedPaymentIdx[plan.name] ?? 0) === i;
-                    return (
-                      <label
-                        key={i}
-                        className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                          isSelected
-                            ? "border-purple-500 bg-purple-50"
-                            : "border-slate-200 hover:border-purple-300"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name={`payment-${plan.name}`}
-                          checked={isSelected}
-                          onChange={() =>
-                            setSelectedPaymentIdx((prev) => ({
-                              ...prev,
-                              [plan.name]: i,
-                            }))
-                          }
-                          className="mt-1 accent-purple-600"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-sm font-semibold text-slate-800">
-                              {opt.label}
-                            </span>
-                            <span className="text-sm font-bold text-purple-700">
-                              ${opt.amount}
-                              <span className="text-xs text-slate-500 font-normal ml-1">
-                                {opt.frequency}
-                              </span>
-                            </span>
-                          </div>
-                          {opt.note && (
-                            <p className="text-[11px] text-slate-500 mt-0.5">
-                              {opt.note}
-                            </p>
-                          )}
-                        </div>
-                      </label>
-                    );
-                  })}
-                </div>
-              )}
-
-              {plan.yearlyPrice && (
-                <p className="text-xs text-slate-400 mt-1">
-                  or ${plan.yearlyPrice}/year (save{" "}
-                  {Math.round((1 - plan.yearlyPrice / (plan.price * 12)) * 100)}
-                  %)
-                </p>
-              )}
-            </div>
-            <div className="space-y-3 mb-6">
-              {plan.features.map((f, i) => (
-                <div key={i} className="flex items-start gap-2.5">
-                  <svg
-                    className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span
-                    className={`text-sm ${f === "Eligible for Marketing add-on" ? "text-purple-700 font-medium" : "text-slate-700"}`}
-                  >
-                    {f}
-                  </span>
-                </div>
-              ))}
-            </div>
-            {plan.current ? (
-              <button
-                disabled
-                className="w-full py-3 bg-slate-100 text-slate-500 font-semibold rounded-xl cursor-default"
-              >
-                Current Plan
-              </button>
-            ) : plan.price === 0 ? (
-              <button
-                disabled
-                className="w-full py-3 bg-slate-50 text-slate-400 font-semibold rounded-xl cursor-default"
-              >
-                Free Forever
-              </button>
-            ) : (
-              <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl shadow-md transition-all">
-                {isPaid ? "Switch Plan" : "Upgrade Now"}
-              </button>
-            )}
-          </div>
-        ))}
+            Monthly
+          </button>
+          <button
+            onClick={() => setBillingCycle("yearly")}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+              billingCycle === "yearly"
+                ? "bg-white text-purple-700 shadow-sm"
+                : "text-slate-600 hover:text-slate-800"
+            }`}
+          >
+            Yearly
+            <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full">
+              SAVE
+            </span>
+          </button>
+        </div>
       </div>
 
-      {/* ─── Marketing Add-on Card ─────────────────────────────────────── */}
+      {/* ─── Plans Grid ──────────────────────────────────────── */}
+      {loading && plans.length === 0 ? (
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-16 flex items-center justify-center">
+          <Loader2 className="w-7 h-7 text-purple-500 animate-spin" />
+        </div>
+      ) : plans.length === 0 ? (
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center">
+          <p className="text-slate-500">
+            No plans available right now. Please check back soon.
+          </p>
+        </div>
+      ) : (
+        <div
+          className={`grid gap-5 ${
+            plans.length === 3
+              ? "lg:grid-cols-3"
+              : "lg:grid-cols-2 max-w-3xl mx-auto"
+          }`}
+        >
+          {plans.map((plan) => {
+            const isCurrent = isCurrentPlan(user, isPaid, plan);
+            const price = formatPriceDisplay(plan, billingCycle);
+            const isFree = Number(plan.price) === 0;
+
+            // Determine if this is upgrade or downgrade vs current
+            let actionLabel = isPaid ? "Switch Plan" : "Upgrade Now";
+            if (currentPlan && !isCurrent) {
+              if (Number(plan.price) > Number(currentPlan.price)) {
+                actionLabel = "Upgrade";
+              } else if (Number(plan.price) < Number(currentPlan.price)) {
+                actionLabel = "Downgrade";
+              }
+            }
+            if (isFree && !isPaid) actionLabel = "Free Forever";
+
+            return (
+              <div
+                key={plan.id}
+                className={`relative bg-white rounded-2xl border-2 p-6 transition-all ${
+                  isCurrent
+                    ? "border-emerald-400 ring-2 ring-emerald-100 shadow-md"
+                    : plan.popular
+                      ? "border-purple-300 shadow-lg"
+                      : "border-slate-200 hover:border-slate-300"
+                }`}
+              >
+                {/* Top badge */}
+                {isCurrent ? (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full inline-flex items-center gap-1 shadow">
+                    <CheckCircle2 className="w-3 h-3" />
+                    Current Plan
+                  </span>
+                ) : (
+                  plan.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full inline-flex items-center gap-1 shadow">
+                      <Crown className="w-3 h-3" />
+                      Recommended
+                    </span>
+                  )
+                )}
+
+                {/* Plan name + price */}
+                <div className="text-center mb-5 pt-2">
+                  <h3 className="text-base font-bold text-slate-800 mb-2">
+                    {plan.name}
+                  </h3>
+                  <div className="flex items-baseline justify-center gap-0.5">
+                    <span className="text-3xl font-extrabold text-slate-900">
+                      {price.main}
+                    </span>
+                    {price.sub && (
+                      <span className="text-sm font-semibold text-slate-500">
+                        {price.sub}
+                      </span>
+                    )}
+                  </div>
+                  {plan.description && (
+                    <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                      {plan.description}
+                    </p>
+                  )}
+                </div>
+
+                {/* Features list */}
+                <ul className="space-y-2.5 mb-6 min-h-[180px]">
+                  {(plan.features || []).map((f, i) => {
+                    const fname = f.name || f.feature_key || String(f);
+                    const fvalue = typeof f === "object" ? f.value : null;
+                    return (
+                      <li
+                        key={f.id || f.feature_key || i}
+                        className="flex items-start gap-2.5 text-sm"
+                      >
+                        <Check
+                          className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5"
+                          strokeWidth={3}
+                        />
+                        <span className="text-slate-700 leading-snug flex-1">
+                          {fname}
+                          {fvalue && (
+                            <span className="ml-1.5 inline-block text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                              {fvalue}
+                            </span>
+                          )}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                {/* Action button */}
+                {isCurrent ? (
+                  <button
+                    disabled
+                    className="w-full py-3 bg-emerald-50 text-emerald-700 text-sm font-bold rounded-xl cursor-default border border-emerald-200"
+                  >
+                    Your Current Plan
+                  </button>
+                ) : isFree && !isPaid ? (
+                  <button
+                    disabled
+                    className="w-full py-3 bg-slate-50 text-slate-400 text-sm font-bold rounded-xl cursor-default"
+                  >
+                    Free Forever
+                  </button>
+                ) : (
+                  <button
+                    className={`w-full py-3 text-sm font-bold rounded-xl shadow-md transition-all ${
+                      plan.popular
+                        ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                        : "bg-slate-900 hover:bg-slate-800 text-white"
+                    }`}
+                  >
+                    {actionLabel}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ─── Marketing Add-on (provider only) ───────────────── */}
       {isProvider && (
         <div
           className={`rounded-2xl border-2 p-6 transition-all ${
             hasGrowthOrAbove
               ? "bg-white border-amber-200 shadow-sm"
-              : "bg-slate-50 border-slate-200 opacity-80"
+              : "bg-slate-50 border-slate-200 opacity-90"
           }`}
         >
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <div className="flex items-start gap-4">
-              {/* Icon */}
+            <div className="flex items-start gap-4 flex-1 min-w-0">
               <div
                 className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
                   hasGrowthOrAbove ? "bg-amber-100" : "bg-slate-200"
                 }`}
               >
                 <Megaphone
-                  className={`w-6 h-6 ${hasGrowthOrAbove ? "text-amber-700" : "text-slate-500"}`}
+                  className={`w-6 h-6 ${
+                    hasGrowthOrAbove ? "text-amber-700" : "text-slate-500"
+                  }`}
                 />
               </div>
-
-              <div>
-                <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
                   <h3 className="text-base font-semibold text-slate-800">
                     Marketing Add-on — Platform Advertising
                   </h3>
@@ -373,20 +380,16 @@ const UpgradePage = () => {
                     Add-on
                   </span>
                 </div>
-
-                <p className="text-sm text-slate-500 mt-1 max-w-xl">
+                <p className="text-sm text-slate-500 max-w-xl mb-3">
                   Get your brand featured across the platform — your logo
-                  scrolls in the
+                  scrolls in the{" "}
                   <span className="font-medium text-slate-700">
-                    {" "}
                     Featured Partners ribbon
                   </span>
                   , visible to all participants and providers. Billed monthly,
                   cancel any time.
                 </p>
-
-                {/* What's included */}
-                <div className="mt-3 grid sm:grid-cols-2 gap-x-6 gap-y-1.5">
+                <div className="grid sm:grid-cols-2 gap-x-6 gap-y-1.5">
                   {[
                     "Logo in Featured Partners ribbon",
                     "Listing boosted in provider search",
@@ -394,66 +397,26 @@ const UpgradePage = () => {
                     "1-month minimum, renew as needed",
                   ].map((f, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <svg
-                        className={`w-3.5 h-3.5 flex-shrink-0 ${hasGrowthOrAbove ? "text-amber-500" : "text-slate-400"}`}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <Check
+                        className={`w-3.5 h-3.5 flex-shrink-0 ${
+                          hasGrowthOrAbove ? "text-amber-600" : "text-slate-400"
+                        }`}
+                        strokeWidth={3}
+                      />
                       <span className="text-xs text-slate-600">{f}</span>
                     </div>
                   ))}
                 </div>
-
-                {/* Lock notice for free users */}
-                {!hasGrowthOrAbove && (
-                  <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
-                    <svg
-                      className="w-4 h-4 flex-shrink-0 text-slate-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                      />
-                    </svg>
-                    Requires{" "}
-                    <span className="font-semibold text-slate-600 mx-1">
-                      Growth & Referral
-                    </span>{" "}
-                    or higher to unlock
-                  </div>
-                )}
               </div>
             </div>
-
-            {/* Pricing + CTA */}
-            <div className="flex flex-col items-center gap-3 flex-shrink-0 text-center md:text-right md:items-end">
-              <div>
-                <span className="text-3xl font-extrabold text-slate-900">
-                  $400
-                </span>
-                <span className="text-sm text-slate-500">/month</span>
-                <p className="text-[11px] text-slate-400 mt-0.5">
-                  No lock-in · month to month
-                </p>
-              </div>
-
+            <div className="flex-shrink-0">
               {hasGrowthOrAbove ? (
                 <Link
-                  to="marketing"
-                  className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-xl shadow-md transition-all whitespace-nowrap"
+                  to="../marketing"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-xl shadow-md transition-all whitespace-nowrap"
                 >
-                  Add Marketing →
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Add Marketing
                 </Link>
               ) : (
                 <button
@@ -468,29 +431,17 @@ const UpgradePage = () => {
         </div>
       )}
 
-      {/* Team Members Note */}
+      {/* ─── Team Members Note (provider + paid) ─────────────── */}
       {isProvider && isPaid && (
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
-          <svg
-            className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          <Info className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-sm font-medium text-blue-800">Team Members</p>
-            <p className="text-xs text-blue-700 mt-0.5">
+            <p className="text-sm font-semibold text-blue-800">Team Members</p>
+            <p className="text-xs text-blue-700 mt-0.5 leading-relaxed">
               All paid subscriptions include the ability to add up to 4 team
               members. Team members get access to free tier features.{" "}
-              <Link to="profile" className="underline font-semibold">
-                Manage in Profile →
+              <Link to="../profile" className="underline font-semibold">
+                Manage in Profile <ArrowRight className="w-3 h-3 inline" />
               </Link>
             </p>
           </div>
