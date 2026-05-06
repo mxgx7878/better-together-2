@@ -74,7 +74,7 @@ import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
 import EventFormPage from "./pages/admin/EventFormPage";
 import EventDetailsPage from "./pages/admin/EventDetailPage";
 import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
-import TermsAndConditionsPage from "./pages/public/TermsAndConditionsPage";
+import TermsAndConditionsPage from "./pages/public/Termsandconditionspage";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
