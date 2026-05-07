@@ -12,6 +12,10 @@ import {
   Circle,
   PlayCircle,
   GraduationCap,
+  FileText,
+  Image as ImageIcon,
+  File as FileIcon,
+  Download,
 } from "lucide-react";
 import {
   fetchLearningModuleById,
@@ -52,7 +56,9 @@ const LearningModuleDetailPage = () => {
     return () => dispatch(clearSelectedModule());
   }, [id, dispatch, isParticipant]);
 
-  const basePath = isParticipant ? "/participant/learning" : "/provider/learning";
+  const basePath = isParticipant
+    ? "/participant/learning"
+    : "/provider/learning";
 
   if (loading) {
     return (
@@ -84,9 +90,7 @@ const LearningModuleDetailPage = () => {
   const lessons = mod.lessons || [];
 
   const completedLessonIds = new Set(
-    progress
-      .filter((p) => p.completed_at)
-      .map((p) => p.lesson_id),
+    progress.filter((p) => p.completed_at).map((p) => p.lesson_id),
   );
 
   const completedCount = lessons.filter((l) =>
@@ -96,7 +100,8 @@ const LearningModuleDetailPage = () => {
     ? Math.round((completedCount / lessons.length) * 100)
     : 0;
 
-  const activeLesson = lessons.find((l) => l.id === activeLessonId) || lessons[0];
+  const activeLesson =
+    lessons.find((l) => l.id === activeLessonId) || lessons[0];
 
   const handleMarkComplete = async (lessonId) => {
     setCompletingId(lessonId);
@@ -287,6 +292,49 @@ const LearningModuleDetailPage = () => {
                     {activeLesson.content}
                   </div>
                 )}
+
+                {activeLesson.attachment_url && (
+                  <div className="mt-6 p-4 border border-slate-200 bg-slate-50/60 rounded-xl flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 flex-shrink-0">
+                      {activeLesson.attachment_type === "pdf" ? (
+                        <FileText className="w-5 h-5" />
+                      ) : activeLesson.attachment_type === "image" ? (
+                        <ImageIcon className="w-5 h-5" />
+                      ) : (
+                        <FileIcon className="w-5 h-5" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-slate-700 truncate">
+                        {activeLesson.attachment_name || "Lesson resource"}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        {(activeLesson.attachment_type || "file").toUpperCase()}
+                        {activeLesson.attachment_size
+                          ? ` · ${(activeLesson.attachment_size / 1024 / 1024).toFixed(2)} MB`
+                          : ""}
+                      </p>
+                    </div>
+                    <a
+                      href={activeLesson.attachment_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download={activeLesson.attachment_name}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all flex-shrink-0"
+                    >
+                      <Download className="w-4 h-4" /> Download
+                    </a>
+                  </div>
+                )}
+
+                {activeLesson.attachment_type === "image" &&
+                  activeLesson.attachment_url && (
+                    <img
+                      src={activeLesson.attachment_url}
+                      alt={activeLesson.attachment_name || ""}
+                      className="mt-4 rounded-xl max-h-96 object-contain border border-slate-200"
+                    />
+                  )}
 
                 {isParticipant && (
                   <div className="mt-6 pt-5 border-t border-slate-100">

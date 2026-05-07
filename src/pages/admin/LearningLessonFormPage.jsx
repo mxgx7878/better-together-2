@@ -1,7 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowLeft, Loader2, Plus, Save } from "lucide-react";
+import {
+  ArrowLeft,
+  Loader2,
+  Plus,
+  Save,
+  Upload,
+  X,
+  FileText,
+  Image as ImageIcon,
+  File as FileIcon,
+} from "lucide-react";
+import { toast } from "sonner";
+import api from "../../services/api";
 import {
   adminCreateLesson,
   adminUpdateLesson,
@@ -9,11 +21,16 @@ import {
 } from "../../store/actions/learningActions";
 import { clearSelectedLesson } from "../../store/slices/learningSlice";
 import { ASYNC_STATUS } from "../../constants";
+import FileUploadPreview from "../../components/common/FileUploadPreview";
 
 const emptyForm = {
   title: "",
   content: "",
   video_url: "",
+  attachment_url: "",
+  attachment_name: "",
+  attachment_type: "",
+  attachment_size: 0,
   duration_minutes: 0,
   order: 1,
 };
@@ -61,6 +78,10 @@ const LearningLessonFormPage = () => {
         title: selectedLesson.title || "",
         content: selectedLesson.content || "",
         video_url: selectedLesson.video_url || "",
+        attachment_url: selectedLesson.attachment_url || "",
+        attachment_name: selectedLesson.attachment_name || "",
+        attachment_type: selectedLesson.attachment_type || "",
+        attachment_size: selectedLesson.attachment_size || 0,
         duration_minutes: Number(selectedLesson.duration_minutes) || 0,
         order: Number(selectedLesson.order) || 1,
       });
@@ -92,6 +113,12 @@ const LearningLessonFormPage = () => {
       title: form.title.trim(),
       content: form.content.trim(),
       video_url: form.video_url.trim() || null,
+      attachment_url: form.attachment_url || null,
+      attachment_name: form.attachment_name || null,
+      attachment_type: form.attachment_type || null,
+      attachment_size: form.attachment_size
+        ? Number(form.attachment_size)
+        : null,
       duration_minutes: Number(form.duration_minutes) || 0,
       order: Number(form.order) || 1,
     };
@@ -177,6 +204,28 @@ const LearningLessonFormPage = () => {
             onChange={handleChange}
             placeholder="https://youtube.com/watch?v=..."
             className={inputCls(false)}
+          />
+        </Field>
+
+        <Field label="Lesson Attachment (optional)">
+          <FileUploadPreview
+            value={form.attachment_url}
+            onChange={(url) => {
+              const fileName = url ? url.split("/").pop() : "";
+              setForm((prev) => ({
+                ...prev,
+                attachment_url: url || "",
+                attachment_name: fileName,
+                attachment_type: url ? detectAttachmentType(url, fileName) : "",
+                // size won't be known here since component returns only URL —
+                // leave as-is or 0; backend handles nullable
+                attachment_size: url ? prev.attachment_size : 0,
+              }));
+            }}
+            accept="*/*"
+            folder="learning-lessons"
+            maxSizeMb={25}
+            placeholder="Upload PDF, image, doc, video — anything"
           />
         </Field>
 
