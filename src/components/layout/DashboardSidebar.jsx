@@ -113,7 +113,7 @@ const DashboardSidebar = ({
       path: "/admin/analytics",
       tier: "all",
     },
-    { label: "Settings", icon: Settings, path: "/admin/settings", tier: "all" },
+    // { label: "Settings", icon: Settings, path: "/admin/settings", tier: "all" },
   ];
 
   // Provider navigation
@@ -327,9 +327,11 @@ const DashboardSidebar = ({
               <p className="text-sm font-medium text-white truncate">
                 {user?.name}
               </p>
+              {!isAdmin &&
               <p className="text-[11px] text-slate-400 truncate">
                 {isPaid ? user?.subscriptionPlan || "Paid Plan" : "Free Plan"}
               </p>
+              }
             </div>
           )}
         </div>
