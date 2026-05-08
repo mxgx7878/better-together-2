@@ -177,3 +177,16 @@ export const adminSetPendingUser = createAsyncThunk(
     }
   },
 );
+
+
+export const fetchUsers = createAsyncThunk(
+  "users/fetch",
+  async (params = {}, { rejectWithValue }) => {
+    try {
+      const data = await api.get("/users", { params });
+      return data.data;
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to fetch users");
+    }
+  },
+);

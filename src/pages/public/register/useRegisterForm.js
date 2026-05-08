@@ -139,10 +139,14 @@ const useRegisterForm = () => {
         };
         await dispatch(registerParticipant(payload)).unwrap();
       }
-      toast.info(
-        "Your account is pending admin approval. Once approved you can use all features.",
-        { duration: 6000 },
-      );
+      // toast.info(
+      //   "Your account is pending admin approval. Once approved you can use all features.",
+      //   { duration: 6000 },
+      // );
+      toast.success(
+      "Account created successfully! You can now log in and start using the platform.",
+      { duration: 5000 },
+    );
       return true;
     } catch {
       return false;

@@ -11,8 +11,8 @@ const PersonalDetailsStep = ({
 }) => (
   <div className="space-y-5">
     <div className="text-center mb-6">
-      <h2 className="text-2xl font-bold text-slate-800">Personal Details</h2>
-      <p className="text-slate-500 mt-1">Tell us about yourself</p>
+      <h2 className="text-2xl font-bold text-slate-800">Business  Detailss</h2>
+      <p className="text-slate-500 mt-1">Tell us about your business</p>
     </div>
 
     <div className="grid sm:grid-cols-2 gap-4">

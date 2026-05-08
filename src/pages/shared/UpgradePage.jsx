@@ -19,10 +19,13 @@ import { ASYNC_STATUS } from "../../constants";
 // Locate the user's current plan in whichever shape the backend returns.
 const getUserPlan = (user) => {
   if (!user) return null;
-  if (user.subscription && typeof user.subscription === "object") return user.subscription;
-  if (user.current_subscription && typeof user.current_subscription === "object") return user.current_subscription;
+  if (user.subscription && typeof user.subscription === "object")
+    return user.subscription;
+  if (user.current_subscription && typeof user.current_subscription === "object")
+    return user.current_subscription;
   if (user.plan && typeof user.plan === "object") return user.plan;
-  if (user.subscriptionPlan && typeof user.subscriptionPlan === "object") return user.subscriptionPlan;
+  if (user.subscriptionPlan && typeof user.subscriptionPlan === "object")
+    return user.subscriptionPlan;
   return null;
 };
 
@@ -51,6 +54,12 @@ const isCurrentPlan = (user, isPaid, plan) => {
 const formatPriceDisplay = (plan, billingCycle) => {
   const price = Number(plan.price);
   if (price === 0) return { main: "Free", sub: "" };
+
+  // Lifetime — single one-time payment, no recurring suffix.
+  if (billingCycle === "lifetime" || plan.billing_cycle === "lifetime") {
+    return { main: `$${price.toFixed(0)}`, sub: " one-time" };
+  }
+
   if (billingCycle === "yearly") {
     return { main: `$${price.toFixed(0)}`, sub: "/year" };
   }
@@ -68,9 +77,13 @@ const UpgradePage = () => {
 
   const [billingCycle, setBillingCycle] = useState("monthly");
 
-  const role = isProvider ? "provider" : isParticipant ? "participant" : "all";
+  const role = isProvider
+    ? "provider"
+    : isParticipant
+      ? "participant"
+      : "all";
 
-  // Fetch plans matching this user's role
+  // Fetch plans matching this user's role + billing cycle
   useEffect(() => {
     dispatch(
       fetchPublicSubscriptions({
@@ -91,7 +104,8 @@ const UpgradePage = () => {
   }, [publicSubscriptions, role, billingCycle]);
 
   // What plan is the user currently on?
-  const userPlanName = getUserPlanName(user) || (isPaid ? "Paid Plan" : "Free Plan");
+  const userPlanName =
+    getUserPlanName(user) || (isPaid ? "Paid Plan" : "Free Plan");
   const currentPlan = plans.find((p) => isCurrentPlan(user, isPaid, p));
 
   // Marketing add-on eligibility — any paid plan
@@ -153,8 +167,10 @@ const UpgradePage = () => {
                   isPaid ? "text-purple-100" : "text-slate-600"
                 }`}
               >
-                ${Number(currentPlan.price).toFixed(0)}/
-                {currentPlan.billing_cycle || billingCycle}
+                ${Number(currentPlan.price).toFixed(0)}
+                {currentPlan.billing_cycle === "lifetime"
+                  ? " one-time"
+                  : `/${currentPlan.billing_cycle || billingCycle}`}
               </p>
             )}
           </div>
@@ -171,10 +187,10 @@ const UpgradePage = () => {
         </div>
       </div>
 
-      {/* ─── Billing toggle ──────────────────────────────────── */}
+      {/* ─── Billing toggle — Monthly / Yearly / Lifetime ────── */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h2 className="text-lg font-bold text-slate-800">Available Plans</h2>
-        <div className="inline-flex items-center bg-slate-100 rounded-xl p-1">
+        <div className="inline-flex items-center bg-slate-100 rounded-xl p-1 flex-wrap">
           <button
             onClick={() => setBillingCycle("monthly")}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
@@ -198,6 +214,19 @@ const UpgradePage = () => {
               SAVE
             </span>
           </button>
+          <button
+            onClick={() => setBillingCycle("lifetime")}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+              billingCycle === "lifetime"
+                ? "bg-white text-purple-700 shadow-sm"
+                : "text-slate-600 hover:text-slate-800"
+            }`}
+          >
+            Lifetime
+            <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full">
+              ONE-TIME
+            </span>
+          </button>
         </div>
       </div>
 
@@ -209,7 +238,8 @@ const UpgradePage = () => {
       ) : plans.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center">
           <p className="text-slate-500">
-            No plans available right now. Please check back soon.
+            No {billingCycle} plans available right now. Try a different
+            billing option above, or check back soon.
           </p>
         </div>
       ) : (
@@ -235,6 +265,15 @@ const UpgradePage = () => {
               }
             }
             if (isFree && !isPaid) actionLabel = "Free Forever";
+            // Lifetime plans get a clearer call to action
+            if (
+              !isCurrent &&
+              !isFree &&
+              (billingCycle === "lifetime" ||
+                plan.billing_cycle === "lifetime")
+            ) {
+              actionLabel = "Get Lifetime Access";
+            }
 
             return (
               <div
@@ -249,25 +288,26 @@ const UpgradePage = () => {
               >
                 {/* Top badge */}
                 {isCurrent ? (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full inline-flex items-center gap-1 shadow">
-                    <CheckCircle2 className="w-3 h-3" />
-                    Current Plan
-                  </span>
-                ) : (
-                  plan.popular && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full inline-flex items-center gap-1 shadow">
-                      <Crown className="w-3 h-3" />
-                      Recommended
-                    </span>
-                  )
-                )}
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow">
+                    <CheckCircle2 className="w-3 h-3" /> Current Plan
+                  </div>
+                ) : plan.popular ? (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow">
+                    <Crown className="w-3 h-3" /> Most Popular
+                  </div>
+                ) : null}
 
-                {/* Plan name + price */}
-                <div className="text-center mb-5 pt-2">
-                  <h3 className="text-base font-bold text-slate-800 mb-2">
-                    {plan.name}
-                  </h3>
-                  <div className="flex items-baseline justify-center gap-0.5">
+                {/* Plan title + price */}
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {plan.name}
+                </h3>
+                {plan.description && (
+                  <p className="text-xs text-slate-500 mb-3 leading-relaxed">
+                    {plan.description}
+                  </p>
+                )}
+                <div className="mb-4">
+                  <p className="flex items-baseline gap-0.5">
                     <span className="text-3xl font-extrabold text-slate-900">
                       {price.main}
                     </span>
@@ -276,19 +316,20 @@ const UpgradePage = () => {
                         {price.sub}
                       </span>
                     )}
-                  </div>
-                  {plan.description && (
-                    <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-                      {plan.description}
+                  </p>
+                  {plan.savings_note && (
+                    <p className="text-[11px] font-bold text-emerald-700 bg-emerald-50 rounded-full px-2 py-0.5 inline-block mt-1.5">
+                      {plan.savings_note}
                     </p>
                   )}
                 </div>
 
-                {/* Features list */}
-                <ul className="space-y-2.5 mb-6 min-h-[180px]">
+                {/* Feature list */}
+                <ul className="space-y-2 mb-6">
                   {(plan.features || []).map((f, i) => {
-                    const fname = f.name || f.feature_key || String(f);
-                    const fvalue = typeof f === "object" ? f.value : null;
+                    const fname = f.name || f.feature_key;
+                    const fvalue =
+                      typeof f.value === "string" && f.value ? f.value : null;
                     return (
                       <li
                         key={f.id || f.feature_key || i}

@@ -10,6 +10,7 @@ import {
   adminRejectUser,
   adminSuspendUser,
   adminSetPendingUser,
+  fetchUsers 
 } from "../actions/userActions";
 import { ASYNC_STATUS } from "../../constants";
 
@@ -147,6 +148,22 @@ const userSlice = createSlice({
       .addCase(adminSetPendingUser.pending, (s) => { s.actionStatus = ASYNC_STATUS.LOADING; })
       .addCase(adminSetPendingUser.fulfilled, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.SUCCEEDED; patchUser(s, payload); })
       .addCase(adminSetPendingUser.rejected, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.FAILED; s.error = payload; });
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.status = ASYNC_STATUS.LOADING;
+      })
+      .addCase(fetchUsers.fulfilled, (state, { payload }) => {
+        state.status = ASYNC_STATUS.SUCCEEDED;
+        // Backend returns Laravel paginator under `data` key
+        state.users = payload?.data || [];
+        state.total = payload?.total ?? state.users.length;
+        state.totalPages = payload?.last_page ?? 0;
+        state.page = payload?.current_page ?? 1;
+      })
+      .addCase(fetchUsers.rejected, (state, { payload }) => {
+        state.status = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      });
   },
 });
 

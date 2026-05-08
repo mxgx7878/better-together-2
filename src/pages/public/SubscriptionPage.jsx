@@ -15,146 +15,20 @@ import {
 import { fetchPublicSubscriptions } from "../../store/actions/subscriptionActions";
 import { ASYNC_STATUS } from "../../constants";
 
-// Static fallback only used when the API has zero plans (dev / unseeded
-// backend). Pricing matches the latest brief.
-const FALLBACK = {
-  provider: {
-    monthly: [
-      { id: "free-p", name: "Community Access", price: 0, billing_cycle: "monthly", role: "provider",
-        description: "Stay connected with the community at no cost.",
-        features: [
-          { feature_key: "events_calendar", name: "Events calendar", value: null },
-          { feature_key: "networking_meetups", name: "Networking meet-ups", value: null },
-          { feature_key: "community_updates", name: "Community & sector updates", value: null },
-          { feature_key: "message_board", name: "Provider message board", value: null },
-        ] },
-      { id: "mid-p", name: "Provider Portal", price: 65, billing_cycle: "monthly", role: "provider", popular: true,
-        description: "Built for providers ready to grow their reach and referrals.",
-        features: [
-          { feature_key: "events_calendar", name: "Events calendar", value: null },
-          { feature_key: "networking_meetups", name: "Networking meet-ups", value: null },
-          { feature_key: "community_updates", name: "Community & sector updates", value: null },
-          { feature_key: "message_board", name: "Provider message board", value: null },
-          { feature_key: "client_referrals", name: "Client referral opportunities", value: null },
-          { feature_key: "advertising_placements", name: "Advertising placements", value: null },
-          { feature_key: "networking_complementary", name: "Network with complementary businesses", value: null },
-          { feature_key: "local_referral_pathways", name: "Local referral pathways", value: null },
-        ] },
-      { id: "prem-p", name: "Premium", price: 95, billing_cycle: "monthly", role: "provider",
-        description: "Maximum reach, brand presence, and direct access to participant groups.",
-        features: [
-          { feature_key: "events_calendar", name: "Events calendar", value: null },
-          { feature_key: "networking_meetups", name: "Networking meet-ups", value: null },
-          { feature_key: "community_updates", name: "Community & sector updates", value: null },
-          { feature_key: "message_board", name: "Provider message board", value: null },
-          { feature_key: "client_referrals", name: "Client referral opportunities", value: null },
-          { feature_key: "advertising_placements", name: "Advertising placements", value: null },
-          { feature_key: "networking_complementary", name: "Network with complementary businesses", value: null },
-          { feature_key: "local_referral_pathways", name: "Local referral pathways", value: null },
-          { feature_key: "priority_advertising", name: "Priority advertising", value: null },
-          { feature_key: "featured_listing", name: "Featured provider listing", value: null },
-          { feature_key: "participant_exposure", name: "Direct participant group access", value: null },
-          { feature_key: "showcase_expertise", name: "Showcase expertise", value: null },
-          { feature_key: "priority_support", name: "Priority support", value: null },
-          { feature_key: "quarterly_reports", name: "Quarterly performance reports", value: null },
-        ] },
-    ],
-    yearly: [
-      { id: "free-p", name: "Community Access", price: 0, billing_cycle: "yearly", role: "provider",
-        description: "Stay connected with the community at no cost.",
-        features: [
-          { feature_key: "events_calendar", name: "Events calendar", value: null },
-          { feature_key: "networking_meetups", name: "Networking meet-ups", value: null },
-          { feature_key: "community_updates", name: "Community & sector updates", value: null },
-          { feature_key: "message_board", name: "Provider message board", value: null },
-        ] },
-      { id: "mid-p", name: "Provider Portal", price: 650, billing_cycle: "yearly", role: "provider",
-        popular: true, monthly_equivalent: 54, savings_note: "≈ 2 months free",
-        description: "Built for providers ready to grow their reach and referrals.",
-        features: [
-          { feature_key: "events_calendar", name: "Events calendar", value: null },
-          { feature_key: "networking_meetups", name: "Networking meet-ups", value: null },
-          { feature_key: "community_updates", name: "Community & sector updates", value: null },
-          { feature_key: "message_board", name: "Provider message board", value: null },
-          { feature_key: "client_referrals", name: "Client referral opportunities", value: null },
-          { feature_key: "advertising_placements", name: "Advertising placements", value: null },
-          { feature_key: "networking_complementary", name: "Network with complementary businesses", value: null },
-          { feature_key: "local_referral_pathways", name: "Local referral pathways", value: null },
-        ] },
-      { id: "prem-p", name: "Premium", price: 960, billing_cycle: "yearly", role: "provider",
-        monthly_equivalent: 80, savings_note: "Save $180/year",
-        description: "Maximum reach, brand presence, and direct access to participant groups.",
-        features: [
-          { feature_key: "events_calendar", name: "Events calendar", value: null },
-          { feature_key: "networking_meetups", name: "Networking meet-ups", value: null },
-          { feature_key: "community_updates", name: "Community & sector updates", value: null },
-          { feature_key: "message_board", name: "Provider message board", value: null },
-          { feature_key: "client_referrals", name: "Client referral opportunities", value: null },
-          { feature_key: "advertising_placements", name: "Advertising placements", value: null },
-          { feature_key: "networking_complementary", name: "Network with complementary businesses", value: null },
-          { feature_key: "local_referral_pathways", name: "Local referral pathways", value: null },
-          { feature_key: "priority_advertising", name: "Priority advertising", value: null },
-          { feature_key: "featured_listing", name: "Featured provider listing", value: null },
-          { feature_key: "participant_exposure", name: "Direct participant group access", value: null },
-          { feature_key: "showcase_expertise", name: "Showcase expertise", value: null },
-          { feature_key: "priority_support", name: "Priority support", value: null },
-          { feature_key: "quarterly_reports", name: "Quarterly performance reports", value: null },
-        ] },
-    ],
-  },
-  participant: {
-    monthly: [
-      { id: "free-pt", name: "Community Connection", price: 0, billing_cycle: "monthly", role: "participant",
-        description: "Stay informed and connected with the community.",
-        features: [
-          { feature_key: "lfs_access", name: 'Access to "Looking for Services"', value: null },
-          { feature_key: "connect_local", name: "Connect with local providers", value: null },
-          { feature_key: "community_events", name: "Community updates & events", value: null },
-        ] },
-      { id: "guidance-pt", name: "Guidance & Advocacy Plus", price: 29, billing_cycle: "monthly", role: "participant", popular: true,
-        description: "Get a personal Buddy and walk through your plan with confidence.",
-        features: [
-          { feature_key: "lfs_access", name: 'Access to "Looking for Services"', value: null },
-          { feature_key: "connect_local", name: "Connect with local providers", value: null },
-          { feature_key: "community_events", name: "Community updates & events", value: null },
-          { feature_key: "plan_help", name: "Help understanding your plan", value: null },
-          { feature_key: "review_guidance", name: "Guidance through reviews & processes", value: null },
-          { feature_key: "advocates_access", name: "Access to advocates", value: null },
-          { feature_key: "legal_aat", name: "Legal team (AAT support)", value: null },
-          { feature_key: "complex_resources", name: "Training for complex processes", value: null },
-          { feature_key: "buddy", name: "Personal Plan Buddy", value: null },
-        ] },
-    ],
-    yearly: [
-      { id: "free-pt", name: "Community Connection", price: 0, billing_cycle: "yearly", role: "participant",
-        description: "Stay informed and connected with the community.",
-        features: [
-          { feature_key: "lfs_access", name: 'Access to "Looking for Services"', value: null },
-          { feature_key: "connect_local", name: "Connect with local providers", value: null },
-          { feature_key: "community_events", name: "Community updates & events", value: null },
-        ] },
-      { id: "guidance-pt", name: "Guidance & Advocacy Plus", price: 290, billing_cycle: "yearly", role: "participant",
-        popular: true, monthly_equivalent: 24, savings_note: "≈ 2 months free",
-        description: "Get a personal Buddy and walk through your plan with confidence.",
-        features: [
-          { feature_key: "lfs_access", name: 'Access to "Looking for Services"', value: null },
-          { feature_key: "connect_local", name: "Connect with local providers", value: null },
-          { feature_key: "community_events", name: "Community updates & events", value: null },
-          { feature_key: "plan_help", name: "Help understanding your plan", value: null },
-          { feature_key: "review_guidance", name: "Guidance through reviews & processes", value: null },
-          { feature_key: "advocates_access", name: "Access to advocates", value: null },
-          { feature_key: "legal_aat", name: "Legal team (AAT support)", value: null },
-          { feature_key: "complex_resources", name: "Training for complex processes", value: null },
-          { feature_key: "buddy", name: "Personal Plan Buddy", value: null },
-        ] },
-    ],
-  },
-};
-
 // ─── Helpers ────────────────────────────────────────────────────────
 const formatPrice = (plan, billingCycle) => {
   const price = Number(plan.price);
   if (price === 0) return { main: "Free", sub: "", tail: "Forever" };
+
+  // Lifetime — single one-time payment, no recurring suffix.
+  if (billingCycle === "lifetime" || plan.billing_cycle === "lifetime") {
+    return {
+      main: `$${price.toFixed(0)}`,
+      sub: "",
+      tail: "One-time payment",
+    };
+  }
+
   if (billingCycle === "yearly") {
     return {
       main: `$${price.toFixed(0)}`,
@@ -198,7 +72,7 @@ const SubscriptionPage = () => {
     );
   }, [dispatch, activeTab, billingCycle]);
 
-  // Use API plans if available, otherwise fallback. Sort cheapest first.
+  // Use API plans if available. Sort cheapest first.
   const plans = useMemo(() => {
     const apiPlans = (publicSubscriptions || []).filter(
       (p) =>
@@ -208,7 +82,7 @@ const SubscriptionPage = () => {
     if (apiPlans.length > 0) {
       return [...apiPlans].sort((a, b) => Number(a.price) - Number(b.price));
     }
-    return  [];
+    return [];
   }, [publicSubscriptions, activeTab, billingCycle]);
 
   // Build feature comparison rows. Each row appears once and shows
@@ -260,8 +134,8 @@ const SubscriptionPage = () => {
           </h1>
 
           <p className="text-base md:text-lg mb-8 text-gray-200 max-w-2xl mx-auto">
-            Flexible monthly or yearly options. Compare every feature
-            side-by-side and choose what fits your needs.
+            Flexible monthly, yearly or one-time lifetime options. Compare every
+            feature side-by-side and choose what fits your needs.
           </p>
 
           {/* Audience tabs */}
@@ -288,8 +162,8 @@ const SubscriptionPage = () => {
             </button>
           </div>
 
-          {/* Billing toggle */}
-          <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-xl p-1 border border-white/20">
+          {/* Billing toggle — Monthly / Yearly / Lifetime */}
+          <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-xl p-1 border border-white/20 flex-wrap justify-center">
             <button
               onClick={() => setBillingCycle("monthly")}
               className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
@@ -311,6 +185,19 @@ const SubscriptionPage = () => {
               Yearly
               <span className="text-[10px] font-bold bg-emerald-400 text-emerald-900 px-2 py-0.5 rounded-full">
                 SAVE
+              </span>
+            </button>
+            <button
+              onClick={() => setBillingCycle("lifetime")}
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+                billingCycle === "lifetime"
+                  ? "bg-white text-purple-900 shadow"
+                  : "text-white/80 hover:text-white"
+              }`}
+            >
+              Lifetime
+              <span className="text-[10px] font-bold bg-amber-300 text-amber-900 px-2 py-0.5 rounded-full">
+                ONE-TIME
               </span>
             </button>
           </div>
@@ -340,7 +227,8 @@ const SubscriptionPage = () => {
           ) : plans.length === 0 ? (
             <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
               <p className="text-slate-500">
-                No plans available right now. Please check back soon.
+                No {billingCycle} plans available right now. Try another billing
+                option above, or check back soon.
               </p>
             </div>
           ) : (
@@ -584,30 +472,50 @@ const SubscriptionPage = () => {
           </div>
 
           <div className="space-y-3">
-            {[
-              {
-                q: "Can I switch plans anytime?",
-                a: "Yes. You can upgrade or downgrade at any time. Changes take effect immediately, and you'll only pay the difference if upgrading mid-cycle.",
-              },
-              {
-                q: "What's the difference between monthly and yearly?",
-                a: "Yearly plans give you the same features at a discounted rate — for example, the Provider Portal is $65/month or $650/year (about two months free). Premium is $95/month or $960/year (effectively $80/month, saving $180 a year).",
-              },
-              {
-                q: "Is the free tier really free?",
-                a: "Yes. Both Community Access (providers) and Community Connection (participants) are completely free, forever. No credit card required.",
-              },
-              {
-                q: "What payment methods do you accept?",
-                a: "All major credit cards (Visa, MasterCard, Amex), PayPal, and direct debit. All payments are processed securely.",
-              },
-              {
-                q: "Do you offer refunds?",
-                a: "Yes — a 30-day money-back guarantee on all paid plans. Not satisfied? Get a full refund within the first 30 days.",
-              },
-            ].map((faq, idx) => (
+            {(activeTab === "participant"
+              ? [
+                  // Participants currently have a single subscription
+                  // question. Other items (switch plans, payment methods,
+                  // refunds) don't apply because participant signup is free.
+                  {
+                    q: "Is it completely free?",
+                    a: "Yes, it is — no credit card required.",
+                  },
+                ]
+              : [
+                  // Provider FAQ
+                  {
+                    q: "Can I switch plans anytime?",
+                    a: "Yes. You can upgrade or downgrade at any time. Changes take effect immediately, and you'll only pay the difference if upgrading mid-cycle.",
+                  },
+                  {
+                    q: "What's the difference between monthly, yearly and lifetime?",
+                    a: "Monthly bills you each month. Yearly bills once per year at a discounted rate. Lifetime is a single one-time payment that gives you ongoing access — no renewals.",
+                  },
+                  {
+                    q: "Is the free tier really free?",
+                    a: "Yes, it is — no credit card required",
+                  },
+                  {
+                    q: "What payment methods do you accept?",
+                    a: "All major credit cards (Visa, MasterCard, Amex), PayPal, and direct debit. All payments are processed securely.",
+                  },
+                  {
+                    q: "Do you offer refunds?",
+                    a: (
+  <>
+    Please refer to our{" "}
+    <Link to="/terms" className="text-purple-600 hover:text-purple-800 font-semibold underline underline-offset-2">
+      Terms &amp; Conditions
+    </Link>{" "}
+    for the provider refund policy.
+  </>
+),
+                  },
+                ]
+            ).map((faq, idx) => (
               <details
-                key={idx}
+                key={`${activeTab}-${idx}`}
                 className="bg-white rounded-xl border border-slate-200 overflow-hidden group"
               >
                 <summary className="cursor-pointer px-5 py-4 font-semibold text-sm text-slate-800 flex items-center justify-between gap-4 hover:bg-slate-50 list-none">
@@ -631,23 +539,21 @@ const SubscriptionPage = () => {
             Ready to join The Better Together Network?
           </h2>
           <p className="text-sm md:text-base text-purple-100 max-w-xl mx-auto mb-7">
-            Whether you're growing a business or seeking the right support, our
-            community walks alongside you.
+            Whether you&apos;re growing a business or seeking the right
+            support, our community walks alongside you.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               to="/register"
-              className="inline-flex items-center gap-2 bg-white text-purple-700 font-bold py-3 px-6 rounded-xl hover:bg-purple-50 transition-colors shadow-lg text-sm"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-white text-purple-700 font-bold rounded-xl shadow-lg hover:bg-slate-50 transition-all"
             >
-              <Handshake className="w-4 h-4" />
-              Get Started
+              <Handshake className="w-4 h-4" /> Get Started
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold py-3 px-6 rounded-xl hover:bg-white/20 transition-colors text-sm"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-white/10 backdrop-blur text-white font-bold rounded-xl border border-white/30 hover:bg-white/20 transition-all"
             >
-              Talk to Us
-              <ArrowRight className="w-4 h-4" />
+              Contact Us
             </Link>
           </div>
         </div>

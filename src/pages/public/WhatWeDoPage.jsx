@@ -150,14 +150,14 @@ const WhatWeDoPage = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
             <Link
-              to="/subscribe"
-              className="inline-flex items-center gap-2 bg-yellow-400 text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl"
+              to="/subscription"
+              className="inline-flex items-center gap-2 bg-yellow-400 text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl z-10"
             >
               Get Started Today <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              to="/find-support"
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300"
+              to="/business-directory"
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 z-10"
             >
               Browse Directory <Search className="w-5 h-5" />
             </Link>
@@ -321,7 +321,7 @@ const WhatWeDoPage = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/subscribe"
+              to="/subscription"
               className="inline-flex items-center gap-2 bg-yellow-400 text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Subscribe Now <ArrowRight className="w-5 h-5" />

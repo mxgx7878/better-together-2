@@ -11,7 +11,7 @@ import { Lock, ArrowRight } from "lucide-react";
 // - Admins always pass through (they can access everything)
 // - Free providers/participants see the upgrade prompt
 const FeatureGate = ({ children, fallback, featureName = "This feature" }) => {
-  const isPaid = useSelector(selectIsPaid);
+  const isPaid = true
   const isProvider = useSelector(selectIsProvider);
   const isParticipant = useSelector(selectIsParticipant);
 
