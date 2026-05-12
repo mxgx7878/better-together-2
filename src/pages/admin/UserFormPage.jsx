@@ -60,7 +60,7 @@ const EMPTY_FORM = {
   phone_number: "",
   location: "",
   // Provider fields
-  organisation_name: "",
+  organization_name: "",
   organization_logo: "",
   abn: "",
   links: [],
@@ -127,7 +127,7 @@ const UserFormPage = () => {
         phone_number: u.phone_number || "",
         location: u.location || "",
         // Provider
-        organisation_name: pp?.organisation_name || "",
+        organization_name: pp?.organization_name || "",
         organization_logo: pp?.organization_logo || "",
         abn: pp?.abn || "",
         links:
@@ -191,8 +191,8 @@ const UserFormPage = () => {
     if (!form.location.trim()) errs.location = "Location is required";
 
     if (form.role === "provider") {
-      if (!form.organisation_name.trim())
-        errs.organisation_name = "Organisation name is required";
+      if (!form.organization_name.trim())
+        errs.organization_name = "Organisation name is required";
     }
 
     setErrors(errs);
@@ -219,7 +219,7 @@ const UserFormPage = () => {
     }
 
     if (form.role === "provider") {
-      payload.organisation_name = form.organisation_name;
+      payload.organization_name = form.organization_name;
       payload.abn = form.abn;
       payload.links = form.links;
       payload.is_ndis_registered = form.is_ndis_registered;
@@ -448,13 +448,13 @@ const UserFormPage = () => {
 
               <InputField
                 label="Organisation Name"
-                name="organisation_name"
+                name="organization_name"
                 icon={Building2}
                 placeholder="Your company name"
                 required
-                value={form.organisation_name}
+                value={form.organization_name}
                 onChange={handleChange}
-                error={errors.organisation_name}
+                error={errors.organization_name}
               />
 
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-5">

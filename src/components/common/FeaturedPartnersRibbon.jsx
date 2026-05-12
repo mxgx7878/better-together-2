@@ -15,7 +15,7 @@ const FeaturedPartnersRibbon = ({
   note = "Sponsored · Marketing add-on",
   className = "",
 }) => {
-  const track = useMemo(() => [...sponsors, ...sponsors], [sponsors]);
+  const track = useMemo(() => [...sponsors], [sponsors]);
 
   if (!sponsors.length) return null;
 

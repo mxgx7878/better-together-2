@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FeaturedPartnersRibbon from "../../components/common/FeaturedPartnersRibbon";
 import { fetchMarketingRibbon } from "../../store/actions/marketingRibbonActions";
+import FoundingMembersSection from "../../features/landingPage/MembersFounding";
 
 const LandingPage3 = () => {
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
@@ -914,6 +915,8 @@ const LandingPage3 = () => {
         </div>
       </section>
 
+      <FoundingMembersSection />
+
       {/* Why Choose Us Section */}
 
       <section className="py-16 md:py-20 bg-white">
@@ -1215,7 +1218,7 @@ const LandingPage3 = () => {
               to="/find-support"
               className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-indigo-900 bg-white rounded-lg hover:bg-indigo-50 transition-all duration-300 shadow-2xl transform hover:scale-105"
             >
-              Find Support
+              For Participants
               <svg
                 className="w-5 h-5 ml-2"
                 fill="none"

@@ -52,6 +52,8 @@ const ManageMarketingRibbonPage = () => {
     [providers],
   );
 
+  console.log("Ribbon preview:", ribbonPreview);
+
   const toggleRibbon = (provider, value) => {
     console.log("Toggling ribbon for", provider, "to", value);
     dispatch(
@@ -60,6 +62,7 @@ const ManageMarketingRibbonPage = () => {
         payload: {
           first_name: provider.first_name,
           last_name: provider.last_name,
+          email: provider.email,
           phone_number: provider.phone_number,
           location: provider.location,
           on_marketing_ribbon: value,

@@ -117,7 +117,8 @@ const userSlice = createSlice({
       .addCase(adminUpdateUser.pending, (state) => {
         state.saveStatus = ASYNC_STATUS.LOADING;
       })
-      .addCase(adminUpdateUser.fulfilled, (state) => {
+      .addCase(adminUpdateUser.fulfilled, (state, { payload }) => {
+        state.users = state.users.map((u) => (u.id === payload.id ? payload : u));
         state.saveStatus = ASYNC_STATUS.SUCCEEDED;
       })
       .addCase(adminUpdateUser.rejected, (state, { payload }) => {

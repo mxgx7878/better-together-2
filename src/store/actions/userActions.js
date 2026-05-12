@@ -100,6 +100,20 @@ export const adminUpdateUser = createAsyncThunk(
   },
 );
 
+// export const adminUpdateMarketingRibbon = createAsyncThunk(
+//   "admin/updateMarketingRibbon",
+//   async ({ id, payload }, { rejectWithValue }) => {
+//     try {
+//       const data = await api.put(`/admin/marketing-ribbon/${id}`, payload);
+//       toast.success(data?.message || "User updated successfully");
+//       return data.data || data;
+//     } catch (err) {
+//       toast.error(err.message || "Failed to update user");
+//       return rejectWithValue(err.message || "Failed to update user");
+//     }
+//   },
+// );
+
 // ═══════════════════════════════════════════════════════════════════
 // ADMIN — Status management (4 statuses: pending, approved, rejected, suspended)
 // ═══════════════════════════════════════════════════════════════════
