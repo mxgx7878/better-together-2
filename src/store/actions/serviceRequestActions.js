@@ -1,5 +1,6 @@
 // ─── Service Request Actions ──────────────────────────────────────
 // Participant posts "Looking for Services" → providers (paid) reply publicly.
+// Participant can hire one provider → request marks as fulfilled.
 // Admin can view / moderate / delete posts and replies.
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -10,11 +11,6 @@ import api from "../../services/api";
 // PUBLIC (authenticated) — list / view
 // ═══════════════════════════════════════════════════════════════════
 
-/**
- * GET /api/service-requests
- * Query params: { page, search, service_type, location }
- * Returns paginated list of open service requests (everyone can read).
- */
 export const fetchServiceRequests = createAsyncThunk(
   "serviceRequests/fetchAll",
   async (params = {}, { rejectWithValue }) => {
@@ -27,10 +23,6 @@ export const fetchServiceRequests = createAsyncThunk(
   },
 );
 
-/**
- * GET /api/service-requests/:id
- * Returns a single request with its replies array.
- */
 export const fetchServiceRequest = createAsyncThunk(
   "serviceRequests/fetchOne",
   async (id, { rejectWithValue }) => {
@@ -44,13 +36,9 @@ export const fetchServiceRequest = createAsyncThunk(
 );
 
 // ═══════════════════════════════════════════════════════════════════
-// PARTICIPANT — create / close / delete own post
+// PARTICIPANT — create / close / select-provider / delete
 // ═══════════════════════════════════════════════════════════════════
 
-/**
- * POST /api/service-requests
- * Body: { service_type, location, needed_from, summary, category_id? }
- */
 export const createServiceRequest = createAsyncThunk(
   "serviceRequests/create",
   async (payload, { rejectWithValue }) => {
@@ -65,10 +53,6 @@ export const createServiceRequest = createAsyncThunk(
   },
 );
 
-/**
- * PATCH /api/service-requests/:id/close
- * Close own request (no more replies accepted).
- */
 export const closeServiceRequest = createAsyncThunk(
   "serviceRequests/close",
   async (id, { rejectWithValue }) => {
@@ -84,9 +68,27 @@ export const closeServiceRequest = createAsyncThunk(
 );
 
 /**
- * DELETE /api/service-requests/:id
- * Author can delete own request.
+ * PATCH /api/service-requests/:id/select-provider
+ * Body: { reply_id }
+ * Hires a provider, marks request as fulfilled, sends notifications.
  */
+export const selectServiceRequestProvider = createAsyncThunk(
+  "serviceRequests/selectProvider",
+  async ({ requestId, replyId }, { rejectWithValue }) => {
+    try {
+      const data = await api.patch(
+        `/service-requests/${requestId}/select-provider`,
+        { reply_id: replyId },
+      );
+      toast.success(data?.message || "Provider hired — request fulfilled");
+      return data.data || data;
+    } catch (err) {
+      toast.error(err.message || "Failed to hire provider");
+      return rejectWithValue(err.message || "Failed to hire provider");
+    }
+  },
+);
+
 export const deleteServiceRequest = createAsyncThunk(
   "serviceRequests/delete",
   async (id, { rejectWithValue }) => {
@@ -102,14 +104,9 @@ export const deleteServiceRequest = createAsyncThunk(
 );
 
 // ═══════════════════════════════════════════════════════════════════
-// PROVIDER — reply (paid only, enforced server-side too)
+// PROVIDER — reply (paid only) / update (15-min) / delete
 // ═══════════════════════════════════════════════════════════════════
 
-/**
- * POST /api/service-requests/:id/replies
- * Body: { message, contact_email, contact_phone }
- * Only paid providers can reply; replies are public.
- */
 export const createServiceRequestReply = createAsyncThunk(
   "serviceRequests/createReply",
   async ({ requestId, payload }, { rejectWithValue }) => {
@@ -128,9 +125,26 @@ export const createServiceRequestReply = createAsyncThunk(
 );
 
 /**
- * DELETE /api/service-requests/:id/replies/:replyId
- * Reply author can delete own reply.
+ * PUT /api/service-requests/:id/replies/:replyId
+ * Provider can edit own reply within 15 minutes of posting.
  */
+export const updateServiceRequestReply = createAsyncThunk(
+  "serviceRequests/updateReply",
+  async ({ requestId, replyId, payload }, { rejectWithValue }) => {
+    try {
+      const data = await api.put(
+        `/service-requests/${requestId}/replies/${replyId}`,
+        payload,
+      );
+      toast.success(data?.message || "Reply updated");
+      return { requestId, reply: data.data || data };
+    } catch (err) {
+      toast.error(err.message || "Failed to update reply");
+      return rejectWithValue(err.message || "Failed to update reply");
+    }
+  },
+);
+
 export const deleteServiceRequestReply = createAsyncThunk(
   "serviceRequests/deleteReply",
   async ({ requestId, replyId }, { rejectWithValue }) => {
@@ -149,14 +163,6 @@ export const deleteServiceRequestReply = createAsyncThunk(
 // ADMIN — moderation + analytics
 // ═══════════════════════════════════════════════════════════════════
 
-/**
- * GET /api/admin/service-requests/stats
- * Returns aggregate analytics for admin dashboards:
- *   - total requests, open, closed, total replies
- *   - breakdown by service_type (top N)
- *   - replies per week for the last 8 weeks
- *   - top replying providers (paid) with reply counts
- */
 export const adminFetchServiceRequestStats = createAsyncThunk(
   "serviceRequests/adminFetchStats",
   async (_, { rejectWithValue }) => {
@@ -169,10 +175,6 @@ export const adminFetchServiceRequestStats = createAsyncThunk(
   },
 );
 
-/**
- * GET /api/admin/service-requests
- * Query params: { page, search, status, user_id }
- */
 export const adminFetchServiceRequests = createAsyncThunk(
   "serviceRequests/adminFetchAll",
   async (params = {}, { rejectWithValue }) => {
@@ -187,10 +189,6 @@ export const adminFetchServiceRequests = createAsyncThunk(
   },
 );
 
-/**
- * DELETE /api/admin/service-requests/:id
- * Admin hard-deletes a post (and its replies).
- */
 export const adminDeleteServiceRequest = createAsyncThunk(
   "serviceRequests/adminDelete",
   async (id, { rejectWithValue }) => {
@@ -205,10 +203,6 @@ export const adminDeleteServiceRequest = createAsyncThunk(
   },
 );
 
-/**
- * DELETE /api/admin/service-requests/:id/replies/:replyId
- * Admin removes an individual reply.
- */
 export const adminDeleteServiceRequestReply = createAsyncThunk(
   "serviceRequests/adminDeleteReply",
   async ({ requestId, replyId }, { rejectWithValue }) => {

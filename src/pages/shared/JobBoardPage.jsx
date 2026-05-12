@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
-  Briefcase,
   MapPin,
   Calendar as CalendarIcon,
   Mail,
@@ -13,28 +12,48 @@ import {
   Trash2,
   Info,
   Sparkles,
+  Pencil,
+  CheckCircle2,
+  Clock,
+  Repeat,
+  DollarSign,
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import {
   fetchServiceRequests,
   createServiceRequestReply,
+  updateServiceRequestReply,
   deleteServiceRequestReply,
 } from "../../store/actions/serviceRequestActions";
 import { ASYNC_STATUS } from "../../constants";
 
-/**
- * Provider Job Board.
- *
- * This is the provider-facing feed of participant service requests
- * (posted from "Looking for Services"). Providers see requests that
- * match the services they offer (their profile categories) and can
- * apply by replying with their contact details. Replies are public
- * to the poster and everyone else on the page.
- *
- * Tabs:
- *   - "Matching Your Services" — filtered by provider's categories
- *   - "All Requests" — every open request
- */
+const FREQUENCIES = {
+  one_off: "One-off",
+  weekly: "Weekly",
+  fortnightly: "Fortnightly",
+  monthly: "Monthly",
+  ongoing: "Ongoing",
+};
+const URGENCIES = {
+  asap: "ASAP",
+  within_2_weeks: "Within 2 weeks",
+  within_month: "Within a month",
+  flexible: "Flexible",
+};
+const BUDGET_TYPES = {
+  ndis_managed: "NDIS Managed",
+  self_managed: "Self Managed",
+  plan_managed: "Plan Managed",
+  not_sure: "Budget TBD",
+};
+
+const isReplyEditable = (reply) => {
+  if (reply.is_editable !== undefined) return reply.is_editable;
+  if (!reply.created_at) return false;
+  const mins = (Date.now() - new Date(reply.created_at).getTime()) / 60000;
+  return mins <= 15;
+};
+
 const JobBoardPage = () => {
   const dispatch = useDispatch();
   const { user, isPaid } = useAuth();
@@ -52,14 +71,13 @@ const JobBoardPage = () => {
   const [tab, setTab] = useState(hasCategories ? "matching" : "all");
   const [expanded, setExpanded] = useState(null);
   const [replyingTo, setReplyingTo] = useState(null);
+  const [editingReplyId, setEditingReplyId] = useState(null);
   const [replyForm, setReplyForm] = useState({
     message: "",
     contact_email: user?.email || "",
     contact_phone: user?.phone_number || "",
   });
 
-  // Ask the server to pre-filter. Filtering happens server-side only;
-  // we render whatever the backend returns.
   useEffect(() => {
     const params = {};
     if (tab === "matching" && hasCategories) {
@@ -68,8 +86,19 @@ const JobBoardPage = () => {
     dispatch(fetchServiceRequests(params));
   }, [dispatch, tab, hasCategories]);
 
+  const resetForm = () => {
+    setReplyForm({
+      message: "",
+      contact_email: user?.email || "",
+      contact_phone: user?.phone_number || "",
+    });
+    setReplyingTo(null);
+    setEditingReplyId(null);
+  };
+
   const openReply = (requestId) => {
     setReplyingTo(requestId);
+    setEditingReplyId(null);
     setReplyForm({
       message: "",
       contact_email: user?.email || "",
@@ -77,28 +106,40 @@ const JobBoardPage = () => {
     });
   };
 
+  const openEdit = (requestId, reply) => {
+    setReplyingTo(requestId);
+    setEditingReplyId(reply.id);
+    setReplyForm({
+      message: reply.message || "",
+      contact_email: reply.contact_email || "",
+      contact_phone: reply.contact_phone || "",
+    });
+  };
+
   const submitReply = async (requestId) => {
     if (!replyForm.message.trim() || replying) return;
-    const action = await dispatch(
-      createServiceRequestReply({
-        requestId,
-        payload: replyForm,
-      }),
-    );
-    if (action.type.endsWith("/fulfilled")) {
-      setReplyingTo(null);
-      setReplyForm({
-        message: "",
-        contact_email: user?.email || "",
-        contact_phone: user?.phone_number || "",
-      });
-    }
+
+    const action = editingReplyId
+      ? await dispatch(
+          updateServiceRequestReply({
+            requestId,
+            replyId: editingReplyId,
+            payload: replyForm,
+          }),
+        )
+      : await dispatch(
+          createServiceRequestReply({
+            requestId,
+            payload: replyForm,
+          }),
+        );
+
+    if (action.type.endsWith("/fulfilled")) resetForm();
   };
 
   const removeOwnReply = (requestId, replyId) => {
-    if (window.confirm("Remove your application?")) {
+    if (window.confirm("Remove your application?"))
       dispatch(deleteServiceRequestReply({ requestId, replyId }));
-    }
   };
 
   return (
@@ -119,8 +160,7 @@ const JobBoardPage = () => {
           <div className="text-sm text-amber-900 flex-1">
             <p className="font-semibold">Upgrade to apply</p>
             <p className="mt-0.5">
-              Applying to participant requests is a paid feature — it keeps
-              referrals high quality for both sides.{" "}
+              Applying to participant requests is a paid feature.{" "}
               <Link
                 to="/provider/upgrade"
                 className="underline font-semibold"
@@ -139,9 +179,10 @@ const JobBoardPage = () => {
         <div className="text-sm text-blue-800">
           <p className="font-semibold mb-1">Apply in the open</p>
           <p>
-            Your reply is visible to the poster and every other participant
-            on the page. You cannot message the poster privately — the
-            choice stays with them. Share the best way to reach you.
+            Your reply is visible to the poster and everyone else on the
+            page. You cannot message the poster privately — the choice
+            stays with them. You can edit your reply within 15 minutes of
+            posting.
           </p>
         </div>
       </div>
@@ -176,23 +217,7 @@ const JobBoardPage = () => {
         </button>
       </div>
 
-      {/* Empty-state nudge when provider has no categories */}
-      {tab === "matching" && !hasCategories && (
-        <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-6 text-center">
-          <p className="text-sm text-slate-600">
-            Add the services you offer on your{" "}
-            <Link
-              to="/provider/profile"
-              className="text-purple-600 font-semibold underline"
-            >
-              Profile & Services
-            </Link>{" "}
-            page so we can match you to the right participant requests.
-          </p>
-        </div>
-      )}
-
-      {/* Requests list */}
+      {/* Posts */}
       {loading && list.length === 0 ? (
         <div className="flex justify-center py-16">
           <Loader2 className="w-6 h-6 text-purple-500 animate-spin" />
@@ -200,224 +225,231 @@ const JobBoardPage = () => {
       ) : list.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
           <p className="text-slate-500 text-sm">
-            {tab === "matching"
-              ? "No matching requests right now. Check back soon."
-              : "No requests yet — check back soon."}
+            No matching requests right now. Check back soon.
           </p>
         </div>
       ) : (
         <div className="space-y-4">
           {list.map((post) => {
             const isOpen = expanded === post.id;
+            const isFulfilled = post.status === "fulfilled";
             const isClosed = post.status === "closed";
             const replies = post.replies || [];
             const myReply = replies.find(
-              (r) => r.provider_user_id === user?.id,
+              (r) => r.provider_user_id === user?.id || r.user_id === user?.id,
             );
-            const matchesMine =
-              post.category_id &&
-              providerCategoryIds.includes(post.category_id);
+
             return (
               <div
                 key={post.id}
-                className={`bg-white rounded-2xl shadow-sm border p-5 ${
-                  matchesMine
-                    ? "border-purple-200 ring-1 ring-purple-100"
-                    : "border-slate-100"
-                }`}
+                className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5"
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                    {(post.author_name || "U")
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </div>
-                  <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-3 mb-2 flex-wrap">
+                  <div>
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      {matchesMine && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 inline-flex items-center gap-1">
-                          <Sparkles className="w-3 h-3" /> MATCHES YOUR SERVICES
+                      <h3 className="text-base font-bold text-slate-800">
+                        {post.service_type}
+                      </h3>
+                      {isFulfilled && (
+                        <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" /> FULFILLED
                         </span>
                       )}
                       {isClosed && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 inline-flex items-center gap-1">
-                          <Lock className="w-3 h-3" /> CLOSED
-                        </span>
-                      )}
-                      <span className="text-xs text-slate-500">
-                        {post.author_name}
-                      </span>
-                      <span className="text-xs text-slate-400">
-                        ·{" "}
-                        {post.created_at
-                          ? new Date(post.created_at).toLocaleDateString(
-                              "en-AU",
-                              {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                              },
-                            )
-                          : ""}
-                      </span>
-                    </div>
-                    <h3 className="text-base font-semibold text-slate-800">
-                      Looking for a {post.service_type}
-                    </h3>
-                    <p className="text-sm text-slate-600 mt-1.5">
-                      {post.summary}
-                    </p>
-                    <div className="flex flex-wrap gap-3 mt-3 text-xs text-slate-500">
-                      {post.location && (
-                        <span className="inline-flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5" /> {post.location}
-                        </span>
-                      )}
-                      {post.needed_from && (
-                        <span className="inline-flex items-center gap-1">
-                          <CalendarIcon className="w-3.5 h-3.5" /> Needed:{" "}
-                          {post.needed_from}
-                        </span>
-                      )}
-                      <span className="inline-flex items-center gap-1">
-                        <Briefcase className="w-3.5 h-3.5" /> {replies.length}{" "}
-                        {replies.length === 1 ? "application" : "applications"}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-4 mt-4 flex-wrap">
-                      <button
-                        onClick={() => setExpanded(isOpen ? null : post.id)}
-                        className="text-sm font-medium text-purple-600 hover:text-purple-700"
-                      >
-                        {isOpen ? "Hide applications" : "View applications"}
-                      </button>
-                      {isPaid && !isClosed && !myReply && (
-                        <button
-                          onClick={() => openReply(post.id)}
-                          className="inline-flex items-center gap-1 text-sm font-semibold text-purple-600 hover:text-purple-700"
-                        >
-                          <Send className="w-3.5 h-3.5" /> Apply
-                        </button>
-                      )}
-                      {myReply && (
-                        <span className="text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">
-                          You&apos;ve applied
+                        <span className="text-[10px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">
+                          CLOSED
                         </span>
                       )}
                     </div>
-
-                    {/* Apply form */}
-                    {replyingTo === post.id && isPaid && !isClosed && (
-                      <div className="mt-4 rounded-xl border border-purple-200 bg-purple-50/30 p-4 space-y-3">
-                        <p className="text-sm font-semibold text-slate-800">
-                          Your public application
-                        </p>
-                        <textarea
-                          rows={3}
-                          value={replyForm.message}
-                          onChange={(e) =>
-                            setReplyForm({
-                              ...replyForm,
-                              message: e.target.value,
-                            })
-                          }
-                          placeholder="How you can help, availability, areas covered..."
-                          className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm outline-none focus:border-purple-400 resize-none"
-                        />
-                        <div className="grid sm:grid-cols-2 gap-3">
-                          <input
-                            type="email"
-                            value={replyForm.contact_email}
-                            onChange={(e) =>
-                              setReplyForm({
-                                ...replyForm,
-                                contact_email: e.target.value,
-                              })
-                            }
-                            placeholder="Contact email"
-                            className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm outline-none focus:border-purple-400"
-                          />
-                          <input
-                            type="tel"
-                            value={replyForm.contact_phone}
-                            onChange={(e) =>
-                              setReplyForm({
-                                ...replyForm,
-                                contact_phone: e.target.value,
-                              })
-                            }
-                            placeholder="Contact phone"
-                            className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm outline-none focus:border-purple-400"
-                          />
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={() => submitReply(post.id)}
-                            disabled={replying || !replyForm.message.trim()}
-                            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-lg shadow-md disabled:opacity-50 inline-flex items-center gap-2"
-                          >
-                            {replying && (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            )}
-                            Submit Application
-                          </button>
-                          <button
-                            onClick={() => setReplyingTo(null)}
-                            className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
+                    {post.category?.name && (
+                      <p className="text-xs text-slate-500">
+                        {post.category.name}
+                      </p>
                     )}
+                  </div>
+                </div>
 
-                    {/* Applications list */}
-                    {isOpen && (
-                      <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
-                        {replies.length === 0 ? (
-                          <p className="text-sm text-slate-500">
-                            No applications yet.
-                          </p>
-                        ) : (
-                          replies.map((r) => {
-                            const isMyReply =
-                              r.provider_user_id === user?.id;
-                            return (
-                              <div
-                                key={r.id}
-                                className={`rounded-xl border p-4 ${
-                                  isMyReply
-                                    ? "border-purple-200 bg-purple-50/40"
-                                    : "border-slate-100 bg-slate-50/60"
-                                }`}
-                              >
-                                <div className="flex items-start justify-between gap-3">
-                                  <div>
-                                    <p className="text-sm font-semibold text-slate-800">
-                                      {r.provider_name}
-                                      {isMyReply && (
-                                        <span className="ml-2 text-[10px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">
-                                          YOU
-                                        </span>
-                                      )}
-                                    </p>
-                                    <p className="text-sm text-slate-600 mt-1">
-                                      {r.message}
-                                    </p>
-                                  </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 mb-3">
+                  {post.location && (
+                    <span className="inline-flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5" /> {post.location}
+                    </span>
+                  )}
+                  {post.needed_from && (
+                    <span className="inline-flex items-center gap-1">
+                      <CalendarIcon className="w-3.5 h-3.5" />{" "}
+                      {post.needed_from}
+                    </span>
+                  )}
+                  {post.frequency && (
+                    <span className="inline-flex items-center gap-1">
+                      <Repeat className="w-3.5 h-3.5" />{" "}
+                      {FREQUENCIES[post.frequency] || post.frequency}
+                    </span>
+                  )}
+                  {post.urgency && (
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />{" "}
+                      {URGENCIES[post.urgency] || post.urgency}
+                    </span>
+                  )}
+                  {post.budget_type && (
+                    <span className="inline-flex items-center gap-1">
+                      <DollarSign className="w-3.5 h-3.5" />{" "}
+                      {BUDGET_TYPES[post.budget_type]}
+                      {post.budget_amount
+                        ? ` · $${Number(post.budget_amount).toFixed(2)}`
+                        : ""}
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                  {post.summary}
+                </p>
+
+                <div className="flex items-center gap-4 mt-4 flex-wrap">
+                  <span className="text-xs text-slate-500">
+                    {replies.length}{" "}
+                    {replies.length === 1 ? "application" : "applications"}
+                  </span>
+                  <button
+                    onClick={() => setExpanded(isOpen ? null : post.id)}
+                    className="text-sm font-medium text-purple-600 hover:text-purple-700"
+                  >
+                    {isOpen ? "Hide applications" : "View applications"}
+                  </button>
+                  {isPaid && !isClosed && !isFulfilled && !myReply && (
+                    <button
+                      onClick={() => openReply(post.id)}
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-purple-600 hover:text-purple-700"
+                    >
+                      <Send className="w-3.5 h-3.5" /> Apply
+                    </button>
+                  )}
+                  {myReply && (
+                    <span className="text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">
+                      You&apos;ve applied
+                    </span>
+                  )}
+                </div>
+
+                {/* Reply / Edit form */}
+                {replyingTo === post.id && isPaid && !isClosed && !isFulfilled && (
+                  <div className="mt-4 rounded-xl border border-purple-200 bg-purple-50/30 p-4 space-y-3">
+                    <p className="text-sm font-semibold text-slate-800">
+                      {editingReplyId
+                        ? "Edit your application"
+                        : "Your public application"}
+                    </p>
+                    <textarea
+                      rows={3}
+                      value={replyForm.message}
+                      onChange={(e) =>
+                        setReplyForm({
+                          ...replyForm,
+                          message: e.target.value,
+                        })
+                      }
+                      placeholder="How you can help, availability, areas covered..."
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm outline-none focus:border-purple-400 resize-none"
+                    />
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <input
+                        type="email"
+                        value={replyForm.contact_email}
+                        onChange={(e) =>
+                          setReplyForm({
+                            ...replyForm,
+                            contact_email: e.target.value,
+                          })
+                        }
+                        placeholder="Contact email"
+                        className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm outline-none focus:border-purple-400"
+                      />
+                      <input
+                        type="tel"
+                        value={replyForm.contact_phone}
+                        onChange={(e) =>
+                          setReplyForm({
+                            ...replyForm,
+                            contact_phone: e.target.value,
+                          })
+                        }
+                        placeholder="Contact phone"
+                        className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm outline-none focus:border-purple-400"
+                      />
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => submitReply(post.id)}
+                        disabled={replying || !replyForm.message.trim()}
+                        className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-lg shadow-md disabled:opacity-50 inline-flex items-center gap-2"
+                      >
+                        {replying && (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        )}
+                        {editingReplyId
+                          ? "Save Changes"
+                          : "Submit Application"}
+                      </button>
+                      <button
+                        onClick={resetForm}
+                        className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Applications list */}
+                {isOpen && (
+                  <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
+                    {replies.length === 0 ? (
+                      <p className="text-sm text-slate-500 text-center py-2">
+                        No applications yet.
+                      </p>
+                    ) : (
+                      replies.map((r) => {
+                        const isMyReply =
+                          r.provider_user_id === user?.id ||
+                          r.user_id === user?.id;
+                        const isSelected =
+                          post.selected_reply_id === r.id;
+                        const editable =
+                          isMyReply && isReplyEditable(r) && !isFulfilled;
+
+                        return (
+                          <div
+                            key={r.id}
+                            className={`rounded-xl border p-4 ${
+                              isSelected
+                                ? "border-emerald-300 bg-emerald-50/40"
+                                : isMyReply
+                                  ? "border-purple-200 bg-purple-50/40"
+                                  : "border-slate-100 bg-slate-50/60"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-slate-800 flex items-center gap-2 flex-wrap">
+                                  {r.provider_name || r.provider?.name}
                                   {isMyReply && (
-                                    <button
-                                      onClick={() =>
-                                        removeOwnReply(post.id, r.id)
-                                      }
-                                      className="text-xs text-red-500 hover:text-red-700 inline-flex items-center gap-1"
-                                    >
-                                      <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
+                                    <span className="text-[10px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">
+                                      YOU
+                                    </span>
                                   )}
-                                </div>
+                                  {isSelected && (
+                                    <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                                      <CheckCircle2 className="w-3 h-3" />{" "}
+                                      HIRED
+                                    </span>
+                                  )}
+                                </p>
+                                <p className="text-sm text-slate-600 mt-1 whitespace-pre-wrap">
+                                  {r.message}
+                                </p>
                                 <div className="flex flex-wrap gap-4 mt-3 text-xs text-slate-600">
                                   {r.contact_email && (
                                     <span className="inline-flex items-center gap-1">
@@ -433,13 +465,35 @@ const JobBoardPage = () => {
                                   )}
                                 </div>
                               </div>
-                            );
-                          })
-                        )}
-                      </div>
+                              {isMyReply && (
+                                <div className="flex items-center gap-1 flex-shrink-0">
+                                  {editable && (
+                                    <button
+                                      onClick={() => openEdit(post.id, r)}
+                                      className="text-xs text-slate-500 hover:text-purple-600 p-1"
+                                      title="Edit (within 15 min)"
+                                    >
+                                      <Pencil className="w-3.5 h-3.5" />
+                                    </button>
+                                  )}
+                                  <button
+                                    onClick={() =>
+                                      removeOwnReply(post.id, r.id)
+                                    }
+                                    className="text-xs text-red-500 hover:text-red-700 p-1"
+                                    title="Remove"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })
                     )}
                   </div>
-                </div>
+                )}
               </div>
             );
           })}
