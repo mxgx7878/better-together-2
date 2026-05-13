@@ -10,6 +10,8 @@ import documentReducer from "./slices/documentSlice";
 import serviceRequestReducer from "./slices/serviceRequestSlice";
 import marketingRibbonReducer from "./slices/marketingRibbonSlice";
 import featureReducer from "./slices/featureSlice";
+import innovationLabReducer from "./slices/innovationLabSlice";
+
 
 const store = configureStore({
   reducer: {
@@ -24,6 +26,7 @@ const store = configureStore({
     serviceRequest: serviceRequestReducer,
     marketingRibbon: marketingRibbonReducer,
     feature: featureReducer,  
+    innovationLab: innovationLabReducer,
   },
 });
 

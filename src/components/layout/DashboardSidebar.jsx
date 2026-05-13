@@ -108,6 +108,12 @@ const DashboardSidebar = ({
       tier: "all",
     },
     {
+      label: "Innovation Lab",
+      icon: Lightbulb,
+      path: "/admin/innovation-lab",
+      tier: "all",
+    },
+    {
       label: "Analytics",
       icon: BarChart3,
       path: "/admin/analytics",
@@ -327,11 +333,11 @@ const DashboardSidebar = ({
               <p className="text-sm font-medium text-white truncate">
                 {user?.name}
               </p>
-              {!isAdmin &&
-              <p className="text-[11px] text-slate-400 truncate">
-                {isPaid ? user?.subscriptionPlan || "Paid Plan" : "Free Plan"}
-              </p>
-              }
+              {!isAdmin && (
+                <p className="text-[11px] text-slate-400 truncate">
+                  {isPaid ? user?.subscriptionPlan || "Paid Plan" : "Free Plan"}
+                </p>
+              )}
             </div>
           )}
         </div>

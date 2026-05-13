@@ -75,6 +75,8 @@ import EventFormPage from "./pages/admin/EventFormPage";
 import EventDetailsPage from "./pages/admin/EventDetailPage";
 import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
 import TermsAndConditionsPage from "./pages/public/Termsandconditionspage";
+import ManageInnovationLabPage from "./pages/admin/ManageInnovationLabPage";
+import InnovationLabResourceFormPage from "./pages/admin/InnovationLabFoam";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -148,11 +150,11 @@ function App() {
               path="service-requests"
               element={<ManageServiceRequestsPage />}
             />
+            <Route path="subscriptions" element={<ManageSubscriptionsPage />} />
             <Route
-              path="subscriptions"
-              element={<ManageSubscriptionsPage />}
+              path="marketing-ribbon"
+              element={<ManageMarketingRibbonPage />}
             />
-            <Route path="marketing-ribbon" element={<ManageMarketingRibbonPage />} />
             <Route path="documents" element={<ManageDocumentsPage />} />
             <Route path="learning-hub" element={<ManageLearningHubPage />} />
             <Route
@@ -174,6 +176,18 @@ function App() {
             <Route
               path="learning-hub/:moduleId/lessons/edit/:lessonId"
               element={<LearningLessonFormPage />}
+            />
+            <Route
+              path="innovation-lab"
+              element={<ManageInnovationLabPage />}
+            />
+            <Route
+              path="innovation-lab/create"
+              element={<InnovationLabResourceFormPage />}
+            />
+            <Route
+              path="innovation-lab/edit/:id"
+              element={<InnovationLabResourceFormPage />}
             />
             <Route
               path="analytics"
