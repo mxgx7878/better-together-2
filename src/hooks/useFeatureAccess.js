@@ -30,29 +30,22 @@ import {
 
 const getUserPlan = (user) => {
   if (!user) return null;
-  // Try the most-likely shapes the backend might return
-  if (user.subscription && typeof user.subscription === "object") {
-    return user.subscription;
+  // NEW shape — preferred
+  if (user.subscriber?.plan && typeof user.subscriber.plan === "object") {
+    return user.subscriber.plan;
   }
-  if (
-    user.current_subscription &&
-    typeof user.current_subscription === "object"
-  ) {
-    return user.current_subscription;
-  }
-  if (user.plan && typeof user.plan === "object") {
-    return user.plan;
-  }
-  if (user.subscriptionPlan && typeof user.subscriptionPlan === "object") {
-    return user.subscriptionPlan;
-  }
+  // Legacy fallbacks (kept for safety)
+  if (user.subscription && typeof user.subscription === "object") return user.subscription;
+  if (user.current_subscription && typeof user.current_subscription === "object") return user.current_subscription;
+  if (user.plan && typeof user.plan === "object") return user.plan;
+  if (user.subscriptionPlan && typeof user.subscriptionPlan === "object") return user.subscriptionPlan;
   return null;
 };
 
 const getPlanFeatures = (plan) => {
   if (!plan) return [];
-  if (Array.isArray(plan.features)) return plan.features;
-  return [];
+  if (!Array.isArray(plan.features)) return [];
+  return plan.features.filter((f) => f.status); // only enabled ones
 };
 
 export const useFeatureAccess = (featureKey) => {
@@ -95,7 +88,7 @@ export const useFeatureAccess = (featureKey) => {
         hasAccess: true,
         reason: "has_feature",
         planName,
-        featureValue: feature.value ?? null,
+        featureValue: feature.pivot?.value ?? feature.value ?? null,
       };
     }
     return {

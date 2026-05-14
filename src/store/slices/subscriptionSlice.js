@@ -7,6 +7,9 @@ import {
   adminCreateSubscription,
   adminUpdateSubscription,
   adminDeleteSubscription,
+  fetchMySubscription,
+  changePlan,
+  cancelPendingPlan,
 } from "../actions/subscriptionActions";
 
 const subscriptionSlice = createSlice({
@@ -19,11 +22,21 @@ const subscriptionSlice = createSlice({
     // Public list (separate state to avoid clobbering admin paginated list)
     publicSubscriptions: [],
     publicStatus: ASYNC_STATUS.IDLE,
+    mySubscription: null,
+    myStatus: ASYNC_STATUS.IDLE,
+    lastInvoice: null,
+    changePlanStatus: ASYNC_STATUS.IDLE,
     error: null,
   },
   reducers: {
     clearSelectedSubscription(state) {
       state.selectedSubscription = null;
+    },
+    clearLastInvoice(state) {
+      state.lastInvoice = null;
+    },
+    clearChangePlanStatus(state) {
+      state.changePlanStatus = ASYNC_STATUS.IDLE;
     },
   },
   extraReducers: (builder) => {
@@ -38,13 +51,10 @@ const subscriptionSlice = createSlice({
         state.publicSubscriptions = payload?.data || [];
       },
     );
-    builder.addCase(
-      fetchPublicSubscriptions.rejected,
-      (state, { payload }) => {
-        state.publicStatus = ASYNC_STATUS.FAILED;
-        state.error = payload;
-      },
-    );
+    builder.addCase(fetchPublicSubscriptions.rejected, (state, { payload }) => {
+      state.publicStatus = ASYNC_STATUS.FAILED;
+      state.error = payload;
+    });
 
     // ─── Admin Fetch All ────────────────────────────────────────
     builder.addCase(adminFetchSubscriptions.pending, (state) => {
@@ -125,9 +135,51 @@ const subscriptionSlice = createSlice({
       state.status = ASYNC_STATUS.FAILED;
       state.error = payload;
     });
+
+    builder.addCase(fetchMySubscription.pending, (state) => {
+      state.myStatus = ASYNC_STATUS.LOADING;
+    });
+    builder.addCase(fetchMySubscription.fulfilled, (state, { payload }) => {
+      state.myStatus = ASYNC_STATUS.SUCCEEDED;
+      state.mySubscription = payload;
+    });
+    builder.addCase(fetchMySubscription.rejected, (state, { payload }) => {
+      state.myStatus = ASYNC_STATUS.FAILED;
+      state.error = payload;
+    });
+
+    // ─── Change Plan ─────────────────────────────────────────────
+    builder.addCase(changePlan.pending, (state) => {
+      state.changePlanStatus = ASYNC_STATUS.LOADING;
+      state.lastInvoice = null;
+    });
+    builder.addCase(changePlan.fulfilled, (state, { payload }) => {
+      state.changePlanStatus = ASYNC_STATUS.SUCCEEDED;
+      // Upgrade response: { subscription, invoice }
+      // Downgrade response: subscriber object directly
+      if (payload?.subscription) {
+        state.mySubscription = payload.subscription;
+        state.lastInvoice = payload.invoice || null;
+      } else {
+        state.mySubscription = payload;
+      }
+    });
+    builder.addCase(changePlan.rejected, (state, { payload }) => {
+      state.changePlanStatus = ASYNC_STATUS.FAILED;
+      state.error = payload;
+    });
+
+    // ─── Cancel Pending Downgrade ───────────────────────────────
+    builder.addCase(cancelPendingPlan.fulfilled, (state, { payload }) => {
+      state.mySubscription = payload;
+    });
   },
 });
 
-export const { clearSelectedSubscription } = subscriptionSlice.actions;
+export const {
+  clearSelectedSubscription,
+  clearLastInvoice,
+  clearChangePlanStatus,
+} = subscriptionSlice.actions;
 
 export default subscriptionSlice.reducer;

@@ -118,9 +118,45 @@ export const selectUserRole = (state) => (state.auth.user?.role || '').toLowerCa
 export const selectIsProvider = (state) => selectUserRole(state) === 'provider';
 export const selectIsParticipant = (state) => selectUserRole(state) === 'participant';
 export const selectIsAdmin = (state) => selectUserRole(state) === 'admin';
-export const selectIsFree = (state) => (state.auth.user?.tier || '').toLowerCase() === 'free';
-export const selectIsPaid = (state) => (state.auth.user?.tier || '').toLowerCase() === 'paid';
+export const selectIsFree = (state) => {
+  const price = Number(state.auth.user?.subscriber?.plan?.price ?? 0);
+  return price === 0;
+};
+export const selectIsPaid = (state) => {
+  const price = Number(state.auth.user?.subscriber?.plan?.price ?? 0);
+  return price > 0;
+};
+
 export const selectIsPending = (state) =>{return false};
 export const selectDummyUsers = (state) => state.auth.dummyUsers;
+
+// ─── Subscription / Plan selectors ────────────────────────────────
+export const selectSubscriber   = (state) => state.auth.user?.subscriber || null;
+export const selectCurrentPlan  = (state) => state.auth.user?.subscriber?.plan || null;
+export const selectPlanName     = (state) => state.auth.user?.subscriber?.plan?.name || null;
+export const selectPlanPrice    = (state) => Number(state.auth.user?.subscriber?.plan?.price ?? 0);
+export const selectPlanFeatures = (state) => state.auth.user?.subscriber?.plan?.features || [];
+
+// Sirf enabled feature_keys — sidebar/nav filter ke liye
+export const selectPlanFeatureKeys = (state) =>
+  (state.auth.user?.subscriber?.plan?.features || [])
+    .filter((f) => f.status)
+    .map((f) => f.feature_key);
+
+// Curried — usage: useSelector(selectHasFeature('innovation_lab'))
+// Admins always pass through.
+export const selectHasFeature = (featureKey) => (state) => {
+  const role = (state.auth.user?.role || '').toLowerCase();
+  if (role === 'admin') return true;
+  const features = state.auth.user?.subscriber?.plan?.features || [];
+  return features.some((f) => f.feature_key === featureKey && f.status);
+};
+
+// Pivot value (limits jaise "5", "100") — usage: useSelector(selectFeatureValue('directory_contacts'))
+export const selectFeatureValue = (featureKey) => (state) => {
+  const features = state.auth.user?.subscriber?.plan?.features || [];
+  const found = features.find((f) => f.feature_key === featureKey);
+  return found?.pivot?.value ?? null;
+};
 
 export default authSlice.reducer;

@@ -10,15 +10,30 @@ import {
   Loader2,
   Info,
   CheckCircle2,
+  Clock,
+  X as XIcon,
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import { fetchPublicSubscriptions } from "../../store/actions/subscriptionActions";
+import {
+  fetchPublicSubscriptions,
+  fetchMySubscription,
+  changePlan,
+  cancelPendingPlan,
+  purchaseMarketingAddon,
+} from "../../store/actions/subscriptionActions";
+import { checkAuth } from "../../store/actions/authActions";
 import { ASYNC_STATUS } from "../../constants";
+import usePayment from "../../hooks/usePayment";
+import PaymentModal from "../../components/payments/PaymentModal";
 
 // ─── Helpers ────────────────────────────────────────────────────────
 // Locate the user's current plan in whichever shape the backend returns.
 const getUserPlan = (user) => {
   if (!user) return null;
+  // NEW shape from /user — preferred
+  if (user.subscriber?.plan && typeof user.subscriber.plan === "object")
+    return user.subscriber.plan;
+  // Legacy fallbacks
   if (user.subscription && typeof user.subscription === "object")
     return user.subscription;
   if (user.current_subscription && typeof user.current_subscription === "object")
@@ -70,10 +85,19 @@ const formatPriceDisplay = (plan, billingCycle) => {
 const UpgradePage = () => {
   const dispatch = useDispatch();
   const { user, isProvider, isParticipant, isPaid } = useAuth();
-  const { publicSubscriptions, publicStatus } = useSelector(
-    (state) => state.subscription,
-  );
+ const { config, submitting, pay, close, handlePaymentMethod } = usePayment();
+
+  const {
+    publicSubscriptions,
+    publicStatus,
+    mySubscription,
+    changePlanStatus,
+    lastInvoice,
+  } = useSelector((s) => s.subscription);
+
   const loading = publicStatus === ASYNC_STATUS.LOADING;
+  const changing = changePlanStatus === ASYNC_STATUS.LOADING;
+  const pendingPlan = mySubscription?.pending_plan || null;
 
   const [billingCycle, setBillingCycle] = useState("monthly");
 
@@ -93,6 +117,11 @@ const UpgradePage = () => {
     );
   }, [dispatch, role, billingCycle]);
 
+  // Fetch current subscription on mount
+  useEffect(() => {
+    dispatch(fetchMySubscription());
+  }, [dispatch]);
+
   // Filter + sort plans for display
   const plans = useMemo(() => {
     const apiPlans = (publicSubscriptions || []).filter(
@@ -108,8 +137,88 @@ const UpgradePage = () => {
     getUserPlanName(user) || (isPaid ? "Paid Plan" : "Free Plan");
   const currentPlan = plans.find((p) => isCurrentPlan(user, isPaid, p));
 
+  // Free plan reference (used for Cancel Plan → downgrade to free)
+  const freePlan = useMemo(
+    () => plans.find((p) => Number(p.price) === 0),
+    [plans],
+  );
+
   // Marketing add-on eligibility — any paid plan
   const hasGrowthOrAbove = isPaid;
+
+  // ─── Action handlers ──────────────────────────────────────────────
+  const refreshUser = async () => {
+    await dispatch(checkAuth());
+    dispatch(fetchMySubscription());
+  };
+
+  const handlePlanAction = (plan) => {
+    const currentPrice = Number(currentPlan?.price ?? 0);
+    const newPrice = Number(plan.price);
+
+    // Downgrade / switch to free → no card needed (backend schedules)
+    if (newPrice <= currentPrice) {
+      dispatch(changePlan({ plan_id: plan.id }))
+        .unwrap()
+        .then(refreshUser)
+        .catch(() => {});
+      return;
+    }
+
+    // Upgrade → open Stripe card modal
+    pay({
+      title: `Upgrade to ${plan.name}`,
+      subtitle:
+        plan.billing_cycle === "lifetime"
+          ? "One-time payment"
+          : `Billed ${plan.billing_cycle || "monthly"}`,
+      amount: newPrice,
+      submitLabel: `Pay $${newPrice.toFixed(2)} & Subscribe`,
+      onPay: async (paymentMethodId) => {
+        await dispatch(
+          changePlan({
+            plan_id: plan.id,
+            payment_method_id: paymentMethodId,
+          }),
+        ).unwrap();
+        await refreshUser();
+      },
+    });
+  };
+
+  const handleCancelPending = () => {
+    dispatch(cancelPendingPlan()).unwrap().then(refreshUser).catch(() => {});
+  };
+
+  const handleCancelPlan = () => {
+    if (!freePlan) return;
+    // eslint-disable-next-line no-alert
+    if (
+      !window.confirm(
+        "Cancel your plan? You'll keep access until the end of your billing period.",
+      )
+    )
+      return;
+    dispatch(changePlan({ plan_id: freePlan.id }))
+      .unwrap()
+      .then(refreshUser)
+      .catch(() => {});
+  };
+
+  const handleBuyMarketing = () => {
+    pay({
+      title: "Marketing Add-on",
+      subtitle: "Featured Partners ribbon · billed monthly",
+      amount: 49, // TODO: pull from backend marketing plan config
+      submitLabel: "Pay & Activate",
+      onPay: async (paymentMethodId) => {
+        await dispatch(
+          purchaseMarketingAddon({ payment_method_id: paymentMethodId }),
+        ).unwrap();
+        await refreshUser();
+      },
+    });
+  };
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -176,16 +285,49 @@ const UpgradePage = () => {
           </div>
           {isPaid && (
             <div className="flex flex-wrap gap-2">
-              <button className="px-4 py-2 bg-white/15 backdrop-blur-sm text-white text-sm font-medium rounded-xl border border-white/20 hover:bg-white/25 transition-colors">
+              {/* Manage Billing → Stripe Customer Portal (backend endpoint pending) */}
+              <button
+                disabled
+                title="Coming soon — Stripe billing portal"
+                className="px-4 py-2 bg-white/15 backdrop-blur-sm text-white text-sm font-medium rounded-xl border border-white/20 hover:bg-white/25 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
                 Manage Billing
               </button>
-              <button className="px-4 py-2 bg-white text-rose-600 text-sm font-semibold rounded-xl hover:bg-rose-50 transition-colors">
+              <button
+                onClick={handleCancelPlan}
+                disabled={changing || !freePlan}
+                className="px-4 py-2 bg-white text-rose-600 text-sm font-semibold rounded-xl hover:bg-rose-50 transition-colors disabled:opacity-60"
+              >
                 Cancel Plan
               </button>
             </div>
           )}
         </div>
       </div>
+
+      {/* ─── Pending Downgrade Banner ────────────────────────── */}
+      {pendingPlan && (
+        <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 p-4 flex items-start gap-3">
+          <Clock className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-amber-900">
+              Scheduled change: switching to{" "}
+              <span className="underline">{pendingPlan.name}</span> on{" "}
+              {mySubscription?.current_period_end || "the next billing date"}
+            </p>
+            <p className="text-xs text-amber-700 mt-0.5">
+              You&apos;ll keep your current plan&apos;s benefits until then.
+            </p>
+          </div>
+          <button
+            onClick={handleCancelPending}
+            disabled={changing}
+            className="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-amber-900 bg-white hover:bg-amber-100 border border-amber-300 rounded-lg transition-colors disabled:opacity-60"
+          >
+            <XIcon className="w-3 h-3" /> Cancel
+          </button>
+        </div>
+      )}
 
       {/* ─── Billing toggle — Monthly / Yearly / Lifetime ────── */}
       <div className="flex items-center justify-between flex-wrap gap-3">
@@ -238,8 +380,8 @@ const UpgradePage = () => {
       ) : plans.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center">
           <p className="text-slate-500">
-            No {billingCycle} plans available right now. Try a different
-            billing option above, or check back soon.
+            No {billingCycle} plans available right now. Try a different billing
+            option above, or check back soon.
           </p>
         </div>
       ) : (
@@ -329,7 +471,9 @@ const UpgradePage = () => {
                   {(plan.features || []).map((f, i) => {
                     const fname = f.name || f.feature_key;
                     const fvalue =
-                      typeof f.value === "string" && f.value ? f.value : null;
+                      typeof f.value === "string" && f.value
+                        ? f.value
+                        : f.pivot?.value || null;
                     return (
                       <li
                         key={f.id || f.feature_key || i}
@@ -369,12 +513,15 @@ const UpgradePage = () => {
                   </button>
                 ) : (
                   <button
-                    className={`w-full py-3 text-sm font-bold rounded-xl shadow-md transition-all ${
+                    onClick={() => handlePlanAction(plan)}
+                    disabled={changing || submitting}
+                    className={`w-full py-3 text-sm font-bold rounded-xl shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
                       plan.popular
                         ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
                         : "bg-slate-900 hover:bg-slate-800 text-white"
                     }`}
                   >
+                    {changing && <Loader2 className="w-4 h-4 animate-spin" />}
                     {actionLabel}
                   </button>
                 )}
@@ -452,13 +599,14 @@ const UpgradePage = () => {
             </div>
             <div className="flex-shrink-0">
               {hasGrowthOrAbove ? (
-                <Link
-                  to="../marketing"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-xl shadow-md transition-all whitespace-nowrap"
+                <button
+                  onClick={handleBuyMarketing}
+                  disabled={changing || submitting}
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-xl shadow-md transition-all whitespace-nowrap disabled:opacity-60"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   Add Marketing
-                </Link>
+                </button>
               ) : (
                 <button
                   disabled
@@ -486,6 +634,41 @@ const UpgradePage = () => {
               </Link>
             </p>
           </div>
+        </div>
+      )}
+
+<PaymentModal
+  open={!!config}
+  onClose={close}
+  title={config?.title || "Complete Payment"}
+  subtitle={config?.subtitle}
+  amount={config?.amount}
+  currency={config?.currency}
+  submitting={submitting}
+  submitLabel={config?.submitLabel}
+  onPaymentMethod={handlePaymentMethod}
+/>
+
+      {/* ─── Last invoice success toast ─────────────────────── */}
+      {lastInvoice && (
+        <div className="fixed bottom-6 right-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 max-w-sm shadow-lg z-40">
+          <p className="text-sm font-semibold text-emerald-800">
+            Payment successful
+          </p>
+          <p className="text-xs text-emerald-700 mt-1">
+            Invoice {lastInvoice.invoice_number} — $
+            {Number(lastInvoice.amount).toFixed(2)}
+          </p>
+          {lastInvoice.hosted_invoice_url && (
+            <a
+              href={lastInvoice.hosted_invoice_url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-semibold text-emerald-700 underline mt-1 inline-block"
+            >
+              View invoice ↗
+            </a>
+          )}
         </div>
       )}
     </div>

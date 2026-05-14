@@ -19,6 +19,7 @@ import DashboardLayout from "./components/layout/DashboardLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import RoleRedirect from "./routes/RoleRedirect";
+import FeatureGate from "./components/common/FeatureGate";
 
 // ─── Public Pages ───────────────────────────────────────────
 import LandingPage from "./pages/public/LandingPage";
@@ -31,6 +32,7 @@ import ContactPage from "./pages/public/ContactPage";
 import AboutPage from "./pages/public/AboutPage";
 import LoginPage from "./pages/public/LoginPage";
 import RegisterPage from "./pages/public/RegisterPage";
+import TermsAndConditionsPage from "./pages/public/Termsandconditionspage";
 
 // ─── Admin Pages ────────────────────────────────────────────
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -47,6 +49,9 @@ import LearningLessonFormPage from "./pages/admin/LearningLessonFormPage";
 import AdminPlaceholder from "./pages/admin/AdminPlaceholder";
 import UserFormPage from "./pages/admin/UserFormPage";
 import ManageServiceRequestsPage from "./pages/admin/ManageServiceRequestsPage";
+import EventFormPage from "./pages/admin/EventFormPage";
+import EventDetailsPage from "./pages/admin/EventDetailPage";
+import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
 
 // ─── Provider Pages ─────────────────────────────────────────
 import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
@@ -61,7 +66,7 @@ import LookingForServicesPage from "./pages/participant/LookingForServicesPage";
 import RightsSafetyPage from "./pages/participant/RightsSafetyPage";
 import PlanBuddyPage from "./pages/participant/PlanBuddyPage";
 
-// ─── Shared Dashboard Pages ────────────────────────────────
+// ─── Shared Dashboard Pages ─────────────────────────────────
 import ProfilePage from "./pages/shared/ProfilePage";
 import EventsPage from "./pages/shared/EventsPage";
 import DirectoryPage from "./pages/shared/DirectoryPage";
@@ -71,12 +76,6 @@ import AISupportPage from "./pages/shared/AISupportPage";
 import UpgradePage from "./pages/shared/UpgradePage";
 import AdminSupportPage from "./pages/shared/AdminSupportPage";
 import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
-import EventFormPage from "./pages/admin/EventFormPage";
-import EventDetailsPage from "./pages/admin/EventDetailPage";
-import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
-import TermsAndConditionsPage from "./pages/public/Termsandconditionspage";
-import ManageInnovationLabPage from "./pages/admin/ManageInnovationLabPage";
-import InnovationLabResourceFormPage from "./pages/admin/InnovationLabFoam";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -136,7 +135,7 @@ function App() {
         {/* ─── Dashboard redirect (role-based) ────────────────── */}
         <Route path="/dashboard" element={<RoleRedirect />} />
 
-        {/* ─── Admin Routes ──────────────────────────────────── */}
+        {/* ─── Admin Routes (no feature gating — admin bypass) ── */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<AdminDashboard />} />
@@ -150,7 +149,10 @@ function App() {
               path="service-requests"
               element={<ManageServiceRequestsPage />}
             />
-            <Route path="subscriptions" element={<ManageSubscriptionsPage />} />
+            <Route
+              path="subscriptions"
+              element={<ManageSubscriptionsPage />}
+            />
             <Route
               path="marketing-ribbon"
               element={<ManageMarketingRibbonPage />}
@@ -178,18 +180,6 @@ function App() {
               element={<LearningLessonFormPage />}
             />
             <Route
-              path="innovation-lab"
-              element={<ManageInnovationLabPage />}
-            />
-            <Route
-              path="innovation-lab/create"
-              element={<InnovationLabResourceFormPage />}
-            />
-            <Route
-              path="innovation-lab/edit/:id"
-              element={<InnovationLabResourceFormPage />}
-            />
-            <Route
               path="analytics"
               element={<AdminPlaceholder title="Analytics" />}
             />
@@ -206,42 +196,186 @@ function App() {
           </Route>
         </Route>
 
-        {/* ─── Provider Routes ────────────────────────────────── */}
+        {/* ─── Provider Routes (feature-gated) ────────────────── */}
         <Route element={<ProtectedRoute allowedRoles={["provider"]} />}>
           <Route path="/provider" element={<DashboardLayout />}>
-            <Route index element={<ProviderDashboardHome />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="directory" element={<DirectoryPage />} />
-            <Route path="jobs" element={<JobBoardPage />} />
-            <Route path="events" element={<EventsPage />} />
-            <Route path="innovation-lab" element={<InnovationLabPage />} />
-            <Route path="learning" element={<ProviderLearningHubPage />} />
-            <Route path="learning/:id" element={<LearningModuleDetailPage />} />
-            <Route path="qa" element={<QAForumPage />} />
-            <Route path="documents" element={<DocumentUploadPage />} />
+            <Route
+              index
+              element={
+                <FeatureGate featureKey="dashboard" featureName="Dashboard">
+                  <ProviderDashboardHome />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <FeatureGate featureKey="profile" featureName="Profile">
+                  <ProfilePage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="directory"
+              element={
+                <FeatureGate featureKey="directory" featureName="Business Directory">
+                  <DirectoryPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="jobs"
+              element={
+                <FeatureGate featureKey="job_board" featureName="Job Board">
+                  <JobBoardPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="events"
+              element={
+                <FeatureGate featureKey="events" featureName="Events & Networking">
+                  <EventsPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="innovation-lab"
+              element={
+                <FeatureGate featureKey="innovation_lab" featureName="Innovation Lab">
+                  <InnovationLabPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="learning"
+              element={
+                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                  <ProviderLearningHubPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="learning/:id"
+              element={
+                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                  <LearningModuleDetailPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="qa"
+              element={
+                <FeatureGate featureKey="qa" featureName="Q & A">
+                  <QAForumPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="documents"
+              element={
+                <FeatureGate featureKey="documents" featureName="Documents">
+                  <DocumentUploadPage />
+                </FeatureGate>
+              }
+            />
+
+            {/* No gate on upgrade & admin-support — always accessible */}
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>
         </Route>
 
-        {/* ─── Participant Routes ─────────────────────────────── */}
+        {/* ─── Participant Routes (feature-gated) ──────────────── */}
         <Route element={<ProtectedRoute allowedRoles={["participant"]} />}>
           <Route path="/participant" element={<DashboardLayout />}>
-            <Route index element={<ParticipantDashboardHome />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="services" element={<DirectoryPage />} />
-            <Route path="learning" element={<LearningHubPage />} />
-            <Route path="learning/:id" element={<LearningModuleDetailPage />} />
-            <Route path="qa" element={<QAForumPage />} />
-            <Route path="documents" element={<DocumentUploadPage />} />
+            <Route
+              index
+              element={
+                <FeatureGate featureKey="dashboard" featureName="Dashboard">
+                  <ParticipantDashboardHome />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <FeatureGate featureKey="profile" featureName="Profile">
+                  <ProfilePage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="services"
+              element={
+                <FeatureGate featureKey="directory" featureName="Provider Directory">
+                  <DirectoryPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="learning"
+              element={
+                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                  <LearningHubPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="learning/:id"
+              element={
+                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                  <LearningModuleDetailPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="qa"
+              element={
+                <FeatureGate featureKey="qa" featureName="Q & A">
+                  <QAForumPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="documents"
+              element={
+                <FeatureGate featureKey="documents" featureName="Documents">
+                  <DocumentUploadPage />
+                </FeatureGate>
+              }
+            />
             <Route
               path="looking-for-services"
-              element={<LookingForServicesPage />}
+              element={
+                <FeatureGate
+                  featureKey="looking_for_services"
+                  featureName="Looking for Services"
+                >
+                  <LookingForServicesPage />
+                </FeatureGate>
+              }
             />
             {/* <Route path="events" element={<EventsPage />} /> */}
-            <Route path="rights-safety" element={<RightsSafetyPage />} />
+            <Route
+              path="rights-safety"
+              element={
+                <FeatureGate featureKey="rights_safety" featureName="Rights & Safety">
+                  <RightsSafetyPage />
+                </FeatureGate>
+              }
+            />
+            <Route
+              path="plan-buddy"
+              element={
+                <FeatureGate featureKey="plan_buddy" featureName="Your Buddy's Profile">
+                  <PlanBuddyPage />
+                </FeatureGate>
+              }
+            />
+
+            {/* No gate on upgrade & admin-support — always accessible */}
             <Route path="upgrade" element={<UpgradePage />} />
-            <Route path="plan-buddy" element={<PlanBuddyPage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>
         </Route>

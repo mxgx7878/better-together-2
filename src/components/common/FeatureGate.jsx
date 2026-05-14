@@ -1,23 +1,30 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
+  selectIsAdmin,
   selectIsPaid,
   selectIsProvider,
   selectIsParticipant,
+  selectHasFeature,
 } from "../../store/slices/authSlice";
 import { Lock, ArrowRight } from "lucide-react";
 
-// Wraps content that requires a paid subscription.
-// - Admins always pass through (they can access everything)
-// - Free providers/participants see the upgrade prompt
-const FeatureGate = ({ children, fallback, featureName = "This feature" }) => {
-  const isPaid = true
-  const isProvider = useSelector(selectIsProvider);
+// Wraps content that requires either (a) a specific feature_key, or
+// (b) any paid plan as a fallback when no featureKey is passed.
+// - Admins always pass through
+// - featureKey provided → checks user's plan.features[]
+// - featureKey omitted  → falls back to binary isPaid check (legacy)
+const FeatureGate = ({ children, fallback, featureName = "This feature", featureKey }) => {
+  const isAdmin       = useSelector(selectIsAdmin);
+  const isPaid        = useSelector(selectIsPaid);
+  const isProvider    = useSelector(selectIsProvider);
   const isParticipant = useSelector(selectIsParticipant);
+  const hasFeature    = useSelector(featureKey ? selectHasFeature(featureKey) : () => false);
 
-  // Admins always have access; paid users always have access
-  if (isPaid || (!isProvider && !isParticipant)) return children;
+  if (isAdmin) return children;
 
+  const allowed = featureKey ? hasFeature : isPaid;
+  if (allowed) return children;
   if (fallback) return fallback;
 
   const upgradePath = isProvider

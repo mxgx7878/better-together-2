@@ -7,6 +7,7 @@ import {
   selectIsPaid,
 } from "../../store/slices/authSlice";
 import { logoutUser } from "../../store/actions/authActions";
+import { selectPlanFeatureKeys } from "../../store/slices/authSlice";
 import {
   Home,
   User,
@@ -32,6 +33,7 @@ import {
   HeartHandshake,
   Inbox,
   Megaphone,
+  HelpCircle,
 } from "lucide-react";
 
 const DashboardSidebar = ({
@@ -46,6 +48,7 @@ const DashboardSidebar = ({
   const isProvider = useSelector(selectIsProvider);
   const isAdmin = useSelector(selectIsAdmin);
   const isPaid = useSelector(selectIsPaid);
+  const featureKeys = useSelector(selectPlanFeatureKeys);
 
   const collapsed = isMobile ? false : isCollapsed;
 
@@ -81,6 +84,12 @@ const DashboardSidebar = ({
       label: "Service Requests",
       icon: Inbox,
       path: "/admin/service-requests",
+      tier: "all",
+    },
+     {
+      label: "User Queries",
+      icon: HelpCircle,
+      path: "/admin/queries",
       tier: "all",
     },
     {
