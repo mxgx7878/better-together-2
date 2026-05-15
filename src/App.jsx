@@ -76,6 +76,7 @@ import AISupportPage from "./pages/shared/AISupportPage";
 import UpgradePage from "./pages/shared/UpgradePage";
 import AdminSupportPage from "./pages/shared/AdminSupportPage";
 import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
+import ManageQueriesPage from "./pages/admin/ManageQueriesPage";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -193,6 +194,8 @@ function App() {
             <Route path="events/create" element={<EventFormPage />} />
             <Route path="events/edit/:id" element={<EventFormPage />} />
             <Route path="events/:id" element={<EventDetailsPage />} />
+            <Route path="/admin/queries" element={<ManageQueriesPage />} />
+            <Route path="/admin/innovation-lab" element={<InnovationLabPage />} />
           </Route>
         </Route>
 
