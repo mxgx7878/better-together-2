@@ -12,6 +12,8 @@ import marketingRibbonReducer from "./slices/marketingRibbonSlice";
 import featureReducer from "./slices/featureSlice";
 import innovationLabReducer from "./slices/innovationLabSlice";
 import queryReducer from "./slices/querySlice";
+import billingReducer from "./slices/billingSlice";
+
 
 
 const store = configureStore({
@@ -29,6 +31,7 @@ const store = configureStore({
     feature: featureReducer,  
     innovationLab: innovationLabReducer,
     query: queryReducer,
+    billing: billingReducer,
   },
 });
 

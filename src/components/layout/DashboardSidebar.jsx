@@ -86,7 +86,7 @@ const DashboardSidebar = ({
       path: "/admin/service-requests",
       tier: "all",
     },
-     {
+    {
       label: "User Queries",
       icon: HelpCircle,
       path: "/admin/queries",
@@ -188,6 +188,12 @@ const DashboardSidebar = ({
       path: `${basePath}/upgrade`,
       tier: "all",
     },
+    {
+      label: "Billing",
+      icon: CreditCard,
+      path: `${basePath}/billing`,
+      tier: "all",
+    },
   ];
 
   // Participant navigation
@@ -245,6 +251,12 @@ const DashboardSidebar = ({
       label: "Upgrade Your Subscription",
       icon: Star,
       path: `${basePath}/upgrade`,
+      tier: "all",
+    },
+    {
+      label: "Billing",
+      icon: CreditCard,
+      path: `${basePath}/billing`,
       tier: "all",
     },
     {

@@ -77,6 +77,7 @@ import UpgradePage from "./pages/shared/UpgradePage";
 import AdminSupportPage from "./pages/shared/AdminSupportPage";
 import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
 import ManageQueriesPage from "./pages/admin/ManageQueriesPage";
+import BillingPage from "./pages/shared/BillingPage";
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -135,6 +136,7 @@ function App() {
 
         {/* ─── Dashboard redirect (role-based) ────────────────── */}
         <Route path="/dashboard" element={<RoleRedirect />} />
+      
 
         {/* ─── Admin Routes (no feature gating — admin bypass) ── */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
@@ -150,10 +152,7 @@ function App() {
               path="service-requests"
               element={<ManageServiceRequestsPage />}
             />
-            <Route
-              path="subscriptions"
-              element={<ManageSubscriptionsPage />}
-            />
+            <Route path="subscriptions" element={<ManageSubscriptionsPage />} />
             <Route
               path="marketing-ribbon"
               element={<ManageMarketingRibbonPage />}
@@ -195,7 +194,10 @@ function App() {
             <Route path="events/edit/:id" element={<EventFormPage />} />
             <Route path="events/:id" element={<EventDetailsPage />} />
             <Route path="/admin/queries" element={<ManageQueriesPage />} />
-            <Route path="/admin/innovation-lab" element={<InnovationLabPage />} />
+            <Route
+              path="/admin/innovation-lab"
+              element={<InnovationLabPage />}
+            />
           </Route>
         </Route>
 
@@ -221,7 +223,10 @@ function App() {
             <Route
               path="directory"
               element={
-                <FeatureGate featureKey="directory" featureName="Business Directory">
+                <FeatureGate
+                  featureKey="directory"
+                  featureName="Business Directory"
+                >
                   <DirectoryPage />
                 </FeatureGate>
               }
@@ -237,7 +242,10 @@ function App() {
             <Route
               path="events"
               element={
-                <FeatureGate featureKey="events" featureName="Events & Networking">
+                <FeatureGate
+                  featureKey="events"
+                  featureName="Events & Networking"
+                >
                   <EventsPage />
                 </FeatureGate>
               }
@@ -245,7 +253,10 @@ function App() {
             <Route
               path="innovation-lab"
               element={
-                <FeatureGate featureKey="innovation_lab" featureName="Innovation Lab">
+                <FeatureGate
+                  featureKey="innovation_lab"
+                  featureName="Innovation Lab"
+                >
                   <InnovationLabPage />
                 </FeatureGate>
               }
@@ -253,7 +264,10 @@ function App() {
             <Route
               path="learning"
               element={
-                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                <FeatureGate
+                  featureKey="learning_hub"
+                  featureName="Learning Hub"
+                >
                   <ProviderLearningHubPage />
                 </FeatureGate>
               }
@@ -261,7 +275,10 @@ function App() {
             <Route
               path="learning/:id"
               element={
-                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                <FeatureGate
+                  featureKey="learning_hub"
+                  featureName="Learning Hub"
+                >
                   <LearningModuleDetailPage />
                 </FeatureGate>
               }
@@ -284,6 +301,8 @@ function App() {
             />
 
             {/* No gate on upgrade & admin-support — always accessible */}
+            <Route path="billing" element={<BillingPage />} />
+
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>
@@ -311,7 +330,10 @@ function App() {
             <Route
               path="services"
               element={
-                <FeatureGate featureKey="directory" featureName="Provider Directory">
+                <FeatureGate
+                  featureKey="directory"
+                  featureName="Provider Directory"
+                >
                   <DirectoryPage />
                 </FeatureGate>
               }
@@ -319,7 +341,10 @@ function App() {
             <Route
               path="learning"
               element={
-                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                <FeatureGate
+                  featureKey="learning_hub"
+                  featureName="Learning Hub"
+                >
                   <LearningHubPage />
                 </FeatureGate>
               }
@@ -327,7 +352,10 @@ function App() {
             <Route
               path="learning/:id"
               element={
-                <FeatureGate featureKey="learning_hub" featureName="Learning Hub">
+                <FeatureGate
+                  featureKey="learning_hub"
+                  featureName="Learning Hub"
+                >
                   <LearningModuleDetailPage />
                 </FeatureGate>
               }
@@ -363,7 +391,10 @@ function App() {
             <Route
               path="rights-safety"
               element={
-                <FeatureGate featureKey="rights_safety" featureName="Rights & Safety">
+                <FeatureGate
+                  featureKey="rights_safety"
+                  featureName="Rights & Safety"
+                >
                   <RightsSafetyPage />
                 </FeatureGate>
               }
@@ -371,13 +402,17 @@ function App() {
             <Route
               path="plan-buddy"
               element={
-                <FeatureGate featureKey="plan_buddy" featureName="Your Buddy's Profile">
+                <FeatureGate
+                  featureKey="plan_buddy"
+                  featureName="Your Buddy's Profile"
+                >
                   <PlanBuddyPage />
                 </FeatureGate>
               }
             />
 
             {/* No gate on upgrade & admin-support — always accessible */}
+            <Route path="billing" element={<BillingPage />} />
             <Route path="upgrade" element={<UpgradePage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
           </Route>

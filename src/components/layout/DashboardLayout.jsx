@@ -14,6 +14,10 @@ import {
   selectGlobalLoading,
   selectPageLoading,
 } from '../../store/slices/uiSlice';
+import {
+  selectIsAuthenticated,
+  selectIsAdmin,
+} from '../../store/slices/authSlice';
 import { fetchMySubscription } from '../../store/actions/subscriptionActions';
 
 const DashboardLayout = () => {
@@ -23,9 +27,21 @@ const DashboardLayout = () => {
   const mobileMenuOpen = useSelector(selectMobileMenuOpen);
   const globalLoading = useSelector(selectGlobalLoading);
   const pageLoading = useSelector(selectPageLoading);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isAdmin = useSelector(selectIsAdmin);
+
+  // ─── Bootstrap the user's subscription on dashboard mount ──────────
+  // This single fetch hydrates state.subscription.mySubscription which is
+  // the primary source for ALL plan-based selectors (selectIsPaid,
+  // selectPlanFeatureKeys, selectHasFeature, etc.). Until this completes,
+  // FeatureGate shows a spinner instead of committing to a stale decision.
+  //
+  // Admins are skipped because they bypass all gating anyway.
   useEffect(() => {
-    dispatch(fetchMySubscription())
-  }, [dispatch]);
+    if (isAuthenticated && !isAdmin) {
+      dispatch(fetchMySubscription());
+    }
+  }, [dispatch, isAuthenticated, isAdmin]);
 
   // Close mobile menu on route change
   useEffect(() => {

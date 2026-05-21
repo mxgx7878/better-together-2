@@ -148,7 +148,8 @@ const useRegisterForm = () => {
       { duration: 5000 },
     );
       return true;
-    } catch {
+    } catch (err) {
+      // toast.error(err.message || "Registration failed");
       return false;
     } finally {
       setSubmitting(false);

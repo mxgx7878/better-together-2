@@ -6,27 +6,64 @@ import {
   selectIsProvider,
   selectIsParticipant,
   selectHasFeature,
+  selectSubscriptionLoading,
+  selectSubscriptionReady,
 } from "../../store/slices/authSlice";
-import { Lock, ArrowRight } from "lucide-react";
+import { Lock, ArrowRight, Loader2 } from "lucide-react";
 
-// Wraps content that requires either (a) a specific feature_key, or
-// (b) any paid plan as a fallback when no featureKey is passed.
-// - Admins always pass through
-// - featureKey provided → checks user's plan.features[]
-// - featureKey omitted  → falls back to binary isPaid check (legacy)
-const FeatureGate = ({ children, fallback, featureName = "This feature", featureKey }) => {
+// ─── FeatureGate ──────────────────────────────────────────────────
+// Wraps content that requires either:
+//   (a) a specific feature_key from the user's plan, OR
+//   (b) any paid plan (fallback when no featureKey is passed).
+//
+// Gating rules (in order):
+//   - Admins always pass through
+//   - Subscription data still loading → spinner (NOT lock screen)
+//   - featureKey provided → checks plan.features[]
+//   - featureKey omitted  → falls back to binary isPaid check
+//
+// All plan reads go through cross-slice selectors that prefer
+// state.subscription.mySubscription over state.auth.user.subscriber.
+// This means the gate only commits to a decision AFTER /subscription/me
+// has returned — fixing the "flashes lock screen on page load" bug.
+// ──────────────────────────────────────────────────────────────────
+const FeatureGate = ({
+  children,
+  fallback,
+  featureName = "This feature",
+  featureKey,
+}) => {
   const isAdmin       = useSelector(selectIsAdmin);
   const isPaid        = useSelector(selectIsPaid);
   const isProvider    = useSelector(selectIsProvider);
   const isParticipant = useSelector(selectIsParticipant);
-  const hasFeature    = useSelector(featureKey ? selectHasFeature(featureKey) : () => false);
+  const loading       = useSelector(selectSubscriptionLoading);
+  const ready         = useSelector(selectSubscriptionReady);
+  const hasFeature    = useSelector(
+    featureKey ? selectHasFeature(featureKey) : () => false,
+  );
 
+  // 1. Admin — always allowed
   if (isAdmin) return children;
 
+  // 2. Subscription data still being fetched — show spinner, NOT lock.
+  //    This is the fix for the flicker bug: previously the gate would
+  //    render the upgrade screen with stale data, then swap to the real
+  //    content once /subscription/me completed.
+  if (loading || !ready) {
+    return (
+      <div className="flex items-center justify-center min-h-[40vh]">
+        <Loader2 className="w-6 h-6 text-purple-500 animate-spin" />
+      </div>
+    );
+  }
+
+  // 3. Gating decision
   const allowed = featureKey ? hasFeature : isPaid;
   if (allowed) return children;
   if (fallback) return fallback;
 
+  // 4. Upgrade prompt
   const upgradePath = isProvider
     ? "/provider/upgrade"
     : isParticipant

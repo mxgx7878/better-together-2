@@ -41,7 +41,7 @@ export const uploadAvatar = createAsyncThunk(
 );
 
 // ═══════════════════════════════════════════════════════════════════
-// ADMIN USER APIs
+// ADMIN USER APIs — Listing + Fetch
 // ═══════════════════════════════════════════════════════════════════
 
 export const adminFetchUsers = createAsyncThunk(
@@ -100,19 +100,25 @@ export const adminUpdateUser = createAsyncThunk(
   },
 );
 
-// export const adminUpdateMarketingRibbon = createAsyncThunk(
-//   "admin/updateMarketingRibbon",
-//   async ({ id, payload }, { rejectWithValue }) => {
-//     try {
-//       const data = await api.put(`/admin/marketing-ribbon/${id}`, payload);
-//       toast.success(data?.message || "User updated successfully");
-//       return data.data || data;
-//     } catch (err) {
-//       toast.error(err.message || "Failed to update user");
-//       return rejectWithValue(err.message || "Failed to update user");
-//     }
-//   },
-// );
+/**
+ * DELETE /api/admin/users/:id
+ * Permanently delete a user. Cascade-deletes their subscriber, profile,
+ * posts, replies, etc. — irreversible. The "Suspend" action is the safer
+ * choice for temporary blocks.
+ */
+export const adminDeleteUser = createAsyncThunk(
+  "admin/deleteUser",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const data = await api.del(`/admin/users/${userId}`);
+      toast.success(data?.message || "User deleted permanently");
+      return userId;
+    } catch (err) {
+      toast.error(err.message || "Failed to delete user");
+      return rejectWithValue(err.message || "Failed to delete user");
+    }
+  },
+);
 
 // ═══════════════════════════════════════════════════════════════════
 // ADMIN — Status management (4 statuses: pending, approved, rejected, suspended)
@@ -192,6 +198,9 @@ export const adminSetPendingUser = createAsyncThunk(
   },
 );
 
+// ═══════════════════════════════════════════════════════════════════
+// PUBLIC — Listing for directory pages
+// ═══════════════════════════════════════════════════════════════════
 
 export const fetchUsers = createAsyncThunk(
   "users/fetch",

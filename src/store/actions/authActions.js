@@ -44,6 +44,7 @@ export const registerProvider = createAsyncThunk(
       toast.success('Registration successful!');
       return data;
     } catch (err) {
+      console.log('Registration error:', err);
       toast.error(err.message || 'Registration failed');
       return rejectWithValue(err.message || 'Registration failed');
     }

@@ -40,11 +40,27 @@ const api = async (endpoint, options = {}) => {
   const data = await response.json();
 
   if (!response.ok) {
-    // Laravel validation errors: { message, errors: { field: [...] } }
-    if (data.errors) {
-      const firstError = Object.values(data.errors).flat()[0];
+    // Try multiple validation error shapes:
+    //   1. Standard Laravel:   { message, errors: { field: [...] } }
+    //   2. Custom BTN format:  { status: false, error: { field: [...] } }
+    //   3. Custom BTN format:  { status: false, error: "string message" }
+    //   4. Plain message:      { message: "..." }
+    const validationErrors = data.errors || data.error;
+
+    // Case: validation errors is an object with field arrays
+    if (validationErrors && typeof validationErrors === 'object' && !Array.isArray(validationErrors)) {
+      console.log(data);
+      const firstError = Object.values(validationErrors).flat()[0];
       throw new Error(firstError || data.message || 'Request failed');
     }
+
+    // Case: error is a plain string
+    if (typeof validationErrors === 'string') {
+      console.log(data);
+      throw new Error(validationErrors);
+    }
+
+    console.log(data);
     throw new Error(data.message || 'Something went wrong');
   }
 

@@ -6,14 +6,17 @@ import {
   adminFetchUser,
   adminCreateUser,
   adminUpdateUser,
+  adminDeleteUser,
   adminApproveUser,
   adminRejectUser,
   adminSuspendUser,
   adminSetPendingUser,
-  fetchUsers 
+  fetchUsers,
 } from "../actions/userActions";
 import { ASYNC_STATUS } from "../../constants";
 
+// Helper: in-place merge of a user payload into both the list and the
+// currently-selected user (when ids match).
 const patchUser = (state, payload) => {
   if (!payload) return;
   const idx = state.users.findIndex((u) => u.id === payload.id);
@@ -67,7 +70,7 @@ const userSlice = createSlice({
       }
     });
 
-    // ─── Fetch all users (paginated) ─────────────────────────────
+    // ─── Fetch all users (paginated, admin) ─────────────────────
     builder
       .addCase(adminFetchUsers.pending, (state) => {
         state.status = ASYNC_STATUS.LOADING;
@@ -84,7 +87,7 @@ const userSlice = createSlice({
         state.error = payload;
       });
 
-    // ─── Fetch single user ───────────────────────────────────────
+    // ─── Fetch single user ──────────────────────────────────────
     builder
       .addCase(adminFetchUser.pending, (state) => {
         state.selectedUserStatus = ASYNC_STATUS.LOADING;
@@ -118,7 +121,9 @@ const userSlice = createSlice({
         state.saveStatus = ASYNC_STATUS.LOADING;
       })
       .addCase(adminUpdateUser.fulfilled, (state, { payload }) => {
-        state.users = state.users.map((u) => (u.id === payload.id ? payload : u));
+        state.users = state.users.map((u) =>
+          u.id === payload.id ? payload : u,
+        );
         state.saveStatus = ASYNC_STATUS.SUCCEEDED;
       })
       .addCase(adminUpdateUser.rejected, (state, { payload }) => {
@@ -126,29 +131,85 @@ const userSlice = createSlice({
         state.error = payload;
       });
 
+    // ─── Admin delete user ──────────────────────────────────────
+    // Removes the user from the paginated list, clears selectedUser
+    // if it was the same one, and decrements the total count.
+    builder
+      .addCase(adminDeleteUser.pending, (state) => {
+        state.actionStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminDeleteUser.fulfilled, (state, { payload: userId }) => {
+        state.actionStatus = ASYNC_STATUS.SUCCEEDED;
+        state.users = (state.users || []).filter((u) => u.id !== userId);
+        if (state.selectedUser?.id === userId) {
+          state.selectedUser = null;
+        }
+        if (typeof state.total === "number" && state.total > 0) {
+          state.total -= 1;
+        }
+      })
+      .addCase(adminDeleteUser.rejected, (state, { payload }) => {
+        state.actionStatus = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      });
+
     // ─── Approve ─────────────────────────────────────────────────
     builder
-      .addCase(adminApproveUser.pending, (s) => { s.actionStatus = ASYNC_STATUS.LOADING; })
-      .addCase(adminApproveUser.fulfilled, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.SUCCEEDED; patchUser(s, payload); })
-      .addCase(adminApproveUser.rejected, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.FAILED; s.error = payload; });
+      .addCase(adminApproveUser.pending, (s) => {
+        s.actionStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminApproveUser.fulfilled, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.SUCCEEDED;
+        patchUser(s, payload);
+      })
+      .addCase(adminApproveUser.rejected, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.FAILED;
+        s.error = payload;
+      });
 
     // ─── Reject ──────────────────────────────────────────────────
     builder
-      .addCase(adminRejectUser.pending, (s) => { s.actionStatus = ASYNC_STATUS.LOADING; })
-      .addCase(adminRejectUser.fulfilled, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.SUCCEEDED; patchUser(s, payload); })
-      .addCase(adminRejectUser.rejected, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.FAILED; s.error = payload; });
+      .addCase(adminRejectUser.pending, (s) => {
+        s.actionStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminRejectUser.fulfilled, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.SUCCEEDED;
+        patchUser(s, payload);
+      })
+      .addCase(adminRejectUser.rejected, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.FAILED;
+        s.error = payload;
+      });
 
     // ─── Suspend ─────────────────────────────────────────────────
     builder
-      .addCase(adminSuspendUser.pending, (s) => { s.actionStatus = ASYNC_STATUS.LOADING; })
-      .addCase(adminSuspendUser.fulfilled, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.SUCCEEDED; patchUser(s, payload); })
-      .addCase(adminSuspendUser.rejected, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.FAILED; s.error = payload; });
+      .addCase(adminSuspendUser.pending, (s) => {
+        s.actionStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminSuspendUser.fulfilled, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.SUCCEEDED;
+        patchUser(s, payload);
+      })
+      .addCase(adminSuspendUser.rejected, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.FAILED;
+        s.error = payload;
+      });
 
     // ─── Set Pending ─────────────────────────────────────────────
     builder
-      .addCase(adminSetPendingUser.pending, (s) => { s.actionStatus = ASYNC_STATUS.LOADING; })
-      .addCase(adminSetPendingUser.fulfilled, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.SUCCEEDED; patchUser(s, payload); })
-      .addCase(adminSetPendingUser.rejected, (s, { payload }) => { s.actionStatus = ASYNC_STATUS.FAILED; s.error = payload; });
+      .addCase(adminSetPendingUser.pending, (s) => {
+        s.actionStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(adminSetPendingUser.fulfilled, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.SUCCEEDED;
+        patchUser(s, payload);
+      })
+      .addCase(adminSetPendingUser.rejected, (s, { payload }) => {
+        s.actionStatus = ASYNC_STATUS.FAILED;
+        s.error = payload;
+      });
+
+    // ─── Public fetch (directory pages) ─────────────────────────
     builder
       .addCase(fetchUsers.pending, (state) => {
         state.status = ASYNC_STATUS.LOADING;
