@@ -14,6 +14,7 @@ import {
   selectGlobalLoading,
   selectPageLoading,
 } from '../../store/slices/uiSlice';
+import { fetchMySubscription } from '../../store/actions/subscriptionActions';
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const DashboardLayout = () => {
   const mobileMenuOpen = useSelector(selectMobileMenuOpen);
   const globalLoading = useSelector(selectGlobalLoading);
   const pageLoading = useSelector(selectPageLoading);
+  useEffect(() => {
+    dispatch(fetchMySubscription())
+  }, [dispatch]);
 
   // Close mobile menu on route change
   useEffect(() => {
