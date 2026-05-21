@@ -7,7 +7,7 @@ A modern, responsive public-facing website for  conn ecting NDIS participants wi
 ### Pages Implemented    
  
 1. **Landing Page**
-   - Hero section with gradient background
+   - Hero section with gradient background 
    - Event Calendar section (Eventbrite integration ready)
    - Facebook community link
    - Join Us section with dual CTAs
