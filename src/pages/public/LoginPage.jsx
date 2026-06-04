@@ -56,12 +56,7 @@ const LoginPage = () => {
     setFormData({ ...formData, [e.target.name]: value });
   };
 
-  // Quick login buttons for testing (uses real API credentials)
-  const quickLogins = [
-    { label: 'Admin', email: 'admin@together.com', password: '12345678' },
-    { label: 'provider', email: 'johnprovider@example.com', password: '12345678' },
-    { label: 'participant', email: 'participant@example.com', password: '12345678' },
-  ];
+ 
 
   const features = [
     {
@@ -96,7 +91,7 @@ const LoginPage = () => {
           </div>
 
           {/* Quick Demo Logins */}
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+          {/* <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
             <p className="text-xs font-semibold text-amber-700 mb-3">Quick Demo Login:</p>
             <div className="flex flex-wrap gap-2">
               {quickLogins.map((q) => (
@@ -112,7 +107,7 @@ const LoginPage = () => {
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Error */}
           {error && (
