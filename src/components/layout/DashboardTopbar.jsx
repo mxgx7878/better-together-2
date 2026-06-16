@@ -88,16 +88,16 @@ const DashboardTopbar = ({ sidebarCollapsed, onMobileMenuToggle }) => {
         {/* Right Actions */}
         <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           {/* Search */}
-          <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-sm text-slate-500 transition-colors">
+          {/* <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-sm text-slate-500 transition-colors">
             <Search className="w-4 h-4" />
             <span>Search...</span>
             <kbd className="hidden lg:inline text-[10px] bg-white px-1.5 py-0.5 rounded border border-slate-200 font-mono">
               ⌘K
             </kbd>
-          </button>
+          </button> */}
 
           {/* Notifications */}
-          <div className="relative">
+          {/* <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative p-2.5 rounded-xl hover:bg-slate-100 transition-colors"
@@ -151,7 +151,7 @@ const DashboardTopbar = ({ sidebarCollapsed, onMobileMenuToggle }) => {
                 </div>
               </>
             )}
-          </div>
+          </div> */}
 
           {/* Profile Quick Menu */}
           <Link
