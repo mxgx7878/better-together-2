@@ -267,7 +267,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Tabs */}
-      {/* <div className="flex gap-1 bg-slate-100 rounded-xl p-1 overflow-x-auto scrollbar-thin">
+      <div className="flex gap-1 bg-slate-100 rounded-xl p-1 overflow-x-auto scrollbar-thin">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -282,7 +282,7 @@ const ProfilePage = () => {
             {tab.label}
           </button>
         ))}
-      </div> */}
+      </div>
 
       {/* Tab Content */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
