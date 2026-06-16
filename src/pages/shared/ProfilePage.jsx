@@ -12,6 +12,7 @@ import InputField from "../../components/common/InputField";
 import Checkbox from "../../components/common/Checkbox";
 import FileUploadPreview from "../../components/common/FileUploadPreview";
 import SocialLinksField from "../../components/common/SocialLinksField";
+import ChangePasswordForm from "../../components/common/ChangePasswordForm";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -144,11 +145,13 @@ const ProfilePage = () => {
     ? [
         { key: "details", label: "Business Details" },
         { key: "services", label: "Services & Categories" },
+        { key: "security", label: "Security" },
         ...(isPremium ? [{ key: "reviews", label: "Written Reviews" }] : []),
         { key: "notifications", label: "Notifications" },
       ]
     : [
         { key: "details", label: "My Details" },
+        { key: "security", label: "Security" },
         { key: "notifications", label: "Notifications" },
       ];
 
@@ -266,6 +269,7 @@ const ProfilePage = () => {
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             className={`flex-1 min-w-[90px] sm:min-w-[120px] px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
+
               activeTab === tab.key
                 ? "bg-white text-purple-700 shadow-sm"
                 : "text-slate-500 hover:text-slate-700"
@@ -507,6 +511,9 @@ const ProfilePage = () => {
 
         {/* ─── Reviews Tab — Paid provider only ──────────────── */}
         {activeTab === "reviews" && isProvider && isPaid && <ReviewsTab />}
+
+        {/* ─── Security Tab ────────────────────────────────── */}
+        {activeTab === "security" && <ChangePasswordForm />}
 
         {/* ─── Notifications Tab ──────────────────────────────── */}
         {activeTab === "notifications" && (

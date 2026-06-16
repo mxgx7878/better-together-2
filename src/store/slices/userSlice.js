@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   updateMyProfile,
+  changePassword,
   uploadAvatar,
   adminFetchUsers,
   adminFetchUser,
@@ -39,6 +40,7 @@ const userSlice = createSlice({
     selectedUserStatus: ASYNC_STATUS.IDLE,
     actionStatus: ASYNC_STATUS.IDLE,
     saveStatus: ASYNC_STATUS.IDLE,
+    passwordStatus: ASYNC_STATUS.IDLE,
   },
   reducers: {
     clearSelectedUser(state) {
@@ -60,6 +62,19 @@ const userSlice = createSlice({
       })
       .addCase(updateMyProfile.rejected, (state, { payload }) => {
         state.saveStatus = ASYNC_STATUS.FAILED;
+        state.error = payload;
+      });
+
+    // ─── Change password ────────────────────────────────────────
+    builder
+      .addCase(changePassword.pending, (state) => {
+        state.passwordStatus = ASYNC_STATUS.LOADING;
+      })
+      .addCase(changePassword.fulfilled, (state) => {
+        state.passwordStatus = ASYNC_STATUS.SUCCEEDED;
+      })
+      .addCase(changePassword.rejected, (state, { payload }) => {
+        state.passwordStatus = ASYNC_STATUS.FAILED;
         state.error = payload;
       });
 

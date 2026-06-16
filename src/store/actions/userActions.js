@@ -24,6 +24,20 @@ export const updateMyProfile = createAsyncThunk(
   },
 );
 
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const data = await api.post("/user/password", payload);
+      toast.success(data?.message || "Password updated successfully");
+      return data.data || data;
+    } catch (err) {
+      toast.error(err.message || "Failed to update password");
+      return rejectWithValue(err.message || "Failed to update password");
+    }
+  },
+);
+
 export const uploadAvatar = createAsyncThunk(
   "user/uploadAvatar",
   async (file, { rejectWithValue }) => {
