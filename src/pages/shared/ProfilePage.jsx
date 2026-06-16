@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import { updateMyProfile } from "../../store/actions/userActions";
+import { fetchUsers, updateMyProfile } from "../../store/actions/userActions";
 import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { ASYNC_STATUS } from "../../constants";
 import { checkAuth } from "../../store/actions/authActions";
@@ -16,13 +16,14 @@ import ChangePasswordForm from "../../components/common/ChangePasswordForm";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { user, isProvider, isPaid } = useAuth();
+  const { user, isProvider, isPaid, isAdmin } = useAuth();
 
   const isPremium =
     user?.subscriptionPlan === "Premium Visibility" ||
     user?.provider_profile?.subscription_tier === "premium";
 
   const profile = user;
+
   const { saveStatus } = useSelector((s) => s.user);
   const { publicCategories } = useSelector((s) => s.category);
   const categoriesLoading =
@@ -37,6 +38,7 @@ const ProfilePage = () => {
   // Fetch categories on mount (profile already loaded via checkAuth)
   useEffect(() => {
     if (isProvider) dispatch(fetchPublicCategories());
+    dispatch(checkAuth());
   }, [dispatch, isProvider]);
 
   // Populate local form when profile loads
@@ -47,6 +49,8 @@ const ProfilePage = () => {
     const pa = profile.participant_profile;
     const nameParts = (profile.name || "").split(" ");
 
+    
+
     setFormData({
       first_name: nameParts[0] || "",
       last_name: nameParts.slice(1).join(" ") || "",
@@ -54,7 +58,7 @@ const ProfilePage = () => {
       phone_number: profile.phone_number || "",
       location: profile.location || "",
       // Provider
-      organisation_name: pp?.organisation_name || "",
+      organization_name: pp?.organization_name || "",
       organization_logo: pp?.organization_logo || "",
       abn: pp?.abn || "",
       links:
@@ -119,7 +123,7 @@ const ProfilePage = () => {
     };
 
     if (isProvider) {
-      payload.organisation_name = formData.organisation_name;
+      payload.organization_name = formData.organization_name;
       payload.organization_logo = formData.organization_logo;
       payload.abn = formData.abn;
       payload.links = formData.links;
@@ -147,12 +151,12 @@ const ProfilePage = () => {
         { key: "services", label: "Services & Categories" },
         { key: "security", label: "Security" },
         ...(isPremium ? [{ key: "reviews", label: "Written Reviews" }] : []),
-        { key: "notifications", label: "Notifications" },
+        // { key: "notifications", label: "Notifications" },
       ]
     : [
         { key: "details", label: "My Details" },
         { key: "security", label: "Security" },
-        { key: "notifications", label: "Notifications" },
+        // { key: "notifications", label: "Notifications" },
       ];
 
   if (!formData) {
@@ -229,7 +233,7 @@ const ProfilePage = () => {
             <h2 className="text-xl font-bold text-slate-800">{displayName}</h2>
             <p className="text-sm text-slate-500">
               {isProvider
-                ? formData.organisation_name || user?.organisation
+                ? formData.organization_name || user?.organisation
                 : formData.location || user?.location}
             </p>
             {isProvider && (
@@ -247,7 +251,7 @@ const ProfilePage = () => {
                 )}
               </div>
             )}
-            <div className="mt-3 flex items-center gap-3">
+            {/* <div className="mt-3 flex items-center gap-3">
               <div className="flex-1 max-w-xs h-2 bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
@@ -257,7 +261,7 @@ const ProfilePage = () => {
               <span className="text-sm font-semibold text-slate-700">
                 {user?.profileComplete || 0}%
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -322,8 +326,8 @@ const ProfilePage = () => {
                 <>
                   <InputField
                     label="Organisation Name"
-                    name="organisation_name"
-                    value={formData.organisation_name}
+                    name="organization_name"
+                    value={formData.organization_name}
                     onChange={handleChange}
                   />
                   <InputField
@@ -356,7 +360,7 @@ const ProfilePage = () => {
                   </div>
                 </>
               )}
-              {!isProvider && (
+              {!isProvider && !isAdmin && (
                 <>
                   <InputField
                     label="NDIS Number"
@@ -424,7 +428,7 @@ const ProfilePage = () => {
                 />
               </div>
             )}
-            {!isProvider && (
+            {!isProvider && !isAdmin && (
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
                   NDIS Goals
@@ -528,7 +532,7 @@ const ProfilePage = () => {
               checked={formData.notifyEmail}
               onChange={(v) => set("notifyEmail", v)}
             />
-            <ToggleRow
+            {/* <ToggleRow
               label="Push notifications"
               desc="Get real-time alerts in your browser"
               checked={formData.notifyPush}
@@ -539,7 +543,7 @@ const ProfilePage = () => {
               desc="Receive important alerts via text message"
               checked={formData.notifySMS}
               onChange={(v) => set("notifySMS", v)}
-            />
+            /> */}
             <div className="pt-4 border-t border-slate-100">
               <h3 className="text-sm font-semibold text-slate-700 mb-3">
                 Notify me about:

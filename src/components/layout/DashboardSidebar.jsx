@@ -122,12 +122,12 @@ const DashboardSidebar = ({
       path: "/admin/innovation-lab",
       tier: "all",
     },
-    {
-      label: "Analytics",
-      icon: BarChart3,
-      path: "/admin/analytics",
-      tier: "all",
-    },
+    // {
+    //   label: "Analytics",
+    //   icon: BarChart3,
+    //   path: "/admin/analytics",
+    //   tier: "all",
+    // },
     // { label: "Settings", icon: Settings, path: "/admin/settings", tier: "all" },
   ];
 

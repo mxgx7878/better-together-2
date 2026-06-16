@@ -7,7 +7,7 @@ import { ASYNC_STATUS } from "../../constants";
 const initialForm = {
   current_password: "",
   new_password: "",
-  password_confirmation: "",
+  new_password_confirmation: "",
 };
 
 const validate = (form) => {
@@ -21,10 +21,10 @@ const validate = (form) => {
   } else if (form.new_password.length < 8) {
     errors.new_password = "New password must be at least 8 characters";
   }
-  if (!form.password_confirmation?.trim()) {
-    errors.password_confirmation = "Confirm your new password";
-  } else if (form.password_confirmation !== form.new_password) {
-    errors.password_confirmation = "Passwords do not match";
+  if (!form.new_password_confirmation?.trim()) {
+    errors.new_password_confirmation = "Confirm your new password";
+  } else if (form.new_password_confirmation !== form.new_password) {
+    errors.new_password_confirmation = "Passwords do not match";
   }
 
   return errors;
@@ -103,10 +103,10 @@ const ChangePasswordForm = () => {
         />
         <PasswordField
           label="Confirm new password"
-          name="password_confirmation"
-          value={form.password_confirmation}
+          name="new_password_confirmation"
+          value={form.new_password_confirmation}
           onChange={handleChange}
-          error={errors.password_confirmation}
+          error={errors.new_password_confirmation}
           visible={visible.confirm}
           onToggleVisible={(value) => setVisible((prev) => ({ ...prev, confirm: value }))}
         />

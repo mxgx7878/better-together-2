@@ -29,15 +29,20 @@ const api = async (endpoint, options = {}) => {
     headers,
   });
 
+  const data = await response.json();
+
   // Handle 401 — token expired / invalid
   if (response.status === 401) {
     localStorage.removeItem('bt_token');
     localStorage.removeItem('bt_user');
-    window.location.href = '/login';
-    throw new Error('Session expired. Please login again.');
+    if(window.location.pathname !== '/login') {
+      window.location.href = '/login';
+      throw new Error('Session expired. Please login again.');
+      return;
+    }
+    throw new Error(data.error || 'Unauthorized');
   }
 
-  const data = await response.json();
 
   if (!response.ok) {
     // Try multiple validation error shapes:
