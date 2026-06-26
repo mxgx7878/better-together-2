@@ -8,11 +8,12 @@ const PersonalDetailsStep = ({
   onChange,
   showPassword,
   onToggleShowPassword,
+  role
 }) => (
   <div className="space-y-5">
     <div className="text-center mb-6">
-      <h2 className="text-2xl font-bold text-slate-800">Business  Detailss</h2>
-      <p className="text-slate-500 mt-1">Tell us about your business</p>
+      <h2 className="text-2xl font-bold text-slate-800">{role === "provider" ? "Business Details" : "Looking for Services"} </h2>
+      <p className="text-slate-500 mt-1">{role === "provider" ? "Tell us about your business" : "Tell us about the services you're looking for"}</p>
     </div>
 
     <div className="grid sm:grid-cols-2 gap-4">

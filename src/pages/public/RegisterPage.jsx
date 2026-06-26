@@ -93,6 +93,7 @@ const RegisterPage = () => {
             onChange={handleChange}
             showPassword={showPassword}
             onToggleShowPassword={setShowPassword}
+            role={role}
           />
         );
       case 3:
