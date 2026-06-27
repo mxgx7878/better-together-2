@@ -293,13 +293,12 @@ const DashboardSidebar = ({
 
   return (
     <aside
-      className={`h-screen text-white flex flex-col transition-all duration-300 ease-in-out ${
-        isAdmin
+      className={`h-screen text-white flex flex-col transition-all duration-300 ease-in-out ${isAdmin
           ? "bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950"
           : isProvider
             ? "bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950"
             : "bg-gradient-to-b from-blue-900 via-indigo-900 to-purple-900"
-      } ${collapsed ? "w-20" : "w-72"}`}
+        } ${collapsed ? "w-20" : "w-72"}`}
     >
       {/* Logo & Toggle */}
       <div className="flex items-center justify-between px-4 h-20 border-b border-white/10 flex-shrink-0 bg-white">
@@ -343,13 +342,10 @@ const DashboardSidebar = ({
         <div
           className={`flex items-center gap-3 ${collapsed ? "justify-center" : ""}`}
         >
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0 text-sm font-bold text-white">
-            {user?.name
-              ?.split(" ")
-              .map((n) => n[0])
-              .join("")}
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xs font-bold text-white">
+            <img src={user?.provider_profile?.organization_logo} alt={user?.name} className="w-full h-full object-cover rounded-full" />
           </div>
-          {!collapsed && (
+          {!collapsed && ( 
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-white truncate">
                 {user?.name}
@@ -372,10 +368,9 @@ const DashboardSidebar = ({
             to={item.path}
             end={item.end}
             className={({ isActive }) =>
-              `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative ${
-                isActive
-                  ? "bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white shadow-lg shadow-purple-500/20"
-                  : "text-slate-300 hover:bg-white/8 hover:text-white"
+              `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative ${isActive
+                ? "bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white shadow-lg shadow-purple-500/20"
+                : "text-slate-300 hover:bg-white/8 hover:text-white"
               } ${collapsed ? "justify-center px-0" : ""}`
             }
             title={collapsed ? item.label : undefined}
@@ -408,10 +403,9 @@ const DashboardSidebar = ({
               key={item.path + item.label}
               to={item.path}
               className={({ isActive }) =>
-                `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white shadow-lg shadow-purple-500/20"
-                    : "text-slate-300 hover:bg-white/8 hover:text-white"
+                `group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
+                  ? "bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white shadow-lg shadow-purple-500/20"
+                  : "text-slate-300 hover:bg-white/8 hover:text-white"
                 } ${collapsed ? "justify-center px-0" : ""}`
               }
               title={collapsed ? item.label : undefined}

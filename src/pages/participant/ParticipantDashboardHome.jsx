@@ -20,18 +20,23 @@ import {
   Loader2,
   AlertCircle,
 } from "lucide-react";
+import { fetchMarketingRibbon } from "../../store/actions/marketingRibbonActions";
+import { useDispatch, useSelector } from "react-redux";
+import FeaturedPartnersRibbon from "../../components/common/FeaturedPartnersRibbon";
 
 const ParticipantDashboardHome = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const sponsors = useSelector((s) => s.marketingRibbon.entries);
 
   const fetchDashboard = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const res = await api.get("/participant/dashboard");
-      console.log(res ,"res");
+      console.log(res, "res");
       setData(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong. Please try again.");
@@ -39,6 +44,10 @@ const ParticipantDashboardHome = () => {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchMarketingRibbon());
+  }, [dispatch]);
 
   useEffect(() => { fetchDashboard(); }, [fetchDashboard]);
 
@@ -110,11 +119,11 @@ const ParticipantDashboardHome = () => {
 
   const activityIcon = (type) => {
     switch (type) {
-      case "directory":       return <Link2 className="w-5 h-5 text-violet-600" />;
+      case "directory": return <Link2 className="w-5 h-5 text-violet-600" />;
       case "service_request": return <MessageCircle className="w-5 h-5 text-emerald-600" />;
-      case "event":           return <Calendar className="w-5 h-5 text-pink-600" />;
-      case "plan_buddy":      return <Heart className="w-5 h-5 text-rose-600" />;
-      default:                return <MessageCircle className="w-5 h-5 text-indigo-600" />;
+      case "event": return <Calendar className="w-5 h-5 text-pink-600" />;
+      case "plan_buddy": return <Heart className="w-5 h-5 text-rose-600" />;
+      default: return <MessageCircle className="w-5 h-5 text-indigo-600" />;
     }
   };
 
@@ -138,6 +147,18 @@ const ParticipantDashboardHome = () => {
           </div>
         </div>
       </div>
+
+      {sponsors?.length > 0 && (
+        <section className="bg-white py-10 border-t border-slate-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <FeaturedPartnersRibbon
+              sponsors={sponsors}
+              title="Our Marketing Partners"
+              note="Sponsored providers"
+            />
+          </div>
+        </section>
+      )}
 
       {/* Plan Buddy Card — Paid Only (shows once a buddy is assigned) */}
       {isPaid && user.planBuddy && (
@@ -189,11 +210,10 @@ const ParticipantDashboardHome = () => {
             <Link
               key={tile.label}
               to={tile.path}
-              className={`group relative bg-white rounded-2xl p-5 shadow-sm border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
-                tile.highlight
+              className={`group relative bg-white rounded-2xl p-5 shadow-sm border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${tile.highlight
                   ? "border-purple-200 hover:border-purple-300"
                   : "border-slate-100 hover:border-purple-200"
-              }`}
+                }`}
             >
               <div
                 className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tile.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}

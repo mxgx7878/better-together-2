@@ -11,6 +11,8 @@ const LandingPage3 = () => {
   const dispatch = useDispatch();
   const sponsors = useSelector((s) => s.marketingRibbon.entries);
 
+  console.log(sponsors, "sponsors");
+
   useEffect(() => {
     dispatch(fetchMarketingRibbon());
   }, [dispatch]);

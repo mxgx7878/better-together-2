@@ -159,7 +159,7 @@ const DashboardTopbar = ({ sidebarCollapsed, onMobileMenuToggle }) => {
             className="flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-xl hover:bg-slate-100 transition-colors"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xs font-bold text-white">
-              {user?.name?.split(' ').map((n) => n[0]).join('')}
+              <img src={user?.provider_profile?.organization_logo} alt={user?.name} className="w-full h-full object-cover rounded-full" />
             </div>
           </Link>
         </div>

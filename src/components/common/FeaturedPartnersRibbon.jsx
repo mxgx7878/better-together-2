@@ -17,6 +17,8 @@ const FeaturedPartnersRibbon = ({
 }) => {
   const track = useMemo(() => [...sponsors], [sponsors]);
 
+  console.log("sponsors",sponsors)
+
   if (!sponsors.length) return null;
 
   return (
@@ -76,9 +78,9 @@ const FeaturedPartnersRibbon = ({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 mx-4 flex-shrink-0 px-3 py-1.5 rounded-lg bg-white/90 hover:bg-white transition-colors shadow-sm"
                 >
-                  {sponsor.provider_profile?.organization_logo ? (
+                  {sponsor.provider_profile?.organization_logo  || sponsor.logo_url? (
                     <img
-                      src={sponsor.provider_profile?.organization_logo}
+                      src={sponsor.provider_profile?.organization_logo || sponsor.logo_url}
                       alt={sponsor.name}
                       className="w-6 h-6 rounded object-cover"
                     />
@@ -91,7 +93,7 @@ const FeaturedPartnersRibbon = ({
                     </span>
                   )}
                   <span className="text-xs font-semibold text-slate-700 whitespace-nowrap">
-                    {sponsor.first_name} {sponsor.last_name}
+                    {sponsor.first_name ? sponsor.first_name + ' ' + sponsor.last_name : sponsor.name}
                   </span>
                 </a>
               ))}

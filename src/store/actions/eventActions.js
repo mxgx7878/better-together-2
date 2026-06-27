@@ -75,6 +75,18 @@ export const fetchPublicEvents = createAsyncThunk(
   },
 );
 
+export const fetchEvents = createAsyncThunk(
+  "events/fetchEvents",
+  async (params = {}, { rejectWithValue }) => {
+    try {
+      const data = await api.get("/events", { params });
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to fetch events");
+    }
+  },
+);
+
 
 export const fetchEventById  = createAsyncThunk(
   "events/fetchEventById ",

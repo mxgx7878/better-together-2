@@ -45,7 +45,6 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!profile) return;
     const pp = profile.provider_profile;
-    console.log(pp, "checking logo");
     const pa = profile.participant_profile;
     const nameParts = (profile.name || "").split(" ");
 
@@ -94,7 +93,9 @@ const ProfilePage = () => {
   }, [saved, dispatch]);
 
   const handleChange = useCallback((e) => {
+    console.log(e, "target")
     const { name, value, type, checked } = e.target;
+    console.log('running')
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -222,11 +223,8 @@ const ProfilePage = () => {
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
         <div className="flex flex-col sm:flex-row items-center gap-6">
           <div className="relative">
-            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-3xl font-bold text-white">
-              {displayName
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xs font-bold text-white">
+              <img src={user?.provider_profile?.organization_logo} alt={user?.name} className="w-full h-full object-cover rounded-full" />
             </div>
           </div>
           <div className="flex-1 text-center sm:text-left">
@@ -350,8 +348,13 @@ const ProfilePage = () => {
                       <Checkbox
                         label="NDIS Registered Provider"
                         name="is_ndis_registered"
-                        checked={formData.is_ndis_registered}
-                        onChange={handleChange}
+                        checked={formData?.is_ndis_registered}
+                         onChange={(checked) =>
+    setFormData((prev) => ({
+      ...prev,
+      is_ndis_registered: checked,
+    }))
+  }
                       />
                       <span className="text-sm text-slate-700">
                         NDIS Registered Provider

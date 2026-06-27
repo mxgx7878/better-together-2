@@ -19,7 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelRsvp, fetchPublicEvents, rsvpEvent } from "../../store/actions/eventActions";
+import { cancelRsvp, fetchEvents, fetchPublicEvents, rsvpEvent } from "../../store/actions/eventActions";
 import { ASYNC_STATUS } from "../../constants";
 
 const typeColors = {
@@ -41,7 +41,9 @@ const EventsPage = () => {
     (state) => state.event,
   );
 
+
   const loading = status === ASYNC_STATUS.LOADING;
+  const token = useSelector((state) => state.auth.token);
 
   // Filters
   const [searchInput, setSearchInput] = useState("");
@@ -72,6 +74,18 @@ const EventsPage = () => {
 
   // Fetch events
   const loadEvents = useCallback(async () => {
+    if (token) {
+      dispatch(
+      fetchEvents({
+        search: searchTerm,
+        type: filterType,
+        status: filterStatus,
+        page: currentPage,
+        limit: ITEMS_PER_PAGE,
+      }),
+    );
+    return;
+    }
     dispatch(
       fetchPublicEvents({
         search: searchTerm,
@@ -104,6 +118,7 @@ const EventsPage = () => {
       toast.error("Failed to update RSVP");
     } finally {
       setRsvpLoading((prev) => ({ ...prev, [id]: false }));
+      loadEvents();
     }
   };
 
@@ -340,14 +355,14 @@ const EventsPage = () => {
                           onClick={guardAction(() => toggleRsvp(event.id))}
                           disabled={rsvpLoading[event.id]}
                           className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50 ${
-                            rsvps[event.id]
+                            event.attending
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                               : "bg-purple-600 hover:bg-purple-700 text-white shadow-md"
                           }`}
                         >
                           {rsvpLoading[event.id] ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : rsvps[event.id] ? (
+                          ) : event.attending ? (
                             <span className="flex items-center gap-1">
                               <CheckCircle className="w-4 h-4" /> Confirmed
                             </span>

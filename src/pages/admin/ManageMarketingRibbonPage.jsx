@@ -66,6 +66,7 @@ const ManageMarketingRibbonPage = () => {
           phone_number: provider.phone_number,
           location: provider.location,
           on_marketing_ribbon: value,
+          paid_for_marketing: value,
         },
       }),
     );
