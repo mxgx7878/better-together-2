@@ -25,7 +25,7 @@ const Checkbox = ({
   const useRowVariant = variant === "row" || (variant !== "inline" && description);
 
   if (useRowVariant) {
-    return (
+    return (  
       <label
         className={`flex items-center justify-between p-4 border border-slate-200 rounded-xl gap-4 transition-colors ${
           disabled || readOnly
