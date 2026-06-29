@@ -36,7 +36,7 @@ const LandingPage3 = () => {
         title: "Reimagining Disability",
         subtitle: "With the Power of Local Communities",
         description:
-          "We are an independent platform dedicated to fostering connections within local communities and linking people with local disability service providers",
+          "We are an innovative, independent, values‑driven platform igniting real change in the human and health services sectors — building powerful networks and communities that put people first. We connect local businesses, services, and providers with people seeking a genuine range of quality care, health, and support options, creating a living ecosystem of collaboration, trust, and real‑world action.",
         image: "/uploads/bgnew1.jpg",
         primaryBtn: { text: "Find Support", link: "/find-support" },
         secondaryBtn: { text: "For Providers", link: "/provide-support" },
@@ -45,16 +45,16 @@ const LandingPage3 = () => {
         title: "Led by People ",
         subtitle: "with Lived Experience",
         description:
-          "We are people with disabilities offering and designing for people with disabilities. Every decision is driven by authentic lived experience and community wisdom.",
+          "We are people with lived experience of disability — leading, designing, and building for people with disability. Every decision is driven by authentic lived experience and hard‑won wisdom, centring disabled people and families with complex histories at the forefront of design, practice, and change.",
         image: "/uploads/bg-two.jpeg",
         primaryBtn: { text: "Learn More", link: "/about" },
         secondaryBtn: { text: "Join Us", link: "/subscription" },
       },
       {
         title: "Building Stronger",
-        subtitle: "Accessible Communities Together",
+        subtitle: "Trusted, Ethical Networks for Real Support ",
         description:
-          "Uniting people with disabilities, families, businesses, providers and specialists to create a disability support network across Australia.",
+          "We bring together ethical, values‑driven providers who are carefully vetted and endorsed, so people can confidently find the right supports close to home. By connecting trusted teams and businesses in local communities, we create stronger, safer, more inclusive networks of care that work alongside people and families, not around them.",
         image: "/uploads/bg-three.jpeg",
         primaryBtn: { text: "Get Started", link: "/subscription" },
         secondaryBtn: { text: "Contact Us", link: "/contact" },
@@ -572,7 +572,7 @@ const LandingPage3 = () => {
 
                   <div className="mt-6">
                     <Link
-                      to="/find-support"
+                      to="/register"
                       className="inline-flex items-center justify-center px-6 py-3 rounded-full
                            bg-slate-900 text-white font-semibold
                            transition-all duration-300
@@ -644,7 +644,7 @@ const LandingPage3 = () => {
 
                   <div className="mt-6">
                     <Link
-                      to="/provide-support"
+                      to="/register"
                       className="inline-flex items-center justify-center px-6 py-3 rounded-full
                            bg-white text-rose-600 font-semibold
                            transition-all duration-300

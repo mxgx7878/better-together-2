@@ -181,23 +181,21 @@ const AboutPage = () => {
           </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
-            Reimagining Disability
+            Innovative Change
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">
-              With the Power of Local Community
+              Led by Lived Experience
             </span>
           </h1>
 
           <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-4xl mx-auto leading-relaxed">
-            Building Stronger Communities — Together{" "}
+             We are Building Stronger Communities — Together.  
           </p>
 
           <div className="max-w-4xl mx-auto">
             <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
-              We are an independent disability-sector community platform
-              designed to bring people together — providers, participants,
-              families, and local specialists — to create stronger, more
-              connected, and more supportive disability networks across
-              Australia.
+              We are redefining power in the human services sector — putting it back in the hands of people and communities and unapologetically centring their care and support needs in everything we design and do. 
+
+This is a bold, purpose‑built network for people who champion genuine, human touch from local providers who are uncompromising about quality care and supports. We elevate ethical, values‑driven providers — rigorously vetted and endorsed — and place them at the heart of the system for people seeking services and for businesses that truly care.   As an independent Human Services sector community platform, we connect trusted, ethical providers, participants, families, and local specialists together to create stronger, more connected, and more supportive networks of care and disability support across Australia.
             </p>
           </div>
         </div>
@@ -225,11 +223,21 @@ const AboutPage = () => {
               Our Leadership
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-              Meet the Women Leading This Movement
+              Meet the legends at the forefront of this change
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Driven by lived experience, shaped by decades of advocacy, and
-              committed to transforming the disability sector
+              trusted leaders with deep lived experience, a long history of advocacy and change management, and a proven track record of standing beside people, families, and providers. Shaped by decades of driving real reform, they are united in their commitment to transforming the health, caring, and disability sectors into fairer, more human, and genuinely person-centred systems. 
+            </p>
+          </div>
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
+              With the Power of Local Community
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
+              Building Stronger Communities — Together
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+             A unique, collaborative force for change, we bring carefully vetted, trusted local teams and businesses together to build a real community of support — in the home, in the community, and beyond.
             </p>
           </div>
 
@@ -538,32 +546,18 @@ const AboutPage = () => {
 
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 border border-purple-200">
+              <h3 className="text-2xl font-bold text-gray-900 mt-2 mb-4">Taking Charge of Change in Human Services Systems</h3>
               <p className="text-xl text-gray-700 leading-relaxed mb-6">
-                The Better Together Network strengthens and drives the
-                disability sector by fostering genuine connection, collaboration
-                and community — one local relationship at a time. We bring
-                together providers across the ecosystem, including intermediary
-                services and organisations that offer supports to disability
-                services, so that everyone working alongside disabled people is
-                connected, informed and aligned in quality, ethical practice. We
-                believe that better care and support for disabled people should
-                be shaped and guided by disabled people themselves — with
-                provider practices, community spaces and sector standards built
-                through authentic co‑design and the core principle "nothing
-                about us without us." People with disability are leaders,
-                designers and experts in their own lives; their lived experience
-                must inform how providers operate, how communities connect and
-                how systems evolve.
-                <br />
-                <br />
-                By empowering participants, supporting local providers and
-                intermediaries, and amplifying lived experience, The Better
-                Together Network builds an ethical, inclusive, community‑driven
-                ecosystem where real choice and control are protected, local
-                businesses are valued, and smaller providers gain the strength
-                of a unified voice to advocate for fair, sustainable conditions
-                and quality practice.{" "}
+               Our platform is a bold, market‑leading disruption to the sector — truly independent, relentlessly human‑centred, and built to earn trust from people, families, and providers alike. Every connection sits within a rigorously checked local network, so communities know they are engaging only with reputable, reliable providers they can depend on. We are uncompromising: if providers don’t meet our ethical, quality, and safety standards, they don’t stay in the Network.
               </p>
+              <h3 className="text-2xl font-bold text-gray-900 mt-2 mb-4">What We Do — And How We Do It</h3>
+              <p className="text-xl text-gray-700 leading-relaxed mb-6">
+              We connect people with trusted, rigorously verified providers and supports — building powerful, ethical care networks in local communities across Australia. We actively remove providers who are not cutting the mustard, protecting people from poor practice and keeping quality front and centre.  
+              <br />
+              <br />
+              We help businesses grow, stand out, and connect directly with people who are actively seeking high‑quality, ethical support. As part of the Network, you gain a dedicated team behind you — making introductions, guiding people to your services, and helping nurture long‑term, values‑aligned relationships. If you are not committed to ethical, person‑centred practice, this is not the place for you. If you are, we back you — and we make sure people know it. 
+              </p>
+
             </div>
 
             {/* Mission in Action */}

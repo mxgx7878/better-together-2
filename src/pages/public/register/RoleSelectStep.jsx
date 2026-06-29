@@ -45,7 +45,7 @@ const RoleSelectStep = ({ role, onSelect, error }) => (
           <Briefcase className="w-7 h-7 text-white" />
         </div>
         <h3 className="text-lg font-bold text-slate-800 mb-2">
-          Register as a Provider
+          Register as a Business
         </h3>
         <p className="text-sm text-slate-500 leading-relaxed">
           List your services, connect with participants, grow your NDIS
@@ -83,7 +83,7 @@ const RoleSelectStep = ({ role, onSelect, error }) => (
           <Heart className="w-7 h-7 text-white" />
         </div>
         <h3 className="text-lg font-bold text-slate-800 mb-2">
-          Register as a Participant
+          Looking for Services
         </h3>
         <p className="text-sm text-slate-500 leading-relaxed">
           Find quality NDIS providers, access community resources, manage your
