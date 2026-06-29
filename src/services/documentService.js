@@ -6,7 +6,7 @@
 // The API returns `file_url` as a relative path (e.g. "documents/foo.pdf");
 // we prefix it with this when rendering / downloading.
 export const STORAGE_BASE_URL =
-  'https://demowebportals.com/better-backend/storage/app/public/';
+  'https://bettertogethernetwork.com.au/better-backend/storage/app/public/';
 
 export const DOCUMENT_CATEGORIES = [
   'NDIS Resources',

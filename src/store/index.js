@@ -13,6 +13,8 @@ import featureReducer from "./slices/featureSlice";
 import innovationLabReducer from "./slices/innovationLabSlice";
 import queryReducer from "./slices/querySlice";
 import billingReducer from "./slices/billingSlice";
+import forumReducer from "./slices/forumSlice";                 // ← NEW
+import safetyNumberReducer from "./slices/safetyNumberSlice"; 
 
 
 
@@ -32,6 +34,8 @@ const store = configureStore({
     innovationLab: innovationLabReducer,
     query: queryReducer,
     billing: billingReducer,
+     forum: forumReducer,                 // ← NEW
+    safetyNumber: safetyNumberReducer,   // ← NEW
   },
 });
 

@@ -15,6 +15,8 @@ import {
   Lightbulb,
   ExternalLink,
   Download,
+  Lock,
+  ChevronRight,
 } from "lucide-react";
 import FeatureGate from "../../components/common/FeatureGate";
 import { fetchInnovationLabResources } from "../../store/actions/innovationLabActions";
@@ -47,6 +49,37 @@ const typeColors = {
   video: "bg-red-50 text-red-700",
   template: "bg-emerald-50 text-emerald-700",
   webinar: "bg-purple-50 text-purple-700",
+};
+
+// ─── Thumbnail with graceful fallback to the type icon ─────────────
+// item.thumbnail is a full S3 public URL (from FileUploadPreview). If it
+// is missing OR fails to load, we show the type icon tile instead so the
+// row never renders a broken image.
+const ResourceThumb = ({ item }) => {
+  const TypeIcon = typeIconMap[item.type] || FileText;
+  return (
+    <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-slate-100 border border-slate-200 flex items-center justify-center">
+      {item.thumbnail ? (
+        <img
+          src={item.thumbnail}
+          alt={item.title}
+          loading="lazy"
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+            e.currentTarget.nextElementSibling?.classList.remove("hidden");
+          }}
+        />
+      ) : null}
+      <div
+        className={`${
+          item.thumbnail ? "hidden" : ""
+        } flex items-center justify-center w-full h-full`}
+      >
+        <TypeIcon className="w-6 h-6 text-slate-400" />
+      </div>
+    </div>
+  );
 };
 
 const InnovationLabPage = () => {
@@ -123,31 +156,29 @@ const InnovationLabPage = () => {
             className="w-full pl-12 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm outline-none"
           />
           {searchResults.length > 0 && (
-            <div className="absolute top-full mt-2 left-0 right-0 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-20 max-h-64 overflow-y-auto">
-              {searchResults.map((item) => {
-                const TypeIcon = typeIconMap[item.type];
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setExpanded(item.category);
-                      setSearch("");
-                      setSelectedItem(item.id);
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50 last:border-0"
-                  >
-                    {TypeIcon && <TypeIcon className="w-5 h-5 flex-shrink-0" />}
-                    <div>
-                      <p className="text-sm font-medium text-slate-800">
-                        {item.title}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        {item.category} · {item.duration}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="absolute top-full mt-2 left-0 right-0 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-20 max-h-72 overflow-y-auto">
+              {searchResults.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setExpanded(item.category);
+                    setSearch("");
+                    setSelectedItem(item.id);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50 last:border-0"
+                >
+                  <ResourceThumb item={item} />
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-slate-800 truncate">
+                      {item.title}
+                    </p>
+                    <p className="text-xs text-slate-500 truncate">
+                      {item.category}
+                      {item.duration ? ` · ${item.duration}` : ""}
+                    </p>
+                  </div>
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -202,7 +233,9 @@ const InnovationLabPage = () => {
                     </div>
                   </div>
                   <svg
-                    className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    className={`w-5 h-5 text-slate-400 transition-transform ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -220,33 +253,46 @@ const InnovationLabPage = () => {
                   <div className="px-6 pb-5 border-t border-slate-100">
                     <div className="grid sm:grid-cols-2 gap-3 pt-4">
                       {cat.items.map((item) => {
-                        const TypeIcon = typeIconMap[item.type];
                         const isSelected = selectedItem === item.id;
-                        const hasLink = item.external_url || item.attachment_url;
-                        const LinkIcon = item.attachment_url
+                        const hasLink =
+                          item.external_url || item.attachment_url;
+                        const isPaid = Number(item.is_paid) === 1;
+                        const ActionIcon = item.attachment_url
                           ? Download
-                          : ExternalLink;
+                          : item.external_url
+                            ? ExternalLink
+                            : ChevronRight;
 
                         return (
                           <button
                             key={item.id}
                             onClick={() => openResource(item)}
-                            className={`flex items-center gap-3 p-4 rounded-xl hover:bg-purple-50 hover:border-purple-200 border transition-all text-left group ${
+                            className={`flex items-start gap-4 p-4 rounded-xl hover:bg-purple-50 hover:border-purple-200 border transition-all text-left group ${
                               isSelected
                                 ? "bg-purple-50 border-purple-300"
                                 : "bg-slate-50 border-transparent"
                             }`}
                           >
-                            {TypeIcon && (
-                              <TypeIcon className="w-6 h-6 flex-shrink-0 text-slate-600" />
-                            )}
+                            {/* Thumbnail (or type-icon fallback) */}
+                            <ResourceThumb item={item} />
+
                             <div className="min-w-0 flex-1">
-                              <p className="text-sm font-medium text-slate-800 group-hover:text-purple-700 transition-colors">
+                              <p className="text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors line-clamp-1">
                                 {item.title}
                               </p>
-                              <div className="flex items-center gap-2 mt-1">
+
+                              {item.description && (
+                                <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                                  {item.description}
+                                </p>
+                              )}
+
+                              <div className="flex items-center flex-wrap gap-2 mt-2">
                                 <span
-                                  className={`text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize ${typeColors[item.type]}`}
+                                  className={`text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize ${
+                                    typeColors[item.type] ||
+                                    "bg-slate-100 text-slate-600"
+                                  }`}
                                 >
                                   {item.type}
                                 </span>
@@ -255,31 +301,34 @@ const InnovationLabPage = () => {
                                     {item.duration}
                                   </span>
                                 )}
+                                {isPaid && (
+                                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">
+                                    <Lock className="w-2.5 h-2.5" />
+                                    Paid
+                                  </span>
+                                )}
                               </div>
+
+                              {item.attachment_name && (
+                                <p className="text-[11px] text-slate-400 mt-2 truncate">
+                                  {item.attachment_name}
+                                </p>
+                              )}
                             </div>
-                            {hasLink ? (
-                              <LinkIcon className="w-4 h-4 text-slate-300 group-hover:text-purple-500 transition-colors flex-shrink-0" />
-                            ) : (
-                              <svg
-                                className="w-4 h-4 text-slate-300 group-hover:text-purple-500 transition-colors flex-shrink-0"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M9 5l7 7-7 7"
-                                />
-                              </svg>
-                            )}
+
+                            <ActionIcon
+                              className={`w-4 h-4 mt-1 transition-colors flex-shrink-0 ${
+                                hasLink
+                                  ? "text-slate-300 group-hover:text-purple-500"
+                                  : "text-slate-300 group-hover:text-purple-500"
+                              }`}
+                            />
                           </button>
                         );
                       })}
                     </div>
 
-                    {/* Inline description panel when an item is selected and has description (no link) */}
+                    {/* Full description panel when a no-link item is selected */}
                     {cat.items
                       .filter(
                         (i) =>

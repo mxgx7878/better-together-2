@@ -139,6 +139,7 @@ const UserFormPage = () => {
         recommended_by_admin: pp?.recommended_by_admin || false,
         checked_by_admin: pp?.checked_by_admin || false,
         paid_for_marketing: pp?.paid_for_marketing || false,
+        super_star: pp?.super_star || false,
         on_marketing_ribbon: pp?.on_marketing_ribbon || false,
         // Participant
         ndis_number: pa?.ndis_number || "",
@@ -227,6 +228,7 @@ const UserFormPage = () => {
       payload.categories = form.categories;
       payload.recommended_by_admin = form.recommended_by_admin;
       payload.checked_by_admin = form.checked_by_admin;
+      payload.super_star = form.super_star;
     } else {
       payload.ndis_number = form.ndis_number;
       payload.primary_disability = form.primary_disability;
@@ -535,6 +537,15 @@ const UserFormPage = () => {
                     checked={form.checked_by_admin}
                     onChange={(v) =>
                       setForm((prev) => ({ ...prev, checked_by_admin: v }))
+                    }
+                  />
+
+                  <Checkbox
+                    label="Super Star"
+                    description="Adds the handshake badge to this provider"
+                    checked={form.super_star}
+                    onChange={(v) =>
+                      setForm((prev) => ({ ...prev, super_star: v }))
                     }
                   />
 

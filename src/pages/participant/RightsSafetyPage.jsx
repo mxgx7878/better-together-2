@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Scale, Shield, Megaphone, Landmark, AlertCircle } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Scale, Shield, Megaphone, Landmark, AlertCircle, Phone } from 'lucide-react';
+import { fetchSafetyNumbers } from '../../store/actions/safetyNumberActions';
 
 const sections = [
   {
@@ -35,7 +37,7 @@ const sections = [
     color: 'from-amber-500 to-orange-600',
     items: [
       { title: 'Step 1: Talk to your provider', desc: 'Try to resolve the issue directly with your provider first.' },
-      { title: 'Step 2: Contact the NDIS Commission', desc: 'If the issue isn\'t resolved, contact the NDIS Quality and Safeguards Commission on 1800 035 544.' },
+      { title: 'Step 2: Contact the NDIS Commission', desc: "If the issue isn't resolved, contact the NDIS Quality and Safeguards Commission on 1800 035 544." },
       { title: 'Step 3: Get advocacy support', desc: 'An advocate can help you make a complaint or speak on your behalf.' },
       { title: 'Step 4: Formal review', desc: 'If you disagree with an NDIS decision, you can request a formal internal review.' },
     ],
@@ -47,23 +49,42 @@ const sections = [
     color: 'from-blue-500 to-cyan-600',
     items: [
       { title: 'Internal review', desc: 'Request an internal review within 3 months of a decision. A different person will review your case.' },
-      { title: 'External review (AAT)', desc: 'If the internal review doesn\'t change the decision, you can apply to the Administrative Appeals Tribunal (AAT).' },
+      { title: 'External review (AAT)', desc: "If the internal review doesn't change the decision, you can apply to the Administrative Appeals Tribunal (AAT)." },
       { title: 'Getting legal help', desc: 'Legal Aid and disability advocacy organisations can provide free help with AAT appeals.' },
       { title: 'What to prepare', desc: 'Gather reports from providers, evidence of your needs, and a clear statement about why the decision should change.' },
     ],
   },
 ];
 
-const emergencyContacts = [
-  { name: 'NDIS Quality & Safeguards Commission', phone: '1800 035 544', desc: 'For complaints about NDIS services' },
-  { name: 'NDIA (National Disability Insurance Agency)', phone: '1800 800 110', desc: 'For plan enquiries and reviews' },
-  { name: 'Disability Advocacy Network Australia', phone: '(03) 9639 5807', desc: 'Independent advocacy support' },
-  { name: 'Lifeline', phone: '13 11 14', desc: '24/7 crisis support' },
-  { name: '1800RESPECT', phone: '1800 737 732', desc: 'Family & sexual violence support' },
+// Fallback shown only if the admin hasn't added any numbers yet (or the
+// request fails) — keeps the page useful out of the box.
+const FALLBACK_CONTACTS = [
+  { id: 'f1', name: 'Emergency (Police / Fire / Ambulance)', phone: '000', description: 'If you are in immediate danger', is_emergency: true },
+  { id: 'f2', name: 'NDIS Quality & Safeguards Commission', phone: '1800 035 544', description: 'For complaints about NDIS services', is_emergency: false },
+  { id: 'f3', name: 'NDIA (National Disability Insurance Agency)', phone: '1800 800 110', description: 'For plan enquiries and reviews', is_emergency: false },
+  { id: 'f4', name: 'Disability Advocacy Network Australia', phone: '(03) 9639 5807', description: 'Independent advocacy support', is_emergency: false },
+  { id: 'f5', name: 'Lifeline', phone: '13 11 14', description: '24/7 crisis support', is_emergency: false },
+  { id: 'f6', name: '1800RESPECT', phone: '1800 737 732', description: 'Family & sexual violence support', is_emergency: false },
 ];
 
 const RightsSafetyPage = () => {
+  const dispatch = useDispatch();
   const [expandedSection, setExpandedSection] = useState('rights');
+
+  const { items } = useSelector((s) => s.safetyNumber);
+
+  useEffect(() => {
+    dispatch(fetchSafetyNumbers());
+  }, [dispatch]);
+
+  // Use admin-managed numbers when available, otherwise the built-in fallback.
+  const contacts = useMemo(
+    () => (items && items.length ? items : FALLBACK_CONTACTS),
+    [items],
+  );
+
+  // The first emergency-flagged number drives the banner (e.g. 000 / NDIS).
+  const emergencyContact = contacts.find((c) => c.is_emergency) || contacts[0];
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -78,7 +99,12 @@ const RightsSafetyPage = () => {
           <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
           <div>
             <h3 className="text-base font-semibold text-red-800">Need Immediate Help?</h3>
-            <p className="text-sm text-red-700 mt-1">If you are in danger, call <strong>000</strong>. For NDIS complaints, call the NDIS Commission on <strong>1800 035 544</strong>.</p>
+            <p className="text-sm text-red-700 mt-1">
+              If you are in danger, call <strong>000</strong>.
+              {emergencyContact && (
+                <> For help, call <strong>{emergencyContact.name}</strong> on <strong>{emergencyContact.phone}</strong>.</>
+              )}
+            </p>
           </div>
         </div>
       </div>
@@ -128,18 +154,36 @@ const RightsSafetyPage = () => {
         })}
       </div>
 
-      {/* Important Contacts */}
+      {/* Important Contacts — admin managed */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Important Contacts</h2>
         <div className="space-y-3">
-          {emergencyContacts.map((contact, i) => (
-            <div key={i} className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+          {contacts.map((contact) => (
+            <div
+              key={contact.id}
+              className={`flex items-center justify-between p-4 border rounded-xl transition-colors ${
+                contact.is_emergency
+                  ? 'border-red-200 bg-red-50/60 hover:bg-red-50'
+                  : 'border-slate-100 hover:bg-slate-50'
+              }`}
+            >
               <div>
-                <h4 className="text-sm font-semibold text-slate-800">{contact.name}</h4>
-                <p className="text-xs text-slate-500">{contact.desc}</p>
+                <h4 className={`text-sm font-semibold ${contact.is_emergency ? 'text-red-800' : 'text-slate-800'}`}>
+                  {contact.name}
+                </h4>
+                {contact.description && (
+                  <p className="text-xs text-slate-500">{contact.description}</p>
+                )}
               </div>
-              <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="flex items-center gap-2 px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-semibold rounded-xl transition-colors flex-shrink-0">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+              <a
+                href={`tel:${String(contact.phone).replace(/\s/g, '')}`}
+                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl transition-colors flex-shrink-0 ${
+                  contact.is_emergency
+                    ? 'bg-red-100 hover:bg-red-200 text-red-700'
+                    : 'bg-purple-50 hover:bg-purple-100 text-purple-700'
+                }`}
+              >
+                <Phone className="w-4 h-4" />
                 {contact.phone}
               </a>
             </div>

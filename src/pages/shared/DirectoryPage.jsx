@@ -19,6 +19,7 @@ import { fetchUsers } from "../../store/actions/userActions";
 import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { LINK_TYPES } from "../../components/common/SocialLinksField";
 import { ASYNC_STATUS } from "../../constants";
+import TrustBadgeRow from "../../components/common/TrustBadgeRow";
 
 // ─── Helpers ────────────────────────────────────────────────────────
 // Backend shape: User { id, name, email, location, role, tier?, provider_profile: {...} }
@@ -56,6 +57,7 @@ const normaliseProvider = (user) => {
     recommended_by_admin: !!pp.recommended_by_admin,
     checked_by_admin: !!pp.checked_by_admin,
     paid_for_marketing: !!pp.paid_for_marketing,
+    super_star: !!pp.super_star,
     is_paid: isPaid,
     categories: Array.isArray(pp.categories) ? pp.categories : [],
     links,
@@ -92,56 +94,7 @@ const getInitials = (name = "") =>
 // (marketing partner) — directly off the admin-set flags. Each badge
 // has a hover tooltip explaining what it means so users aren't left
 // guessing what each icon represents.
-const TrustBadgeRow = ({ provider, size = "sm" }) => {
-  const dims = {
-    sm: "w-6 h-6",
-    md: "w-7 h-7",
-    lg: "w-9 h-9",
-  };
-  const iconDims = {
-    sm: "w-3.5 h-3.5",
-    md: "w-4 h-4",
-    lg: "w-5 h-5",
-  };
-  const containerSize = dims[size] || dims.sm;
-  const iconSize = iconDims[size] || iconDims.sm;
 
-  const earned = PROVIDER_BADGES.filter((b) => !!provider[b.key]);
-  if (earned.length === 0) return null;
-
-  return (
-    <div className="flex items-center gap-1.5 flex-wrap">
-      {earned.map((badge) => {
-        const Icon = badge.icon;
-        return (
-          <div key={badge.key} className="relative group/tip">
-            {/* Badge icon */}
-            <div
-              className={`${containerSize} rounded-full ${badge.iconBg} flex items-center justify-center shadow-sm flex-shrink-0 cursor-help`}
-            >
-              <Icon
-                className={`${iconSize} ${badge.iconColor}`}
-                {...(badge.iconFilled ? { fill: "currentColor" } : {})}
-              />
-            </div>
-
-            {/* Hover tooltip */}
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 pointer-events-none">
-              <div className="bg-slate-900 text-white px-3 py-2 rounded-lg shadow-xl w-52">
-                <p className="text-xs font-semibold">{badge.label}</p>
-                <p className="text-[11px] text-slate-300 mt-0.5 leading-snug">
-                  {badge.description}
-                </p>
-              </div>
-              {/* Arrow pointing down to the badge */}
-              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-4 border-transparent border-t-slate-900" />
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
 
 // ─── Component ──────────────────────────────────────────────────────
 const DirectoryPage = () => {
@@ -188,7 +141,10 @@ const DirectoryPage = () => {
   const canSeeFullDetails = !isFreeProvider;
   const canContact = !isFreeProvider;
 
-  const providers = useMemo(() => (users || []).map(normaliseProvider), [users]);
+  const providers = useMemo(
+    () => (users || []).map(normaliseProvider),
+    [users],
+  );
 
   const toggleBookmark = useCallback((id) => {
     setBookmarks((prev) =>

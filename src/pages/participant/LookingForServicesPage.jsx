@@ -31,6 +31,7 @@ import {
 import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { clearSaveStatus } from "../../store/slices/serviceRequestSlice";
 import { ASYNC_STATUS } from "../../constants";
+import TrustBadgeRow from "../../components/common/TrustBadgeRow";
 
 const BUDGET_TYPES = [
   { value: "ndis_managed", label: "NDIS Managed" },
@@ -394,6 +395,7 @@ const LookingForServicesPage = () => {
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold text-slate-800 flex items-center gap-2 flex-wrap">
                                 {r.provider_name || r.provider?.name}
+                                <TrustBadgeRow provider={r} size="sm" />
                                 {isSelected && (
                                   <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
                                     <UserCheck className="w-3 h-3" />{" "}

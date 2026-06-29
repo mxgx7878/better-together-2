@@ -108,3 +108,15 @@ export const fetchTransactions = createAsyncThunk(
     }
   },
 );
+
+export const createCardSetupIntent = createAsyncThunk(
+  "billing/createCardSetupIntent",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.post("/subscription/setup-intent");
+      return data?.data || {};
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to start card setup");
+    }
+  },
+);

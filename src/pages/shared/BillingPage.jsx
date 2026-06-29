@@ -692,9 +692,9 @@ const transactions = Array.isArray(transactionsRaw)
             <div className="p-6">
               <Elements stripe={getStripe()}>
                 <CardPaymentForm
-                  onSuccess={handleAddCardSuccess}
+                  onPaymentMethod={handleAddCardSuccess}
                   submitting={addingCard}
-                  buttonLabel="Save card"
+                  submitLabel="Save card"
                 />
               </Elements>
               <p className="text-xs text-slate-400 mt-3 text-center">

@@ -61,14 +61,15 @@ const ProfilePage = () => {
       organization_logo: pp?.organization_logo || "",
       abn: pp?.abn || "",
       links:
-        pp?.links ||
-        (pp?.website ? [{ type: "website", url: pp.website }] : []),
+      pp?.links ||
+      (pp?.website ? [{ type: "website", url: pp.website }] : []),
       is_ndis_registered: pp?.is_ndis_registered || false,
       open_to_collab: pp?.open_to_collab || false,
       about_services: pp?.about_services || "",
       categories: pp?.categories?.map((c) => c.id) || [],
       // Participant
       ndis_number: pa?.ndis_number || "",
+      profile_picture: pa?.profile_picture || "",
       primary_disability: pa?.primary_disability || "",
       support_coordinator_name: pa?.support_coordinator_name || "",
       support_coordinator_phone: pa?.support_coordinator_phone || "",
@@ -133,6 +134,7 @@ const ProfilePage = () => {
       payload.about_services = formData.about_services;
       payload.categories = formData.categories;
     } else {
+      payload.profile_picture = formData.profile_picture
       payload.ndis_number = formData.ndis_number;
       payload.primary_disability = formData.primary_disability;
       payload.support_coordinator_name = formData.support_coordinator_name;
@@ -224,7 +226,7 @@ const ProfilePage = () => {
         <div className="flex flex-col sm:flex-row items-center gap-6">
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xs font-bold text-white">
-              <img src={user?.provider_profile?.organization_logo} alt={user?.name} className="w-full h-full object-cover rounded-full" />
+              <img src={user?.provider_profile?.organization_logo|| user?.participant_profile?.profile_picture ||  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6t3nc-wJIQ9-TKUwXl6bGgdnpwN5Fz8k_AkOYWL7IA&s"} alt={user?.name} className="w-full h-full object-cover rounded-full" />
             </div>
           </div>
           <div className="flex-1 text-center sm:text-left">
@@ -409,8 +411,9 @@ const ProfilePage = () => {
                 />
               </div>
             )}
-            {isProvider && (
               <div>
+            {isProvider && (
+              <>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
                   About Your Organisation
                 </label>
@@ -421,16 +424,16 @@ const ProfilePage = () => {
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm transition-all outline-none resize-none"
                 />
-{console.log(formData?.organization_logo, "logo")}
+</>
+              )}
                 <FileUploadPreview
-                  label="Organisation Logo"
-                  value={formData?.organization_logo}
-                  onChange={(url) => set("organization_logo", url)}
-                  placeholder="Upload organisation logo"
+                  label={isProvider ? "Organisation Logo" : "Profile Picture"}
+                  value={isProvider ? formData?.organization_logo : formData?.profile_picture}
+                  onChange={(url) => set(isProvider ? "organization_logo" : 'profile_picture' , url)}
+                  placeholder={isProvider ?"Upload organisation logo" : "Upload Profile Picture"}
                   // maxSizeMb={2}
                 />
               </div>
-            )}
             {!isProvider && !isAdmin && (
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">

@@ -1,4 +1,4 @@
-import { Star, Smile, BadgeCheck, Lock } from "lucide-react";
+import { Star, Smile, BadgeCheck, Lock, Handshake } from "lucide-react";
 
 // ─── Single source of truth for badge metadata ───────────────
 export const PROVIDER_BADGES = [
@@ -16,7 +16,8 @@ export const PROVIDER_BADGES = [
   {
     key: "checked_by_admin",
     label: "Checked by Admin",
-    description: "This business has been reviewed and verified by our admin team",
+    description:
+      "This business has been reviewed and verified by our admin team",
     icon: Smile,
     pillBg: "bg-emerald-50",
     pillText: "text-emerald-800",
@@ -33,11 +34,33 @@ export const PROVIDER_BADGES = [
     iconBg: "bg-gradient-to-br from-blue-500 to-sky-500",
     iconColor: "text-white",
   },
+
+  {
+    key: "super_star",
+    label: "Super Star",
+    description:
+      "Top-performing provider with outstanding service and successful client outcomes",
+    icon: Handshake,
+    pillBg: "bg-yellow-50",
+    pillText: "text-yellow-800",
+    iconBg: "bg-gradient-to-br from-yellow-500 to-amber-500",
+    iconColor: "text-white",
+  },
 ];
 
 const sizeMap = {
-  sm: { icon: "w-6 h-6", inner: "w-3.5 h-3.5", lock: "w-2.5 h-2.5", text: "text-[11px]" },
-  md: { icon: "w-7 h-7", inner: "w-4 h-4", lock: "w-2.5 h-2.5", text: "text-xs" },
+  sm: {
+    icon: "w-6 h-6",
+    inner: "w-3.5 h-3.5",
+    lock: "w-2.5 h-2.5",
+    text: "text-[11px]",
+  },
+  md: {
+    icon: "w-7 h-7",
+    inner: "w-4 h-4",
+    lock: "w-2.5 h-2.5",
+    text: "text-xs",
+  },
   lg: { icon: "w-9 h-9", inner: "w-5 h-5", lock: "w-3 h-3", text: "text-sm" },
 };
 
@@ -62,6 +85,8 @@ export default function ProviderBadges({
   showInactive = false,
   className = "",
 }) {
+
+  console.log(provider)
   const isPaid = !!provider.is_paid || provider.tier === "paid";
   const s = sizeMap[size] || sizeMap.md;
 
@@ -70,29 +95,47 @@ export default function ProviderBadges({
     earned: !!provider[b.key] && isPaid,
   }));
 
+
   const visible = showInactive ? badges : badges.filter((b) => b.earned);
   if (visible.length === 0) return null;
 
   if (showLabels) {
     return (
       <div className={`flex items-center gap-2 flex-wrap ${className}`}>
-        {visible.map(({ key, label, description, icon: Icon, iconFilled, pillBg, pillText, earned }) => (
-          <span
-            key={key}
-            title={earned ? `${label} — ${description}` : `${label} (Upgrade to qualify)`}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-semibold ${s.text} ${
-              earned ? `${pillBg} ${pillText}` : "bg-slate-100 text-slate-400"
-            }`}
-          >
-            <Icon
-              className={`${s.inner} ${earned ? "" : "opacity-60"}`}
-              fill={iconFilled && earned ? "currentColor" : "none"}
-              strokeWidth={2}
-            />
-            {label}
-            {!earned && <Lock className={`${s.lock} ml-0.5`} strokeWidth={3} />}
-          </span>
-        ))}
+        {visible.map(
+          ({
+            key,
+            label,
+            description,
+            icon: Icon,
+            iconFilled,
+            pillBg,
+            pillText,
+            earned,
+          }) => (
+            <span
+              key={key}
+              title={
+                earned
+                  ? `${label} — ${description}`
+                  : `${label} (Upgrade to qualify)`
+              }
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-semibold ${s.text} ${
+                earned ? `${pillBg} ${pillText}` : "bg-slate-100 text-slate-400"
+              }`}
+            >
+              <Icon
+                className={`${s.inner} ${earned ? "" : "opacity-60"}`}
+                fill={iconFilled && earned ? "currentColor" : "none"}
+                strokeWidth={2}
+              />
+              {label}
+              {!earned && (
+                <Lock className={`${s.lock} ml-0.5`} strokeWidth={3} />
+              )}
+            </span>
+          ),
+        )}
       </div>
     );
   }
@@ -100,26 +143,41 @@ export default function ProviderBadges({
   // Compact icon-only mode (used on cards)
   return (
     <div className={`inline-flex items-center gap-1.5 ${className}`}>
-      {visible.map(({ key, label, description, icon: Icon, iconFilled, iconBg, iconColor, earned }) => (
-        <span
-          key={key}
-          title={earned ? `${label} — ${description}` : `${label} (locked — upgrade to qualify)`}
-          className={`relative inline-flex items-center justify-center rounded-full ${s.icon} shadow-sm ${
-            earned ? `${iconBg} ${iconColor}` : "bg-slate-200 text-slate-400"
-          }`}
-        >
-          <Icon
-            className={s.inner}
-            fill={iconFilled && earned ? "currentColor" : "none"}
-            strokeWidth={2}
-          />
-          {!earned && (
-            <span className="absolute -bottom-0.5 -right-0.5 inline-flex items-center justify-center bg-slate-500 rounded-full p-0.5">
-              <Lock className={`${s.lock} text-white`} strokeWidth={3} />
-            </span>
-          )}
-        </span>
-      ))}
+      {visible.map(
+        ({
+          key,
+          label,
+          description,
+          icon: Icon,
+          iconFilled,
+          iconBg,
+          iconColor,
+          earned,
+        }) => (
+          <span
+            key={key}
+            title={
+              earned
+                ? `${label} — ${description}`
+                : `${label} (locked — upgrade to qualify)`
+            }
+            className={`relative inline-flex items-center justify-center rounded-full ${s.icon} shadow-sm ${
+              earned ? `${iconBg} ${iconColor}` : "bg-slate-200 text-slate-400"
+            }`}
+          >
+            <Icon
+              className={s.inner}
+              fill={iconFilled && earned ? "currentColor" : "none"}
+              strokeWidth={2}
+            />
+            {!earned && (
+              <span className="absolute -bottom-0.5 -right-0.5 inline-flex items-center justify-center bg-slate-500 rounded-full p-0.5">
+                <Lock className={`${s.lock} text-white`} strokeWidth={3} />
+              </span>
+            )}
+          </span>
+        ),
+      )}
     </div>
   );
 }

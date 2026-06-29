@@ -52,6 +52,7 @@ import ManageServiceRequestsPage from "./pages/admin/ManageServiceRequestsPage";
 import EventFormPage from "./pages/admin/EventFormPage";
 import EventDetailsPage from "./pages/admin/EventDetailPage";
 import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
+import ManageSafetyNumbersPage from "./pages/admin/ManageSafetyNumbers";
 
 // ─── Provider Pages ─────────────────────────────────────────
 import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
@@ -78,6 +79,9 @@ import AdminSupportPage from "./pages/shared/AdminSupportPage";
 import LearningModuleDetailPage from "./pages/shared/LearningModuleDetailPage";
 import ManageQueriesPage from "./pages/admin/ManageQueriesPage";
 import BillingPage from "./pages/shared/BillingPage";
+import ManageInnovationLabPage from "./pages/admin/ManageInnovationLabPage";
+import InnovationLabResourceFormPage from "./pages/admin/InnovationLabFoam";
+
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -179,6 +183,16 @@ function App() {
               path="learning-hub/:moduleId/lessons/edit/:lessonId"
               element={<LearningLessonFormPage />}
             />
+
+            <Route path="innovation-lab" element={<ManageInnovationLabPage />} />
+            <Route
+              path="innovation-lab/create"
+              element={<InnovationLabResourceFormPage />}
+            />
+            <Route
+              path="innovation-lab/edit/:id"
+              element={<InnovationLabResourceFormPage />}
+            />
             <Route
               path="analytics"
               element={<AdminPlaceholder title="Analytics" />}
@@ -187,6 +201,11 @@ function App() {
               path="settings"
               element={<AdminPlaceholder title="Settings" />}
             />
+            <Route
+              path="safety-numbers"
+              element={<ManageSafetyNumbersPage />}
+            />
+
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
             <Route path="profile" element={<ProfilePage />} />
