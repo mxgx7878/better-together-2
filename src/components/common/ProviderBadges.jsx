@@ -86,7 +86,6 @@ export default function ProviderBadges({
   className = "",
 }) {
 
-  console.log(provider)
   const isPaid = !!provider.is_paid || provider.tier === "paid";
   const s = sizeMap[size] || sizeMap.md;
 

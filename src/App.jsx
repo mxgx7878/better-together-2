@@ -81,6 +81,8 @@ import ManageQueriesPage from "./pages/admin/ManageQueriesPage";
 import BillingPage from "./pages/shared/BillingPage";
 import ManageInnovationLabPage from "./pages/admin/ManageInnovationLabPage";
 import InnovationLabResourceFormPage from "./pages/admin/InnovationLabFoam";
+import ManagePromoCodesPage from "./pages/admin/ManagePromoCodesPage";
+import BulkEmailPage from "./pages/admin/BulkEmailPage";
 
 
 // Catch-all: if logged in go to dashboard, otherwise go home
@@ -167,6 +169,7 @@ function App() {
               path="learning-hub/create"
               element={<LearningModuleFormPage />}
             />
+            
             <Route
               path="learning-hub/edit/:id"
               element={<LearningModuleFormPage />}
@@ -208,6 +211,8 @@ function App() {
 
             <Route path="ai-support" element={<AISupportPage />} />
             <Route path="admin-support" element={<AdminSupportPage />} />
+            <Route path="promo-codes" element={<ManagePromoCodesPage />} />
+            <Route path="broadcast-email" element={<BulkEmailPage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="events/create" element={<EventFormPage />} />
             <Route path="events/edit/:id" element={<EventFormPage />} />

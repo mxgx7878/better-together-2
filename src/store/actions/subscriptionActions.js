@@ -173,10 +173,11 @@ export const fetchMySubscription = createAsyncThunk(
 
 export const changePlan = createAsyncThunk(
   "subscription/changePlan",
-  async ({ plan_id, payment_method_id }, { rejectWithValue }) => {
+  async ({ plan_id, payment_method_id, promo_code}, { rejectWithValue }) => {
     try {
       const body = { plan_id };
       if (payment_method_id) body.payment_method_id = payment_method_id;
+      if (promo_code) body.promo_code = promo_code;
       const data = await api.post("/subscription/change-plan", body);
       toast.success(data?.message || "Plan changed successfully");
       return data?.data || data;

@@ -25,6 +25,8 @@ import { checkAuth } from "../../store/actions/authActions";
 import { ASYNC_STATUS } from "../../constants";
 import usePayment from "../../hooks/usePayment";
 import PaymentModal from "../../components/payments/PaymentModal";
+import api from "../../services/api";
+import { calculatePrice } from "../../utils/pricing";
 
 // ─── Helpers ────────────────────────────────────────────────────────
 // Locate the user's current plan in whichever shape the backend returns.
@@ -36,7 +38,10 @@ const getUserPlan = (user) => {
   // Legacy fallbacks
   if (user.subscription && typeof user.subscription === "object")
     return user.subscription;
-  if (user.current_subscription && typeof user.current_subscription === "object")
+  if (
+    user.current_subscription &&
+    typeof user.current_subscription === "object"
+  )
     return user.current_subscription;
   if (user.plan && typeof user.plan === "object") return user.plan;
   if (user.subscriptionPlan && typeof user.subscriptionPlan === "object")
@@ -85,7 +90,7 @@ const formatPriceDisplay = (plan, billingCycle) => {
 const UpgradePage = () => {
   const dispatch = useDispatch();
   const { user, isProvider, isParticipant, isPaid } = useAuth();
- const { config, submitting, pay, close, handlePaymentMethod } = usePayment();
+  const { config, submitting, pay, close, handlePaymentMethod } = usePayment();
 
   const {
     publicSubscriptions,
@@ -99,13 +104,12 @@ const UpgradePage = () => {
   const changing = changePlanStatus === ASYNC_STATUS.LOADING;
   const pendingPlan = mySubscription?.pending_plan || null;
 
+  const [promo, setPromo] = useState({});
+  const [loader , setLoading] = useState(false)
+
   const [billingCycle, setBillingCycle] = useState("monthly");
 
-  const role = isProvider
-    ? "provider"
-    : isParticipant
-      ? "participant"
-      : "all";
+  const role = isProvider ? "provider" : isParticipant ? "participant" : "all";
 
   // Fetch plans matching this user's role + billing cycle
   useEffect(() => {
@@ -117,6 +121,39 @@ const UpgradePage = () => {
     );
   }, [dispatch, role, billingCycle]);
 
+  const previewPromo = async (planId) => {
+    const code = promo[planId]?.code?.trim();
+
+    if (!code) return;
+
+    setLoading(true)
+    try {
+      const res = await api.post("/promo-codes/validate", {
+        code,
+        plan_id: planId,
+      });
+
+      setPromo((prev) => ({
+        ...prev,
+        [planId]: {
+          ...prev[planId],
+          discount: res.data.discount,
+          error: "",
+        },
+      }));
+    } catch (e) {
+      setPromo((prev) => ({
+        ...prev,
+        [planId]: {
+          ...prev[planId],
+          discount: null,
+          error: e.message,
+        },
+      }));
+    } finally{
+      setLoading(false)
+    }
+  };
   // Fetch current subscription on mount
   useEffect(() => {
     dispatch(fetchMySubscription());
@@ -165,6 +202,11 @@ const UpgradePage = () => {
       return;
     }
 
+    const pricing = calculatePrice({
+      price: newPrice,
+      discount: promo[plan.id]?.discount,
+    });
+
     // Upgrade → open Stripe card modal
     pay({
       title: `Upgrade to ${plan.name}`,
@@ -172,13 +214,14 @@ const UpgradePage = () => {
         plan.billing_cycle === "lifetime"
           ? "One-time payment"
           : `Billed ${plan.billing_cycle || "monthly"}`,
-      amount: newPrice,
-      submitLabel: `Pay $${newPrice.toFixed(2)} & Subscribe`,
+      amount: pricing.finalPrice,
+      submitLabel: `Pay $${pricing.finalPrice.toFixed(2)} & Subscribe`,
       onPay: async (paymentMethodId) => {
         await dispatch(
           changePlan({
             plan_id: plan.id,
             payment_method_id: paymentMethodId,
+            promo_code: promo[plan.id]?.code || undefined,
           }),
         ).unwrap();
         await refreshUser();
@@ -187,7 +230,10 @@ const UpgradePage = () => {
   };
 
   const handleCancelPending = () => {
-    dispatch(cancelPendingPlan()).unwrap().then(refreshUser).catch(() => {});
+    dispatch(cancelPendingPlan())
+      .unwrap()
+      .then(refreshUser)
+      .catch(() => {});
   };
 
   const handleCancelPlan = () => {
@@ -397,6 +443,11 @@ const UpgradePage = () => {
             const price = formatPriceDisplay(plan, billingCycle);
             const isFree = Number(plan.price) === 0;
 
+            const pricing = calculatePrice({
+              price: plan.price,
+              discount: promo[plan.id]?.discount,
+            });
+
             // Determine if this is upgrade or downgrade vs current
             let actionLabel = isPaid ? "Switch Plan" : "Upgrade Now";
             if (currentPlan && !isCurrent) {
@@ -411,8 +462,7 @@ const UpgradePage = () => {
             if (
               !isCurrent &&
               !isFree &&
-              (billingCycle === "lifetime" ||
-                plan.billing_cycle === "lifetime")
+              (billingCycle === "lifetime" || plan.billing_cycle === "lifetime")
             ) {
               actionLabel = "Get Lifetime Access";
             }
@@ -449,13 +499,26 @@ const UpgradePage = () => {
                   </p>
                 )}
                 <div className="mb-4">
-                  <p className="flex items-baseline gap-0.5">
-                    <span className="text-3xl font-extrabold text-slate-900">
-                      {price.main}
-                    </span>
-                    {price.sub && (
-                      <span className="text-sm font-semibold text-slate-500">
-                        {price.sub}
+                  <p className="flex flex-col items-baseline gap-0.5">
+                    {pricing.hasDiscount ? (
+                      <>
+                        <div className="flex items-center gap-2">
+                          <span className="line-through text-slate-400">
+                            $ {pricing.originalPrice.toFixed(2)}
+                          </span>
+
+                          <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-700">
+                            Save {pricing.savedPercent}%
+                          </span>
+                        </div>
+
+                        <div className="text-4xl font-bold text-purple-700">
+                          $ {pricing.finalPrice.toFixed(2)}
+                        </div>
+                      </>
+                    ) : (
+                      <span className="text-3xl font-extrabold text-slate-900">
+                        {price.main}
                       </span>
                     )}
                   </p>
@@ -495,6 +558,45 @@ const UpgradePage = () => {
                     );
                   })}
                 </ul>
+
+                <div className="mt-3 mb-3">
+                  <div className="flex gap-2">
+                    <input
+                      value={promo[plan.id]?.code || ""}
+                      onChange={(e) =>
+                        setPromo((prev) => ({
+                          ...prev,
+                          [plan.id]: {
+                            ...prev[plan.id],
+                            code: e.target.value,
+                            discount: null,
+                            error: "",
+                          },
+                        }))
+                      }
+                      placeholder="Promo code"
+                      className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                    />
+                    <button
+                      onClick={() => previewPromo(plan.id)}
+                      disabled={loading}
+                      className="px-3 py-2 rounded-lg border border-purple-300 text-purple-700 text-sm"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  {promo[plan.id]?.discount != null && (
+                    <p className="text-xs text-green-600 mt-1">
+                      ${promo[plan.id].discount.toFixed(2)} applied
+                    </p>
+                  )}
+
+                  {promo[plan.id]?.error && (
+                    <p className="text-xs text-red-600 mt-1">
+                      {promo[plan.id].error}
+                    </p>
+                  )}
+                </div>
 
                 {/* Action button */}
                 {isCurrent ? (
@@ -637,17 +739,17 @@ const UpgradePage = () => {
         </div>
       )}
 
-<PaymentModal
-  open={!!config}
-  onClose={close}
-  title={config?.title || "Complete Payment"}
-  subtitle={config?.subtitle}
-  amount={config?.amount}
-  currency={config?.currency}
-  submitting={submitting}
-  submitLabel={config?.submitLabel}
-  onPaymentMethod={handlePaymentMethod}
-/>
+      <PaymentModal
+        open={!!config}
+        onClose={close}
+        title={config?.title || "Complete Payment"}
+        subtitle={config?.subtitle}
+        amount={config?.amount}
+        currency={config?.currency}
+        submitting={submitting}
+        submitLabel={config?.submitLabel}
+        onPaymentMethod={handlePaymentMethod}
+      />
 
       {/* ─── Last invoice success toast ─────────────────────── */}
       {lastInvoice && (

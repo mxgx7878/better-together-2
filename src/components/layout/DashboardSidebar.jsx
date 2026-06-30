@@ -34,6 +34,8 @@ import {
   Inbox,
   Megaphone,
   HelpCircle,
+  Ticket,
+  Mail,
 } from "lucide-react";
 
 const DashboardSidebar = ({
@@ -105,6 +107,12 @@ const DashboardSidebar = ({
       tier: "all",
     },
     {
+      label: "Manage Coupons",
+      icon: Ticket,
+      path: "/admin/promo-codes",
+      tier: "all",
+    },
+    {
       label: "Manage Documents",
       icon: FileText,
       path: "/admin/documents",
@@ -126,6 +134,13 @@ const DashboardSidebar = ({
       label: "Safety Numbers",
       icon: Shield,
       path: "/admin/safety-numbers",
+      tier: "all",
+    },
+
+    {
+      label: "BroadCast Emails",
+      icon: Mail,
+      path: "/admin/broadcast-email",
       tier: "all",
     },
     // {
