@@ -30,8 +30,6 @@ const usePayment = () => {
 
   const pay = (cfg) => setConfig(cfg);
 
-  console.log(config ,"pay")
-
   const close = () => {
     if (!submitting) setConfig(null);
   };

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Megaphone,
@@ -91,7 +91,9 @@ const UpgradePage = () => {
   const dispatch = useDispatch();
   const { user, isProvider, isParticipant, isPaid } = useAuth();
   const { config, submitting, pay, close, handlePaymentMethod } = usePayment();
+  const navigate = useNavigate();
 
+  console.log(close, "close")
   const {
     publicSubscriptions,
     publicStatus,
@@ -225,6 +227,11 @@ const UpgradePage = () => {
           }),
         ).unwrap();
         await refreshUser();
+        if(isProvider) {
+        navigate("/provider/dashboard");
+      } else{
+        navigate("/participant/plan-buddy");
+      }
       },
     });
   };
