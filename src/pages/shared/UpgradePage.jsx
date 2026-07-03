@@ -107,7 +107,7 @@ const UpgradePage = () => {
   const [promo, setPromo] = useState({});
   const [loader , setLoading] = useState(false)
 
-  const [billingCycle, setBillingCycle] = useState("monthly");
+  const [billingCycle, setBillingCycle] = useState( isParticipant? 'yearly':"monthly");
 
   const role = isProvider ? "provider" : isParticipant ? "participant" : "all";
 
@@ -375,6 +375,7 @@ const UpgradePage = () => {
         </div>
       )}
 
+ 
       {/* ─── Billing toggle — Monthly / Yearly / Lifetime ────── */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h2 className="text-lg font-bold text-slate-800">Available Plans</h2>

@@ -15,6 +15,7 @@ import queryReducer from "./slices/querySlice";
 import billingReducer from "./slices/billingSlice";
 import forumReducer from "./slices/forumSlice";                 // ← NEW
 import safetyNumberReducer from "./slices/safetyNumberSlice"; 
+import buddyReducer from "./slices/buddySlice"; 
 
 
 
@@ -36,6 +37,7 @@ const store = configureStore({
     billing: billingReducer,
      forum: forumReducer,                 // ← NEW
     safetyNumber: safetyNumberReducer,   // ← NEW
+     buddy: buddyReducer, 
   },
 });
 

@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Scale, Shield, Megaphone, Landmark, AlertCircle, Phone } from 'lucide-react';
+import { Scale, Shield, Megaphone, Landmark, AlertCircle, Phone, FileText  } from 'lucide-react';
 import { fetchSafetyNumbers } from '../../store/actions/safetyNumberActions';
+import SafetyDocumentsList from "../../components/common/SafetyDocumentsList";
+import { resolveFileUrl } from '../../services/documentService';
 
 const sections = [
   {
@@ -190,6 +192,8 @@ const RightsSafetyPage = () => {
           ))}
         </div>
       </div>
+
+   <SafetyDocumentsList />
     </div>
   );
 };

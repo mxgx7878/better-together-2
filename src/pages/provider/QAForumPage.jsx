@@ -124,7 +124,8 @@ const QAForumPage = () => {
 
   // Paid-only participation guard
   const guardParticipation = (action) => {
-    if (isPaid) action?.();
+    console.log("guardParticipation", isPaid, user?.role, action);
+    if (isPaid || user?.role === "admin") action?.();
     else setShowUpgradePrompt(true);
   };
 
@@ -308,7 +309,7 @@ const QAForumPage = () => {
 
             {/* Answer composer */}
             {selected.status !== "closed" &&
-              (isPaid ? (
+              ((isPaid || user.role === "admin")  ? (
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     Your answer
@@ -371,7 +372,7 @@ const QAForumPage = () => {
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Q&A Forum</h1>
           <p className="text-sm text-slate-500 mt-1">
-            {isPaid
+            {isPaid || user?.role === "admin"
               ? "Ask questions, share knowledge, and learn from the community"
               : "Browse questions from the community"}
           </p>
@@ -385,8 +386,8 @@ const QAForumPage = () => {
               : "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
           }`}
         >
-          {isPaid ? <Plus className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-          {isPaid ? "Ask a Question" : "Upgrade to Ask"}
+          {isPaid || user?.role === "admin" ? <Plus className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+          {isPaid || user?.role === "admin"  ? "Ask a Question" : "Upgrade to Ask"}
         </button>
       </div>
 
@@ -427,7 +428,7 @@ const QAForumPage = () => {
           <MessageCircle className="w-10 h-10 text-slate-300 mx-auto mb-3" />
           <p className="text-sm text-slate-500">
             No questions here yet.{" "}
-            {isPaid ? "Start the conversation!" : "Check back soon."}
+            {isPaid || user?.role === "admin" ? "Start the conversation!" : "Check back soon."}
           </p>
         </div>
       ) : (
@@ -495,7 +496,7 @@ const QAForumPage = () => {
       )}
 
       {/* New Question Modal — paid only */}
-      {showNewThread && isPaid && (
+      {showNewThread && (isPaid || user?.role === "admin") && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={() => setShowNewThread(false)}

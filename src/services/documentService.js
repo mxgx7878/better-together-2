@@ -56,6 +56,7 @@ export const normalizeDocument = (doc = {}) => {
   const size =
     doc.size ||
     (doc.size_bytes ? formatFileSize(doc.size_bytes) : '');
+    const For = doc.for || 'all'; // Default to 'all' if not provided
   const uploadedBy =
     (typeof doc.uploaded_by === 'object' ? doc.uploaded_by?.name : doc.uploaded_by) ||
     doc.uploader_name ||
@@ -75,6 +76,7 @@ export const normalizeDocument = (doc = {}) => {
     status: doc.status ?? 1,
     uploaded_by: uploadedBy,
     date,
+    for: For,
   };
 };
 

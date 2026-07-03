@@ -136,7 +136,7 @@ const Footer = () => {
             Supported By
           </h4>
           <div className="flex justify-center items-center gap-6 flex-wrap">
-            <a href="https://sdconnect.com.au/" target="_blank" rel="noopener noreferrer">
+            <a href="https://sdconnect.com.au/about/" target="_blank" rel="noopener noreferrer">
             <img
               src="/uploads/Supported by partners.png"
               alt="Partners"

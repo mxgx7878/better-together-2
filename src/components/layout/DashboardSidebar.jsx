@@ -76,6 +76,12 @@ const DashboardSidebar = ({
       path: "/admin/events",
       tier: "all",
     },
+            {
+      label: "Manage Buddies",
+      icon: HeartHandshake,
+      path: "/admin/buddies",
+      tier: "all",
+    },
     {
       label: "Services & Categories",
       icon: Tags,
@@ -125,11 +131,18 @@ const DashboardSidebar = ({
       tier: "all",
     },
     {
+      label: "Q & A",
+      icon: MessageCircle,
+      path: "/admin/qa",
+      tier: "all",
+    },
+    {
       label: "Innovation Lab",
       icon: Lightbulb,
       path: "/admin/innovation-lab",
       tier: "all",
     },
+
     {
       label: "Safety Numbers",
       icon: Shield,

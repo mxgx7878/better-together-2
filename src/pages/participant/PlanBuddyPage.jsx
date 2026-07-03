@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState , useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Frown,
   Heart,
@@ -9,22 +10,23 @@ import {
   CheckCircle2,
   XCircle,
   Info,
+  Clock
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import { fetchMyBuddy } from "../../store/actions/buddyActions";
+import { ASYNC_STATUS } from "../../constants";
 
-// ─── Mock buddy data (replace with API-driven profile when ready) ─────
-const demoBuddy = {
-  name: "Karen Burgess",
-  role: "Personal Plan Buddy",
-  email: "karen.burgess@bettertogether.com.au",
-  phone: "0400 123 456",
-  avatar: null,
-  bio: "Karen has 12 years of lived experience navigating the NDIS and 8 years supporting participants with plan reviews, provider choice, and advocacy. She loves making complex paperwork feel human and manageable.",
-};
 
 const PlanBuddyPage = () => {
   const { isPaid, user } = useAuth();
   const [showWhatIsBuddy, setShowWhatIsBuddy] = useState(false);
+
+    const dispatch = useDispatch();
+  const { myBuddy, myStatus } = useSelector((s) => s.buddy);
+
+  useEffect(() => {
+    if (isPaid) dispatch(fetchMyBuddy());
+  }, [dispatch, isPaid]);
 
   // ─── Free / un-paid: explain how to get a buddy ─────────────────
   if (!isPaid) {
@@ -84,8 +86,41 @@ const PlanBuddyPage = () => {
     );
   }
 
+
+   if (myStatus === ASYNC_STATUS.LOADING && !myBuddy) {
+    return (
+      <div className="max-w-3xl mx-auto py-20 flex justify-center">
+        <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // ─── Paid but no buddy assigned yet → matching in progress ──────
+  const assignedBuddy = myBuddy?.buddy;
+  if (!assignedBuddy) {
+    return (
+      <div className="max-w-2xl mx-auto py-10 sm:py-16 text-center">
+        <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+          <Clock className="w-10 h-10 text-purple-500" />
+        </div>
+        <h1 className="text-2xl font-bold text-slate-800 mb-3">
+          We&apos;re finding your perfect Buddy
+        </h1>
+        <p className="text-slate-600 max-w-md mx-auto">
+          Thanks for subscribing! Our team is matching you with a Plan Buddy who
+          best fits your needs and location. As soon as your Buddy is assigned,
+          you&apos;ll get an email — and their full profile will appear right
+          here on this page.
+        </p>
+        <div className="mt-8 inline-flex items-center gap-2 text-sm text-purple-700 bg-purple-50 px-4 py-2 rounded-xl">
+          <Sparkles className="w-4 h-4" /> Matching usually takes a little while — hang tight!
+        </div>
+      </div>
+    );
+  }
+
   // ─── Paid: show buddy profile ───────────────────────────────────
-  const buddy = user?.planBuddy || demoBuddy;
+   const buddy = assignedBuddy;
   const initials = buddy.name
     .split(" ")
     .map((n) => n[0])

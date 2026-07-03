@@ -18,6 +18,7 @@ import {
   adminUpdateSafetyNumber,
   adminDeleteSafetyNumber,
 } from "../../store/actions/safetyNumberActions";
+import SafetyDocumentsManager from "../../components/admin/SafetyDocumentsManager";
 import { ASYNC_STATUS } from "../../constants";
 
 const emptyForm = {
@@ -112,6 +113,8 @@ const ManageSafetyNumbersPage = () => {
           <Plus className="w-4 h-4" /> Add Number
         </button>
       </div>
+
+      <SafetyDocumentsManager />
 
       {loading ? (
         <div className="flex justify-center py-16">

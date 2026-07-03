@@ -49,9 +49,12 @@ const emptyForm = {
   name: '',
   description: '',
   category: DOCUMENT_CATEGORIES[0],
+  for:'',
   status: 1,
   file: null,
 };
+
+const role = ['provider', 'participant', 'both'];
 
 const ManageDocumentsPage = () => {
   const dispatch = useDispatch();
@@ -120,6 +123,7 @@ const ManageDocumentsPage = () => {
       name: doc.name || '',
       description: doc.description || '',
       category: doc.category || DOCUMENT_CATEGORIES[0],
+      for: doc.for || 'both',
       status: doc.status ?? 1,
       file: null,
     });
@@ -173,6 +177,7 @@ const ManageDocumentsPage = () => {
     fd.append('name', formData.name.trim());
     fd.append('description', formData.description.trim());
     fd.append('category', formData.category);
+    fd.append('for', formData.for);
     fd.append('status', String(Number(formData.status)));
     if (formData.file) fd.append('file', formData.file);
     return fd;
@@ -339,6 +344,11 @@ const ManageDocumentsPage = () => {
                             by {doc.uploaded_by}
                           </span>
                         )}
+                        {doc.for && (
+                          <span className="text-xs text-slate-400">
+                            For: {doc.for}
+                          </span>
+                        )}
                         {Number(doc.status) === 0 && (
                           <span className="text-[10px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">
                             HIDDEN
@@ -443,6 +453,8 @@ const ManageDocumentsPage = () => {
                 )}
               </div>
 
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
               {/* Category */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -463,6 +475,29 @@ const ManageDocumentsPage = () => {
                 {formErrors.category && (
                   <p className="text-xs text-red-500 mt-1">{formErrors.category}</p>
                 )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  For
+                </label>
+                <select
+                  name="for"
+                  value={formData.for}
+                  onChange={handleFormChange}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none bg-white"
+                >
+                  {role.map((r) => (
+                    <option key={r} value={r}>
+                      {r.charAt(0).toUpperCase() + r.slice(1)}
+                    </option>
+                  ))}
+                </select>
+                {formErrors.for && (
+                  <p className="text-xs text-red-500 mt-1">{formErrors.for}</p>
+                )}
+              </div>
+
               </div>
 
               {/* Description */}

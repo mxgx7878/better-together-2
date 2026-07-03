@@ -83,6 +83,7 @@ import ManageInnovationLabPage from "./pages/admin/ManageInnovationLabPage";
 import InnovationLabResourceFormPage from "./pages/admin/InnovationLabFoam";
 import ManagePromoCodesPage from "./pages/admin/ManagePromoCodesPage";
 import BulkEmailPage from "./pages/admin/BulkEmailPage";
+import ManageBuddiesPage from "./pages/admin/ManageBuddiesPage";
 
 
 // Catch-all: if logged in go to dashboard, otherwise go home
@@ -154,6 +155,8 @@ function App() {
             <Route path="users/:id" element={<UserDetailPage />} />
             <Route path="events" element={<ManageEventsPage />} />
             <Route path="categories" element={<ManageCategoriesPage />} />
+            <Route path="qa" element={<QAForumPage />} />
+            <Route path="buddies" element={<ManageBuddiesPage />} />
             <Route
               path="service-requests"
               element={<ManageServiceRequestsPage />}

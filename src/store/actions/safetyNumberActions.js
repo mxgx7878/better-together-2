@@ -76,3 +76,89 @@ export const adminDeleteSafetyNumber = createAsyncThunk(
     }
   },
 );
+
+
+// ═══════════════════════════════════════════════════════════════════
+// PUBLIC (Provider / Participant) DOCUMENT APIs — read-only
+// ═══════════════════════════════════════════════════════════════════
+
+export const fetchDocuments = createAsyncThunk(
+  "documents/fetchDocuments",
+  async (params = {}, { rejectWithValue }) => {
+    try {
+      const data = await api.get("/documents", { params });
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to fetch documents");
+    }
+  },
+);
+
+
+export const fetchSafetyDocuments = createAsyncThunk(
+  "safetyNumbers/fetchDocuments",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.get("/safety-documents");
+      return data?.data?.data || data?.data || [];
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to load safety documents");
+    }
+  },
+);
+
+// ADMIN — CRUD
+export const adminFetchSafetyDocuments = createAsyncThunk(
+  "safetyNumbers/adminFetchDocuments",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.get("/admin/safety-documents");
+      return data?.data?.data || data?.data || [];
+    } catch (err) {
+      return rejectWithValue(err.message || "Failed to load safety documents");
+    }
+  },
+);
+
+export const adminCreateSafetyDocument = createAsyncThunk(
+  "safetyNumbers/adminCreateDocument",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const data = await api.post("/admin/safety-documents", formData);
+      toast.success("Document added");
+      return data?.data?.data || data?.data || data;
+    } catch (err) {
+      toast.error(err.message || "Failed to add document");
+      return rejectWithValue(err.message || "Failed to add document");
+    }
+  },
+);
+
+export const adminUpdateSafetyDocument = createAsyncThunk(
+  "safetyNumbers/adminUpdateDocument",
+  async ({ id, formData }, { rejectWithValue }) => {
+    try {
+      // POST (not PUT) — multipart update per project convention
+      const data = await api.post(`/admin/safety-documents/${id}`, formData);
+      toast.success("Document updated");
+      return data?.data?.data || data?.data || data;
+    } catch (err) {
+      toast.error(err.message || "Failed to update document");
+      return rejectWithValue(err.message || "Failed to update document");
+    }
+  },
+);
+
+export const adminDeleteSafetyDocument = createAsyncThunk(
+  "safetyNumbers/adminDeleteDocument",
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.del(`/admin/safety-documents/${id}`);
+      toast.success("Document deleted");
+      return id;
+    } catch (err) {
+      toast.error(err.message || "Failed to delete document");
+      return rejectWithValue(err.message || "Failed to delete document");
+    }
+  },
+);
