@@ -6,7 +6,7 @@ export const PROVIDER_BADGES = [
     key: "recommended_by_admin",
     label: "Recommended by Admin",
     description: "Hand-picked and recommended by The Better Together team",
-    icon: Handshake,
+    icon: Handshake ,
     iconFilled: true,
     pillBg: "bg-purple-50",
     pillText: "text-purple-800",
@@ -125,8 +125,8 @@ export default function ProviderBadges({
             >
               <Icon
                 className={`${s.inner} ${earned ? "" : "opacity-60"}`}
-                fill={iconFilled && earned ? "currentColor" : "none"}
-                strokeWidth={2}
+                // fill={iconFilled && earned ? "currentColor" : "none"}
+                strokeWidth={ 2}
               />
               {label}
               {!earned && (
@@ -166,7 +166,7 @@ export default function ProviderBadges({
           >
             <Icon
               className={s.inner}
-              fill={iconFilled && earned ? "currentColor" : "none"}
+              // fill={iconFilled && earned ? "currentColor" : "none"}
               strokeWidth={2}
             />
             {!earned && (

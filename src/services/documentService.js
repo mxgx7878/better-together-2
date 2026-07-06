@@ -9,13 +9,24 @@ export const STORAGE_BASE_URL =
   'https://bettertogethernetwork.com.au/better-backend/storage/app/public/';
 
 export const DOCUMENT_CATEGORIES = [
+  'General',
   'NDIS Resources',
   'Guides',
   'Policies',
   'Forms',
   'Announcements',
+  'Human Resources',
+  'Finance',
+  'Compliance',
+  'Training',
+  'NDIS',
+  'Aged Care',
+  'Client',
+  'Medical' ,
+  'Managing Supports',
   'Other',
 ];
+
 
 /**
  * Resolve a document's `file_url` to an absolute URL.

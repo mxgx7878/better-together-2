@@ -466,11 +466,14 @@ const ManageDocumentsPage = () => {
                   onChange={handleFormChange}
                   className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none bg-white"
                 >
-                  {DOCUMENT_CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
+                  
+                {formData.for === 'participant' ? <option value="Managing Supports">Managing Supports</option>:
+                DOCUMENT_CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))
+              }
                 </select>
                 {formErrors.category && (
                   <p className="text-xs text-red-500 mt-1">{formErrors.category}</p>
