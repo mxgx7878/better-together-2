@@ -20,10 +20,20 @@ import FileUploadPreview from "../../components/common/FileUploadPreview";
 
 const DIFFICULTIES = ["beginner", "intermediate", "advanced"];
 
+
+//please add one more field which label is for it's mean for those who selected it's select option where three  option  provider, particpents and both  
+const audienceOptions = [
+  { value: "provider", label: "Provider" },
+  { value: "participants", label: "Participants" },
+  { value: "both", label: "Both" },
+];
+
+
+
 const emptyModuleForm = {
   title: "", description: "", category: "",
   difficulty: "beginner", thumbnail: "",
-  is_paid: 0, status: 1,
+  is_paid: 0, status: 1, audience: "both",
 };
 
 const emptyLessonForm = {
@@ -95,6 +105,7 @@ const LearningModuleFormPage = () => {
         description: selectedModule.description || "",
         category: selectedModule.category || "",
         difficulty: selectedModule.difficulty || "beginner",
+         audience: selectedModule.audience || "both",
         thumbnail: selectedModule.thumbnail || "",
         is_paid: Number(selectedModule.is_paid) || 0,
         status: Number(selectedModule.status ?? 1),
@@ -132,6 +143,7 @@ const LearningModuleFormPage = () => {
       description: form.description.trim(),
       category: form.category.trim(),
       difficulty: form.difficulty,
+      audience: form.audience,
       thumbnail: form.thumbnail.trim() || null,
       is_paid: Number(form.is_paid),
       status: Number(form.status),
@@ -410,7 +422,7 @@ const LearningModuleFormPage = () => {
           />
         </Field>
 
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-3 gap-4">
           <Field label="Category" required error={errors.category}>
             <input
               name="category"
@@ -434,6 +446,21 @@ const LearningModuleFormPage = () => {
               ))}
             </select>
           </Field>
+
+          <Field label="Available For">
+  <select
+    name="audience"
+    value={form.audience}
+    onChange={handleChange}
+    className={inputCls(false)}
+  >
+    {audienceOptions.map((option) => (
+      <option key={option.value} value={option.value}>
+        {option.label}
+      </option>
+    ))}
+  </select>
+</Field>
         </div>
 
         <Field label="Thumbnail (optional)">

@@ -228,6 +228,16 @@ const ManageLearningHubPage = () => {
                   )}
                 </div>
 
+                        {mod.audience && (
+          <span className="text-[11px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md">
+            {mod.audience === "provider"
+              ? "Provider"
+              : mod.audience === "participants"
+              ? "Participants"
+              : "Both"}
+          </span>
+        )}
+
                 <h3 className="text-sm font-bold text-slate-800 mb-2 line-clamp-2">
                   {mod.title}
                 </h3>

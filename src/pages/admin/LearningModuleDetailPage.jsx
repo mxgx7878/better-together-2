@@ -27,6 +27,8 @@ const difficultyColors = {
   advanced: "bg-red-50 text-red-700 border-red-100",
 };
 
+
+
 const LearningModuleDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -124,6 +126,15 @@ const LearningModuleDetailPage = () => {
               {mod.difficulty && (
                 <span className="text-[11px] font-semibold bg-white/20 backdrop-blur px-2.5 py-1 rounded-full border border-white/20 capitalize">
                   {mod.difficulty}
+                </span>
+              )}
+              {mod.audience && (
+                <span className="text-[11px] font-semibold bg-white/20 backdrop-blur px-2.5 py-1 rounded-full border border-white/20">
+                  {mod.audience === "provider"
+                    ? "Provider"
+                    : mod.audience === "participants"
+                    ? "Participants"
+                    : "Both"}
                 </span>
               )}
               {Number(mod.is_paid) === 1 && (
