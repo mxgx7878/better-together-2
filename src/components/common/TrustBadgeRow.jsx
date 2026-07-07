@@ -49,8 +49,8 @@ const TrustBadgeRow = ({
             >
               <Icon
                 className={`${iconSize} ${badge.iconColor} drop-shadow-sm`}
-                {...(badge.iconFilled ? { fill: "currentColor" } : {})}
-                strokeWidth={2.5}
+                // {...(badge.iconFilled ? { fill: "currentColor" } : {})}
+                // strokeWidth={2.5}
               />
             </div>
 
