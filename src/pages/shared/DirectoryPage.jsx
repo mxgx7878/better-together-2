@@ -20,10 +20,15 @@ import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { LINK_TYPES } from "../../components/common/SocialLinksField";
 import { ASYNC_STATUS } from "../../constants";
 import TrustBadgeRow from "../../components/common/TrustBadgeRow";
+import {
+  fetchSavedProviders,
+  saveProvider,
+  unsaveProvider,
+} from "../../store/actions/savedProviderActions";
 
 // ─── Helpers ────────────────────────────────────────────────────────
 // Backend shape: User { id, name, email, location, role, tier?, provider_profile: {...} }
-const normaliseProvider = (user) => {
+export const normaliseProvider = (user) => {
   const pp = user?.provider_profile || {};
 
   const isPaid =
@@ -65,7 +70,7 @@ const normaliseProvider = (user) => {
   };
 };
 
-const getInitials = (name = "") =>
+export const getInitials = (name = "") =>
   name
     .split(" ")
     .filter(Boolean)
@@ -95,7 +100,6 @@ const getInitials = (name = "") =>
 // has a hover tooltip explaining what it means so users aren't left
 // guessing what each icon represents.
 
-
 // ─── Component ──────────────────────────────────────────────────────
 const DirectoryPage = () => {
   const dispatch = useDispatch();
@@ -105,12 +109,13 @@ const DirectoryPage = () => {
   const { publicCategories } = useSelector((s) => s.category);
   const loading = status === ASYNC_STATUS.LOADING;
 
+  const { savedIds } = useSelector((s) => s.savedProvider);
+
   // ─── Filters ─────────────────────────────────────────────────
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState("all");
   const [showCollabOnly, setShowCollabOnly] = useState(false);
-  const [bookmarks, setBookmarks] = useState([]);
   const [selectedProvider, setSelectedProvider] = useState(null);
 
   // Debounce search input → server
@@ -125,6 +130,10 @@ const DirectoryPage = () => {
       dispatch(fetchPublicCategories());
     }
   }, [dispatch, publicCategories?.length]);
+
+  useEffect(() => {
+    if (isParticipant) dispatch(fetchSavedProviders());
+  }, [dispatch, isParticipant]);
 
   // Fetch providers whenever filters change.
   useEffect(() => {
@@ -146,12 +155,16 @@ const DirectoryPage = () => {
     [users],
   );
 
-  const toggleBookmark = useCallback((id) => {
-    setBookmarks((prev) =>
-      prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id],
-    );
-  }, []);
-
+  const toggleBookmark = useCallback(
+    (id) => {
+      if (savedIds.includes(id)) {
+        dispatch(unsaveProvider(id));
+      } else {
+        dispatch(saveProvider(id));
+      }
+    },
+    [dispatch, savedIds],
+  );
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
@@ -326,24 +339,34 @@ const DirectoryPage = () => {
                   </div>
                 </div>
 
-                {/* <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleBookmark(provider.id);
-                  }}
-                  className={`p-2 rounded-lg transition-colors flex-shrink-0 ${
-                    bookmarks.includes(provider.id)
-                      ? "bg-amber-50 text-amber-600"
-                      : "text-slate-300 hover:bg-slate-50 hover:text-slate-500"
-                  }`}
-                  aria-label="Save provider"
-                >
-                  <Star
-                    className={`w-4 h-4 ${
-                      bookmarks.includes(provider.id) ? "fill-current" : ""
+                {isParticipant && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleBookmark(provider.id);
+                    }}
+                    className={`p-2 rounded-lg transition-colors flex-shrink-0 ${
+                      savedIds.includes(provider.id)
+                        ? "bg-amber-50 text-amber-600"
+                        : "text-slate-300 hover:bg-slate-50 hover:text-slate-500"
                     }`}
-                  />
-                </button> */}
+                    aria-label={
+                      savedIds.includes(provider.id)
+                        ? "Remove from saved"
+                        : "Save provider"
+                    }
+                    title={
+                      savedIds.includes(provider.id) ? "Saved" : "Save provider"
+                    }
+                  >
+                    {/* {savedIds.includes(provider.id) ? "Saved" : "Save provider"} */}
+                    <Star
+                      className={`w-5 h-5 ${
+                        savedIds.includes(provider.id) ? "fill-current" : ""
+                      }`}
+                    />
+                  </button>
+                )}
               </div>
 
               {provider.about && (

@@ -13,11 +13,10 @@ import featureReducer from "./slices/featureSlice";
 import innovationLabReducer from "./slices/innovationLabSlice";
 import queryReducer from "./slices/querySlice";
 import billingReducer from "./slices/billingSlice";
-import forumReducer from "./slices/forumSlice";                 // ← NEW
-import safetyNumberReducer from "./slices/safetyNumberSlice"; 
-import buddyReducer from "./slices/buddySlice"; 
-
-
+import forumReducer from "./slices/forumSlice"; // ← NEW
+import safetyNumberReducer from "./slices/safetyNumberSlice";
+import buddyReducer from "./slices/buddySlice";
+import savedProviderReducer from "./slices/savedProviderSlice";
 
 const store = configureStore({
   reducer: {
@@ -31,13 +30,14 @@ const store = configureStore({
     document: documentReducer,
     serviceRequest: serviceRequestReducer,
     marketingRibbon: marketingRibbonReducer,
-    feature: featureReducer,  
+    feature: featureReducer,
     innovationLab: innovationLabReducer,
     query: queryReducer,
     billing: billingReducer,
-     forum: forumReducer,                 // ← NEW
-    safetyNumber: safetyNumberReducer,   // ← NEW
-     buddy: buddyReducer, 
+    forum: forumReducer, // ← NEW
+    safetyNumber: safetyNumberReducer, // ← NEW
+    buddy: buddyReducer,
+    savedProvider: savedProviderReducer,
   },
 });
 

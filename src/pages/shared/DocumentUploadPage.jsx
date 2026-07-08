@@ -17,6 +17,7 @@ import {
   resolveFileUrl,
 } from '../../services/documentService';
 import FeatureGate from '../../components/common/FeatureGate';
+import { selectUser } from '../../store/slices/authSlice';
 
 const typeIconMap = {
   pdf: { Icon: FileText, color: 'text-red-500' },
@@ -38,6 +39,8 @@ const DocumentUploadPage = () => {
 
   const { publicDocuments, status } = useSelector((s) => s.document);
   const loading = status === ASYNC_STATUS.LOADING;
+
+   const user = useSelector(selectUser);
 
   const documents = useMemo(
     () => normalizeDocuments(publicDocuments),
@@ -91,7 +94,6 @@ const DocumentUploadPage = () => {
   };
 
   return (
-    <FeatureGate featureName="Documents">
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 text-white shadow-lg">
@@ -128,12 +130,19 @@ const DocumentUploadPage = () => {
           onChange={(e) => setCategoryFilter(e.target.value)}
           className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-600 bg-white outline-none min-w-[180px]"
         >
+
+          {user?.role === 'participant' ? (
+            <option value="Managing Supports">Managing Supports</option>
+          ):(
+            <>
           <option value="all">All Categories</option>
           {DOCUMENT_CATEGORIES.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>
+            
           ))}
+          </>)}
         </select>
       </div>
 
@@ -216,7 +225,6 @@ const DocumentUploadPage = () => {
         )}
       </div>
     </div>
-    </FeatureGate>
   );
 };
 

@@ -32,6 +32,11 @@ import { fetchPublicCategories } from "../../store/actions/categoryActions";
 import { clearSaveStatus } from "../../store/slices/serviceRequestSlice";
 import { ASYNC_STATUS } from "../../constants";
 import TrustBadgeRow from "../../components/common/TrustBadgeRow";
+import {
+  fetchSavedProviders,
+  saveProvider,
+  unsaveProvider,
+} from "../../store/actions/savedProviderActions";
 
 const BUDGET_TYPES = [
   { value: "ndis_managed", label: "NDIS Managed" },
@@ -101,6 +106,7 @@ const LookingForServicesPage = () => {
     (s) => s.serviceRequest,
   );
   const { publicCategories } = useSelector((s) => s.category);
+    const { savedIds } = useSelector((s) => s.savedProvider);
 
   const loading = status === ASYNC_STATUS.LOADING;
   const saving = saveStatus === ASYNC_STATUS.LOADING;
@@ -115,6 +121,7 @@ const LookingForServicesPage = () => {
   useEffect(() => {
     dispatch(fetchServiceRequests());
     dispatch(fetchPublicCategories());
+     dispatch(fetchSavedProviders());
   }, [dispatch]);
 
   useEffect(() => {
@@ -165,6 +172,15 @@ const LookingForServicesPage = () => {
   const handleDelete = (id) => {
     if (window.confirm("Delete this request?"))
       dispatch(deleteServiceRequest(id));
+  };
+
+  const toggleSaveProvider = (providerId) => {
+    if (!providerId) return;
+    if (savedIds.includes(providerId)) {
+      dispatch(unsaveProvider(providerId));
+    } else {
+      dispatch(saveProvider(providerId));
+    }
   };
 
   const handleClose = (id) => {
@@ -396,6 +412,43 @@ const LookingForServicesPage = () => {
                               <p className="text-sm font-semibold text-slate-800 flex items-center gap-2 flex-wrap">
                                 {r.provider_name || r.provider?.name}
                                 <TrustBadgeRow provider={r} size="sm" />
+                                     <button
+                                  type="button"
+                                  onClick={() =>
+                                    toggleSaveProvider(
+                                      r.provider_user_id || r.user_id,
+                                    )
+                                  }
+                                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold transition-colors ${
+                                    savedIds.includes(
+                                      r.provider_user_id || r.user_id,
+                                    )
+                                      ? "bg-amber-50 text-amber-700"
+                                      : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                                  }`}
+                                  title={
+                                    savedIds.includes(
+                                      r.provider_user_id || r.user_id,
+                                    )
+                                      ? "Saved"
+                                      : "Save provider"
+                                  }
+                                >
+                                  <Heart
+                                    className={`w-3 h-3 ${
+                                      savedIds.includes(
+                                        r.provider_user_id || r.user_id,
+                                      )
+                                        ? "fill-current"
+                                        : ""
+                                    }`}
+                                  />
+                                  {savedIds.includes(
+                                    r.provider_user_id || r.user_id,
+                                  )
+                                    ? "Saved"
+                                    : "Save"}
+                                </button>
                                 {isSelected && (
                                   <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
                                     <UserCheck className="w-3 h-3" />{" "}

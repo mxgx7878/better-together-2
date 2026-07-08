@@ -85,6 +85,8 @@ import ManagePromoCodesPage from "./pages/admin/ManagePromoCodesPage";
 import BulkEmailPage from "./pages/admin/BulkEmailPage";
 import ManageBuddiesPage from "./pages/admin/ManageBuddiesPage";
 
+import SavedProvidersPage from "./pages/participant/SavedProvidersPage";
+
 
 // Catch-all: if logged in go to dashboard, otherwise go home
 function CatchAll() {
@@ -354,6 +356,11 @@ function App() {
                 </FeatureGate>
               }
             />
+
+            <Route path="saved-providers" element={
+               <FeatureGate featureKey="saved_providers" featureName="Saved Providers">
+                <SavedProvidersPage />
+                </FeatureGate>} />
             <Route
               path="services"
               element={

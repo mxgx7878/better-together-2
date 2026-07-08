@@ -24,6 +24,7 @@ import {
   adminAssignBuddy,
 } from "../../store/actions/buddyActions";
 import { ASYNC_STATUS } from "../../constants";
+import FileUploadPreview from "../../components/common/FileUploadPreview";
 
 const emptyForm = {
   name: "",
@@ -56,6 +57,7 @@ const ManageBuddiesPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editTarget, setEditTarget] = useState(null);
   const [form, setForm] = useState(emptyForm);
+  const [editingId, setEditingId] = useState(null);
 
   // per-row selected buddy for assignment
   const [assignChoice, setAssignChoice] = useState({});
@@ -108,7 +110,14 @@ const ManageBuddiesPage = () => {
     await dispatch(
       adminAssignBuddy({ id: assignment.id, buddy_id: Number(buddyId) }),
     );
+    setEditingId(null);
     dispatch(adminFetchBuddyAssignments());
+  };
+
+   const startEditAssignment = (a) => {
+    setEditingId(a.id);
+    // Pre-select the currently assigned buddy in the dropdown.
+    setAssignChoice((p) => ({ ...p, [a.id]: String(a.buddy?.id || "") }));
   };
 
   const activeBuddies = buddies.filter((b) => b.is_active !== false);
@@ -208,7 +217,8 @@ const ManageBuddiesPage = () => {
                       )}
                     </div>
 
-                    {a.status === "pending" && (
+                    {a.status === "pending" || editingId === a.id ?
+                     (
                       <div className="flex items-center gap-2 flex-shrink-0">
                         <select
                           value={assignChoice[a.id] || ""}
@@ -232,8 +242,21 @@ const ManageBuddiesPage = () => {
                           {assigning && <Loader2 className="w-4 h-4 animate-spin" />}
                           Assign
                         </button>
+                          {editingId === a.id && a.status !== "pending" && (
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="px-3 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100"
+                          >
+                            Cancel
+                          </button>
+                        )}
                       </div>
-                    )}
+                    ): (<button
+                        onClick={() => startEditAssignment(a)}
+                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 transition-colors flex-shrink-0"
+                      >
+                        <Pencil className="w-4 h-4" /> Change buddy
+                      </button>)}
                   </div>
                 </div>
               ))}
@@ -332,7 +355,7 @@ const ManageBuddiesPage = () => {
                 { key: "phone", label: "Phone (optional)", ph: "0400 123 456" },
                 { key: "location", label: "Location (optional)", ph: "e.g. Melbourne, VIC" },
                 { key: "specialties", label: "Specialties (optional)", ph: "Plan reviews, advocacy" },
-                { key: "avatar", label: "Avatar URL (optional)", ph: "https://…" },
+                // { key: "avatar", label: "Avatar URL (optional)", ph: "https://…" },
               ].map((f) => (
                 <div key={f.key}>
                   <label className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -347,6 +370,16 @@ const ManageBuddiesPage = () => {
                   />
                 </div>
               ))}
+
+              <FileUploadPreview
+          label="avatar (optional)"
+          value={form.avatar}
+          onChange={(url) => setForm((prev) => ({ ...prev, avatar: url }))}
+          accept="image/*"
+          folder="buddies/avatars"
+          // maxSizeMb={2}
+          placeholder="Click to upload a buddy avatar"
+        />
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
                   Bio (optional)

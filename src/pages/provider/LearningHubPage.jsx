@@ -55,7 +55,6 @@ const LearningHubPage = () => {
   const categories = ["All", ...new Set(modules.map((m) => m.category).filter(Boolean))];
 
   return (
-    <FeatureGate featureName="Learning Hub">
     <div className="max-w-6xl mx-auto space-y-6">
       <PageHeader
         title="Learning Hub"
@@ -186,7 +185,6 @@ const LearningHubPage = () => {
         </div>
       )}
     </div>
-    </FeatureGate>
   );
 };
 

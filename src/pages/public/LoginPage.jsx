@@ -172,7 +172,7 @@ const LoginPage = () => {
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <input
                   id="rememberMe"
                   name="rememberMe"
@@ -184,7 +184,7 @@ const LoginPage = () => {
                 <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
                   Remember me
                 </label>
-              </div>
+              </div> */}
               <div className="text-sm">
                 <span className="font-semibold text-purple-600 cursor-pointer hover:text-purple-700 transition-colors">
                   Forgot password?

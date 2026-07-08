@@ -226,7 +226,7 @@ const ProfilePage = () => {
         <div className="flex flex-col sm:flex-row items-center gap-6">
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xs font-bold text-white">
-              <img src={user?.provider_profile?.organization_logo|| user?.participant_profile?.profile_picture ||  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6t3nc-wJIQ9-TKUwXl6bGgdnpwN5Fz8k_AkOYWL7IA&s"} alt={user?.name} className="w-full h-full object-cover rounded-full" />
+              <img src={user?.profile_picture || user?.provider_profile?.organization_logo|| user?.participant_profile?.profile_picture ||  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6t3nc-wJIQ9-TKUwXl6bGgdnpwN5Fz8k_AkOYWL7IA&s"} alt={user?.name} className="w-full h-full object-cover rounded-full" />
             </div>
           </div>
           <div className="flex-1 text-center sm:text-left">

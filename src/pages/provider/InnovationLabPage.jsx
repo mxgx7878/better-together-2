@@ -124,7 +124,6 @@ const InnovationLabPage = () => {
   };
 
   return (
-    <FeatureGate featureName="Innovation Lab">
       <div className="max-w-5xl mx-auto space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Innovation Lab</h1>
@@ -357,7 +356,6 @@ const InnovationLabPage = () => {
           })}
         </div>
       </div>
-    </FeatureGate>
   );
 };
 
