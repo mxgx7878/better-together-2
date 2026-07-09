@@ -34,6 +34,7 @@ const FileUploadPreview = ({
   folder = "misc",
   maxSizeMb = 5,
   variant = "card",
+  loading = false,
   placeholder = "Click to upload or drag a file here",
   error,
   disabled = false,
@@ -66,6 +67,7 @@ const FileUploadPreview = ({
     setLocalPreview(blobUrl);
 
     setUploading(true);
+    loading(true)
     try {
       const contentType = file.type || "application/octet-stream";
 
@@ -109,6 +111,7 @@ const FileUploadPreview = ({
       setLocalPreview("");
     } finally {
       setUploading(false);
+      loading(false)
     }
   };
 

@@ -63,7 +63,7 @@ const LearningHubPage = () => {
   );
 
   const getModuleProgress = (mod) => {
-    const total = mod.lessons_count ?? mod.lessons?.length ?? 0;
+    const total = mod?.lessons_count || mod?.lessons?.length || 0;
     if (!total || !mod.lessons) return { total, completed: 0, pct: 0 };
     const completed = mod.lessons.filter((l) =>
       completedLessonIds.has(l.id),

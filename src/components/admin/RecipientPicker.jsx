@@ -37,7 +37,6 @@ export default function RecipientPicker({ allowExternal = true, onChange }) {
   }, [audience]);
 
   const roleParam = audience === "both" ? "all" : audience;
-  console.log(roleParam ,"roleparam")
 
   useEffect(() => {
     if (isExternal) return;

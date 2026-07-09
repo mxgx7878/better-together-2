@@ -106,7 +106,7 @@ const RegisterPage = () => {
             categoriesLoading={categoriesLoading}
             onToggleCategory={toggleServiceCategory}
           />
-        ) : null;
+        ) : <SuccessStep role={role} onGoToLogin={() => navigate("/login")} />;;
       default:
         return <SuccessStep role={role} onGoToLogin={() => navigate("/login")} />;
     }

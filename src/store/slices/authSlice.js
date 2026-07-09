@@ -289,8 +289,6 @@ export const selectHasFeature = (featureKey) => (state) => {
   const role = (state.auth.user?.role || '').toLowerCase();
   if (role === 'admin') return true;
   const features = resolveEffectivePlan(state)?.features || [];
-
-  console.log(features, "features ,features")
   return features.some(
     (f) => f.feature_key === featureKey && f.status !== false && f.status !== 0,
   );

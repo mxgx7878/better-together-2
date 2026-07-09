@@ -308,8 +308,7 @@ const QAForumPage = () => {
             </div>
 
             {/* Answer composer */}
-            {selected.status !== "closed" &&
-              ((isPaid || user.role === "admin")  ? (
+            {selected.status !== "closed" && (
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     Your answer
@@ -345,14 +344,7 @@ const QAForumPage = () => {
                     </button>
                   </div>
                 </div>
-              ) : (
-                <button
-                  onClick={() => setShowUpgradePrompt(true)}
-                  className="w-full py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 text-sm font-semibold rounded-xl inline-flex items-center justify-center gap-2 transition-colors"
-                >
-                  <Lock className="w-4 h-4" /> Upgrade to answer
-                </button>
-              ))}
+              ) }
           </>
         )}
 
@@ -372,9 +364,9 @@ const QAForumPage = () => {
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Q&A Forum</h1>
           <p className="text-sm text-slate-500 mt-1">
-            {isPaid || user?.role === "admin"
-              ? "Ask questions, share knowledge, and learn from the community"
-              : "Browse questions from the community"}
+            {/* {isPaid || user?.role === "admin" */}
+               Ask questions, share knowledge, and learn from the community
+              {/* : "Browse questions from the community"} */}
           </p>
         </div>
 
@@ -386,8 +378,8 @@ const QAForumPage = () => {
               : "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
           }`}
         >
-          {isPaid || user?.role === "admin" ? <Plus className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-          {isPaid || user?.role === "admin"  ? "Ask a Question" : "Upgrade to Ask"}
+           <Plus className="w-4 h-4" /> 
+           Ask a Question 
         </button>
       </div>
 

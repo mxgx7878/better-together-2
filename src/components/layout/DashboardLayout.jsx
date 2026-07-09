@@ -41,7 +41,7 @@ const DashboardLayout = () => {
     if (isAuthenticated && !isAdmin) {
       dispatch(fetchMySubscription());
     }
-  }, [dispatch, isAuthenticated, isAdmin]);
+  }, [dispatch, isAuthenticated, isAdmin , location.pathname]);
 
   // Close mobile menu on route change
   useEffect(() => {

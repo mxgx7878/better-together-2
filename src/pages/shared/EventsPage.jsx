@@ -19,7 +19,12 @@ import {
   X,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelRsvp, fetchEvents, fetchPublicEvents, rsvpEvent } from "../../store/actions/eventActions";
+import {
+  cancelRsvp,
+  fetchEvents,
+  fetchPublicEvents,
+  rsvpEvent,
+} from "../../store/actions/eventActions";
 import { ASYNC_STATUS } from "../../constants";
 
 const typeColors = {
@@ -40,7 +45,6 @@ const EventsPage = () => {
   const { events, total, totalPages, status } = useSelector(
     (state) => state.event,
   );
-
 
   const loading = status === ASYNC_STATUS.LOADING;
   const token = useSelector((state) => state.auth.token);
@@ -76,15 +80,15 @@ const EventsPage = () => {
   const loadEvents = useCallback(async () => {
     if (token) {
       dispatch(
-      fetchEvents({
-        search: searchTerm,
-        type: filterType,
-        status: filterStatus,
-        page: currentPage,
-        limit: ITEMS_PER_PAGE,
-      }),
-    );
-    return;
+        fetchEvents({
+          search: searchTerm,
+          type: filterType,
+          status: filterStatus,
+          page: currentPage,
+          limit: ITEMS_PER_PAGE,
+        }),
+      );
+      return;
     }
     dispatch(
       fetchPublicEvents({
@@ -138,7 +142,10 @@ const EventsPage = () => {
     const d = new Date(e.date);
     const day = d.getDate();
     const month = d.getMonth();
-    if (month === currentDate.getMonth() && d.getFullYear() === currentDate.getFullYear()){
+    if (
+      month === currentDate.getMonth() &&
+      d.getFullYear() === currentDate.getFullYear()
+    ) {
       acc[day] = acc[day] || [];
       acc[day].push(e);
     }
@@ -158,14 +165,14 @@ const EventsPage = () => {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          {isProvider && isPaid && (
+          {/* {isProvider && isPaid && (
             <button
               onClick={() => setShowSponsor(true)}
               className="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-xl transition-all shadow-md flex items-center gap-1.5"
             >
               <Sparkles className="w-4 h-4" /> Sponsor an Event
             </button>
-          )}
+          )} */}
           <div className="flex bg-slate-100 rounded-lg p-0.5">
             <button
               onClick={() => setViewMode("list")}
@@ -446,7 +453,7 @@ const EventsPage = () => {
       )}
 
       {/* Sponsor Modal */}
-      {showSponsor && (
+      {/* {showSponsor && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={() => setShowSponsor(false)}
@@ -525,7 +532,7 @@ const EventsPage = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

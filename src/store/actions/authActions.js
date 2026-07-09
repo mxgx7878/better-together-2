@@ -24,14 +24,15 @@ export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
   async () => {
     try {
-      await api.post('/logout');
+    localStorage.removeItem('bt_token');
+    localStorage.removeItem('bt_user');
+    toast.success('Logged out successfully');
+    // await api.post('/logout');
     } catch {
       // ignore
     }
 
-    localStorage.removeItem('bt_token');
-    localStorage.removeItem('bt_user');
-    toast.success('Logged out successfully');
+
     return null;
   }
 );

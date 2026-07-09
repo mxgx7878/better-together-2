@@ -23,6 +23,7 @@ const INITIAL_FORM = {
   // Provider
   organisationName: "",
   abn: "",
+  links: [],
   ndisRegistered: false,
   serviceCategories: [],
   description: "",
@@ -121,6 +122,7 @@ const useRegisterForm = () => {
           location: formData.location,
           organisation_name: formData.organisationName,
           abn: formData.abn,
+          links: (formData.links || []).filter((l) => l?.url?.trim()),
           website: formData.website,
           is_ndis_registered: formData.ndisRegistered,
           about_services: formData.description,

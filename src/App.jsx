@@ -84,6 +84,7 @@ import InnovationLabResourceFormPage from "./pages/admin/InnovationLabFoam";
 import ManagePromoCodesPage from "./pages/admin/ManagePromoCodesPage";
 import BulkEmailPage from "./pages/admin/BulkEmailPage";
 import ManageBuddiesPage from "./pages/admin/ManageBuddiesPage";
+import ProviderDetailPage from "./pages/shared/ProviderDetailPage";
 
 import SavedProvidersPage from "./pages/participant/SavedProvidersPage";
 
@@ -361,6 +362,9 @@ function App() {
                <FeatureGate featureKey="saved_providers" featureName="Saved Providers">
                 <SavedProvidersPage />
                 </FeatureGate>} />
+            <Route path="provider/:id" element={
+                <ProviderDetailPage /> 
+            } />
             <Route
               path="services"
               element={

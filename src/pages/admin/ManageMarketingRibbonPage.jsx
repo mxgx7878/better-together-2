@@ -52,7 +52,6 @@ const ManageMarketingRibbonPage = () => {
     [providers],
   );
 
-  console.log("Ribbon preview:", ribbonPreview);
 
   const toggleRibbon = (provider, value) => {
     console.log("Toggling ribbon for", provider, "to", value);

@@ -75,7 +75,6 @@ const api = async (endpoint, options = {}) => {
 // ─── Shorthand methods ──────────────────────────────────────────
 
 api.get = (endpoint, params = {}) => {
-  console.log(params);
   const query = new URLSearchParams(params.params).toString();
 
   const url = query ? `${endpoint}?${query}` : endpoint;

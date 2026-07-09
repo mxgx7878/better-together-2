@@ -36,7 +36,6 @@ const ParticipantDashboardHome = () => {
     setError(null);
     try {
       const res = await api.get("/participant/dashboard");
-      console.log(res, "res");
       setData(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong. Please try again.");
@@ -331,7 +330,7 @@ const ParticipantDashboardHome = () => {
       )}
 
       {/* Free Tier Upgrade CTA */}
-      {!isPaid && (
+      {/* {!isPaid && (
         <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 rounded-2xl p-4 sm:p-6 text-white relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/4"></div>
@@ -353,7 +352,7 @@ const ParticipantDashboardHome = () => {
             </Link>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Provider Spotlight Ribbon - Paid participants see featured providers */}
       {isPaid && featuredProviders.length > 0 && (

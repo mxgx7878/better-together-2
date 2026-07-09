@@ -92,8 +92,6 @@ const UpgradePage = () => {
   const { user, isProvider, isParticipant, isPaid } = useAuth();
   const { config, submitting, pay, close, handlePaymentMethod } = usePayment();
   const navigate = useNavigate();
-
-  console.log(close, "close")
   const {
     publicSubscriptions,
     publicStatus,

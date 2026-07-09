@@ -88,7 +88,6 @@ const ManageEventsPage = () => {
 
   // Fetch events
   const loadEvents = useCallback(() => {
-    console.log(filterType, filterStatus, searchTerm, currentPage);
     dispatch(
       adminFetchEvents({
         search: searchTerm,

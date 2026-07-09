@@ -34,6 +34,7 @@ const ProfilePage = () => {
 
   const [activeTab, setActiveTab] = useState("details");
   const [formData, setFormData] = useState(null);
+  const [fileUploading, setFileUploading] = useState(false);
 
   // Fetch categories on mount (profile already loaded via checkAuth)
   useEffect(() => {
@@ -47,9 +48,7 @@ const ProfilePage = () => {
     const pp = profile.provider_profile;
     const pa = profile.participant_profile;
     const nameParts = (profile.name || "").split(" ");
-
     
-
     setFormData({
       first_name: nameParts[0] || "",
       last_name: nameParts.slice(1).join(" ") || "",
@@ -69,7 +68,7 @@ const ProfilePage = () => {
       categories: pp?.categories?.map((c) => c.id) || [],
       // Participant
       ndis_number: pa?.ndis_number || "",
-      profile_picture: pa?.profile_picture || "",
+      profile_picture: profile?.profile_picture || pa?.profile_picture || "",
       primary_disability: pa?.primary_disability || "",
       support_coordinator_name: pa?.support_coordinator_name || "",
       support_coordinator_phone: pa?.support_coordinator_phone || "",
@@ -94,9 +93,7 @@ const ProfilePage = () => {
   }, [saved, dispatch]);
 
   const handleChange = useCallback((e) => {
-    console.log(e, "target")
     const { name, value, type, checked } = e.target;
-    console.log('running')
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -185,7 +182,7 @@ const ProfilePage = () => {
         </div>
         <PendingGuardButton
           onClick={handleSave}
-          disabled={saving}
+          disabled={fileUploading || saving}
           className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-60 flex items-center gap-2"
         >
           {saving && (
@@ -431,6 +428,7 @@ const ProfilePage = () => {
                   value={isProvider ? formData?.organization_logo : formData?.profile_picture}
                   onChange={(url) => set(isProvider ? "organization_logo" : 'profile_picture' , url)}
                   placeholder={isProvider ?"Upload organisation logo" : "Upload Profile Picture"}
+                  loading={setFileUploading}
                   // maxSizeMb={2}
                 />
               </div>
