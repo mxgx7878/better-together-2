@@ -1,0 +1,15 @@
+# robots.txt for Better Together Network
+# Place this file in the frontend `public/` folder so it serves at /robots.txt
+ 
+User-agent: *
+Allow: /
+ 
+# Block auth-gated app areas from being crawled/indexed
+Disallow: /admin
+Disallow: /provider
+Disallow: /participant
+Disallow: /dashboard
+Disallow: /login
+Disallow: /register
+ 
+Sitemap: https://bettertogethernetwork.com.au/sitemap.xml
