@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Calendar,
   MapPin,
@@ -10,11 +9,10 @@ import {
   Loader2,
   Info,
 } from "lucide-react";
-import { fetchPublicEvents } from "../../store/actions/eventActions";
-import { ASYNC_STATUS } from "../../constants";
+import api from "../../services/api";
 
 const MORE_INFO_URL = "https://ndisevents.frondizoai.com/";
-const PUBLIC_EVENTS_LIMIT = 1000;
+const PUBLIC_EVENTS_PAGE_SIZE = 100;
 
 const typeGradients = {
   networking: "from-blue-500 to-indigo-600",
@@ -38,21 +36,67 @@ const formatDate = (value) => {
 };
 
 const CalendarPage = () => {
-  const dispatch = useDispatch();
-  const { events, status, error } = useSelector((state) => state.event);
-  const loading = status === ASYNC_STATUS.LOADING;
-  const failed = status === ASYNC_STATUS.FAILED;
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    dispatch(
-      fetchPublicEvents({
-        page: 1,
-        limit: PUBLIC_EVENTS_LIMIT,
-        type: "all",
-        status: "all",
-      }),
-    );
-  }, [dispatch]);
+    let active = true;
+
+    const loadAllEvents = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const params = {
+          page: 1,
+          limit: PUBLIC_EVENTS_PAGE_SIZE,
+          type: "all",
+          status: "all",
+        };
+
+        const firstPage = await api.get("/events", { params });
+        const allEvents = [...(firstPage.data || [])];
+        const totalPages = Math.max(Number(firstPage.totalPages) || 1, 1);
+
+        if (totalPages > 1) {
+          const remainingRequests = Array.from(
+            { length: totalPages - 1 },
+            (_, index) =>
+              api.get("/events", {
+                params: {
+                  ...params,
+                  page: index + 2,
+                },
+              }),
+          );
+
+          const remainingPages = await Promise.all(remainingRequests);
+          remainingPages.forEach((page) => {
+            allEvents.push(...(page.data || []));
+          });
+        }
+
+        if (active) {
+          setEvents(allEvents);
+        }
+      } catch (err) {
+        if (active) {
+          setError(err.message || "Unable to load events.");
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadAllEvents();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const sortedEvents = [...events].sort((a, b) => {
     const aDate = new Date(a.date).getTime();
@@ -103,15 +147,13 @@ const CalendarPage = () => {
             <Loader2 className="w-8 h-8 text-purple-600 animate-spin mb-3" />
             <p>Loading events...</p>
           </div>
-        ) : failed ? (
+        ) : error ? (
           <div className="max-w-2xl mx-auto bg-white border border-red-100 rounded-2xl p-8 text-center shadow-sm">
             <Info className="w-9 h-9 text-red-400 mx-auto mb-3" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Unable to load events
             </h3>
-            <p className="text-sm text-gray-600">
-              {error || "Please refresh the page and try again."}
-            </p>
+            <p className="text-sm text-gray-600">{error}</p>
           </div>
         ) : sortedEvents.length === 0 ? (
           <div className="max-w-2xl mx-auto bg-white border border-gray-100 rounded-2xl p-10 text-center shadow-sm">
