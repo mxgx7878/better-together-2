@@ -22,9 +22,9 @@ const Header = () => {
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center py-2">
             <img
-              src="/uploads/logo.jpg"
+              src="/uploads/logo.png"
               alt="The Better Together - Reimagining Disabilities"
-              className="h-14 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </Link>
 

@@ -84,7 +84,7 @@ const LoginPage = () => {
           {/* Logo & Header */}
           <div>
             <Link to="/" className="inline-block mb-8">
-              <img src="/uploads/logo.jpg" alt="The Better Together Logo" className="h-16 w-auto" />
+              <img src="/uploads/logo.png" alt="The Better Together Logo" className="h-16 w-auto" />
             </Link>
             <h2 className="text-4xl font-extrabold text-gray-900 mb-2">Welcome Back!</h2>
             <p className="text-lg text-gray-600">Sign in to your account to continue</p>

@@ -118,7 +118,7 @@ const RegisterPage = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/">
-            <img src="/uploads/logo.jpg" alt="Logo" className="h-14 mx-auto" />
+            <img src="/uploads/logo.png" alt="Logo" className="h-14 mx-auto" />
           </Link>
         </div>
 

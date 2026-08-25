@@ -15,8 +15,8 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="/uploads/LOGO WHITE.png"
-                className="h-32"
+                src="/uploads/logo.png"
+                className="h-32 bg-white"
                 alt="The Better Together Network Logo"
               />
             </div>

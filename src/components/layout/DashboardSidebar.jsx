@@ -355,7 +355,7 @@ const DashboardSidebar = ({
         {!collapsed && (
           <div className="flex items-center gap-3 min-w-0">
             <div className="min-w-0">
-              <img src="/uploads/logo.jpg" className="w-24" alt="Logo" />
+              <img src="/uploads/logo.png" className="w-32" alt="Logo" />
               <p className="text-[11px] text-slate-400 truncate">
                 {isAdmin
                   ? "Admin Panel"

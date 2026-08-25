@@ -67,6 +67,3 @@ mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, xml, "utf8");
  
 console.log(`✓ sitemap.xml generated with ${ROUTES.length} URLs → ${OUTPUT}`);
- 
-
-
