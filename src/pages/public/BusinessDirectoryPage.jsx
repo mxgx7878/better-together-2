@@ -100,6 +100,7 @@ const normaliseProvider = (user) => {
     recommended_by_admin: truthy(pp.recommended_by_admin),
     checked_by_admin: truthy(pp.checked_by_admin),
     paid_for_marketing: truthy(pp.paid_for_marketing),
+    super_star: truthy(pp.super_star),
     gradient,
   };
 };
