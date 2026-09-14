@@ -71,6 +71,7 @@ const EMPTY_FORM = {
   recommended_by_admin: false,
   checked_by_admin: false,
   paid_for_marketing: false, // read-only, backend-controlled
+  super_star: false,
   on_marketing_ribbon: false,
 
   // Participant fields
