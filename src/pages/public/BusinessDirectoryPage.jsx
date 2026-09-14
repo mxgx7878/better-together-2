@@ -20,6 +20,7 @@ import FeaturedPartnersRibbon from "../../components/common/FeaturedPartnersRibb
 import TrustBadgeRow from "../../components/common/TrustBadgeRow";
 import { fetchMarketingRibbon } from "../../store/actions/marketingRibbonActions";
 import { LINK_TYPES } from "../../components/common/SocialLinksField";
+import { API_BASE_URL } from "../../constants";
 
 // ─── Unsplash backgrounds (community / care theme) ─────────────────
 const HERO_BG =
@@ -28,12 +29,9 @@ const CTA_BG =
   "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1920&q=80";
 
 // ─── API base — public fetch, no auth interceptor ───────────────────
-const API_BASE =
-  import.meta.env.VITE_API_URL ||
-  "https://demowebportals.com/better-backend/public/api";
 
 const publicFetch = async (path, params = {}) => {
-  const url = new URL(`${API_BASE}${path}`);
+  const url = new URL(`${API_BASE_URL}${path}`);
   Object.entries(params).forEach(([k, v]) => {
     if (v !== undefined && v !== null && v !== "") url.searchParams.set(k, v);
   });
