@@ -132,11 +132,22 @@ const CalendarPage = () => {
 
       {/* Events from API */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <div className="text-center mb-12">
+        <div className=" mb-12">
+        <div className="flex flex-row items-center justify-between gap-4 mb-4">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Community Events
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <a
+              href={MORE_INFO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-purple-700 text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-purple-200 hover:text-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              View All Events
+              <ExternalLink className="w-5 h-5" />
+            </a>
+            </div>
+          <p className="text-lg text-gray-600 max-w-2xl ">
             Browse all events currently available through the Better Together
             Network.
           </p>
