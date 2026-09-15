@@ -11,3 +11,198 @@ html {
     display: none;
   }
 }
+/* ─────────────────────────────────────────────────────────────────
+   Blog rich text
+   Shared by the admin editor surface (.bt-rte) and the public
+   article body (.blog-content), so what an author sees while
+   writing matches what a reader gets.
+   ───────────────────────────────────────────────────────────────── */
+
+.bt-rte:empty::before,
+.bt-rte:has(> p:only-child:empty)::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.bt-rte h1,
+.blog-content h1 {
+  font-size: 1.875rem;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 2rem 0 0.875rem;
+}
+
+.bt-rte h2,
+.blog-content h2 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 2rem 0 0.75rem;
+}
+
+.bt-rte h3,
+.blog-content h3 {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 1.75rem 0 0.625rem;
+}
+
+.bt-rte h4,
+.blog-content h4 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.bt-rte p,
+.blog-content p {
+  margin: 0 0 1.125rem;
+}
+
+.bt-rte ul,
+.blog-content ul,
+.bt-rte ol,
+.blog-content ol {
+  margin: 0 0 1.125rem;
+  padding-left: 1.5rem;
+}
+
+.bt-rte ul,
+.blog-content ul {
+  list-style: disc;
+}
+
+.bt-rte ol,
+.blog-content ol {
+  list-style: decimal;
+}
+
+.bt-rte li,
+.blog-content li {
+  margin-bottom: 0.4rem;
+}
+
+.bt-rte blockquote,
+.blog-content blockquote {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1.25rem;
+  border-left: 4px solid #a855f7;
+  background: #faf5ff;
+  border-radius: 0 0.75rem 0.75rem 0;
+  color: #475569;
+  font-style: italic;
+}
+
+.bt-rte pre,
+.blog-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre-wrap;
+}
+
+.bt-rte :not(pre) > code,
+.blog-content :not(pre) > code {
+  background: #f1f5f9;
+  color: #be185d;
+  padding: 0.1rem 0.375rem;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.bt-rte a,
+.blog-content a {
+  color: #7c3aed;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.bt-rte a:hover,
+.blog-content a:hover {
+  color: #6d28d9;
+}
+
+.bt-rte img,
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.875rem;
+  margin: 0.5rem 0;
+}
+
+.bt-rte figure,
+.blog-content figure {
+  margin: 1.75rem 0;
+}
+
+.bt-rte figcaption,
+.blog-content figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.bt-rte hr,
+.blog-content hr {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.bt-rte table,
+.blog-content table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.bt-rte th,
+.blog-content th,
+.bt-rte td,
+.blog-content td {
+  border: 1px solid #e2e8f0;
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+}
+
+.bt-rte th,
+.blog-content th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #334155;
+}
+
+.bt-rte mark,
+.blog-content mark {
+  background: #fef08a;
+  padding: 0 0.15rem;
+  border-radius: 0.2rem;
+}
+
+/* Public article body runs a little larger for comfortable reading. */
+.blog-content {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #334155;
+}
+
+/* Wide tables/code never force the page to scroll sideways on a phone. */
+.blog-content table,
+.blog-content pre {
+  max-width: 100%;
+}

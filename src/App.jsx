@@ -28,6 +28,7 @@ import SubscriptionPage from "./pages/public/SubscriptionPage";
 import BusinessDirectoryPage from "./pages/public/BusinessDirectoryPage";
 import CalendarPage from "./pages/public/CalendarPage";
 import BlogPage from "./pages/public/BlogPage";
+import BlogPostPage from "./pages/public/BlogPostPage";
 import ContactPage from "./pages/public/ContactPage";
 import AboutPage from "./pages/public/AboutPage";
 import LoginPage from "./pages/public/LoginPage";
@@ -53,6 +54,9 @@ import EventFormPage from "./pages/admin/EventFormPage";
 import EventDetailsPage from "./pages/admin/EventDetailPage";
 import ManageMarketingRibbonPage from "./pages/admin/ManageMarketingRibbonPage";
 import ManageSafetyNumbersPage from "./pages/admin/ManageSafetyNumbers";
+import ManageBlogsPage from "./pages/admin/ManageBlogsPage";
+import BlogFormPage from "./pages/admin/BlogFormPage";
+import ManageBlogCategoriesPage from "./pages/admin/ManageBlogCategoriesPage";
 
 // ─── Provider Pages ─────────────────────────────────────────
 import ProviderDashboardHome from "./pages/provider/ProviderDashboardHome";
@@ -133,6 +137,7 @@ function App() {
           />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="terms" element={<TermsAndConditionsPage />} />
@@ -213,6 +218,14 @@ function App() {
             <Route
               path="safety-numbers"
               element={<ManageSafetyNumbersPage />}
+            />
+
+            <Route path="blog" element={<ManageBlogsPage />} />
+            <Route path="blog/create" element={<BlogFormPage />} />
+            <Route path="blog/edit/:id" element={<BlogFormPage />} />
+            <Route
+              path="blog/categories"
+              element={<ManageBlogCategoriesPage />}
             />
 
             <Route path="ai-support" element={<AISupportPage />} />

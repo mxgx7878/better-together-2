@@ -37,6 +37,7 @@ import {
   Ticket,
   Mail,
   Bookmark,
+  Newspaper,
 } from "lucide-react";
 
 const DashboardSidebar = ({
@@ -141,6 +142,13 @@ const DashboardSidebar = ({
       label: "Innovation Lab",
       icon: Lightbulb,
       path: "/admin/innovation-lab",
+      tier: "all",
+    },
+
+    {
+      label: "Manage Blog",
+      icon: Newspaper,
+      path: "/admin/blog",
       tier: "all",
     },
 

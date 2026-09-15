@@ -17,6 +17,7 @@ import forumReducer from "./slices/forumSlice"; // ← NEW
 import safetyNumberReducer from "./slices/safetyNumberSlice";
 import buddyReducer from "./slices/buddySlice";
 import savedProviderReducer from "./slices/savedProviderSlice";
+import blogReducer from "./slices/blogSlice";
 
 const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ const store = configureStore({
     safetyNumber: safetyNumberReducer, // ← NEW
     buddy: buddyReducer,
     savedProvider: savedProviderReducer,
+    blog: blogReducer,
   },
 });
 
