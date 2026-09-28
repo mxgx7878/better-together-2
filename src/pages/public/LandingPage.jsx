@@ -33,7 +33,7 @@ const LandingPage3 = () => {
   const heroSlides = useMemo(
     () => [
       {
-        title: "Reimagining Disability",
+        title: "Reimagining What's Possible",
         subtitle: "With the Power of Local Communities",
         description:
           "We are an innovative, independent, values‑driven platform igniting real change in the human and health services sectors — building powerful networks and communities that put people first. We connect local businesses, services, and providers with people seeking a genuine range of quality care, health, and support options, creating a living ecosystem of collaboration, trust, and real‑world action.",
@@ -917,7 +917,7 @@ const LandingPage3 = () => {
         </div>
       </section>
 
-      <FoundingMembersSection />
+      {/* <FoundingMembersSection /> */}
 
       {/* Why Choose Us Section */}
 
