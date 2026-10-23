@@ -17,6 +17,7 @@ import {
 import {
   selectIsAuthenticated,
   selectIsAdmin,
+  selectUserRole,
 } from '../../store/slices/authSlice';
 import { fetchMySubscription } from '../../store/actions/subscriptionActions';
 
@@ -29,6 +30,7 @@ const DashboardLayout = () => {
   const pageLoading = useSelector(selectPageLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const isAdmin = useSelector(selectIsAdmin);
+  const userRole = useSelector(selectUserRole);
 
   // ─── Bootstrap the user's subscription on dashboard mount ──────────
   // This single fetch hydrates state.subscription.mySubscription which is
@@ -81,6 +83,45 @@ const DashboardLayout = () => {
   const handleMobileMenuToggle = useCallback(() => {
     dispatch(setMobileMenuOpen(!mobileMenuOpen));
   }, [dispatch, mobileMenuOpen]);
+
+
+  // Use 'shazza' for the provider dashboard.
+const assistant = userRole === 'provider' ? 'shazza' : 'matilda';
+
+useEffect(() => {
+  if (!isAuthenticated || isAdmin) return;
+
+  const scriptId = `btn-${assistant}-script`;
+  const widgetId = `btn-${assistant}-widget`;
+
+  const showWidget = () => {
+    const widget = document.getElementById(widgetId);
+    if (widget) widget.style.display = '';
+  };
+
+  let script = document.getElementById(scriptId);
+
+  if (!script) {
+    script = document.createElement('script');
+    script.id = scriptId;
+    script.src = `/assistants/${assistant}.js`;
+    script.async = true;
+    script.dataset.bottom = '100';
+
+    script.addEventListener('load', showWidget);
+    document.body.appendChild(script);
+  } else {
+    script.addEventListener('load', showWidget);
+    showWidget();
+  }
+
+  return () => {
+    script.removeEventListener('load', showWidget);
+
+    const widget = document.getElementById(widgetId);
+    if (widget) widget.style.display = 'none';
+  };
+}, [assistant, isAuthenticated, isAdmin]);
 
   return (
     <div className="min-h-screen bg-slate-50">
