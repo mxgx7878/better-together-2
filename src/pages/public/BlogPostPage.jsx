@@ -202,7 +202,7 @@ const BlogPostPage = () => {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 -mt-8 pb-16">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 -mt-2 pb-16">
         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
           {post.featured_image && (
             <img

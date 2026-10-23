@@ -9,12 +9,12 @@ import {
   ArrowRight,
   Filter,
   Loader2,
-  Heart,
   X,
   Lock,
   Hash,
   Phone,
   Mail,
+  ChevronDown,
 } from "lucide-react";
 import FeaturedPartnersRibbon from "../../components/common/FeaturedPartnersRibbon";
 import TrustBadgeRow from "../../components/common/TrustBadgeRow";
@@ -28,8 +28,10 @@ const HERO_BG =
 const CTA_BG =
   "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1920&q=80";
 
-// ─── API base — public fetch, no auth interceptor ───────────────────
+// How many providers to show per "page" / per Load More click (3-col grid → 9)
+const PER_PAGE = 9;
 
+// ─── API base — public fetch, no auth interceptor ───────────────────
 const publicFetch = async (path, params = {}) => {
   const url = new URL(`${API_BASE_URL}${path}`);
   Object.entries(params).forEach(([k, v]) => {
@@ -42,6 +44,25 @@ const publicFetch = async (path, params = {}) => {
   return res.json();
 };
 
+// Handles common Laravel shapes:
+//  { data: { data: [...], total, last_page } }
+//  { data: [...], meta: { total, last_page } }
+//  { data: [...] }  or  [...]
+const parsePage = (res) => {
+  const payload = res?.data && !Array.isArray(res.data) ? res.data : res;
+  const list = Array.isArray(payload?.data)
+    ? payload.data
+    : Array.isArray(payload)
+      ? payload
+      : Array.isArray(res?.data)
+        ? res.data
+        : [];
+  const meta = payload?.meta || res?.meta || payload || {};
+  const lastPage = Number(meta?.last_page) || null;
+  const total = Number(meta?.total) || list.length;
+  return { list, lastPage, total };
+};
+
 // ─── Helpers ────────────────────────────────────────────────────────
 // Robust truthy check — handles boolean, number, and string "0" / "1"
 const truthy = (v) => v === true || Number(v) === 1;
@@ -49,7 +70,6 @@ const truthy = (v) => v === true || Number(v) === 1;
 const normaliseProvider = (user) => {
   const pp = user?.provider_profile || {};
   // ⚠️ Backend returns `organization_name` (American spelling).
-  // The previous British spelling silently fell back to user.name.
   const orgName =
     pp.organization_name || pp.organisation_name || user?.name || "Provider";
 
@@ -91,7 +111,6 @@ const normaliseProvider = (user) => {
     abn: pp.abn || "",
     logo: pp.organization_logo || null,
     about: pp.about_services || "",
-    // ✅ Strict checks — string "0" no longer passes through
     isNdisRegistered: truthy(pp.is_ndis_registered),
     openToCollab: truthy(pp.open_to_collab),
     primaryCategory: pp.categories?.[0]?.name || "Service Provider",
@@ -113,7 +132,13 @@ const BusinessDirectoryPage = () => {
   const [users, setUsers] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(PER_PAGE);
 
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
@@ -144,34 +169,42 @@ const BusinessDirectoryPage = () => {
     };
   }, []);
 
+  const buildParams = useCallback(
+    (pageNum) => {
+      const params = {
+        type: "provider",
+        for: "public-business-directory",
+        per_page: PER_PAGE,
+        page: pageNum,
+        sort_by: "created_at",
+        sort_order: "desc",
+      };
+      if (search) params.search = search;
+      if (categoryId && categoryId !== "all") params.category_id = categoryId;
+      return params;
+    },
+    [search, categoryId],
+  );
+
+  // First page — re-runs whenever search / category changes
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    const params = {
-      type: "provider",
-      per_page: 6, // ← only latest 6
-      sort_by: "created_at", // ← newest first (adjust if backend uses different param)
-      sort_order: "desc",
-    };
-    if (search) params.search = search;
-    if (categoryId && categoryId !== "all") params.category_id = categoryId;
+    setPage(1);
+    setVisibleCount(PER_PAGE);
 
-    publicFetch("/public/users", params)
+    publicFetch("/public/users", buildParams(1))
       .then((res) => {
         if (cancelled) return;
-        const payload = res?.data ?? res;
-        const list = Array.isArray(payload?.data)
-          ? payload.data
-          : Array.isArray(payload)
-            ? payload
-            : [];
-        // Client-side safety net in case backend ignores per_page
-        setUsers(list.slice(0, 6));
-        setTotal(payload?.total ?? list.length);
+        const { list, lastPage: lp, total: t } = parsePage(res);
+        setUsers(list);
+        setLastPage(lp);
+        setTotal(t);
       })
       .catch(() => {
         if (cancelled) return;
         setUsers([]);
+        setLastPage(null);
         setTotal(0);
       })
       .finally(() => {
@@ -181,12 +214,47 @@ const BusinessDirectoryPage = () => {
     return () => {
       cancelled = true;
     };
-  }, [search, categoryId]);
+  }, [buildParams]);
+
+  // Works both ways:
+  //  - backend paginates → fetches the next page and appends
+  //  - backend ignores per_page and sends everything → just reveals 9 more
+  const hasMore =
+    visibleCount < users.length || (lastPage !== null && page < lastPage);
+
+  const loadMore = async () => {
+    if (visibleCount < users.length) {
+      setVisibleCount((v) => v + PER_PAGE);
+      return;
+    }
+    if (lastPage === null || page >= lastPage || loadingMore) return;
+
+    setLoadingMore(true);
+    try {
+      const nextPage = page + 1;
+      const res = await publicFetch("/public/users", buildParams(nextPage));
+      const { list, lastPage: lp, total: t } = parsePage(res);
+      setUsers((prev) => {
+        const seen = new Set(prev.map((u) => u.id));
+        return [...prev, ...list.filter((u) => !seen.has(u.id))];
+      });
+      setPage(nextPage);
+      setLastPage(lp);
+      setTotal(t);
+      setVisibleCount((v) => v + PER_PAGE);
+    } catch {
+      // keep what we have; user can click again
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const providers = useMemo(
-    () => (users || []).map(normaliseProvider),
-    [users],
+    () => (users || []).slice(0, visibleCount).map(normaliseProvider),
+    [users, visibleCount],
   );
+
+  const totalCount = Math.max(total, users.length);
 
   const closeModal = useCallback(() => setSelectedProvider(null), []);
 
@@ -202,15 +270,12 @@ const BusinessDirectoryPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* ─── Hero Section ──────────────────────────────────────── */}
       <section className="relative overflow-hidden">
-        {/* Background image layer */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${HERO_BG})` }}
           aria-hidden="true"
         />
-        {/* Gradient overlay tinting the image */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-700/90 via-purple-600/85 to-pink-500/90" />
-        {/* Decorative blurred blobs */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-300 rounded-full blur-3xl" />
@@ -266,8 +331,8 @@ const BusinessDirectoryPage = () => {
           <p className="mt-4 text-sm text-gray-500">
             {loading
               ? "Loading providers…"
-              : `Showing ${providers.length} of ${total || providers.length} provider${
-                  (total || providers.length) === 1 ? "" : "s"
+              : `Showing ${providers.length} of ${totalCount} provider${
+                  totalCount === 1 ? "" : "s"
                 } (latest first)`}
           </p>
         </div>
@@ -296,79 +361,127 @@ const BusinessDirectoryPage = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {providers.map((biz) => (
-              <div
-                key={biz.id}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col cursor-pointer"
-                onClick={() => setSelectedProvider(biz)}
-              >
-                {/* Card Header — logo + NDIS badge */}
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {providers.map((biz) => (
                 <div
-                  className={`bg-gradient-to-r ${biz.gradient} p-5 rounded-t-2xl`}
+                  key={biz.id}
+                  className="bg-white rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col cursor-pointer"
+                  onClick={() => setSelectedProvider(biz)}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    {biz.logo ? (
-                      <img
-                        src={biz.logo}
-                        alt={biz.name}
-                        className="w-14 h-14 rounded-xl object-cover bg-white/20 backdrop-blur-sm border border-white/30"
-                      />
-                    ) : (
-                      <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">
-                          {biz.initials}
+                  {/* Card Header — logo + NDIS badge */}
+                  <div
+                    className={`bg-gradient-to-r ${biz.gradient} p-5 rounded-t-2xl`}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      {biz.logo ? (
+                        <img
+                          src={biz.logo}
+                          alt={biz.name}
+                          loading="lazy"
+                          className="w-14 h-14 rounded-xl object-cover bg-white/20 backdrop-blur-sm border border-white/30"
+                        />
+                      ) : (
+                        <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                          <span className="text-white font-bold text-lg">
+                            {biz.initials}
+                          </span>
+                        </div>
+                      )}
+                      {biz.isNdisRegistered && (
+                        <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full">
+                          <Shield className="w-3 h-3" />
+                          NDIS
                         </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Card Body — minimal */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-semibold text-gray-900 text-lg leading-tight mb-2 group-hover:text-purple-600 transition-colors line-clamp-1">
+                      {biz.name}
+                    </h3>
+
+                    <span className="inline-block w-fit text-[11px] font-medium text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100 mb-3">
+                      {biz.primaryCategory}
+                    </span>
+
+                    {biz.location && (
+                      <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
+                        <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                        <span className="truncate">{biz.location}</span>
                       </div>
                     )}
-                    {biz.isNdisRegistered && (
-                      <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full">
-                        <Shield className="w-3 h-3" />
-                        NDIS
-                      </span>
-                    )}
+
+                    <TrustBadgeRow
+                      provider={biz}
+                      size="sm"
+                      ringClass="ring-white"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedProvider(biz);
+                      }}
+                      className="mt-auto pt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium py-2.5 px-4 rounded-xl hover:from-purple-700 hover:to-pink-600 transition-all"
+                    >
+                      View Profile
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
+              ))}
+            </div>
 
-                {/* Card Body — minimal */}
-                <div className="p-5 flex flex-col flex-1">
-                  <h3 className="font-semibold text-gray-900 text-lg leading-tight mb-2 group-hover:text-purple-600 transition-colors line-clamp-1">
-                    {biz.name}
-                  </h3>
-
-                  <span className="inline-block w-fit text-[11px] font-medium text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100 mb-3">
-                    {biz.primaryCategory}
-                  </span>
-
-                  {biz.location && (
-                    <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
-                      <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <span className="truncate">{biz.location}</span>
-                    </div>
-                  )}
-
-                  {/* Trust badges */}
-                  <TrustBadgeRow
-                    provider={biz}
-                    size="sm"
-                    ringClass="ring-white"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedProvider(biz);
-                    }}
-                    className="mt-auto pt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium py-2.5 px-4 rounded-xl hover:from-purple-700 hover:to-pink-600 transition-all"
-                  >
-                    View Profile
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
+            {/* ─── Load More ─────────────────────────────────────── */}
+            <div className="mt-10 flex flex-col items-center gap-3">
+              {/* progress bar */}
+              <div className="w-full max-w-xs h-1.5 bg-purple-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-purple-600 to-pink-500 transition-all duration-500"
+                  style={{
+                    width: `${Math.min(
+                      100,
+                      (providers.length / (totalCount || 1)) * 100,
+                    )}%`,
+                  }}
+                />
               </div>
-            ))}
-          </div>
+              <p className="text-sm text-gray-500">
+                {providers.length} of {totalCount} providers
+              </p>
+
+              {hasMore ? (
+                <button
+                  type="button"
+                  onClick={loadMore}
+                  disabled={loadingMore}
+                  className="inline-flex items-center gap-2 bg-white border border-purple-200 text-purple-700 font-semibold py-3 px-8 rounded-xl shadow-sm hover:bg-purple-50 hover:border-purple-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+                >
+                  {loadingMore ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Loading…
+                    </>
+                  ) : (
+                    <>
+                      Load More Providers
+                      <ChevronDown className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              ) : (
+                totalCount > PER_PAGE && (
+                  <p className="text-sm font-medium text-purple-600">
+                    You've seen all providers
+                  </p>
+                )
+              )}
+            </div>
+          </>
         )}
       </section>
 
@@ -429,7 +542,6 @@ const BusinessDirectoryPage = () => {
 
             {/* Modal body */}
             <div className="p-6 space-y-5">
-              {/* About */}
               {selectedProvider.about && (
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
@@ -441,7 +553,6 @@ const BusinessDirectoryPage = () => {
                 </div>
               )}
 
-              {/* Quick info grid — ABN + Contact name */}
               {(selectedProvider.abn || selectedProvider.contactName) && (
                 <div className="grid grid-cols-2 gap-3">
                   {selectedProvider.contactName && (
@@ -468,7 +579,6 @@ const BusinessDirectoryPage = () => {
                 </div>
               )}
 
-              {/* Categories */}
               {selectedProvider.categories.length > 0 && (
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
@@ -487,7 +597,6 @@ const BusinessDirectoryPage = () => {
                 </div>
               )}
 
-              {/* Links */}
               {selectedProvider.links.length > 0 && (
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
@@ -517,7 +626,6 @@ const BusinessDirectoryPage = () => {
                 </div>
               )}
 
-              {/* Status row */}
               <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-100">
                 <div className="text-center">
                   <p className="text-xs text-slate-500">NDIS Registered</p>
@@ -567,7 +675,6 @@ const BusinessDirectoryPage = () => {
                   </Link>
                 </div>
 
-                {/* Masked preview so users see SOMETHING is there */}
                 {(selectedProvider.email || selectedProvider.phone) && (
                   <div className="grid grid-cols-2 gap-2 pt-3 border-t border-purple-100">
                     {selectedProvider.email && (
@@ -597,13 +704,11 @@ const BusinessDirectoryPage = () => {
       {/* ─── CTA Section ───────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="relative overflow-hidden rounded-2xl">
-          {/* Background image */}
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${CTA_BG})` }}
             aria-hidden="true"
           />
-          {/* Overlay tint */}
           <div className="absolute inset-0 bg-gradient-to-br from-purple-700/92 via-purple-600/88 to-pink-500/92" />
 
           <div className="relative p-10 md:p-14 text-center">
