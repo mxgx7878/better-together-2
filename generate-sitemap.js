@@ -29,7 +29,7 @@ const ROUTES = [
   { path: "/what-we-do",        changefreq: "monthly", priority: "0.8" },
   { path: "/subscription",      changefreq: "monthly", priority: "0.8" },
   { path: "/business-directory",changefreq: "weekly",  priority: "0.8" },
-  { path: "/calendar",          changefreq: "weekly",  priority: "0.7" },
+  { path: "/events",          changefreq: "weekly",  priority: "0.7" },
   { path: "/blog",              changefreq: "weekly",  priority: "0.7" },
   { path: "/contact",           changefreq: "monthly", priority: "0.7" },
   { path: "/login",             changefreq: "yearly",  priority: "0.5" },
