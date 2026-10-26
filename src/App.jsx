@@ -135,7 +135,7 @@ function App() {
             path="/business-directory"
             element={<BusinessDirectoryPage />}
           />
-          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/events" element={<CalendarPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/contact" element={<ContactPage />} />

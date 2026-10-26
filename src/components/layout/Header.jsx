@@ -11,7 +11,7 @@ const Header = () => {
     { name: 'What We Do', path: '/what-we-do' },
     { name: 'Subscription', path: '/subscription' },
     { name: 'Business Directory', path: '/business-directory' },
-    { name: 'Calendar', path: '/calendar' },
+    { name: 'Events', path: '/events' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
