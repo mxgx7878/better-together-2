@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import api from "../../services/api";
 
-const MORE_INFO_URL = "https://ndisevents.frondizoai.com/";
 const PUBLIC_EVENTS_PAGE_SIZE = 100;
 
 const typeGradients = {
@@ -19,6 +18,16 @@ const typeGradients = {
   workshop: "from-emerald-500 to-teal-600",
   expo: "from-purple-500 to-fuchsia-600",
   webinar: "from-amber-500 to-orange-600",
+};
+
+const getOrganiserWebsite = (value) => {
+  if (typeof value !== "string" || !value.trim()) return "";
+  try {
+    const url = new URL(value.trim());
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch {
+    return "";
+  }
 };
 
 const formatDate = (value) => {
@@ -137,8 +146,9 @@ const CalendarPage = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Community Events
           </h2>
+          {/* View All Events temporarily hidden.
           <a
-              href={MORE_INFO_URL}
+              href="https://ndisevents.frondizoai.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-purple-700 text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-purple-200 hover:text-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -146,6 +156,7 @@ const CalendarPage = () => {
               View All Events
               <ExternalLink className="w-5 h-5" />
             </a>
+          */}
             </div>
           <p className="text-lg text-gray-600 max-w-2xl ">
             Browse all events currently available through the Better Together
@@ -178,7 +189,9 @@ const CalendarPage = () => {
           </div>
         ) : (
           <div className="space-y-6">
-            {sortedEvents.map((event) => (
+            {sortedEvents.map((event) => {
+              const organiserWebsite = getOrganiserWebsite(event.organiserWebsite);
+              return (
               <div
                 key={event.id}
                 className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
@@ -243,17 +256,22 @@ const CalendarPage = () => {
                       </div>
                     )}
 
+                    {organiserWebsite && (
                     <a
-                      href={MORE_INFO_URL}
+                      href={organiserWebsite}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       More Info
                       <ExternalLink className="w-4 h-4" />
                     </a>
+                    )}
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>

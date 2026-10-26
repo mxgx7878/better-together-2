@@ -12,9 +12,19 @@ import {
   DollarSign,
   Building2,
   Accessibility,
-  Tag,
+  ExternalLink,
   Edit2,
 } from "lucide-react";
+
+const getOrganiserWebsite = (value) => {
+  if (typeof value !== "string" || !value.trim()) return "";
+  try {
+    const url = new URL(value.trim());
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch {
+    return "";
+  }
+};
 
 const typeColors = {
   networking: "bg-blue-50 text-blue-700 border-blue-100",
@@ -62,6 +72,7 @@ const EventDetailsPage = () => {
   if (!selectedEvent) return null;
 
   const event = selectedEvent;
+  const organiserWebsite = getOrganiserWebsite(event.organiserWebsite);
   const eventDate = new Date(event.date);
 
   return (
@@ -159,6 +170,17 @@ const EventDetailsPage = () => {
               label="Organiser"
               value={event.organiser}
             />
+            {organiserWebsite && (
+              <a
+                href={organiserWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all shadow-sm"
+              >
+                Organiser Website
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            )}
             <InfoRow
               icon={DollarSign}
               label="Cost"

@@ -29,6 +29,7 @@ const emptyForm = {
   maxAttendees: 50,
   status: "draft",
   organiser: "Better Together Network",
+  organiserWebsite: "",
 };
 
 const Field = ({ label, required, error, children }) => (
@@ -64,7 +65,9 @@ const EventFormPage = () => {
   }, [id, isEditMode, dispatch]);
 
   useEffect(() => {
-    if (isEditMode && selectedEvent) setForm(selectedEvent);
+    if (isEditMode && selectedEvent) {
+      setForm({ ...emptyForm, ...selectedEvent, organiserWebsite: selectedEvent.organiserWebsite ?? "" });
+    }
   }, [isEditMode, selectedEvent]);
 
   const handleChange = (e) => {
@@ -80,6 +83,17 @@ const EventFormPage = () => {
     if (!form.time.trim()) errs.time = "Time is required";
     if (!form.location.trim()) errs.location = "Location is required";
     if (!form.description.trim()) errs.description = "Description is required";
+    const website = form.organiserWebsite.trim();
+    if (website) {
+      try {
+        const url = new URL(website);
+        if (!["http:", "https:"].includes(url.protocol)) {
+          errs.organiserWebsite = "Enter a valid http:// or https:// website URL";
+        }
+      } catch {
+        errs.organiserWebsite = "Enter a valid website URL, e.g. https://example.com";
+      }
+    }
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -88,7 +102,7 @@ const EventFormPage = () => {
     if (!validate()) return;
     setSaving(true);
 
-    const payload = { ...form };
+    const payload = { ...form, organiserWebsite: form.organiserWebsite.trim() };
     delete payload._id;
     payload.cost = payload.costAmount === 0 ? "Free" : `$${payload.costAmount}`;
 
@@ -198,6 +212,7 @@ const EventFormPage = () => {
               className={inputCls(false)}
             />
           </Field>
+          
         </div>
 
         {/* Sidebar */}
@@ -243,6 +258,24 @@ const EventFormPage = () => {
                 placeholder="Organisation name"
                 className={inputCls(false)}
               />
+            </Field>
+
+            <Field label="Organiser Website" error={errors.organiserWebsite}>
+              <input
+                id="organiserWebsite"
+                type="url"
+                name="organiserWebsite"
+                aria-label="Organiser Website"
+                aria-invalid={Boolean(errors.organiserWebsite)}
+                aria-describedby="organiserWebsiteHelp"
+                value={form.organiserWebsite}
+                onChange={handleChange}
+                placeholder="https://example.com/event"
+                className={inputCls(errors.organiserWebsite)}
+              />
+              <p id="organiserWebsiteHelp" className="text-xs text-slate-400 mt-1">
+                Optional link to the original event page for details and bookings.
+              </p>
             </Field>
           </div>
 

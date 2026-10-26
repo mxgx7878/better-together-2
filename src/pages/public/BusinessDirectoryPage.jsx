@@ -655,7 +655,7 @@ const BusinessDirectoryPage = () => {
 
               {/* Gated contact preview */}
               <div className="rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 p-4">
-                <div className="flex items-start gap-3 mb-3">
+                {/* <div className="flex items-start gap-3 mb-3">
                   <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
                     <Lock className="w-4 h-4 text-purple-600" />
                   </div>
@@ -673,24 +673,24 @@ const BusinessDirectoryPage = () => {
                   >
                     Sign Up
                   </Link>
-                </div>
+                </div> */}
 
                 {(selectedProvider.email || selectedProvider.phone) && (
                   <div className="grid grid-cols-2 gap-2 pt-3 border-t border-purple-100">
                     {selectedProvider.email && (
                       <div className="flex items-center gap-2 text-xs text-slate-600">
                         <Mail className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
-                        <span className="truncate blur-[1.5px] select-none">
-                          {maskEmail(selectedProvider.email)}
-                        </span>
+                        <a href={`mailto:${selectedProvider.email}`} className="hover:underline">
+                          {selectedProvider.email}
+                        </a>
                       </div>
                     )}
                     {selectedProvider.phone && (
                       <div className="flex items-center gap-2 text-xs text-slate-600">
                         <Phone className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
-                        <span className="truncate blur-[1.5px] select-none">
-                          {maskPhone(selectedProvider.phone)}
-                        </span>
+                        <a href={`tel:${selectedProvider.phone}`} className="hover:underline">
+                          {selectedProvider.phone}
+                        </a>
                       </div>
                     )}
                   </div>
