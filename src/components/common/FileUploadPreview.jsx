@@ -67,7 +67,6 @@ const FileUploadPreview = ({
     setLocalPreview(blobUrl);
 
     setUploading(true);
-    loading(true)
     try {
       const contentType = file.type || "application/octet-stream";
 
@@ -111,7 +110,6 @@ const FileUploadPreview = ({
       setLocalPreview("");
     } finally {
       setUploading(false);
-      loading(false)
     }
   };
 
