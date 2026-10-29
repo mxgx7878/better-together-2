@@ -152,7 +152,7 @@ const ContactPage = () => {
         </svg>
       ),
       color: 'bg-blue-700 hover:bg-blue-800',
-      url: 'https://www.linkedin.com/groups/14784418'
+      url: 'https://www.linkedin.com/company/bettertogethernetwork'
     }
   ];
 

@@ -39,7 +39,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://www.linkedin.com/groups/14784418"
+                href="https://www.linkedin.com/company/bettertogethernetwork"
                 className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5"
                 aria-label="LinkedIn"
               >
