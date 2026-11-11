@@ -33,7 +33,11 @@ const INITIAL_FORM = {
 const useRegisterForm = () => {
   const dispatch = useDispatch();
 
-  const [role, setRole] = useState("");
+    // Pre-select role when arriving from /subscription (e.g. /register?role=provider)
+  const [role, setRole] = useState(() => {
+    const r = new URLSearchParams(window.location.search).get("role");
+    return r === "provider" || r === "participant" ? r : "";
+  });
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
