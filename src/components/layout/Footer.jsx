@@ -6,7 +6,7 @@ const PARTNERS = [
   {
     name: "SD Connect",
     href: "https://sdconnect.com.au/",
-    logo: "/uploads/Supported by partners.png",
+    logo: "/uploads/partners/sd-connect.webp",
   },
   {
     name: "KSPR Labs · NDIS Community",
