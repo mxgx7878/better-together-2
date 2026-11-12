@@ -1,6 +1,25 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 
+// Organisations shown under "Supported By" in the footer
+const PARTNERS = [
+  {
+    name: "SD Connect",
+    href: "https://sdconnect.com.au/",
+    logo: "/uploads/Supported by partners.png",
+  },
+  {
+    name: "KSPR Labs · NDIS Community",
+    href: "https://ksprlabs.com/ndiscomunity/",
+    logo: "/uploads/partners/kspr-labs.webp",
+  },
+  {
+    name: "Compliance Standards Australia",
+    href: "https://compliancestandardsaustralia.com.au/",
+    logo: "/uploads/partners/compliance-standards-australia.webp",
+  },
+];
+
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white relative overflow-hidden">
@@ -135,21 +154,28 @@ const Footer = () => {
           <h4 className="text-center text-xs font-bold uppercase tracking-widest text-gray-500 mb-6">
             Supported By
           </h4>
-          <div className="flex justify-center items-center gap-6 flex-wrap">
-            <a href="https://sdconnect.com.au/about/" target="_blank" rel="noopener noreferrer">
-            <img
-              src="/uploads/Supported by partners.png"
-              alt="Partners"
-              className="w-16 h-16 bg-white/10 rounded-lg"
-            />
-            </a>
-            <a href="https://www.linkedin.com/company/ndiscommunity/" target="_blank" rel="noopener noreferrer">
-            <img
-              src="/uploads/community.jpg"
-              alt="Community"
-              className="w-16 h-16 bg-white/10 rounded-lg"
-            />
-            </a>
+          <div className="flex justify-center items-stretch gap-4 sm:gap-5 flex-wrap">
+            {PARTNERS.map((p) => (
+              <a
+                key={p.name}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Visit ${p.name} (opens in a new tab)`}
+                className="group flex w-32 flex-col items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3 transition-all duration-200 hover:-translate-y-1 hover:border-purple-400/60 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+              >
+                <span className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-lg bg-white">
+                  <img
+                    src={p.logo}
+                    alt={`${p.name} logo`}
+                    className="h-full w-full object-contain"
+                  />
+                </span>
+                <span className="text-center text-[11px] font-medium leading-tight text-gray-400 transition-colors group-hover:text-white">
+                  {p.name}
+                </span>
+              </a>
+            ))}
           </div>
         </div>
 
