@@ -10,7 +10,8 @@ import {
   clearError,
 } from '../../store/slices/authSlice';
 import { ASYNC_STATUS } from '../../constants';
-import { Lock, Zap, Target, User, ArrowRight, Eye, EyeOff, Mail } from 'lucide-react';
+import { Lock, Target, Users, ShieldCheck, ArrowRight, Eye, EyeOff, Mail } from 'lucide-react';
+import { NAVY, LIME, PURPLE } from '../../components/public/ui';
 import { InlineLoader } from '../../components/common/Loader';
 
 const LoginPage = () => {
@@ -59,73 +60,42 @@ const LoginPage = () => {
  
 
   const features = [
-    {
-      icon: <Lock className="w-8 h-8 text-purple-400" />,
-      title: 'Secure & Private',
-      description: 'Your data is encrypted and protected with industry-standard security',
-    },
-    {
-      icon: <Zap className="w-8 h-8 text-yellow-400" />,
-      title: 'Quick Access',
-      description: 'Sign in once and stay connected across all your devices',
-    },
-    {
-      icon: <Target className="w-8 h-8 text-pink-400" />,
-      title: 'Personalized Experience',
-      description: 'Get recommendations tailored to your specific needs',
-    },
+    { icon: ShieldCheck, title: 'Secure & private', description: 'Your details stay private. You choose who to contact, and when.' },
+    { icon: Users, title: 'One community', description: 'Participants, families and providers — connected locally.' },
+    { icon: Target, title: 'Made for you', description: 'Dashboards and tools tailored to your role and goals.' },
   ];
 
+  const inputCls =
+    'block w-full rounded-xl border border-slate-200 bg-white py-3.5 text-[15px] text-slate-800 placeholder:text-slate-400 transition focus:border-[#1F6FD8] focus:outline-none focus:ring-4 focus:ring-[#1F6FD8]/10';
+
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Login Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-20 xl:px-24 bg-white">
-        <div className="max-w-md w-full space-y-8">
-          {/* Logo & Header */}
-          <div>
-            <Link to="/" className="inline-block mb-8">
-              <img src="/uploads/logo.png" alt="The Better Together Logo" className="h-16 w-auto" />
-            </Link>
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-2">Welcome Back!</h2>
-            <p className="text-lg text-gray-600">Sign in to your account to continue</p>
-          </div>
+    <div className="btn-site flex min-h-screen bg-white">
+      {/* Left — form */}
+      <div className="flex flex-1 flex-col px-4 py-8 sm:px-8 lg:px-16 xl:px-24">
+        <Link to="/" className="inline-block self-start">
+          <img src="/uploads/logo.png" alt="The Better Together Network" className="h-14 w-auto" />
+        </Link>
 
-          {/* Quick Demo Logins */}
-          {/* <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-            <p className="text-xs font-semibold text-amber-700 mb-3">Quick Demo Login:</p>
-            <div className="flex flex-wrap gap-2">
-              {quickLogins.map((q) => (
-                <button
-                  key={q.email}
-                  type="button"
-                  onClick={() => {
-                    setFormData({ ...formData, email: q.email, password: q.password });
-                  }}
-                  className="text-[11px] px-3 py-1.5 bg-white border border-amber-300 rounded-lg text-amber-800 hover:bg-amber-100 transition-colors font-medium"
-                >
-                  {q.label}
-                </button>
-              ))}
-            </div>
-          </div> */}
+        <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-10">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: PURPLE }}>
+            Welcome back
+          </p>
+          <h1 className="text-3xl font-extrabold md:text-4xl" style={{ color: NAVY }}>Sign in to your account</h1>
+          <p className="mt-3 text-[15px] text-slate-500">Good to see you again. Pick up right where you left off.</p>
 
-          {/* Error */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm font-medium">
+            <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700">
               {error}
             </div>
           )}
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-bold text-gray-900 mb-2">
-                Email Address *
+              <label htmlFor="email" className="mb-1.5 block text-sm font-semibold" style={{ color: NAVY }}>
+                Email address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
+                <Mail className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                 <input
                   type="email"
                   id="email"
@@ -133,20 +103,24 @@ const LoginPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                  autoComplete="email"
+                  className={`${inputCls} pl-12 pr-4`}
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-bold text-gray-900 mb-2">
-                Password *
-              </label>
+              <div className="mb-1.5 flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm font-semibold" style={{ color: NAVY }}>
+                  Password
+                </label>
+                <span className="cursor-pointer text-sm font-semibold transition hover:opacity-80" style={{ color: PURPLE }}>
+                  Forgot password?
+                </span>
+              </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
+                <Lock className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -154,137 +128,87 @@ const LoginPage = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="block w-full pl-10 pr-10 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                  autoComplete="current-password"
+                  className={`${inputCls} pl-12 pr-12`}
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 flex items-center pr-4"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
-                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <Eye className="h-5 w-5 text-slate-400 hover:text-slate-600" />
                   ) : (
-                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-600" />
                   )}
                 </button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              {/* <div className="flex items-center">
-                <input
-                  id="rememberMe"
-                  name="rememberMe"
-                  type="checkbox"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                />
-                <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
-                  Remember me
-                </label>
-              </div> */}
-              <div className="text-sm">
-                <span className="font-semibold text-purple-600 cursor-pointer hover:text-purple-700 transition-colors">
-                  Forgot password?
-                </span>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="flex w-full items-center justify-center rounded-full py-3.5 text-[15px] font-bold text-white shadow-sm transition hover:brightness-125 disabled:cursor-not-allowed disabled:opacity-60"
+              style={{ background: NAVY }}
             >
               {loading ? (
                 <>
-                  <InlineLoader className="text-white mr-2" /> Signing In...
+                  <InlineLoader className="mr-2 text-white" /> Signing in...
                 </>
               ) : (
                 <>
-                  Sign In <ArrowRight className="ml-2 w-5 h-5" />
+                  Sign in <ArrowRight className="ml-2 h-5 w-5" />
                 </>
               )}
             </button>
           </form>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{' '}
-              <Link to="/register" className="font-bold text-purple-600 hover:text-purple-700 transition-colors">
-                Create an account
-              </Link>
-            </p>
-          </div>
+          <p className="mt-8 text-center text-sm text-slate-500">
+            Don&apos;t have an account?{' '}
+            <Link to="/register" className="font-bold" style={{ color: NAVY }}>
+              Create one free
+            </Link>
+          </p>
         </div>
       </div>
 
-      {/* Right Side - Feature Showcase */}
-      <div className="hidden lg:flex lg:flex-1 relative bg-gradient-to-br from-purple-900 via-pink-800 to-indigo-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse" />
-          <div className="absolute top-40 right-10 w-96 h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse [animation-delay:2s]" />
-          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse [animation-delay:4s]" />
-        </div>
+      {/* Right — showcase */}
+      <div className="relative hidden overflow-hidden lg:flex lg:w-[46%]" style={{ background: NAVY }}>
+        <img
+          src="/uploads/web/hero-leadership.webp"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0E2352] via-[#0E2352]/70 to-[#14306B]/40" />
+        <div className="h-1 absolute inset-x-0 top-0 bg-gradient-to-r from-[#2D3FD8] via-[#D6267E] to-[#7BC043]" />
 
-        <div className="relative z-10 flex flex-col justify-center px-12 xl:px-16 text-white">
-          <div className="mb-12">
-            <h2 className="text-5xl font-extrabold mb-6 leading-tight">
-              Connect with Quality
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">
-                NDIS Providers
-              </span>
-            </h2>
-            <p className="text-xl text-gray-200 leading-relaxed">
-              Access thousands of verified providers, manage your services, and take control of your NDIS journey.
-            </p>
-          </div>
+        <div className="relative z-10 mt-auto flex flex-col p-12 text-white xl:p-16">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: LIME }}>
+            The Better Together Network
+          </p>
+          <h2 className="text-4xl font-extrabold leading-tight xl:text-[44px]">
+            Connect with quality NDIS providers
+          </h2>
+          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-blue-100/90">
+            Find trusted local services, manage your plan and take control of your NDIS journey —
+            led by people with lived experience.
+          </p>
 
-          <div className="space-y-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="flex items-start bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:translate-x-2"
-              >
-                <div className="mr-4 flex-shrink-0">{feature.icon}</div>
+          <div className="mt-10 space-y-3">
+            {features.map(({ icon: Icon, title, description }) => (
+              <div key={title} className="flex items-start gap-4 rounded-2xl bg-white/[0.07] p-4 ring-1 ring-white/10 backdrop-blur">
+                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl" style={{ background: LIME }}>
+                  <Icon className="h-5 w-5" style={{ color: NAVY }} />
+                </span>
                 <div>
-                  <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
-                  <p className="text-gray-200">{feature.description}</p>
+                  <h3 className="text-sm font-bold">{title}</h3>
+                  <p className="mt-0.5 text-sm text-blue-100/80">{description}</p>
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="mt-12 grid grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400 mb-1">10k+</div>
-              <div className="text-sm text-gray-300">Active Users</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400 mb-1">1.5k+</div>
-              <div className="text-sm text-gray-300">Providers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400 mb-1">98%</div>
-              <div className="text-sm text-gray-300">Satisfaction</div>
-            </div>
-          </div>
-
-          <div className="mt-12 bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-pink-400 rounded-full flex items-center justify-center mr-4">
-                <User className="w-7 h-7 text-white" />
-              </div>
-              <div>
-                <div className="font-bold">Sarah Johnson</div>
-                <div className="text-sm text-gray-300">NDIS Participant</div>
-              </div>
-            </div>
-            <p className="text-gray-200 italic">
-              &ldquo;The Better Together Network made finding the right provider so much easier. I found my perfect match
-              within days!&rdquo;
-            </p>
           </div>
         </div>
       </div>

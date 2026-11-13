@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────
+   Public site design system (matches the Subscription page)
+   Scope: anything inside .btn-site (PublicLayout, Login, Register)
+   ───────────────────────────────────────────────────────────────── */
+.btn-site { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #334155; }
+.btn-site h1, .btn-site h2, .btn-site h3, .btn-site h4, .btn-site .font-display {
+  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+.btn-site .blog-content h1, .btn-site .blog-content h2,
+.btn-site .blog-content h3, .btn-site .blog-content h4 { color: #14306B; }
+
+@keyframes btnFadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.btn-fade-up { animation: btnFadeUp .7s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) { .btn-fade-up { animation: none; } }
+
 /* Custom smooth scrolling */
 html {
   scroll-behavior: smooth;

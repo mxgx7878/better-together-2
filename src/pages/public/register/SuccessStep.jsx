@@ -45,7 +45,7 @@ const SuccessStep = ({ role, onGoToLogin }) => (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
       <button
         onClick={onGoToLogin}
-        className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg flex items-center gap-2"
+        className="px-8 py-3 bg-[#14306B] text-white rounded-full font-bold hover:brightness-125 transition-all shadow-lg flex items-center gap-2"
       >
         Go to Login <ArrowRight className="w-4 h-4" />
       </button>
