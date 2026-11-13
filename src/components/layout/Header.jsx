@@ -1,98 +1,131 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Menu, X, ArrowRight } from "lucide-react";
+import { BrandStripe, NAVY, LIME } from "../public/ui";
+
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "About Us", path: "/about" },
+  { name: "What We Do", path: "/what-we-do" },
+  { name: "Subscription", path: "/subscription" },
+  { name: "Directory", path: "/business-directory" },
+  { name: "Events", path: "/events" },
+  { name: "Blog", path: "/blog" },
+  { name: "Contact", path: "/contact" },
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
+  const [menuPath, setMenuPath] = useState(pathname);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'What We Do', path: '/what-we-do' },
-    { name: 'Subscription', path: '/subscription' },
-    { name: 'Business Directory', path: '/business-directory' },
-    { name: 'Events', path: '/events' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  // Close the mobile menu whenever the route changes.
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
+    if (isMenuOpen) setIsMenuOpen(false);
+  }
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const linkClass = ({ isActive }) =>
+    `relative rounded-full px-3 py-2 text-[14px] font-semibold transition-colors ${
+      isActive ? "text-[#14306B] bg-[#EEF2FA]" : "text-slate-600 hover:text-[#14306B]"
+    }`;
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <Link to="/" className="flex items-center py-2">
+    <header
+      className={`sticky top-0 z-50 bg-white/95 backdrop-blur transition-shadow ${
+        scrolled ? "shadow-[0_6px_24px_rgba(20,48,107,0.08)]" : "border-b border-slate-100"
+      }`}
+    >
+      <BrandStripe />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-[76px] items-center justify-between gap-4">
+          <Link to="/" className="flex flex-shrink-0 items-center" aria-label="Better Together Network home">
             <img
               src="/uploads/logo.png"
-              alt="The Better Together - Reimagining Disabilities"
-              className="h-16 w-auto object-contain"
+              alt="The Better Together Network - Reimagining Disabilities"
+              className="h-14 w-auto object-contain"
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="desktop-nav lg:flex items-center space-x-6">
+          {/* Desktop navigation */}
+          <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Main">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
-              >
+              <NavLink key={link.path} to={link.path} end={link.path === "/"} className={linkClass}>
                 {link.name}
-              </Link>
+              </NavLink>
             ))}
-            <div className="h-6 w-px bg-gray-300" />
+          </nav>
+
+          <div className="hidden items-center gap-2 xl:flex">
             <Link
               to="/login"
-              className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
+              className="rounded-full px-4 py-2 text-[14px] font-semibold text-slate-600 transition hover:text-[#14306B]"
             >
-              Login
+              Log in
             </Link>
             <Link
               to="/subscription"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+              className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-[14px] font-bold text-white shadow-sm transition hover:brightness-125"
+              style={{ background: NAVY }}
             >
-              Get Started
+              Join free <ArrowRight className="h-4 w-4" />
             </Link>
-          </nav>
+          </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile toggle */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden text-gray-700 hover:text-purple-600 focus:outline-none"
+            onClick={() => setIsMenuOpen((v) => !v)}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-700 xl:hidden"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-200 max-h-[calc(100vh-5rem)] overflow-y-auto">
-          <nav className="px-4 pt-2 pb-4 space-y-2">
+        <div className="max-h-[calc(100vh-80px)] overflow-y-auto border-t border-slate-100 bg-white xl:hidden">
+          <nav className="mx-auto max-w-7xl space-y-1 px-4 pb-6 pt-3 sm:px-6" aria-label="Mobile">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
+              <NavLink
+                key={link.path}
                 to={link.path}
-                className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+                end={link.path === "/"}
+                className={({ isActive }) =>
+                  `block rounded-xl px-4 py-3 text-[15px] font-semibold ${
+                    isActive ? "bg-[#EEF2FA] text-[#14306B]" : "text-slate-700 hover:bg-slate-50"
+                  }`
+                }
               >
                 {link.name}
-              </Link>
+              </NavLink>
             ))}
-            <div className="border-t border-gray-200 my-2" />
-            <Link
-              to="/login"
-              className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              to="/subscription"
-              className="block px-3 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center rounded-xl font-semibold"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Get Started
-            </Link>
+            <div className="grid grid-cols-2 gap-3 pt-4">
+              <Link
+                to="/login"
+                className="rounded-full border-2 py-3 text-center text-sm font-bold"
+                style={{ borderColor: NAVY, color: NAVY }}
+              >
+                Log in
+              </Link>
+              <Link
+                to="/subscription"
+                className="rounded-full py-3 text-center text-sm font-bold text-slate-900"
+                style={{ background: LIME }}
+              >
+                Join free
+              </Link>
+            </div>
           </nav>
         </div>
       )}

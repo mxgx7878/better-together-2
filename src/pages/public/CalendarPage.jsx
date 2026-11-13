@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import {
   Calendar,
   MapPin,
@@ -10,14 +9,32 @@ import {
   Info,
 } from "lucide-react";
 import api from "../../services/api";
+import {
+  NAVY,
+  LIME,
+  PURPLE,
+  Section,
+  PageHero,
+  CtaPanel,
+} from "../../components/public/ui";
 
 const PUBLIC_EVENTS_PAGE_SIZE = 100;
 
-const typeGradients = {
-  networking: "from-blue-500 to-indigo-600",
-  workshop: "from-emerald-500 to-teal-600",
-  expo: "from-purple-500 to-fuchsia-600",
-  webinar: "from-amber-500 to-orange-600",
+const TYPE_TONES = {
+  networking: { bg: "#E3EDFB", fg: "#1F6FD8" },
+  workshop: { bg: "#EEF8D6", fg: "#4D7A12" },
+  expo: { bg: "#F1EAFB", fg: "#7A2FB8" },
+  webinar: { bg: "#FDF0DC", fg: "#B5650D" },
+};
+
+const dateParts = (value) => {
+  const d = new Date(value);
+  if (!value || Number.isNaN(d.getTime())) return null;
+  return {
+    day: d.toLocaleDateString("en-AU", { day: "2-digit" }),
+    month: d.toLocaleDateString("en-AU", { month: "short" }).toUpperCase(),
+    weekday: d.toLocaleDateString("en-AU", { weekday: "short" }),
+  };
 };
 
 const getOrganiserWebsite = (value) => {
@@ -48,6 +65,7 @@ const CalendarPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
 
   useEffect(() => {
     let active = true;
@@ -107,201 +125,194 @@ const CalendarPage = () => {
     };
   }, []);
 
-  const sortedEvents = [...events].sort((a, b) => {
-    const aDate = new Date(a.date).getTime();
-    const bDate = new Date(b.date).getTime();
+  const sortedEvents = useMemo(
+    () =>
+      [...events].sort((a, b) => {
+        const aDate = new Date(a.date).getTime();
+        const bDate = new Date(b.date).getTime();
+        if (Number.isNaN(aDate) || Number.isNaN(bDate)) return 0;
+        return aDate - bDate;
+      }),
+    [events],
+  );
 
-    if (Number.isNaN(aDate) || Number.isNaN(bDate)) return 0;
-    return aDate - bDate;
-  });
+  const types = useMemo(
+    () => [...new Set(events.map((e) => e.type).filter(Boolean))],
+    [events],
+  );
+
+  const visibleEvents =
+    typeFilter === "all" ? sortedEvents : sortedEvents.filter((e) => e.type === typeFilter);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 text-white">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-300 rounded-full blur-3xl" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-            <Calendar className="w-5 h-5" />
-            <span className="text-sm font-medium">Community Events</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Events Calendar
-          </h1>
-          <p className="text-lg md:text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
-            Discover upcoming community events, networking opportunities,
-            workshops, and expos across the NDIS sector. Connect, learn, and
-            grow — together.
-          </p>
-        </div>
-      </section>
+    <div>
+      <PageHero
+        eyebrow="Community events"
+        title="Events calendar"
+        intro="Discover upcoming community events, networking opportunities, workshops, and expos across the NDIS sector. Connect, learn, and grow — together."
+        image="bg-1"
+        imageAlt="A community art workshop with participants of all abilities"
+      />
 
-      {/* Events from API */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <div className=" mb-12">
-        <div className="flex flex-row items-center justify-between gap-4 mb-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Community Events
-          </h2>
-          {/* View All Events temporarily hidden.
-          <a
-              href="https://ndisevents.frondizoai.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-purple-700 text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-purple-200 hover:text-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              View All Events
-              <ExternalLink className="w-5 h-5" />
-            </a>
-          */}
+      <Section className="!pt-4">
+        <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-2xl font-bold md:text-3xl" style={{ color: NAVY }}>
+              Upcoming community events
+            </h2>
+            <p className="mt-2 text-[15px] text-slate-500">
+              Browse all events currently available through the Better Together Network.
+            </p>
+          </div>
+          {types.length > 1 && (
+            <div className="flex flex-wrap gap-2">
+              {["all", ...types].map((t) => {
+                const active = typeFilter === t;
+                return (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setTypeFilter(t)}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold capitalize transition ${
+                      active ? "text-white shadow" : "bg-white text-slate-600 shadow-sm hover:text-slate-900"
+                    }`}
+                    style={active ? { background: NAVY } : undefined}
+                  >
+                    {t === "all" ? "All events" : t}
+                  </button>
+                );
+              })}
             </div>
-          <p className="text-lg text-gray-600 max-w-2xl ">
-            Browse all events currently available through the Better Together
-            Network.
-          </p>
+          )}
         </div>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-            <Loader2 className="w-8 h-8 text-purple-600 animate-spin mb-3" />
+          <div className="flex flex-col items-center justify-center rounded-2xl bg-white py-20 text-slate-500 shadow-sm">
+            <Loader2 className="mb-3 h-8 w-8 animate-spin" style={{ color: PURPLE }} />
             <p>Loading events...</p>
           </div>
         ) : error ? (
-          <div className="max-w-2xl mx-auto bg-white border border-red-100 rounded-2xl p-8 text-center shadow-sm">
-            <Info className="w-9 h-9 text-red-400 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Unable to load events
-            </h3>
-            <p className="text-sm text-gray-600">{error}</p>
+          <div className="mx-auto max-w-2xl rounded-2xl bg-white p-8 text-center shadow-sm">
+            <Info className="mx-auto mb-3 h-9 w-9 text-red-400" />
+            <h3 className="mb-2 text-lg font-semibold" style={{ color: NAVY }}>Unable to load events</h3>
+            <p className="text-sm text-slate-500">{error}</p>
           </div>
-        ) : sortedEvents.length === 0 ? (
-          <div className="max-w-2xl mx-auto bg-white border border-gray-100 rounded-2xl p-10 text-center shadow-sm">
-            <Calendar className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              No events available
-            </h3>
-            <p className="text-sm text-gray-600">
+        ) : visibleEvents.length === 0 ? (
+          <div className="mx-auto max-w-2xl rounded-2xl bg-white p-10 text-center shadow-sm">
+            <Calendar className="mx-auto mb-3 h-10 w-10 text-slate-300" />
+            <h3 className="mb-2 text-lg font-semibold" style={{ color: NAVY }}>No events available</h3>
+            <p className="text-sm text-slate-500">
               New community events will appear here as soon as they are added.
             </p>
           </div>
         ) : (
-          <div className="space-y-6">
-            {sortedEvents.map((event) => {
+          <div className="space-y-5">
+            {visibleEvents.map((event) => {
               const organiserWebsite = getOrganiserWebsite(event.organiserWebsite);
+              const parts = dateParts(event.date);
+              const tone = TYPE_TONES[event.type] || { bg: "#EEF2FA", fg: NAVY };
               return (
-              <div
-                key={event.id}
-                className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
-              >
-                <div className="flex flex-col md:flex-row">
-                  {/* Date Accent */}
+                <article
+                  key={event.id}
+                  className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition hover:shadow-lg md:flex-row"
+                >
                   <div
-                    className={`bg-gradient-to-br ${typeGradients[event.type] || "from-purple-500 to-pink-600"} p-6 md:p-8 flex flex-col items-center justify-center md:w-48 shrink-0 text-white`}
+                    className="flex shrink-0 items-center gap-4 p-6 text-white md:w-44 md:flex-col md:justify-center md:gap-1 md:p-8"
+                    style={{ background: NAVY }}
                   >
-                    <Calendar className="w-9 h-9 mb-3" />
-                    <span className="text-xs font-semibold uppercase tracking-wide opacity-90">
-                      {event.type || "Event"}
-                    </span>
+                    {parts ? (
+                      <>
+                        <span className="text-[11px] font-bold tracking-[0.18em]" style={{ color: LIME }}>
+                          {parts.month}
+                        </span>
+                        <span className="font-display text-4xl font-extrabold leading-none md:text-5xl">
+                          {parts.day}
+                        </span>
+                        <span className="text-xs text-blue-100">{parts.weekday}</span>
+                      </>
+                    ) : (
+                      <Calendar className="h-9 w-9" style={{ color: LIME }} />
+                    )}
                   </div>
 
-                  {/* Event Details */}
                   <div className="flex-1 p-6 md:p-8">
-                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                       <div className="min-w-0">
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
+                        <span
+                          className="inline-block rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
+                          style={{ background: tone.bg, color: tone.fg }}
+                        >
+                          {event.type || "Event"}
+                        </span>
+                        <h3 className="mt-3 text-xl font-bold md:text-2xl" style={{ color: NAVY }}>
                           {event.title}
                         </h3>
-
-                        <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-600">
-                          <span className="inline-flex items-center gap-1.5">
-                            <Clock className="w-4 h-4 text-purple-500" />
-                            {formatDate(event.date)}
-                            {event.time ? ` · ${event.time}` : ""}
-                          </span>
-                          {event.location && (
-                            <span className="inline-flex items-center gap-1.5">
-                              <MapPin className="w-4 h-4 text-pink-500" />
-                              {event.location}
-                            </span>
-                          )}
-                          {event.attendees !== undefined && (
-                            <span className="inline-flex items-center gap-1.5">
-                              <Users className="w-4 h-4 text-indigo-500" />
-                              {event.attendees} attending
-                            </span>
-                          )}
-                        </div>
                       </div>
-
                       {event.cost && (
-                        <span className="self-start px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 text-xs font-semibold whitespace-nowrap">
+                        <span className="self-start whitespace-nowrap rounded-full bg-[#F4F6FA] px-3 py-1.5 text-xs font-semibold text-slate-700">
                           {event.cost}
                         </span>
                       )}
                     </div>
 
+                    <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Clock className="h-4 w-4" style={{ color: PURPLE }} />
+                        {formatDate(event.date)}
+                        {event.time ? ` · ${event.time}` : ""}
+                      </span>
+                      {event.location && (
+                        <span className="inline-flex items-center gap-1.5">
+                          <MapPin className="h-4 w-4" style={{ color: PURPLE }} />
+                          {event.location}
+                        </span>
+                      )}
+                      {event.attendees !== undefined && (
+                        <span className="inline-flex items-center gap-1.5">
+                          <Users className="h-4 w-4" style={{ color: PURPLE }} />
+                          {event.attendees} attending
+                        </span>
+                      )}
+                    </div>
+
                     {event.description && (
-                      <p className="text-gray-600 leading-relaxed mb-5">
-                        {event.description}
-                      </p>
+                      <p className="mt-4 text-[15px] leading-relaxed text-slate-500">{event.description}</p>
                     )}
 
                     {event.accessibility && (
-                      <div className="flex items-start gap-2 mb-5 text-sm text-blue-700 bg-blue-50 rounded-xl px-4 py-3">
-                        <Info className="w-4 h-4 mt-0.5 shrink-0" />
+                      <div className="mt-4 flex items-start gap-2 rounded-xl bg-[#EEF2FA] px-4 py-3 text-sm" style={{ color: NAVY }}>
+                        <Info className="mt-0.5 h-4 w-4 shrink-0" />
                         <span>{event.accessibility}</span>
                       </div>
                     )}
 
                     {organiserWebsite && (
-                    <a
-                      href={organiserWebsite}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-sm hover:shadow-md"
-                    >
-                      More Info
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
+                      <a
+                        href={organiserWebsite}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-125"
+                        style={{ background: NAVY }}
+                      >
+                        More info
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
                     )}
                   </div>
-                </div>
-              </div>
+                </article>
               );
             })}
           </div>
         )}
-      </section>
+      </Section>
 
-      {/* CTA Section */}
-      <section className="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-12 text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-6">
-              <Users className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Want to Host an Event?
-            </h2>
-            <p className="text-lg text-purple-100 mb-8 leading-relaxed">
-              If you are organising a community event, workshop, or networking
-              session relevant to the NDIS sector, we would love to help you
-              promote it. Get in touch with our team and we will feature it on
-              our calendar.
-            </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 bg-white text-purple-700 px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              Contact Us
-              <ExternalLink className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CtaPanel
+        eyebrow="Host with us"
+        title="Want to host an event?"
+        text="If you are organising a community event, workshop, or networking session relevant to the NDIS sector, we would love to help you promote it. Get in touch and we will feature it on our calendar."
+        primary={{ to: "/contact", label: "Contact us" }}
+        image="network"
+      />
     </div>
   );
 };

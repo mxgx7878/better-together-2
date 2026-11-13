@@ -245,29 +245,23 @@ const TermsAndConditionsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       {/* ─── Hero Section ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-700 via-purple-600 to-pink-500">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-300 rounded-full blur-3xl" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-            <ScrollText className="w-5 h-5 text-white" />
-            <span className="text-sm font-medium text-white">
-              Legal & Provider Standards
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+      <section className="relative overflow-hidden px-4 pb-24 pt-12 sm:px-6 md:pt-16" style={{ background: "#14306B" }}>
+        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-25 blur-3xl" style={{ background: "#D8F26A" }} />
+        <div className="relative mx-auto max-w-3xl text-center">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: "#D8F26A" }}>
+            Legal &amp; provider standards
+          </p>
+          <h1 className="text-3xl font-extrabold leading-[1.15] text-white md:text-5xl">
             Terms &amp; Conditions
           </h1>
-          <p className="text-lg md:text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
+          <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-blue-100/90 md:text-base">
             The Better Together Network is committed to maintaining a safe,
             ethical, person-centred environment for people with disability,
             their families, and the broader community.
           </p>
-          <p className="text-sm text-purple-200 mt-6">
+          <p className="mt-6 text-sm text-blue-100/70">
             Last updated:{" "}
             {new Date().toLocaleDateString("en-AU", {
               year: "numeric",
@@ -280,7 +274,7 @@ const TermsAndConditionsPage = () => {
 
       {/* ─── Intro Statement ──────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
-        <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100">
+        <div className="bg-white rounded-[24px] shadow-xl p-6 md:p-8">
           <p className="text-base md:text-lg text-slate-700 leading-relaxed">
             These Terms &amp; Conditions outline the expectations,
             responsibilities, and conditions for all users of The Better
@@ -308,8 +302,8 @@ const TermsAndConditionsPage = () => {
                       onClick={() => scrollToSection(item.id)}
                       className={`w-full text-left text-sm px-3 py-2 rounded-lg transition-all flex items-start gap-2 ${
                         activeSection === item.id
-                          ? "bg-purple-50 text-purple-700 font-semibold"
-                          : "text-slate-600 hover:bg-slate-50 hover:text-purple-600"
+                          ? "bg-[#EEF2FA] text-[#14306B] font-semibold"
+                          : "text-slate-600 hover:bg-slate-50 hover:text-[#14306B]"
                       }`}
                     >
                       <ChevronRight
@@ -330,14 +324,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 1. Purpose of the Platform ────────────────── */}
             <article id="purpose" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Target className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-purple-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 1
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Purpose of the Platform
                   </h2>
                 </div>
@@ -358,7 +352,7 @@ const TermsAndConditionsPage = () => {
                       key={i}
                       className="flex items-start gap-3 text-base text-slate-700 leading-relaxed"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-5 h-5 text-[#2E9E5B] flex-shrink-0 mt-0.5" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -376,14 +370,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 2. Who Can Use the Platform ───────────────── */}
             <article id="who-can-use" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 2
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Who Can Use the Platform
                   </h2>
                 </div>
@@ -406,7 +400,7 @@ const TermsAndConditionsPage = () => {
                     >
                       <div className="flex items-start gap-4 mb-4">
                         <div
-                          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${type.color} flex items-center justify-center flex-shrink-0`}
+                          className={`w-12 h-12 rounded-xl bg-[#14306B] flex items-center justify-center flex-shrink-0`}
                         >
                           <Icon className="w-6 h-6 text-white" />
                         </div>
@@ -414,7 +408,7 @@ const TermsAndConditionsPage = () => {
                           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                             Section {type.num}
                           </p>
-                          <h4 className="text-base font-bold text-slate-900 mt-0.5">
+                          <h4 className="text-base font-bold text-[#14306B] mt-0.5">
                             {type.title}
                           </h4>
                         </div>
@@ -436,11 +430,11 @@ const TermsAndConditionsPage = () => {
               </div>
 
               {/* User Confirmation 2.6 */}
-              <div className="mt-6 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-2xl p-6">
+              <div className="mt-6 bg-[#EEF2FA] border border-[#C9D6EE] rounded-2xl p-6">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-5 h-5 text-[#14306B] flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-sm font-bold text-purple-900 mb-2">
+                    <h4 className="text-sm font-bold text-[#14306B] mb-2">
                       Section 2.6 — User Confirmation
                     </h4>
                     <p className="text-sm text-slate-700 leading-relaxed mb-2">
@@ -465,14 +459,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 3. Provider Eligibility ───────────────────── */}
             <article id="eligibility" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <ShieldCheck className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 3
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Provider Eligibility to Operate Within the Network
                   </h2>
                 </div>
@@ -519,14 +513,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 4. Qualities Required of Providers ────────── */}
             <article id="qualities" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Award className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-pink-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 4
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Qualities Required of Providers
                   </h2>
                 </div>
@@ -549,7 +543,7 @@ const TermsAndConditionsPage = () => {
                     >
                       <div className="flex items-start gap-4 mb-4">
                         <div
-                          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${quality.color} flex items-center justify-center flex-shrink-0`}
+                          className={`w-12 h-12 rounded-xl bg-[#14306B] flex items-center justify-center flex-shrink-0`}
                         >
                           <Icon className="w-6 h-6 text-white" />
                         </div>
@@ -557,7 +551,7 @@ const TermsAndConditionsPage = () => {
                           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                             Section {quality.num}
                           </p>
-                          <h4 className="text-base font-bold text-slate-900 mt-0.5">
+                          <h4 className="text-base font-bold text-[#14306B] mt-0.5">
                             {quality.title}
                           </h4>
                         </div>
@@ -582,14 +576,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 5. Provider Removal ───────────────────────── */}
             <article id="removal" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-red-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Ban className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-rose-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 5
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Provider Removal
                   </h2>
                 </div>
@@ -631,14 +625,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 6. Rejoining After Formal Removal ─────────── */}
             <article id="rejoining" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Lock className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-amber-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 6
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Rejoining After Formal Removal
                   </h2>
                 </div>
@@ -649,7 +643,7 @@ const TermsAndConditionsPage = () => {
                   formally removed — including any new entity reasonably
                   considered a continuation of the original operator — may
                   rejoin under a{" "}
-                  <strong className="text-slate-900">paid subscription</strong>.
+                  <strong className="text-[#14306B]">paid subscription</strong>.
                 </p>
                 <p className="text-base text-slate-700 leading-relaxed">
                   However:
@@ -676,14 +670,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 7. Definition of a Donation ───────────────── */}
             <article id="donation-definition" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <HandHeart className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 7
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Definition of a Donation
                   </h2>
                 </div>
@@ -692,7 +686,7 @@ const TermsAndConditionsPage = () => {
                 <p className="text-base text-slate-700 leading-relaxed">
                   Where a removed provider elects to pay for a subscription
                   after removal, that payment will be classified as a{" "}
-                  <strong className="text-slate-900">donation</strong>.
+                  <strong className="text-[#14306B]">donation</strong>.
                 </p>
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
                   <p className="text-sm font-semibold text-blue-900 mb-3">
@@ -725,14 +719,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 8. Conditions for Donating Providers ──────── */}
             <article id="donation-conditions" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Scale className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-rose-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 8
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Conditions Applying to Donating Providers
                   </h2>
                 </div>
@@ -762,7 +756,7 @@ const TermsAndConditionsPage = () => {
                     </li>
                   ))}
                 </ul>
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-5 mt-4">
+                <div className="bg-[#EEF2FA] border border-[#C9D6EE] rounded-xl p-5 mt-4">
                   <p className="text-sm text-slate-800 leading-relaxed italic">
                     &ldquo;We appreciate contributions, but donations do not
                     restore membership or platform access.&rdquo;
@@ -774,14 +768,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 9. Platform Conduct Requirements ──────────── */}
             <article id="conduct" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <MessageSquare className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-indigo-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 9
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Platform Conduct Requirements
                   </h2>
                 </div>
@@ -809,14 +803,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 10. Information Accuracy ──────────────────── */}
             <article id="accuracy" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Info className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-cyan-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 10
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Information Accuracy
                   </h2>
                 </div>
@@ -852,14 +846,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 11. Privacy and Data Use ──────────────────── */}
             <article id="privacy" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Lock className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 11
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Privacy and Data Use
                   </h2>
                 </div>
@@ -897,14 +891,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 12. Limitation of Liability ───────────────── */}
             <article id="liability" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Gavel className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-slate-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 12
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Limitation of Liability
                   </h2>
                 </div>
@@ -912,7 +906,7 @@ const TermsAndConditionsPage = () => {
               <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 space-y-4">
                 <p className="text-base text-slate-700 leading-relaxed">
                   To the maximum extent permitted by law, the Network is{" "}
-                  <strong className="text-slate-900">not liable</strong> for:
+                  <strong className="text-[#14306B]">not liable</strong> for:
                 </p>
                 <ul className="space-y-2">
                   {[
@@ -943,14 +937,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 13. Intellectual Property ─────────────────── */}
             <article id="ip" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <FileText className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-violet-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 13
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Intellectual Property
                   </h2>
                 </div>
@@ -959,7 +953,7 @@ const TermsAndConditionsPage = () => {
                 <p className="text-base text-slate-700 leading-relaxed">
                   All Platform content is owned by The Better Together Network
                   unless otherwise stated. Users may not{" "}
-                  <strong className="text-slate-900">
+                  <strong className="text-[#14306B]">
                     copy, reproduce, or distribute
                   </strong>{" "}
                   content without permission.
@@ -970,14 +964,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 14. Changes to These Terms ────────────────── */}
             <article id="changes" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <RefreshCw className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-orange-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 14
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Changes to These Terms
                   </h2>
                 </div>
@@ -985,7 +979,7 @@ const TermsAndConditionsPage = () => {
               <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8">
                 <p className="text-base text-slate-700 leading-relaxed">
                   We may update these Terms at any time.{" "}
-                  <strong className="text-slate-900">
+                  <strong className="text-[#14306B]">
                     Continued use of the Platform indicates acceptance
                   </strong>{" "}
                   of updated Terms.
@@ -996,14 +990,14 @@ const TermsAndConditionsPage = () => {
             {/* ─── 15. Contact Information ───────────────────── */}
             <article id="contact" className="scroll-mt-24">
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-[#14306B] flex items-center justify-center flex-shrink-0">
                   <Mail className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-purple-600 mb-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#7A2FB8] mb-1">
                     Section 15
                   </p>
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#14306B]">
                     Contact Information
                   </h2>
                 </div>
@@ -1015,32 +1009,32 @@ const TermsAndConditionsPage = () => {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <a
                     href="mailto:weare@bettertogethernetwork.com.au"
-                    className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl hover:shadow-md transition-all group"
+                    className="flex items-center gap-3 p-4 bg-[#EEF2FA] border border-[#C9D6EE] rounded-xl hover:shadow-md transition-all group"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-[#14306B] flex items-center justify-center flex-shrink-0">
                       <Mail className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider">
+                      <p className="text-xs font-semibold text-[#7A2FB8] uppercase tracking-wider">
                         Email
                       </p>
-                      <p className="text-sm font-medium text-slate-900 group-hover:text-purple-700 transition-colors">
+                      <p className="text-sm font-medium text-[#14306B] group-hover:text-[#7A2FB8] transition-colors">
                         weare@bettertogethernetwork.com.au
                       </p>
                     </div>
                   </a>
                   <a
                     href="tel:0403678767"
-                    className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl hover:shadow-md transition-all group"
+                    className="flex items-center gap-3 p-4 bg-[#EEF2FA] border border-[#C9D6EE] rounded-xl hover:shadow-md transition-all group"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-[#14306B] flex items-center justify-center flex-shrink-0">
                       <Phone className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider">
+                      <p className="text-xs font-semibold text-[#7A2FB8] uppercase tracking-wider">
                         Phone
                       </p>
-                      <p className="text-sm font-medium text-slate-900 group-hover:text-purple-700 transition-colors">
+                      <p className="text-sm font-medium text-[#14306B] group-hover:text-[#7A2FB8] transition-colors">
                         0403 678 767
                       </p>
                     </div>
@@ -1054,10 +1048,10 @@ const TermsAndConditionsPage = () => {
 
       {/* ─── CTA Section ──────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="relative overflow-hidden bg-gradient-to-br from-purple-700 via-purple-600 to-pink-500 rounded-2xl p-10 md:p-14 text-center">
+        <div className="relative overflow-hidden bg-[#14306B] rounded-[28px] p-10 md:p-14 text-center">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute -top-20 -right-20 w-80 h-80 bg-white rounded-full blur-3xl" />
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-pink-300 rounded-full blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-[#D8F26A] rounded-full blur-3xl" />
           </div>
           <div className="relative">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl mb-6">
@@ -1066,13 +1060,13 @@ const TermsAndConditionsPage = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Questions about our Terms?
             </h2>
-            <p className="text-lg text-purple-100 max-w-xl mx-auto mb-8">
+            <p className="text-lg text-blue-100 max-w-xl mx-auto mb-8">
               If you have any questions about these Terms &amp; Conditions or
               your eligibility to join the network, our team is here to help.
             </p>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 bg-white text-purple-700 font-semibold py-3.5 px-8 rounded-xl hover:bg-purple-50 transition-colors shadow-lg"
+              className="inline-flex items-center gap-2 bg-[#D8F26A] text-slate-900 font-bold py-3.5 px-8 rounded-full hover:brightness-95 transition-colors shadow-lg"
             >
               Contact Us
               <ArrowRight className="w-5 h-5" />

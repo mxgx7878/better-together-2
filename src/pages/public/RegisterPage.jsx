@@ -113,12 +113,12 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30 flex items-center justify-center px-4 py-8">
+    <div className="btn-site min-h-screen bg-[#F4F6FA] flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-2xl">
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/">
-            <img src="/uploads/logo.png" alt="Logo" className="h-14 mx-auto" />
+            <img src="/uploads/logo.png" alt="The Better Together Network" className="h-16 mx-auto" />
           </Link>
         </div>
 
@@ -132,7 +132,7 @@ const RegisterPage = () => {
         )}
 
         {/* Form Card */}
-        <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-8">
+        <div className="bg-white rounded-[28px] shadow-xl p-6 sm:p-9">
           {renderStep()}
 
           {/* Navigation Buttons */}
@@ -141,7 +141,7 @@ const RegisterPage = () => {
               {currentStep > 1 ? (
                 <button
                   onClick={prevStep}
-                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" /> Back
                 </button>
@@ -152,7 +152,7 @@ const RegisterPage = () => {
               {currentStep < submitStep ? (
                 <button
                   onClick={nextStep}
-                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg text-sm"
+                  className="flex items-center gap-2 px-6 py-3 bg-[#14306B] text-white rounded-full font-bold hover:brightness-125 transition-all shadow-lg text-sm"
                 >
                   Continue <ArrowRight className="w-4 h-4" />
                 </button>
@@ -160,7 +160,7 @@ const RegisterPage = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-6 py-3 bg-[#14306B] text-white rounded-full font-bold hover:brightness-125 transition-all shadow-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <>
@@ -183,7 +183,7 @@ const RegisterPage = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-semibold text-purple-600 hover:text-purple-700"
+              className="font-bold text-[#14306B] hover:text-[#7A2FB8]"
             >
               Sign In
             </Link>

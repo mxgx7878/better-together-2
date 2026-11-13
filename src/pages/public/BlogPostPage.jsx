@@ -23,8 +23,9 @@ import {
 } from "../../store/actions/blogActions";
 import { clearSelectedPost } from "../../store/slices/blogSlice";
 import { ASYNC_STATUS } from "../../constants";
-import { categoryStyle, formatPostDate, readTimeLabel } from "../../utils/blog";
+import { formatPostDate, readTimeLabel } from "../../utils/blog";
 import useSeo from "../../hooks/useSeo";
+import { NAVY, LIME, PURPLE } from "../../components/public/ui";
 
 const BlogPostPage = () => {
   const { slug } = useParams();
@@ -81,18 +82,18 @@ const BlogPostPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" style={{ color: PURPLE }} />
       </div>
     );
   }
 
   if (notFound || !post) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="text-center max-w-md">
           <BookOpen className="w-14 h-14 text-slate-300 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-slate-800 mb-2">
+          <h1 className="mb-2 text-2xl font-bold" style={{ color: NAVY }}>
             Article not found
           </h1>
           <p className="text-slate-500 mb-6">
@@ -101,7 +102,8 @@ const BlogPostPage = () => {
           </p>
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+            className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-white transition hover:brightness-125"
+            style={{ background: NAVY }}
           >
             <ArrowLeft className="w-4 h-4" /> Back to the blog
           </Link>
@@ -110,15 +112,11 @@ const BlogPostPage = () => {
     );
   }
 
-  const style = categoryStyle(post.category);
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       {/* ─── Header ───────────────────────────────────────── */}
-      <header
-        className={`relative overflow-hidden bg-gradient-to-br ${style.gradient} pt-10 pb-14`}
-      >
-        <div className="absolute inset-0 bg-black/10" />
+      <header className="relative overflow-hidden pb-28 pt-10" style={{ background: NAVY }}>
+        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-20 blur-3xl" style={{ background: LIME }} />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6">
           {/* Breadcrumbs — also feed the BreadcrumbList structured data below */}
           <nav aria-label="Breadcrumb" className="mb-6">
@@ -153,7 +151,8 @@ const BlogPostPage = () => {
           {post.category && (
             <Link
               to={`/blog?category=${post.category.slug}`}
-              className="inline-block bg-white/90 backdrop-blur text-[11px] font-bold text-slate-700 px-3 py-1.5 rounded-full mb-4 hover:bg-white transition-colors"
+              className="mb-4 inline-block rounded-full px-3 py-1.5 text-[11px] font-bold text-slate-900 transition hover:brightness-95"
+              style={{ background: LIME }}
             >
               {post.category.name}
             </Link>
@@ -164,7 +163,7 @@ const BlogPostPage = () => {
           </h1>
 
           {post.excerpt && (
-            <p className="text-white/90 text-lg leading-relaxed">{post.excerpt}</p>
+            <p className="text-lg leading-relaxed text-blue-100/90">{post.excerpt}</p>
           )}
 
           <div className="flex items-center flex-wrap gap-x-5 gap-y-2 mt-6 text-sm text-white/85">
@@ -202,8 +201,8 @@ const BlogPostPage = () => {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 -mt-2 pb-16">
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+      <main className="relative mx-auto -mt-20 max-w-3xl px-4 pb-20 sm:px-6">
+        <div className="overflow-hidden rounded-[28px] bg-white shadow-xl">
           {post.featured_image && (
             <img
               src={post.featured_image}
@@ -250,7 +249,8 @@ const BlogPostPage = () => {
           <section className="mt-12" aria-labelledby="related-heading">
             <h2
               id="related-heading"
-              className="text-xl font-bold text-slate-800 mb-5"
+              className="mb-5 text-xl font-bold"
+              style={{ color: NAVY }}
             >
               Keep reading
             </h2>
@@ -264,7 +264,8 @@ const BlogPostPage = () => {
 
         <Link
           to="/blog"
-          className="inline-flex items-center gap-2 mt-10 text-sm font-semibold text-purple-600 hover:text-purple-700"
+          className="mt-10 inline-flex items-center gap-2 text-sm font-bold"
+          style={{ color: PURPLE }}
         >
           <ArrowLeft className="w-4 h-4" /> Back to all articles
         </Link>
@@ -324,7 +325,7 @@ const ShareRow = ({ url, title }) => {
             rel="noopener noreferrer"
             aria-label={label}
             title={label}
-            className="p-2 rounded-lg text-slate-500 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+            className="rounded-full p-2 text-slate-500 transition-colors hover:bg-[#EEF2FA] hover:text-[#14306B]"
           >
             {Icon && <Icon className="w-4 h-4" />}
           </a>
@@ -337,7 +338,7 @@ const ShareRow = ({ url, title }) => {
           className={`p-2 rounded-lg transition-colors ${
             copied
               ? "bg-emerald-50 text-emerald-600"
-              : "text-slate-500 hover:bg-purple-50 hover:text-purple-600"
+              : "text-slate-500 hover:bg-[#EEF2FA] hover:text-[#14306B]"
           }`}
         >
           <LinkIcon className="w-4 h-4" />
@@ -348,13 +349,11 @@ const ShareRow = ({ url, title }) => {
 };
 
 const RelatedCard = ({ post }) => {
-  const style = categoryStyle(post.category);
-
   return (
-    <article className="bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-md transition-shadow group">
+    <article className="group overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md">
       <Link
         to={`/blog/${post.slug}`}
-        className={`relative block h-28 bg-gradient-to-br ${style.gradient}`}
+        className="relative block h-32 overflow-hidden bg-gradient-to-br from-[#14306B] to-[#1F6FD8]"
       >
         {post.featured_image ? (
           <img
@@ -370,8 +369,8 @@ const RelatedCard = ({ post }) => {
         )}
       </Link>
       <div className="p-4">
-        <h3 className="text-sm font-bold text-slate-800 leading-snug line-clamp-2 mb-1.5">
-          <Link to={`/blog/${post.slug}`} className="hover:text-purple-700">
+        <h3 className="mb-1.5 line-clamp-2 text-sm font-bold leading-snug" style={{ color: NAVY }}>
+          <Link to={`/blog/${post.slug}`} className="hover:text-[#7A2FB8]">
             {post.title}
           </Link>
         </h3>
