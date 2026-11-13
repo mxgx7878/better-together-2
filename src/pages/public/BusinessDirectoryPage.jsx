@@ -1,16 +1,13 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Search,
   MapPin,
   Shield,
-  Building2,
   ArrowRight,
   Filter,
   Loader2,
   X,
-  Lock,
   Hash,
   Phone,
   Mail,
@@ -21,12 +18,7 @@ import TrustBadgeRow from "../../components/common/TrustBadgeRow";
 import { fetchMarketingRibbon } from "../../store/actions/marketingRibbonActions";
 import { LINK_TYPES } from "../../components/common/SocialLinksField";
 import { API_BASE_URL } from "../../constants";
-
-// ─── Unsplash backgrounds (community / care theme) ─────────────────
-const HERO_BG =
-  "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1920&q=80";
-const CTA_BG =
-  "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1920&q=80";
+import { NAVY, LIME, PURPLE, img, Eyebrow, CtaPanel } from "../../components/public/ui";
 
 // How many providers to show per "page" / per Load More click (3-col grid → 9)
 const PER_PAGE = 9;
@@ -267,190 +259,153 @@ const BusinessDirectoryPage = () => {
   const maskPhone = (p) => (p ? `${p.slice(0, 3)} ••• ${p.slice(-2)}` : "");
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* ─── Hero Section ──────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${HERO_BG})` }}
+    <div>
+      {/* ─── Hero ──────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden px-4 pb-24 pt-12 sm:px-6 md:pt-16" style={{ background: NAVY }}>
+        <img
+          src={img("network")}
+          alt=""
           aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.14]"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-700/90 via-purple-600/85 to-pink-500/90" />
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-300 rounded-full blur-3xl" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-full px-4 py-2 mb-6 ring-1 ring-white/20">
-            <Building2 className="w-5 h-5 text-white" />
-            <span className="text-white/90 text-sm font-medium">
-              Trusted NDIS Providers
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 drop-shadow-sm">
-            Business Directory
-          </h1>
-          <p className="text-xl text-purple-100 max-w-2xl mx-auto">
-            Find trusted NDIS providers and support services near you
+        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-25 blur-3xl" style={{ background: LIME }} />
+        <div className="relative mx-auto max-w-3xl text-center">
+          <Eyebrow light>Trusted NDIS providers</Eyebrow>
+          <h1 className="text-3xl font-extrabold leading-[1.15] text-white md:text-5xl">Business Directory</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-blue-100/90 md:text-base">
+            Find trusted NDIS providers and support services near you — checked, endorsed and
+            ready to connect.
           </p>
         </div>
       </section>
 
       {/* ─── Search & Filters ──────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
-        <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-          <div className="flex flex-col md:flex-row gap-4">
+      <section className="relative z-10 mx-auto -mt-14 max-w-6xl px-4 sm:px-6">
+        <div className="rounded-[24px] bg-white p-5 shadow-xl md:p-6">
+          <div className="flex flex-col gap-3 md:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search by provider name, organisation or location..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                className="w-full rounded-full border border-slate-200 bg-[#F8FAFD] py-3.5 pl-12 pr-4 text-[15px] outline-none transition focus:border-[#1F6FD8] focus:bg-white focus:ring-4 focus:ring-[#1F6FD8]/10"
               />
             </div>
-
             <div className="relative">
-              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Filter className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <select
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="appearance-none pl-10 pr-10 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white cursor-pointer min-w-[220px]"
+                className="w-full min-w-[230px] cursor-pointer appearance-none rounded-full border border-slate-200 bg-[#F8FAFD] py-3.5 pl-10 pr-10 text-[15px] outline-none focus:border-[#1F6FD8] focus:bg-white focus:ring-4 focus:ring-[#1F6FD8]/10"
               >
-                <option value="all">All Services</option>
+                <option value="all">All services</option>
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.name}
                   </option>
                 ))}
               </select>
+              <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 px-1 text-sm text-slate-500">
             {loading
               ? "Loading providers…"
-              : `Showing ${providers.length} of ${totalCount} provider${
-                  totalCount === 1 ? "" : "s"
-                } (latest first)`}
+              : `Showing ${providers.length} of ${totalCount} provider${totalCount === 1 ? "" : "s"} (latest first)`}
           </p>
         </div>
       </section>
 
       {/* ─── Business Cards Grid ───────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         {loading && providers.length === 0 ? (
           <div className="flex justify-center py-16">
-            <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
+            <Loader2 className="h-8 w-8 animate-spin" style={{ color: PURPLE }} />
           </div>
         ) : providers.length === 0 ? (
-          <div
-            className="text-center py-16 rounded-2xl bg-white border border-dashed border-purple-200"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 20% 20%, rgba(168,85,247,0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(236,72,153,0.05) 0%, transparent 50%)",
-            }}
-          >
-            <Search className="w-12 h-12 text-purple-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700">
-              No providers found
-            </h3>
-            <p className="text-gray-400 mt-1">
-              Try adjusting your search or filters
-            </p>
+          <div className="rounded-[24px] bg-white py-16 text-center shadow-sm">
+            <Search className="mx-auto mb-4 h-12 w-12 text-slate-300" />
+            <h3 className="text-lg font-semibold" style={{ color: NAVY }}>No providers found</h3>
+            <p className="mt-1 text-slate-500">Try adjusting your search or filters</p>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {providers.map((biz) => (
                 <div
                   key={biz.id}
-                  className="bg-white rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col cursor-pointer"
+                  className="group flex cursor-pointer flex-col rounded-2xl bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                   onClick={() => setSelectedProvider(biz)}
                 >
-                  {/* Card Header — logo + NDIS badge */}
-                  <div
-                    className={`bg-gradient-to-r ${biz.gradient} p-5 rounded-t-2xl`}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      {biz.logo ? (
-                        <img
-                          src={biz.logo}
-                          alt={biz.name}
-                          loading="lazy"
-                          className="w-14 h-14 rounded-xl object-cover bg-white/20 backdrop-blur-sm border border-white/30"
-                        />
-                      ) : (
-                        <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                          <span className="text-white font-bold text-lg">
-                            {biz.initials}
-                          </span>
-                        </div>
-                      )}
-                      {biz.isNdisRegistered && (
-                        <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full">
-                          <Shield className="w-3 h-3" />
-                          NDIS
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Card Body — minimal */}
-                  <div className="p-5 flex flex-col flex-1">
-                    <h3 className="font-semibold text-gray-900 text-lg leading-tight mb-2 group-hover:text-purple-600 transition-colors line-clamp-1">
-                      {biz.name}
-                    </h3>
-
-                    <span className="inline-block w-fit text-[11px] font-medium text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100 mb-3">
-                      {biz.primaryCategory}
-                    </span>
-
-                    {biz.location && (
-                      <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
-                        <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                        <span className="truncate">{biz.location}</span>
+                  <div className="flex items-start justify-between gap-3">
+                    {biz.logo ? (
+                      <img
+                        src={biz.logo}
+                        alt={biz.name}
+                        loading="lazy"
+                        className="h-16 w-16 rounded-2xl border border-slate-100 bg-white object-cover"
+                      />
+                    ) : (
+                      <div className="font-display flex h-16 w-16 items-center justify-center rounded-2xl text-lg font-bold" style={{ background: "#EEF2FA", color: NAVY }}>
+                        {biz.initials}
                       </div>
                     )}
-
-                    <TrustBadgeRow
-                      provider={biz}
-                      size="sm"
-                      ringClass="ring-white"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedProvider(biz);
-                      }}
-                      className="mt-auto pt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium py-2.5 px-4 rounded-xl hover:from-purple-700 hover:to-pink-600 transition-all"
-                    >
-                      View Profile
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
+                    {biz.isNdisRegistered && (
+                      <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: "#EEF8D6", color: "#4D7A12" }}>
+                        <Shield className="h-3 w-3" />
+                        NDIS registered
+                      </span>
+                    )}
                   </div>
+
+                  <h3 className="mt-5 line-clamp-1 text-lg font-bold leading-tight transition-colors group-hover:text-[#7A2FB8]" style={{ color: NAVY }}>
+                    {biz.name}
+                  </h3>
+                  <span className="mt-2 inline-block w-fit rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style={{ background: "#F1EAFB", color: PURPLE }}>
+                    {biz.primaryCategory}
+                  </span>
+
+                  {biz.location && (
+                    <div className="mt-3 flex items-center gap-1.5 text-sm text-slate-500">
+                      <MapPin className="h-4 w-4 flex-shrink-0 text-slate-400" />
+                      <span className="truncate">{biz.location}</span>
+                    </div>
+                  )}
+
+                  <div className="mt-4">
+                    <TrustBadgeRow provider={biz} size="sm" ringClass="ring-white" />
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProvider(biz);
+                    }}
+                    className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#14306B] py-2.5 text-sm font-bold text-[#14306B] transition group-hover:bg-[#14306B] group-hover:text-white"
+                    style={{ marginTop: "1.25rem" }}
+                  >
+                    View profile
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
                 </div>
               ))}
             </div>
 
             {/* ─── Load More ─────────────────────────────────────── */}
-            <div className="mt-10 flex flex-col items-center gap-3">
-              {/* progress bar */}
-              <div className="w-full max-w-xs h-1.5 bg-purple-100 rounded-full overflow-hidden">
+            <div className="mt-12 flex flex-col items-center gap-3">
+              <div className="h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-slate-200">
                 <div
-                  className="h-full bg-gradient-to-r from-purple-600 to-pink-500 transition-all duration-500"
+                  className="h-full rounded-full transition-all duration-500"
                   style={{
-                    width: `${Math.min(
-                      100,
-                      (providers.length / (totalCount || 1)) * 100,
-                    )}%`,
+                    background: NAVY,
+                    width: `${Math.min(100, (providers.length / (totalCount || 1)) * 100)}%`,
                   }}
                 />
               </div>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 {providers.length} of {totalCount} providers
               </p>
 
@@ -459,24 +414,25 @@ const BusinessDirectoryPage = () => {
                   type="button"
                   onClick={loadMore}
                   disabled={loadingMore}
-                  className="inline-flex items-center gap-2 bg-white border border-purple-200 text-purple-700 font-semibold py-3 px-8 rounded-xl shadow-sm hover:bg-purple-50 hover:border-purple-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+                  className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold text-white shadow-sm transition hover:brightness-125 disabled:cursor-not-allowed disabled:opacity-60"
+                  style={{ background: NAVY }}
                 >
                   {loadingMore ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                       Loading…
                     </>
                   ) : (
                     <>
-                      Load More Providers
-                      <ChevronDown className="w-4 h-4" />
+                      Load more providers
+                      <ChevronDown className="h-4 w-4" />
                     </>
                   )}
                 </button>
               ) : (
                 totalCount > PER_PAGE && (
-                  <p className="text-sm font-medium text-purple-600">
-                    You've seen all providers
+                  <p className="text-sm font-semibold" style={{ color: PURPLE }}>
+                    You&apos;ve seen all providers
                   </p>
                 )
               )}
@@ -488,66 +444,59 @@ const BusinessDirectoryPage = () => {
       {/* ─── Provider Detail Modal ─────────────────────────────── */}
       {selectedProvider && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0E2352]/60 p-4 backdrop-blur-sm"
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto"
+            className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-[24px] bg-white shadow-2xl"
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={selectedProvider.name}
           >
-            <div
-              className={`relative bg-gradient-to-r ${selectedProvider.gradient} p-6 pb-8`}
-            >
+            <div className="relative overflow-hidden p-6 pb-7 md:p-7" style={{ background: NAVY }}>
+              <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full opacity-20 blur-2xl" style={{ background: LIME }} />
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-colors"
+                className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
                 aria-label="Close"
               >
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               </button>
-              <div className="flex items-center gap-4 pr-10">
+              <div className="relative flex items-center gap-4 pr-10">
                 {selectedProvider.logo ? (
                   <img
                     src={selectedProvider.logo}
                     alt={selectedProvider.name}
-                    className="w-16 h-16 rounded-xl object-cover bg-white/20 border border-white/30 flex-shrink-0"
+                    className="h-16 w-16 flex-shrink-0 rounded-2xl border border-white/20 bg-white object-cover"
                   />
                 ) : (
-                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-white font-bold text-xl">
-                      {selectedProvider.initials}
-                    </span>
+                  <div className="font-display flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 text-xl font-bold text-white">
+                    {selectedProvider.initials}
                   </div>
                 )}
                 <div className="min-w-0">
-                  <h2 className="text-xl md:text-2xl font-bold text-white leading-tight">
+                  <h2 className="text-xl font-bold leading-tight text-white md:text-2xl">
                     {selectedProvider.name}
                   </h2>
                   {selectedProvider.location && (
-                    <p className="text-sm text-white/90 mt-1 inline-flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5" />
+                    <p className="mt-1 inline-flex items-center gap-1 text-sm text-blue-100">
+                      <MapPin className="h-3.5 w-3.5" />
                       {selectedProvider.location}
                     </p>
                   )}
                   <div className="mt-2">
-                    <TrustBadgeRow
-                      provider={selectedProvider}
-                      size="md"
-                      ringClass="ring-white/60"
-                    />
+                    <TrustBadgeRow provider={selectedProvider} size="md" ringClass="ring-white/60" />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Modal body */}
-            <div className="p-6 space-y-5">
+            <div className="space-y-6 p-6 md:p-7">
               {selectedProvider.about && (
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    About
-                  </h4>
-                  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                  <h4 className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: PURPLE }}>About</h4>
+                  <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-slate-600">
                     {selectedProvider.about}
                   </p>
                 </div>
@@ -556,22 +505,18 @@ const BusinessDirectoryPage = () => {
               {(selectedProvider.abn || selectedProvider.contactName) && (
                 <div className="grid grid-cols-2 gap-3">
                   {selectedProvider.contactName && (
-                    <div className="bg-slate-50 rounded-lg p-3">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                        Contact Name
-                      </p>
-                      <p className="text-sm font-semibold text-slate-800 mt-1 truncate">
+                    <div className="rounded-xl bg-[#F4F6FA] p-3.5">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Contact name</p>
+                      <p className="mt-1 truncate text-sm font-semibold" style={{ color: NAVY }}>
                         {selectedProvider.contactName}
                       </p>
                     </div>
                   )}
                   {selectedProvider.abn && (
-                    <div className="bg-slate-50 rounded-lg p-3">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                        ABN
-                      </p>
-                      <p className="text-sm font-semibold text-slate-800 mt-1 inline-flex items-center gap-1">
-                        <Hash className="w-3.5 h-3.5 text-slate-400" />
+                    <div className="rounded-xl bg-[#F4F6FA] p-3.5">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">ABN</p>
+                      <p className="mt-1 inline-flex items-center gap-1 text-sm font-semibold" style={{ color: NAVY }}>
+                        <Hash className="h-3.5 w-3.5 text-slate-400" />
                         {selectedProvider.abn}
                       </p>
                     </div>
@@ -581,15 +526,10 @@ const BusinessDirectoryPage = () => {
 
               {selectedProvider.categories.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    Services Offered
-                  </h4>
+                  <h4 className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: PURPLE }}>Services offered</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedProvider.categories.map((c) => (
-                      <span
-                        key={c.id}
-                        className="text-sm bg-purple-50 text-purple-700 px-3 py-1 rounded-lg font-medium"
-                      >
+                      <span key={c.id} className="rounded-full px-3 py-1 text-sm font-medium" style={{ background: "#EEF2FA", color: NAVY }}>
                         {c.name}
                       </span>
                     ))}
@@ -599,14 +539,10 @@ const BusinessDirectoryPage = () => {
 
               {selectedProvider.links.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    Website &amp; Social
-                  </h4>
+                  <h4 className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: PURPLE }}>Website &amp; social</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedProvider.links.map((link, i) => {
-                      const meta =
-                        LINK_TYPES.find((t) => t.value === link.type) ||
-                        LINK_TYPES[0];
+                      const meta = LINK_TYPES.find((t) => t.value === link.type) || LINK_TYPES[0];
                       const Icon = meta.icon;
                       return (
                         <a
@@ -614,10 +550,10 @@ const BusinessDirectoryPage = () => {
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-purple-50 text-slate-700 hover:text-purple-700 rounded-lg text-xs font-medium transition-colors"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-[#F4F6FA] px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-[#EEF2FA] hover:text-[#14306B]"
                           title={meta.label}
                         >
-                          <Icon className="w-3.5 h-3.5" />
+                          <Icon className="h-3.5 w-3.5" />
                           {meta.label}
                         </a>
                       );
@@ -626,127 +562,56 @@ const BusinessDirectoryPage = () => {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-100">
-                <div className="text-center">
-                  <p className="text-xs text-slate-500">NDIS Registered</p>
-                  <p
-                    className={`text-base font-semibold mt-1 ${
-                      selectedProvider.isNdisRegistered
-                        ? "text-emerald-600"
-                        : "text-slate-400"
-                    }`}
-                  >
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-xl border border-slate-100 p-3.5 text-center">
+                  <p className="text-xs text-slate-500">NDIS registered</p>
+                  <p className={`mt-1 text-base font-bold ${selectedProvider.isNdisRegistered ? "text-emerald-600" : "text-slate-400"}`}>
                     {selectedProvider.isNdisRegistered ? "Yes" : "No"}
                   </p>
                 </div>
-                <div className="text-center">
-                  <p className="text-xs text-slate-500">Open to Collab</p>
-                  <p
-                    className={`text-base font-semibold mt-1 ${
-                      selectedProvider.openToCollab
-                        ? "text-purple-600"
-                        : "text-slate-400"
-                    }`}
-                  >
+                <div className="rounded-xl border border-slate-100 p-3.5 text-center">
+                  <p className="text-xs text-slate-500">Open to collab</p>
+                  <p className="mt-1 text-base font-bold" style={{ color: selectedProvider.openToCollab ? PURPLE : "#94a3b8" }}>
                     {selectedProvider.openToCollab ? "Yes" : "No"}
                   </p>
                 </div>
               </div>
 
-              {/* Gated contact preview */}
-              <div className="rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 p-4">
-                {/* <div className="flex items-start gap-3 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
-                    <Lock className="w-4 h-4 text-purple-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-slate-800">
-                      Want to contact this provider?
-                    </p>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Sign up to view full contact details.
-                    </p>
-                  </div>
-                  <Link
-                    to="/register"
-                    className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white text-xs font-semibold rounded-lg shadow-sm whitespace-nowrap flex-shrink-0"
-                  >
-                    Sign Up
-                  </Link>
-                </div> */}
-
-                {(selectedProvider.email || selectedProvider.phone) && (
-                  <div className="grid grid-cols-2 gap-2 pt-3 border-t border-purple-100">
-                    {selectedProvider.email && (
-                      <div className="flex items-center gap-2 text-xs text-slate-600">
-                        <Mail className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
-                        <a href={`mailto:${selectedProvider.email}`} className="hover:underline">
-                          {selectedProvider.email}
-                        </a>
-                      </div>
-                    )}
-                    {selectedProvider.phone && (
-                      <div className="flex items-center gap-2 text-xs text-slate-600">
-                        <Phone className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
-                        <a href={`tel:${selectedProvider.phone}`} className="hover:underline">
-                          {selectedProvider.phone}
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              {(selectedProvider.email || selectedProvider.phone) && (
+                <div className="grid gap-2 rounded-2xl p-4 sm:grid-cols-2" style={{ background: "#EEF2FA" }}>
+                  {selectedProvider.email && (
+                    <a href={`mailto:${selectedProvider.email}`} className="flex min-w-0 items-center gap-2 text-sm font-medium hover:underline" style={{ color: NAVY }}>
+                      <Mail className="h-4 w-4 flex-shrink-0" style={{ color: PURPLE }} />
+                      <span className="truncate">{selectedProvider.email}</span>
+                    </a>
+                  )}
+                  {selectedProvider.phone && (
+                    <a href={`tel:${selectedProvider.phone}`} className="flex items-center gap-2 text-sm font-medium hover:underline" style={{ color: NAVY }}>
+                      <Phone className="h-4 w-4 flex-shrink-0" style={{ color: PURPLE }} />
+                      {selectedProvider.phone}
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
       )}
 
-      {/* ─── CTA Section ───────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="relative overflow-hidden rounded-2xl">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${CTA_BG})` }}
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-700/92 via-purple-600/88 to-pink-500/92" />
-
-          <div className="relative p-10 md:p-14 text-center">
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <div className="absolute -top-20 -right-20 w-80 h-80 bg-white rounded-full blur-3xl" />
-              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-pink-300 rounded-full blur-3xl" />
-            </div>
-            <div className="relative">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl mb-6 ring-1 ring-white/20">
-                <Building2 className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Are you a provider?
-              </h2>
-              <p className="text-lg text-purple-100 max-w-xl mx-auto mb-8">
-                List your business on our directory and connect with NDIS
-                participants looking for quality support services in their area.
-              </p>
-              <Link
-                to="/subscription"
-                className="inline-flex items-center gap-2 bg-white text-purple-700 font-semibold py-3.5 px-8 rounded-xl hover:bg-purple-50 transition-colors shadow-lg"
-              >
-                List Your Business
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CtaPanel
+        eyebrow="Are you a provider?"
+        title="List your business on the directory"
+        text="Connect with NDIS participants looking for quality support services in their area. Start free and grow with us."
+        primary={{ to: "/subscription", label: "List your business" }}
+        image="handshake"
+      />
 
       {/* ─── Marketing Partners Ribbon ─────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
-        <FeaturedPartnersRibbon
-          sponsors={sponsors}
-          title="Our Marketing Partners"
-          note="Sponsored providers"
-        />
-      </section>
+      {sponsors?.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+          <FeaturedPartnersRibbon sponsors={sponsors} title="Our Marketing Partners" note="Sponsored providers" />
+        </section>
+      )}
     </div>
   );
 };

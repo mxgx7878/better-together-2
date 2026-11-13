@@ -8,9 +8,9 @@ const StepIndicator = ({ currentStep, totalSteps = 3, stepLabel }) => (
           <div
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
               step < currentStep
-                ? "bg-purple-600 text-white"
+                ? "bg-[#14306B] text-white"
                 : step === currentStep
-                  ? "bg-purple-600 text-white ring-4 ring-purple-200"
+                  ? "bg-[#14306B] text-white ring-4 ring-[#C9D6EE]"
                   : "bg-slate-200 text-slate-500"
             }`}
           >
@@ -19,7 +19,7 @@ const StepIndicator = ({ currentStep, totalSteps = 3, stepLabel }) => (
           {step < totalSteps && (
             <div
               className={`w-12 sm:w-20 h-1 rounded-full ${
-                step < currentStep ? "bg-purple-600" : "bg-slate-200"
+                step < currentStep ? "bg-[#14306B]" : "bg-slate-200"
               }`}
             />
           )}

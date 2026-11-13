@@ -53,7 +53,7 @@ const ProviderDetailsStep = ({
         name="ndisRegistered"
         checked={formData.ndisRegistered}
         onChange={onChange}
-        className="w-4 h-4 text-purple-600 focus:ring-purple-500 border-slate-300 rounded"
+        className="w-4 h-4 text-[#14306B] focus:ring-[#14306B] border-slate-300 rounded"
       />
       <label htmlFor="ndisRegistered" className="text-sm text-slate-700">
         I am a registered NDIS provider
@@ -66,7 +66,7 @@ const ProviderDetailsStep = ({
       </label>
       {categoriesLoading && categories.length === 0 ? (
         <div className="flex items-center justify-center py-8 bg-slate-50 rounded-xl border border-slate-200">
-          <Loader2 className="w-5 h-5 text-purple-500 animate-spin" />
+          <Loader2 className="w-5 h-5 text-[#14306B] animate-spin" />
           <span className="ml-2 text-sm text-slate-500">
             Loading categories...
           </span>
@@ -84,8 +84,8 @@ const ProviderDetailsStep = ({
               onClick={() => onToggleCategory(cat.id)}
               className={`text-left px-3 py-2.5 rounded-xl text-xs font-medium border-2 transition-all ${
                 formData.serviceCategories.includes(cat.id)
-                  ? "border-purple-500 bg-purple-50 text-purple-700"
-                  : "border-slate-200 text-slate-600 hover:border-purple-300"
+                  ? "border-[#14306B] bg-[#EEF2FA] text-[#14306B]"
+                  : "border-slate-200 text-slate-600 hover:border-[#9DB3DD]"
               }`}
             >
               {cat.name}
@@ -112,7 +112,7 @@ const ProviderDetailsStep = ({
         onChange={onChange}
         rows={3}
         placeholder="Brief description of the services you provide..."
-        className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none resize-none"
+        className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-[#14306B] focus:border-[#14306B] outline-none resize-none"
       />
     </div>
   </div>

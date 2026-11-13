@@ -32,16 +32,16 @@ const RoleSelectStep = ({ role, onSelect, error }) => (
         onClick={() => onSelect("provider")}
         className={`relative p-6 rounded-2xl border-2 text-left transition-all duration-200 hover:shadow-lg group ${
           role === "provider"
-            ? "border-purple-500 bg-purple-50/50 shadow-md ring-2 ring-purple-200"
-            : "border-slate-200 hover:border-purple-300 bg-white"
+            ? "border-[#14306B] bg-[#EEF2FA] shadow-md ring-2 ring-[#C9D6EE]"
+            : "border-slate-200 hover:border-[#9DB3DD] bg-white"
         }`}
       >
         {role === "provider" && (
           <div className="absolute top-4 right-4">
-            <CheckCircle className="w-6 h-6 text-purple-600" />
+            <CheckCircle className="w-6 h-6 text-[#14306B]" />
           </div>
         )}
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center mb-4">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#14306B] to-[#1F6FD8] flex items-center justify-center mb-4">
           <Briefcase className="w-7 h-7 text-white" />
         </div>
         <h3 className="text-lg font-bold text-slate-800 mb-2">
@@ -57,7 +57,7 @@ const RoleSelectStep = ({ role, onSelect, error }) => (
               key={item}
               className="flex items-center gap-2 text-sm text-slate-600"
             >
-              <CheckCircle className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
+              <CheckCircle className="w-3.5 h-3.5 text-[#14306B] flex-shrink-0" />
               {item}
             </li>
           ))}

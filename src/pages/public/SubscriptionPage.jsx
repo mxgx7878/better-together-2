@@ -627,7 +627,6 @@ const SubscriptionPage = () => {
   return (
     <div className="btn-sub min-h-screen" style={{ background: "#F4F6FA" }}>
       <style>{FONT_CSS}</style>
-      <div className="h-1 w-full bg-gradient-to-r from-[#2D3FD8] via-[#D6267E] to-[#7BC043]" />
 
       {/* ─── Audience switch ─────────────────────────────────────── */}
       <div className="flex justify-center px-4 pt-10">
